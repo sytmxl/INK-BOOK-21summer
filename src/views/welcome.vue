@@ -1,13 +1,20 @@
 <template>
-  <div id="init">
+ 
+
+ <div id="init">
     这是欢迎页面
   </div>
+
+   
 </template>
 
+
 <script>
+
 export default {
 
 }
+
 </script>
 
 <style scoped>
