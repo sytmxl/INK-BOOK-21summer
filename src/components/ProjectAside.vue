@@ -1,6 +1,5 @@
 <template>
   <el-menu
-      v-if=""
     background-color="rgb(240, 242, 245)"
     text-color="black"
     active-text-color="#2878ff"
@@ -8,7 +7,7 @@
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
-    :collapse="isCollapse "
+    :collapse="isCollapse"
   >
     <el-menu-item
       v-for="item in noChildren"

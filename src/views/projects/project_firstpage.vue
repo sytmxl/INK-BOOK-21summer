@@ -1,4 +1,9 @@
 <template>
+
+   
+
+    <el-container>
+  <el-aside><project-aside></project-aside></el-aside>
   <el-container>
     <el-aside>
       <project-aside/>
@@ -7,6 +12,7 @@
       <router-view></router-view>
     </el-main>
   </el-container>
+</el-container>
 
 </template>
 
@@ -24,6 +30,8 @@ export default {
 <style>
 
 .el-main {
+     /* overflow:visible;  */
+    /* padding-top: 0;  */
   position: absolute;
   left: 200px;
   right: 0;
