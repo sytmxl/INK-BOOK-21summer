@@ -54,6 +54,5 @@ export default {
   color:black;
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  z-index: 1;
 }
 </style>

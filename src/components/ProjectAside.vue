@@ -82,6 +82,8 @@ export default {
       console.log(key, keyPath);
     },
     clickMenu(item) {
+      console.log(item.name);
+      console.log(this);
       this.$router.push({
         name: item.name,
       }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
@@ -123,7 +125,6 @@ export default {
   background-color: aliceblue;
   width: 250px;
   margin: 20px;
-  z-index: 1;
 }
 .el-menu i{
   font-size: 15px;
