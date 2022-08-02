@@ -1,5 +1,6 @@
 <template>
   <el-menu
+      v-if=""
     background-color="rgb(240, 242, 245)"
     text-color="black"
     active-text-color="#2878ff"
@@ -7,7 +8,7 @@
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
-    :collapse="isCollapse"
+    :collapse="isCollapse "
   >
     <el-menu-item
       v-for="item in noChildren"
@@ -117,13 +118,13 @@ export default {
   width: 184px;
   background-color: aliceblue;
   transition: 0.5s;
-  z-index: 1;
+  z-index: 0;
 }
 .el-menu-item:hover {
   background-color: aliceblue;
   width: 250px;
   margin: 20px;
-  z-index: 1;
+  z-index: 0;
 }
 .el-menu i{
   font-size: 15px;

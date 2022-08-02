@@ -44,6 +44,7 @@ DiagramEditor.prototypeDefaultProject = "data:image/png;base64,iVBORw0KGgoAAAANS
 /**
  * Static method to edit the diagram in the given img or object.
  */
+//import store from "../store/index";
 DiagramEditor.editElement = function(elt, config, ui, done, urlParams)
 {
     if (!elt.diagramEditorStarting)
@@ -418,6 +419,7 @@ DiagramEditor.prototype.save = function(data, draft, elt)
 DiagramEditor.prototype.done = function()
 {
     console.log(this.data)
+    sessionStorage.setItem("editing","false");
     //TODO： 在这里向后端发送this.data即可
 };
 
