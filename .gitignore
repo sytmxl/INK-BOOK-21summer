@@ -1,6 +1,7 @@
 .DS_Store
 /dist
 .history
+package.json
 
 # local env files
 .env.local
