@@ -1,12 +1,17 @@
 <template>
   <div id="init">
-    这是原型设计页面
+    <el-row>
+      <el-col :span="7" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 1 : 0">
+        <drawio-prototype/>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
+import drawioPrototype from "@/components/drawioPrototype";
 export default {
-
+  components: {drawioPrototype}
 }
 </script>
 
