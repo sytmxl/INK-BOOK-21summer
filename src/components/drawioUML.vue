@@ -17,7 +17,7 @@
 <script>
 import drawio from "@/scripts/drawio";
 export default {
-  name: "drawio",
+  name: "drawioUML",
   props:{
     title:{default: "项目",type: String},
     description:{default: "无简介", type:String},

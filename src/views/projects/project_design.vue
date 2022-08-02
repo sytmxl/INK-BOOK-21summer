@@ -1,17 +1,17 @@
 <template>
   <div id="init">
     <el-row>
-      <el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-        <drawio/>
+      <el-col :span="7" v-for="(o, index) in 3" :key="o" :offset="index > 0 ? 1 : 0">
+        <drawio-prototype/>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import Drawio from "@/components/drawio";
+import drawioPrototype from "@/components/drawioPrototype";
 export default {
-  components: {Drawio}
+  components: {drawioPrototype}
 }
 </script>
 
