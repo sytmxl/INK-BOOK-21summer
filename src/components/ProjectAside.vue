@@ -42,28 +42,34 @@
 
 <script>
 export default {
-  name: "CommonAside",
+  name: "ProjectAside",
   data() {
     return {
       isCollapse: false,
       menu: [
         {
-          path: "../views/teams/team_outline.vue",
-          name: "team_outline",
-          label: "团队情况",
-          icon: "setting",
+          path: "../views/projects/project_firstpage.vue",
+          name: "project_firstpage",
+          label: "项目介绍",
+          icon: "view",
         },
         {
-          path: "../views/teams/team_members.vue",
-          name: "team_members",
-          label: "成员管理",
-          icon: "user",
+          path: "../views/projects/project_design.vue",
+          name: "project_design",
+          label: "原型设计",
+          icon: "s-opportunity",
         },
         {
-          path: "../views/teams/team_projects.vue",
-          name: "team_projects",
-          label: "项目管理",
-          icon: "goods",
+          path: "../views/projects/project_paint.vue",
+          name: "project_paint",
+          label: "UML绘制",
+          icon: "s-promotion",
+        },
+        {
+          path: "../views/projects/project_word.vue",
+          name: "project_word",
+          label: "共享文档",
+          icon: "edit",
         },
       ],
     };

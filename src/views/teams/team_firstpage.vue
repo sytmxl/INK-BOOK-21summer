@@ -30,12 +30,7 @@ export default {
 </script>
 
 <style scoped>
-#init{
-    margin:20px auto;
-    color:blueviolet;
-    font-size: large;
-    font-weight: bold;
-}
+
 .el-main {
      /* overflow:visible;  */
     /* padding-top: 0;  */

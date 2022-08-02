@@ -7,6 +7,9 @@
         <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
         </div>
+
+
+
 </el-container>
 </template>
 <script>
@@ -40,4 +43,5 @@ export default {
     left: 0;
     right: 0;
   }
+
 </style>
