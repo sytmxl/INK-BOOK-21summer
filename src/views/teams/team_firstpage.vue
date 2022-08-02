@@ -8,8 +8,7 @@
     <el-header style="height:80px;"><top-frame></top-frame></el-header>
     <el-main> 
 
-      <div id="init">
-    这是团队首页
+  <div id="init">
     <router-view></router-view>
   </div>
 

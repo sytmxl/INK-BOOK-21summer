@@ -48,15 +48,21 @@ export default {
       isCollapse: false,
       menu: [
         {
-          path: "/FirstPage",
-          name: "FirstPage",
-          label: "团队1",
-          icon: "s-home",
+          path: "../views/teams/team_outline.vue",
+          name: "team_outline",
+          label: "团队设置",
+          icon: "setting",
         },
         {
-          path: "/search",
-          name: "User",
-          label: "团队2",
+          path: "../views/teams/team_members.vue",
+          name: "team_members",
+          label: "成员设置",
+          icon: "user",
+        },
+        {
+          path: "../views/teams/team_projects.vue",
+          name: "team_projects",
+          label: "项目设置",
           icon: "goods",
         },
       ],
@@ -86,7 +92,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;

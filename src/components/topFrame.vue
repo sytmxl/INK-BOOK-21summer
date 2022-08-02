@@ -1,76 +1,147 @@
 <template>
-            <div class="h">
-          <img src="../assets/logo.png" alt="">
-          <div v-if="user==null">
-              <a href="../Login" id="login">登录</a>
-              <a href="../register" id="register">注册</a>
+  <div class="top">
+
+    <div class="left">
+         <img src="../assets/logo.png" alt="">
+
+          <div class="team">
+               <el-dropdown trigger="click">
+                 <span class="el-dropdown-link">
+                   {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
+                 </span>
+               
+                 <el-dropdown-menu slot="dropdown">
+                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)">{{item}}</el-dropdown-item>
+
+                 </el-dropdown-menu>
+               </el-dropdown>
           </div>
-          <div v-else>
-            <div v-if="this.imageUrl==''||this.imageUrl==null">
-              <a href="../user" id="icon">
-              <img src="../assets/logo.png" alt="" style="border-radius:50%">
-              </a>
+    </div>
+     <div class="right">
+
+       <div class="user">
+
+
+        
+     
+            <img src="../assets/bk3.jpg" alt="">
+       
+            
+            <div class="username">
+                <span>Cooper</span>
             </div>
-            <div v-else>
-                <a href="../user" id="icon">
-              <img :src="imageUrl" alt="" style="border-radius:50%">
-              </a>
-            </div>
-              <a href="../user" id="login">{{user.username}}</a>
-              <a href="../FirstPage" id="logout" @click="logout">登出</a>
+            
           </div>
+        <div class="search">
+                 <el-input
+              placeholder="搜索"
+              prefix-icon="el-icon-search"
+              v-model="input" clearable="true" >
+              </el-input>
           </div>
+
+         
+     </div>
+  <div class="clear"></div>
+          
+       
+
+  </div>
 </template>
 
 <script>
 export default {
-    
+    data(){
+      return{
+        input: '',
+        checkedteam:'我的团队',
+        allteams:['啊对对对','摆大烂队','牛逼哄哄队','123456789']
+      }
+    },
+    methods:{
+      checkit(content){
+        console.log(content)
+        this.checkedteam = content 
+      }
+    }
 }
 </script>
 
-<style>
-    .h{
+<style scoped>
+.top{
   margin-top: 10px;
   display: flex;
+  /* float: right; */
 }
-.h img{
-  width: 100px;
+.left{
+  float: left;
+  position: absolute;
+  left: 0;
+}
+.right{
+  float: right;
+  position: absolute;
+  right:0;
+}
+.top img{
+  width: 60px;
   height: 65px;
   margin-left: 32px;
+  float: left;
 }
-.h a{
-  text-decoration: none;
-  position: absolute;
-  color: black;
-  vertical-align: middle;
+.search{
+
+  margin-left: 500px;
+  margin-top: 10px;
+  float: right;
 }
-.h span{
-  font: bold; 
-  padding-bottom: 50px;
-  align-items: center;
+.team{
+   margin-left: 100px;
+  margin-top: 15px;
+  float: right;
+  
 }
-.h a:hover{
-  color: wheat;
+.user{
+  margin-right:50px;
+  float: right;
 }
-.h #icon{
-  right: 142px;
-  top: 10px;
-}
-.h #icon img{
-  width: 60px;
+.user img{
+   width: 60px;
   height: 60px;
   border-radius: 50%;
 }
-.h #login{
-  right: 80px;
-  top: 29px;
+.username{
+  margin-left: 30px;
+  margin-top: 20px;
+  font-size: 20px;
+  float: right;
 }
-.h #register{
-  right: 30px;
-  top: 29px;
+.el-input >>> .el-input__inner{
+    border-radius:25px;
+    font-size:20px;
 }
-.h #logout{
-  right:30px;
-  top: 29px;
-}
+ .el-dropdown-link {
+    cursor: pointer;
+    color: black;
+    font-size: 20px;
+  }
+  .el-icon-arrow-down {
+    font-size: 15px;
+     
+  }
+
+  .el-dropdown-menu {
+      border-radius: 15px;
+  }
+  .el-dropdown-menu>>>.el-dropdown-menu__item{
+      font-size: 20px;
+      color: #409EFF
+  }
+  .demonstration {
+    display: block;
+    /* color: #409EFF; */
+    font-size: 15px;
+    margin-bottom: 20px;
+    /* border-radius: 15px; */
+  }
 </style>
