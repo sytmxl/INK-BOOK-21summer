@@ -1,6 +1,6 @@
 <template>
   <div id="init">
-    这是项目信息总览页面
+    <a href="project_firstpage">这是项目信息总览页面</a>
   </div>
 </template>
 

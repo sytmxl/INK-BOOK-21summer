@@ -11,8 +11,9 @@
                  </span>
                
                  <el-dropdown-menu slot="dropdown">
-                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)">{{item}}</el-dropdown-item>
-
+                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.name}}</el-dropdown-item>
+                    <div class="splitline"></div>
+                  <el-dropdown-item icon="el-icon-plus" @click.native="newteam()">点击创建团队</el-dropdown-item>
                  </el-dropdown-menu>
                </el-dropdown>
           </div>
@@ -54,15 +55,50 @@ export default {
     data(){
       return{
         input: '',
-        checkedteam:'我的团队',
-        allteams:['啊对对对','摆大烂队','牛逼哄哄队','123456789']
+        checkedteam:'',
+        allteams:[
+          {id:1,name:'啊对对对'},
+          {id:2,name:'摆大烂队'},
+          {id:3,name:'牛逼哄哄队'},
+          {id:4,name:'123456789'},]
       }
     },
     methods:{
       checkit(content){
         console.log(content)
-        this.checkedteam = content 
+        this.checkedteam = content.name
+        this.$store.dispatch("saveteam", content);
+        location.reload();
+      },
+      newteam(){
+         this.$prompt('请为你的团队起个名称', '创建团队', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+          this.$message({
+            type: 'success',
+            message: '你的团队是: ' + value
+            //发包
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消输入'
+          });       
+        });
+      },
+      init(){
+        if(JSON.parse(sessionStorage.getItem('team'))==null){
+          this.checkedteam = '请选择你的团队';
+          console.log(this.checkedteam)
+        }
+        else{
+          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).name
+        }
       }
+    },
+    mounted(){
+      this.init()
     }
 }
 </script>
@@ -88,6 +124,12 @@ export default {
   height: 65px;
   margin-left: 32px;
   float: left;
+}
+.splitline{
+  height: 1px;
+  width: 90%;
+  margin-left: 5%;
+  background-color: #e0e0e0;
 }
 .search{
 
@@ -134,14 +176,24 @@ export default {
       border-radius: 15px;
   }
   .el-dropdown-menu>>>.el-dropdown-menu__item{
-      font-size: 20px;
-      color: #409EFF
+      font-size: 16px;
+      color: #2878ff;
+   
   }
+
   .demonstration {
     display: block;
     /* color: #409EFF; */
     font-size: 15px;
     margin-bottom: 20px;
     /* border-radius: 15px; */
+  }
+</style>
+<style>
+    .el-message-box{
+    border-radius: 15px;
+  }
+  .el-button--small{
+    border-radius: 15px;
   }
 </style>

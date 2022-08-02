@@ -2,7 +2,7 @@
   <el-menu
     background-color="#fff"
     text-color="black"
-    active-text-color="#ffd04b"
+    active-text-color="#2878ff"
     default-active="1-4-1"
     class="el-menu-vertical-demo"
     @open="handleOpen"
@@ -50,19 +50,19 @@ export default {
         {
           path: "../views/teams/team_outline.vue",
           name: "team_outline",
-          label: "团队设置",
+          label: "团队情况",
           icon: "setting",
         },
         {
           path: "../views/teams/team_members.vue",
           name: "team_members",
-          label: "成员设置",
+          label: "成员管理",
           icon: "user",
         },
         {
           path: "../views/teams/team_projects.vue",
           name: "team_projects",
-          label: "项目设置",
+          label: "项目管理",
           icon: "goods",
         },
       ],
