@@ -3,7 +3,7 @@
     <el-dialog
         title="新建一个UML图"
         :visible.sync="dialogVisible"
-        width="30%"
+        width="40%"
         :before-close="closeDialog">
       <el-row>
         <el-col :span="4">
