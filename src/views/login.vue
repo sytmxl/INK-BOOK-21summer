@@ -19,7 +19,7 @@
             "
           ></div>
       <div class="name2">
-        墨文
+        墨书
       </div>
     </div>
     <div class="kuang">
