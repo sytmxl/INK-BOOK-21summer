@@ -1,33 +1,65 @@
 <template>
   <div id="init">
+    <el-dialog
+        title="新建一个UML图"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="closeDialog">
+      <el-row>
+        <el-col :span="4">
+          UML标题：
+        </el-col>
+        <el-col :span="20">
+          <el-input
+              placeholder="请输入标题"
+              v-model="newHeader">
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+        UML图注：
+        </el-col>
+        <el-col :span="20">
+          <el-input
+              placeholder="请输入图注"
+              v-model="newBrief">
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+          UML标题：
+        </el-col>
+        <el-col :span="20">
+          <el-select v-model="template" placeholder="请选择">
+            <el-option
+                v-for="item in template_options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="add_graph">新建</el-button>
+      </span>
+    </el-dialog>
     <el-container>
       <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
-        <el-submenu class="outside" index="1">
-          <template slot="title">
+        <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">新建UML</span>
-            <el-menu-item class="inside" index="1-1" @click="add_graph(0)">空画布</el-menu-item>
-            <el-menu-item class="inside" index="1-2" @click="add_graph(0)">用例图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-3" @click="add_graph(0)">类图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-4" @click="add_graph(0)">包图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-5" @click="add_graph(0)">顺序图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-6" @click="add_graph(0)">协作图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-7" @click="add_graph(0)">状态图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-8" @click="add_graph(0)">活动图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-9" @click="add_graph(0)">构件图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-10"@click="add_graph(0)">部署图示例</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
+        </el-menu-item>
         <el-menu-item class="outside" index="2">
           <i class="el-icon-edit-outline"></i>
           <span slot="title">管理</span>
         </el-menu-item>
-        <el-menu-item class="outside" index="3">
+        <el-menu-item class="outside" index="3" @click = "viewDel">
           <i class="el-icon-delete"></i>
-          <span slot="title">回收站</span>
+          <span slot="title" >回收站</span>
         </el-menu-item>
         <el-menu-item class="outside" index="4" @click="test">
         <i class="el-icon-cpu"></i>
@@ -36,8 +68,8 @@
       </el-menu>
 
       <el-row>
-        <el-col :span="7" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 1 : 0">
-          <drawio-u-m-l :id = "id"/>
+        <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+          <drawio-u-m-l :id = "id" :isdel = "viewingDel"/>
         </el-col>
       </el-row>
     </el-container>
@@ -50,19 +82,26 @@ import qs from "qs";
 export default {
   components: {DrawioUML},
   beforeMount() {
-    this.get_list();
+    this.get_list(false);
   },
   methods:{
     test(){
-      this.get_list();
+      this.get_list(false);
     },
-    get_list(){
+    viewDel(){
+      this.viewingDel=!this.viewingDel;
+      this.get_list(this.viewingDel);
+    },
+    closeDialog(){
+      this.$data.dialogVisible = false
+    },
+    get_list(del){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/getgraphlist" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph_list" ,
         data: qs.stringify({
           type:0,
-          isdeleted:false
+          isdeleted:del
         }),
       }).then(res => {
         console.log(res.data)
@@ -70,23 +109,66 @@ export default {
       })
     },
     add_graph(template) {
+      let newid = null;
+      if(this.$data.newHeader == null || this.$data.newHeader == '' ){
+        this.$message({
+          message: 'UML图的标题不得为空',
+          type: 'warning'
+        });
+        return;
+      }
+      this.closeDialog();
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/newgraph" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/new_graph" ,
         data: qs.stringify({
           type:0,
           template:template
         }),
       }).then(res => {
-        console.log(res.data)
+        newid = res.data
         this.$data.UMLList.push(res.data)
-        console.log(this.$data.UMLList)
       })
+      this.$axios({
+        method: "post" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/modify_graph" ,
+        data: qs.stringify({
+          graph_id:newid,
+          graph_name:this.$data.newHeader,
+          graph_info:this.$data.newBrief
+        }),
+      })
+      this.$message({
+        message: '成功新建了\"'+this.$data.newHeader+'\"',
+        type: 'success'
+      });
+      this.$data.newHeader = this.$data.newBrief = null;
     }
   },
   data() {
     return {
-      UMLList:[]
+      newHeader:null,
+      newBrief:null,
+      dialogVisible:false,
+      viewingDel:false,
+      UMLList:[],
+      template:"1",
+      template_options: [{
+        value: '1',
+        label: '空白模板'
+      }, {
+        value: '2',
+        label: '模板1'
+      }, {
+        value: '3',
+        label: '模板2'
+      }, {
+        value: '4',
+        label: '模板3'
+      }, {
+        value: '5',
+        label: '模板4'
+      }],
     }
   }
 }
@@ -113,10 +195,6 @@ export default {
   width: 200px;
   min-height: 400px;
 
-}
-.el-container {
-  padding-top: 0%;
-  margin-top: 0%;
 }
 
 .inside {
