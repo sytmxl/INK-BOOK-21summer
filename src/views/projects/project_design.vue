@@ -62,7 +62,7 @@ export default {
 }
 .el-col {
   margin: 22px;
-  width: 360px;
+  width: 29%;
   /* background-color: beige; */
 }
 .el-menu-vertical-demo {
