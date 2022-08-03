@@ -93,9 +93,4 @@ export default {
   border: 5px;
   border-radius: 90px;
 }
-
-.el-menu--popup{
-  background-color: rgb(238, 196, 196);
-  border-radius: 20px !important;
-}
 </style>
