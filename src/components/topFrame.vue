@@ -16,11 +16,13 @@
               border: 2px none #000000;
             "
           ></div>
-          <a class="brandtext2" href="/">&nbsp;墨书</a>
+          <a class="brandtext2" href="/">&nbsp;墨书&nbsp;</a>
         </div>
-               </div>
+  </div>
 
-          <div class="team">
+  
+
+    <div class="team">
                <el-dropdown trigger="click">
                  <span class="el-dropdown-link">
                    {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -33,6 +35,13 @@
                  </el-dropdown-menu>
                </el-dropdown>
     </div>
+    <div class="search">
+            <el-input
+              placeholder="搜索"
+              prefix-icon="el-icon-search"
+              v-model="input" clearable="true" >
+            </el-input>
+  </div>
      <div class="right">
 
        <div class="user">
@@ -47,14 +56,8 @@
                 <span>Cooper</span>
             </div>
             
-          </div>
-        <div class="search">
-                 <el-input
-              placeholder="搜索"
-              prefix-icon="el-icon-search"
-              v-model="input" clearable="true" >
-              </el-input>
-          </div>
+      </div>
+        
 
          
      </div>
@@ -219,6 +222,50 @@ export default {
     font-size: 15px;
     margin-bottom: 20px;
     /* border-radius: 15px; */
+  }
+  .left {
+    margin-top: 7px;
+  }
+  .left:hover {
+    background: rgba(150, 169, 183, 0.164);
+    border-radius: 10px;
+    margin-top: 7px;
+  }
+  .team {
+    padding: 10px;
+    margin-top: 7px;
+    border-radius: 20px;
+    transition: 0.2s;
+  }
+  .team:hover {
+    background: rgba(150, 169, 183, 0.23);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 7px;
+  }
+  .team:active {
+    background: rgba(150, 169, 183, 0.721);
+    border-radius: 5px;
+    padding: 12px;
+    margin-top: 7px;
+    font-size: 19px;
+    transition: 0.05s;
+  }
+  .el-dropdown-item {
+    transition: 0.5s;
+  }
+  .el-dropdown-item:hover{
+    background: rgba(150, 169, 183, 0.422) !important;
+    border-radius: 10px !important;
+    margin: 10px !important;
+  }
+  .search {
+    margin-left: 50px;
+    width: 5px;
+    transition: 0.5s;
+  }
+  .search:hover {
+    width: 300px;
   }
 </style>
 <style>
