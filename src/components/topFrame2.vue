@@ -24,8 +24,8 @@
       <div class="user">
         <a href="user_information" ><img  src="../assets/bk3.jpg" alt="" /></a>
         <div class="username">
-          <a href="user_information" >Cooper&nbsp;&nbsp;</a>
-          <a href="/">登出</a>
+          <a href="user_information" >{{user.username}}&nbsp;&nbsp;</a>
+          <a href="/" @click="logout()" >登出</a>
         </div>
         
       </div>
@@ -44,26 +44,30 @@
 </template>
 
 <script>
-import { init } from 'events';
 
 export default {
   data() {
     return {
       input: "",
+      user_name:"",
+      user:JSON.parse(sessionStorage.getItem("user")),
+      token:JSON.parse(sessionStorage.getItem("token"))
     };
   },
   methods: {
+    logout(){
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+    },
     init()
     {
+       console.log(JSON.parse(sessionStorage.getItem("token")));
        this.$axios({
           method: "get" /* 指明请求方式，可以是 get 或 post */,
-          url: "http://localhost:8000/app/login" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
-          data: qs.stringify({
-            /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-            identity: this.form.email,
-            loginmethod: "email",
-            password: this.form.password,
-          }),
+          url: "http://localhost:8000/app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+          headers:{
+            'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+          }
         })
           .then((res) => {
             console.log(res)
@@ -72,25 +76,26 @@ export default {
             // this.$store.dispatch("saveusericon", usericon);
             if(res.data.errno==0)
             {
-              this.$message.success("登录成功！");
-                var user = {
-                  userId: res.data.data.user_id,
-                  username: res.data.data.user_name,
-                };
-                this.$store.dispatch("saveuser", user);
-                console.log(user);
-                console.log(this.$store.state.user);
-                window.location.href = "team_firstpage";
+                consolo.log("成功")
+                this.user_name=res.data.data.user_name;
+                // var user = {
+                //   userId: res.data.data.user_id,
+                //   username: res.data.data.user_name,
+                // };
+                // this.$store.dispatch("saveuser", user);
+                // console.log(user);
+                // console.log(this.$store.state.user);
+                // window.location.href = "team_firstpage";
                 /* 从 localStorage 中读取 preRoute 键对应的值 */
                 // const history_pth = localStorage.getItem("FirstPage");
                 /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-                setTimeout(() => {
-                  if (history_pth == null || history_pth === "/register") {
-                    this.$router.push("/");
-                  } else {
-                    this.$router.push({ path: history_pth });
-                  }
-                }, 1000);
+                // setTimeout(() => {
+                //   if (history_pth == null || history_pth === "/register") {
+                //     this.$router.push("/");
+                //   } else {
+                //     this.$router.push({ path: history_pth });
+                //   }
+                // }, 1000);
             }
             else{
               this.$message({

@@ -35,7 +35,7 @@
               <i class="el-icon-user"></i>
               用户名
             </template>
-            <div class="user_name">sss</div>
+            <div class="user_name">{{username}}</div>
             <div class="new_user_name" style="display: none">
               <el-input
                 v-model="new_user_name"
@@ -49,7 +49,7 @@
               <i class="el-icon-s-custom"></i>
               真实姓名
             </template>
-            <div class="real_name">王大狗</div>
+            <div class="real_name">{{realname}}</div>
             <div class="new_real_name" style="display: none">
               <el-input
                 v-model="new_real_name"
@@ -63,7 +63,7 @@
               <i class="el-icon-message"></i>
               联系邮箱
             </template>
-            <div class="email">10086@qq.com</div>
+            <div class="email">{{email}}</div>
             <div class="new_email" style="display: none">
               <el-input
                 v-model="new_email"
@@ -97,12 +97,13 @@ export default {
     return {
       imageUrl: "",
       activeName: "first",
-      username: "",
+      username: JSON.parse(sessionStorage.getItem("user")).username,
       realname: "",
       email: "",
       new_user_name:"",
       new_real_name:"",
       new_email:"",
+      user:JSON.parse(sessionStorage.getItem("user"))
     };
   },
   components: {
