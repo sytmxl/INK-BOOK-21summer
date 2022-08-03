@@ -1,10 +1,34 @@
 <template>
   <div id="init">
-    <el-row>
-      <el-col :span="7" v-for="item in menu">
-        <EtherpadFile :title="item.label"/>
-      </el-col>
-    </el-row>
+    <el-container>
+      <el-menu width=65px default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
+        
+        <el-menu-item class="outside" index="2">
+          <i class="el-icon-plus"></i>
+          <span slot="title">新建表</span>
+        </el-menu-item>
+        <el-menu-item class="outside" index="2">
+          <i class="el-icon-edit-outline"></i>
+          <span slot="title">管理</span>
+        </el-menu-item>
+        <el-menu-item class="outside" index="3">
+          <i class="el-icon-delete"></i>
+          <span slot="title">回收站</span>
+        </el-menu-item>
+        <el-submenu class="outside" index="1" >
+          <template slot="title">
+            <i class="el-icon-plus"></i>
+            <span slot="title">排版占位不可见</span>
+          </template>
+        </el-submenu>
+      </el-menu>
+
+      <el-row>
+        <el-col :span="7" v-for="item in menu">
+          <EtherpadFile :title="item.label"/>
+        </el-col>
+      </el-row>
+    </el-container>
   </div>
 </template>
 
@@ -50,12 +74,49 @@ export default {
 
 <style scoped>
 #init{
-    margin:20px auto;
+    margin:0px auto;
     color:blueviolet;
     font-size: large;
     font-weight: bold;
 }
 .el-col {
   margin: 22px;
+}
+.el-menu--collapse{
+  float: top;
+  background-color: rgb(255, 255, 255) !important;
+  width: 65px !important;
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+  
+}
+.el-container {
+  padding-top: 0%;
+  margin-top: 0%;
+}
+.inside {
+  transition: 0.5s;
+}
+.inside:hover {
+  margin: 15px 10px 8px 10px;
+  border-radius: 15px;
+}
+.outside {
+  transition: 0.5s;
+}
+.outside:hover {
+  margin: 15px 0px 15px 0px;
+  border: 5px;
+  border-radius: 90px;
+}
+
+.el-row {
+  margin-left: 20px;
+}
+
+.el-submenu {
+  visibility: hidden;
 }
 </style>

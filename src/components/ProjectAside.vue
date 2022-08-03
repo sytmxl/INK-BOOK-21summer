@@ -121,7 +121,7 @@ export default {
   z-index: 0;
 }
 .el-menu-item:hover {
-  background-color: rgb(184, 184, 194) !important;
+  background-color: rgba(197, 216, 233, 0.42) !important;
   color: rgb(255, 255, 255);
   width: 250px;
   margin: 20px;

@@ -1,27 +1,20 @@
 <template>
-
-   
-
-    <el-container>
-  <el-aside><project-aside></project-aside></el-aside>
   <el-container>
-    <el-aside>
-      <project-aside/>
-    </el-aside>
-    <el-main style="padding-top: 0">
-      <router-view></router-view>
-    </el-main>
+    <el-container>
+      <el-aside>
+        <project-aside/>
+      </el-aside>
+      <el-main style="padding: 0px;">
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </el-container>
-</el-container>
-
 </template>
 
 <script>
-import topFrame from "../../components/topFrame.vue";
 import ProjectAside from "../../components/ProjectAside";
 export default {
- components: {
-    topFrame,
+  components: {
     ProjectAside,
   },
 }
