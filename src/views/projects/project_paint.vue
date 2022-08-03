@@ -1,26 +1,60 @@
 <template>
   <div id="init">
+    <el-dialog
+        title="新建一个UML图"
+        :visible.sync="dialogVisible"
+        width="30%"
+        :before-close="closeDialog">
+      <el-row>
+        <el-col :span="4">
+          UML标题：
+        </el-col>
+        <el-col :span="20">
+          <el-input
+              placeholder="请输入标题"
+              prefix-icon="el-icon-search"
+              v-model="newHeader">
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+        UML图注：
+        </el-col>
+        <el-col :span="20">
+          <el-input
+              placeholder="请输入图注"
+              v-model="newBrief">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+          UML标题：
+        </el-col>
+        <el-col :span="20">
+          <el-select v-model="template" placeholder="请选择">
+            <el-option
+                v-for="item in template_options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="add_graph">新建</el-button>
+      </span>
+    </el-dialog>
     <el-container>
       <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
-        <el-submenu class="outside" index="1">
-          <template slot="title">
+        <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">新建UML</span>
-            <el-menu-item class="inside" index="1-1" @click="add_graph(0)">空画布</el-menu-item>
-            <el-menu-item class="inside" index="1-2" @click="add_graph(0)">用例图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-3" @click="add_graph(0)">类图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-4" @click="add_graph(0)">包图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-5" @click="add_graph(0)">顺序图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-6" @click="add_graph(0)">协作图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-7" @click="add_graph(0)">状态图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-8" @click="add_graph(0)">活动图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-9" @click="add_graph(0)">构件图示例</el-menu-item>
-            <el-menu-item class="inside" index="1-10"@click="add_graph(0)">部署图示例</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
+        </el-menu-item>
         <el-menu-item class="outside" index="2">
           <i class="el-icon-edit-outline"></i>
           <span slot="title">管理</span>
@@ -60,6 +94,9 @@ export default {
       this.viewingDel=!this.viewingDel;
       this.get_list(this.viewingDel);
     },
+    closeDialog(){
+      this.$data.dialogVisible = false
+    },
     get_list(del){
       this.$axios({
         method: "post" ,
@@ -74,6 +111,7 @@ export default {
       })
     },
     add_graph(template) {
+      this.closeDialog();
       this.$axios({
         method: "post" ,
         url: "http://127.0.0.1:4523/m1/1379703-0-default/app/new_graph" ,
@@ -90,8 +128,28 @@ export default {
   },
   data() {
     return {
+      newHeader:null,
+      newBrief:null,
+      dialogVisible:true,
       viewingDel:false,
-      UMLList:[]
+      UMLList:[],
+      template:"1",
+      template_options: [{
+        value: '1',
+        label: '空白模板'
+      }, {
+        value: '2',
+        label: '模板1'
+      }, {
+        value: '3',
+        label: '模板2'
+      }, {
+        value: '4',
+        label: '模板3'
+      }, {
+        value: '5',
+        label: '模板4'
+      }],
     }
   }
 }

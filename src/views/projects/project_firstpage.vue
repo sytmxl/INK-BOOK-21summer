@@ -5,6 +5,13 @@
         <project-aside/>
       </el-aside>
       <el-main style="padding: 0px;">
+        <el-row>
+          <el-col :span="24">
+            <el-card shadow="">
+
+            </el-card>
+          </el-col>
+        </el-row>
         <router-view></router-view>
       </el-main>
     </el-container>
