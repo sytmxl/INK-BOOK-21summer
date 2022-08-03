@@ -1,39 +1,62 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }" style="text-align: center;" shadow>
-    <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;" shadow="hover">
-      <img style="cursor: pointer;" title="编辑" @click="edit"
-           :src="this.base64src">
+    <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;" shadow="hover">
+        <div class="preview">
+          <img style="cursor: pointer;" title="编辑" @click="edit"
+               :src="this.base64src" id="graph" ref="graph">
+        </div>
+        <div class="member-info">
+          <h3>{{title}}</h3>
+          <h5>{{description}}</h5>
+          <h5>最后编辑-{{ lastEditTime }}</h5>
+          <div class="social-touch">
+            <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" ></el-button>
+          </div>
+        </div>
     </el-card>
-
-    <div style="padding: 14px;">
-      <span>{{$props.title}}</span>
-      <div class="bottom clearfix">
-        <time class="time">{{ $props.lastEditTime }}</time>
-      </div>
-    </div>
-  </el-card>
 </template>
 
 <script>
 import drawio from "@/scripts/drawio";
+import qs from "qs";
 export default {
   name: "drawioPrototype",
   props:{
-    title:{default: "项目",type: String},
-    description:{default: "无简介", type:String},
-    lastEditTime:{default: "2077-01-01",type:String}
+    id:{default:0},
   },
   mounted() {
-    window.base64src = this.base64src
+
   },
   methods:{
-    edit(e){
-      console.log(e.target)
-      drawio.DiagramEditor.editElement(e.target, this.$data.configs, "kennedy", null, ['dark=1', 'pv=0']);
+    edit(){
+      console.log(this.$refs.graph)
+      drawio.DiagramEditor.editElement( this.$refs.graph, this.$data.configs, "kennedy", null, ['dark=1', 'pv=0']);
+    },
+    del(){
+      this.$axios({
+        method: "post" ,
+        url: "/delgraph" ,
+        data: qs.stringify({
+          id:this.$props.id
+        }),
+      })
+    },
+    getData(){
+      this.$axios({
+        method: "post" ,
+        url: "/getuml" ,
+        data: qs.stringify({
+          id:this.$props.id
+        }),
+      })
     }
+
   },
   data() {
     return {
+      title:"项目",
+      description:"无简介",
+      lastEditTime:"2077-01-01",
       base64src:drawio.DiagramEditor.prototypeDefaultProject,
       configs: {
         "defaultLibraries": "uml;er;ios;basic;",
@@ -73,4 +96,19 @@ export default {
 .clearfix:after {
   clear: both
 }
+
+.diagram{border-radius: 35px;width: 100%; height: auto; float: left; margin: 30px 2.5%; background-color: #ffffff; text-align: center; position: relative;}
+.preview img{max-width: 100%; vertical-align: middle;height: 100%;}
+h3 {font-size: 24px; font-weight: normal; margin: 10px 0 0; text-transform: uppercase;}
+h5 {font-size: 16px; font-weight: 300; margin: 0 0 15px; line-height: 22px;}
+p {font-size: 14px; font-weight: 300; line-height: 22px; padding: 0 30px; margin-bottom: 10px;}
+.social-touch a{display: inline-block; width: 27px; height: 26px; vertical-align: middle; margin: 0 2px;  background-repeat: no-repeat; opacity: 0.7; transition: 0.3s;}
+.social-touch a:hover{opacity: 1; transition: 0.3s;}
+.effect-3{max-height: 302px; min-height: 302px; overflow: hidden;}
+.effect-3 h3{padding-top: 7px; line-height: 33px;}
+.effect-3 .preview{ transition: 0.4s; height: 212px; width: 100%; display: inline-block; float: none; vertical-align: middle;}
+.effect-3 .member-info{transition: 0.4s;}
+.effect-3 .preview img{height: 100%; width: available; vertical-align: bottom;}
+.effect-3 .social-touch{float: left; left: 0; bottom: 0; overflow: hidden; padding: 5px 0; width: 100%; transition: 0.4s;}
+.effect-3:hover .preview{border-bottom: 0; border-radius: 0 0 50px 50px; height: 81px; display: inline-block; overflow: hidden; width: 109px; transition: 0.4s;}
 </style>
