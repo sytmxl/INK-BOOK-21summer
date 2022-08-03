@@ -51,6 +51,11 @@ const routes = [{
     component: () =>
         import ('../views/projects/project_firstpage.vue'),
         children: [{
+                path: '/project_outline',
+                name: 'project_outline',
+                component: () =>
+                    import ('../views/projects/project_outline.vue'),
+            },{
             path: '/project_design',
             name: 'project_design',
             component: () =>
