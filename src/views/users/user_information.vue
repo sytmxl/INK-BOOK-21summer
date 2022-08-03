@@ -80,7 +80,56 @@
         tab-position="left"
         @tab-click="handleClick"
       >
-        <el-tab-pane label="个人所在团队" name="first">用户管理</el-tab-pane>
+        <el-tab-pane label="个人所在团队" name="first">
+          <el-card class="box-card">
+                <div  class="text item name">
+                  <span class="og">团队名称：</span>
+                  {{teamname}}
+                   
+                </div>
+                <div  class="text item type">
+                  <span class="og">团队类型：</span>
+                  {{teamtype}}
+                </div>
+                 <div  class="text item setter">
+                  <span class="og">团队创始人：</span>
+                  {{teamsetter}}
+                </div>
+                 <div  class="text item settime">
+                  <span class="og">创建时间：</span>
+                  {{teamsettime}}
+                </div>
+                 <div  class="text item peoplenum">
+                  <span class="og">现有人数：</span>
+                  {{teamernum}}
+                </div>
+                
+              </el-card>
+              <el-card class="box-card">
+                <div  class="text item name">
+                  <span class="og">团队名称：</span>
+                  {{teamname}}
+                   
+                </div>
+                <div  class="text item type">
+                  <span class="og">团队类型：</span>
+                  {{teamtype}}
+                </div>
+                 <div  class="text item setter">
+                  <span class="og">团队创始人：</span>
+                  {{teamsetter}}
+                </div>
+                 <div  class="text item settime">
+                  <span class="og">创建时间：</span>
+                  {{teamsettime}}
+                </div>
+                 <div  class="text item peoplenum">
+                  <span class="og">现有人数：</span>
+                  {{teamernum}}
+                </div>
+                
+              </el-card>
+        </el-tab-pane>
         <el-tab-pane label="正在进行项目" name="second">配置管理</el-tab-pane>
         <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane>
       </el-tabs>
@@ -236,4 +285,24 @@ export default {
   right: 10%;
   width: 800px;
 }
+ .text {
+    font-size: 20px;
+  }
+
+  .item {
+    padding: 18px 0;
+  }
+
+  .box-card {
+    width: 550px;
+    height: 350px;
+    float: left;
+    margin-left: 50px;
+    border-radius: 15px;
+    text-align: left;
+    
+  }
+  .box-card .og{
+    font-weight: bold;
+  }
 </style>
