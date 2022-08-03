@@ -1,11 +1,14 @@
 <template>
-  <el-card :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;" shadow>
+  <el-card :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
     <el-card  :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;" shadow="hover" >
+      <div id="delete" @click=""><i class="el-icon-delete"></i></div>
       <div id="incard" @click="edit">
+        
 				<div class="pattern"></div>
 				<div class="pattern"></div>
 				<div class="pattern"></div>
 				<div class="pattern"></div>
+        
 			</div>
     </el-card>
 
@@ -41,7 +44,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .time {
   font-size: 13px;
   color: #999;
@@ -86,5 +89,24 @@ export default {
 	margin: 5% 0% 5% 20%;	
 	width: auto;
 	height: 20px;
+}
+
+#delete {
+  background-color: rgb(237, 135, 135);
+  color: rgba(0, 0, 0, 0);
+  transition: 0.5s;
+  height: 0px;
+  padding: auto;
+  font-size: 0px;
+}
+
+.el-card:hover #delete{
+  height: 40px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+}
+
+el-icon-delete {
+  margin: auto;
 }
 </style>

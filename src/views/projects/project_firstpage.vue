@@ -1,19 +1,14 @@
 <template>
-
-   
-
-    <el-container>
-  <el-aside><project-aside></project-aside></el-aside>
   <el-container>
-    <el-aside>
-      <project-aside/>
-    </el-aside>
-    <el-main style="padding-top: 0">
-      <router-view></router-view>
-    </el-main>
+    <el-container>
+      <el-aside>
+        <project-aside/>
+      </el-aside>
+      <el-main style="padding: 0px;">
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </el-container>
-</el-container>
-
 </template>
 
 <script>
@@ -42,9 +37,7 @@ export default {
   .el-aside{
    display: block;
   position: absolute;
-  left: 0;
-  top: 80px;
-  bottom: 0;
+  height: 100%;
 }
 
 </style>
