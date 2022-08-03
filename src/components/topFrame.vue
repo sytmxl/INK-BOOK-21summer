@@ -1,8 +1,24 @@
 <template>
-  <div class="top" v-if="sessionStorage.getItem('editing') == 'false'">
+  <div class="top">
 
     <div class="left">
-         <img src="../assets/logo.png" alt="">
+        <div id="nav-header">
+          <a class="brand" href="/"></a>
+          <a class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</a>
+          <div
+            id="Layer1"
+            style="
+              width: 2px;
+              height: 50px;
+              z-index: 1;
+              background-color: #000000;
+              layer-background-color: #000000;
+              border: 2px none #000000;
+            "
+          ></div>
+          <a class="brandtext2" href="/">&nbsp;墨书</a>
+        </div>
+               </div>
 
           <div class="team">
                <el-dropdown trigger="click">
@@ -16,7 +32,6 @@
                   <el-dropdown-item icon="el-icon-plus" @click.native="newteam()">点击创建团队</el-dropdown-item>
                  </el-dropdown-menu>
                </el-dropdown>
-          </div>
     </div>
      <div class="right">
 
@@ -107,7 +122,30 @@ export default {
 .top{
   margin-top: 10px;
   display: flex;
-  /* float: right; */
+}
+@font-face {
+  font-family: myFont;
+  src: url("../assets/Futura.ttc");
+}
+.brandtext1 {
+  font-family: myFont;
+  user-select: none;
+  text-decoration: none;
+  color:black;
+}
+.brandtext2 {
+  font-family: "楷体";
+  user-select: none;
+  text-decoration: none;
+    color:black;
+}
+#nav-header {
+  display: flex;
+  height: 100%;
+  margin-left: 20px;
+  align-items: center;
+  font-size: 35px;
+  /* width: 480px; */
 }
 .left{
   float: left;
@@ -119,12 +157,6 @@ export default {
   position: absolute;
   right:0;
 }
-.top img{
-  width: 60px;
-  height: 65px;
-  margin-left: 32px;
-  float: left;
-}
 .splitline{
   height: 1px;
   width: 90%;
@@ -133,12 +165,12 @@ export default {
 }
 .search{
 
-  margin-left: 500px;
+  margin-right: 150px;
   margin-top: 10px;
   float: right;
 }
 .team{
-   margin-left: 100px;
+   margin-left: 350px;
   margin-top: 15px;
   float: right;
   
