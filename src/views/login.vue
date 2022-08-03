@@ -163,16 +163,16 @@ export default {
       })
         .then((res) => {
           /* res 是 response 的缩写 */
-          var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
-          this.$store.dispatch("saveusericon", usericon);
-          switch (res.data.errornumber) {
+          // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
+          // this.$store.dispatch("saveusericon", usericon);
+          switch (res.errno) {
             case 0:
               this.$message.success("登录成功！");
-              var user = {userId: res.data.User_id,username: res.data.Username};
-              this.$store.dispatch("saveUserInfo", user);
+              var user = {userId: res.data.user_id,username: res.data.user_name};
+              this.$store.dispatch("saveuser", user);
               console.log(user);
               console.log(this.$store.state.user);
-              window.location.href="FirstPage";
+              window.location.href="team_firstpage";
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               // const history_pth = localStorage.getItem("FirstPage");
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
@@ -184,46 +184,19 @@ export default {
                 }
               }, 1000);
               break;
-            case 1:
-              this.$message.success("登录成功！");
-              var user = {userId: res.data.User_id,username: res.data.Username};
-              this.$store.dispatch("saveUserInfo", user);
-               window.location.href="Commander_FirstPage";
-              /* 从 localStorage 中读取 preRoute 键对应的值 */
-              // const history_pth = localStorage.getItem("Commander_FirstPage");
-              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              setTimeout(() => {
-                if (history_pth == null || history_pth === "/register") {
-                  this.$router.push("/");
-                } else {
-                  this.$router.push({ path: history_pth });
-                }
-              }, 1000);
+            case 2002:
+              this.$message({
+                message: res.msg,
+                center: true,
+                type: "error",
+              });
               break;
-              case 2:
-              this.$message.success("登录成功！");
-              var user = {userId: res.data.User_id,username: res.data.Username};
-              this.$store.dispatch("saveUserInfo", user);
-              window.location.href="RepairMan_SelfInfo";
-              /* 从 localStorage 中读取 preRoute 键对应的值 */
-              // const history_pth = localStorage.getItem("RepairMan_SelfInfo");
-              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              setTimeout(() => {
-                if (history_pth == null || history_pth === "/register") {
-                  this.$router.push("/");
-                } else {
-                  this.$router.push({ path: history_pth });
-                }
-              }, 1000);
-              break;
-            case 3:
-              this.$message.error("账号不存在！");
-              break;
-            case 4:
-              this.$message.error("密码错误！");
-              break;
-              case 5:
-              this.$message.error("请求方式错误！");
+            case 2003:
+              this.$message({
+                message: res.msg,
+                center: true,
+                type: "error",
+              });
               break;
           }
         })
@@ -244,16 +217,16 @@ export default {
       })
         .then((res) => {
           /* res 是 response 的缩写 */
-          var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
-          this.$store.dispatch("saveusericon", usericon);
-          switch (res.data.errornumber) {
+          // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
+          // this.$store.dispatch("saveusericon", usericon);
+          switch (res.errno) {
             case 0:
               this.$message.success("登录成功！");
-              var user = {userId: res.data.User_id,username: res.data.Username};
-              this.$store.dispatch("saveUserInfo", user);
+              var user = {userId: res.data.user_id,username: res.data.user_name};
+              this.$store.dispatch("saveuser", user);
               console.log(user);
               console.log(this.$store.state.user);
-              window.location.href="FirstPage";
+              window.location.href="team_firstpage";
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               // const history_pth = localStorage.getItem("FirstPage");
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
@@ -265,46 +238,19 @@ export default {
                 }
               }, 1000);
               break;
-            case 1:
-              this.$message.success("登录成功！");
-              var user = {userId: res.data.User_id,username: res.data.Username};
-              this.$store.dispatch("saveUserInfo", user);
-               window.location.href="Commander_FirstPage";
-              /* 从 localStorage 中读取 preRoute 键对应的值 */
-              // const history_pth = localStorage.getItem("Commander_FirstPage");
-              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              setTimeout(() => {
-                if (history_pth == null || history_pth === "/register") {
-                  this.$router.push("/");
-                } else {
-                  this.$router.push({ path: history_pth });
-                }
-              }, 1000);
+            case 2002:
+              this.$message({
+                message: res.msg,
+                center: true,
+                type: "error",
+              });
               break;
-              case 2:
-              this.$message.success("登录成功！");
-              var user = {userId: res.data.User_id,username: res.data.Username};
-              this.$store.dispatch("saveUserInfo", user);
-              window.location.href="RepairMan_SelfInfo";
-              /* 从 localStorage 中读取 preRoute 键对应的值 */
-              // const history_pth = localStorage.getItem("RepairMan_SelfInfo");
-              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              setTimeout(() => {
-                if (history_pth == null || history_pth === "/register") {
-                  this.$router.push("/");
-                } else {
-                  this.$router.push({ path: history_pth });
-                }
-              }, 1000);
-              break;
-            case 3:
-              this.$message.error("账号不存在！");
-              break;
-            case 4:
-              this.$message.error("密码错误！");
-              break;
-              case 5:
-              this.$message.error("请求方式错误！");
+            case 2003:
+              this.$message({
+                message: res.msg,
+                center: true,
+                type: "error",
+              });
               break;
           }
         })
