@@ -127,6 +127,7 @@
 
 <script>
 import qs from "qs";
+import team_projectsVue from './teams/team_projects.vue';
 export default {
   name: "Register",
   data() {
@@ -186,16 +187,14 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
-          // switch (res.data.errornumber) {
-          //   case 0:
-          //     this.validcode = res.data.code;
-          //     this.$message.success("验证码发送成功，请查收");
-          //     break;
-          //   case 8:
-          //     this.$message.error("验证码发送失败，请检查邮箱！");
-          //     break;
-          // }
+          console.log(res.data);
+          if(res.data.errno==0)
+          {
+             this.$message.success("验证码发送成功，请查收");
+          }
+          else{
+            this.$message.error("此邮箱已经存在！");
+          }
         })
         .catch((err) => {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
@@ -229,6 +228,10 @@ export default {
       if (this.form.password1 != this.form.password2) {
         this.$message.warning("两次输入密码不一致，请检查");
       }
+      if (this.code =='') {
+        this.$message.warning("请输入验证码");
+        return;
+      }
       // if(this.form.code!=this.validcode){
       //   this.$message.warning("验证码错误！");
       //   return;
@@ -244,49 +247,59 @@ export default {
           user_name: this.form.username,
           pass_word: this.form.password1,
           real_name: this.form.realname,
-          code: this.form.validcode,
+          code: this.form.code,
         }),
       })
         .then((res) => {
           /* res 是 response 的缩写 */
-          console.log(res);
-          switch (res.errno) {
+          console.log(res.data);
+          switch (res.data.errno) {
             case 0:
               this.$message({
-                message: res.msg,
+                message: "注册成功，将自动为您登陆",
                 center: true,
                 type: "success",
+                duration:900
               });
               /* 将后端返回的 user 信息使用 vuex 存储起来 */
               // var user = {
               //   userId: res.data.user_id,
               //   username: res.data.username,
               // };
-              // var icon = { userId: res.data.user_id, picurl: "" };
               // this.$store.dispatch("saveUserInfo", user);
+              // var icon = { userId: res.data.user_id, picurl: "" };
               // this.$store.dispatch("saveusericon", icon);
-              window.location.href = "/";
+              setTimeout(() => {
+                  this.$router.push({ path:'team_projects' });
+              }, 1000);
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              setTimeout(() => {
-                if (history_pth == null || history_pth === "/register") {
-                  this.$router.push("/");
-                } else {
-                  this.$router.push({ path: history_pth });
-                }
-              }, 1000);
+              // setTimeout(() => {
+              //   if (history_pth == null || history_pth === "/register") {
+              //     this.$router.push("/");
+              //   } else {
+              //     this.$router.push({ path: history_pth });
+              //   }
+              // }, 1000);
               break;
 
             case 2001:
               this.$message({
-                message: res.msg,
+                message: res.data.msg,
                 center: true,
                 type: "error",
               });
               break;
             case 2002:
               this.$message({
-                message: res.msg,
+                message: res.data.msg,
+                center: true,
+                type: "error",
+              });
+              break;
+            case 2004:
+              this.$message({
+                message: res.data.msg,
                 center: true,
                 type: "error",
               });
