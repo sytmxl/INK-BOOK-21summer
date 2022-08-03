@@ -1,5 +1,16 @@
 <template>
   <div>
+     <template>
+      <el-backtop
+        :right="40"
+        :bottom="100"
+        :visibility-height='400'
+      >
+        <div>
+          <i class="el-icon-top"></i>
+        </div>
+      </el-backtop>
+    </template>
     <div style="overflow: hidden">
       <div id="top_bg">
         <div id="nav-header">
@@ -87,6 +98,15 @@
             <img src="../assets/uml.png" class="pic2-1">
             </div>
         </div>
+    </div>
+    <div class="dis3" id="part3">
+        <div class="txt4 wow fadeInLeft" data-wow-delay="0.2s">
+          墨书
+        </div>
+        <div class="txt5 wow fadeInLeft" data-wow-delay="0.2s">
+         一款软工团队协作与管理平台，为中小团队的项目协作开发提供管理服务，站在用户的角度，注重用户的隐私性、操作方便性，方便您随时随地管理团队、执行项目
+        </div>
+        <el-button type="primary" @click="register()" class="wow fadeInLeft" data-wow-delay="0.2s">立即注册</el-button>
     </div>
   </div>
 </template>
@@ -342,5 +362,23 @@ export default {
 }
 .dis1{
   background-image: url(../assets/bg2.png);
+}
+.dis3{
+  background-image: url(../assets/bg2.png);
+  height:460px;
+}
+.txt4{
+  font-family: "楷体";
+  font-size:80px;
+  font-weight: bold;
+  padding-top:50px;
+}
+.txt5{
+  font-size:20px;
+  font-weight: bold;
+  padding-top:30px;
+  padding-bottom: 40px;
+  width:400px;
+  margin:0 auto;
 }
 </style>

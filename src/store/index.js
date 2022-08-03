@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+      inEditing:false,
     user: JSON.parse(sessionStorage.getItem("user")) || {
       userId: '',
       username: '',
@@ -15,6 +16,12 @@ export default new Vuex.Store({
   },
   },
   mutations: {
+      enterEditing(){
+          state.inEditing = true;
+      },
+      exitEditing(){
+          state.inEditing = false;
+      },
     $_setuser(state, value) {
 
       sessionStorage.setItem('user', JSON.stringify(value))

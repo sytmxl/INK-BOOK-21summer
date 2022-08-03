@@ -1,21 +1,25 @@
 <template>
  <div id="app">
    <router-view v-if="isRouterAlive"/>
+   <project-aside style="z-index: auto"></project-aside>
  </div>
  
 </template>
  
 <script>
+import ProjectAside from "@/components/ProjectAside";
 export default {
  name: 'App',
- provide () {
+  components: {ProjectAside},
+  provide () {
    return{
      reload: this.reload
    }
  },
  data() {
    return {
-       isRouterAlive: true
+       isRouterAlive: true,
+     editing : sessionStorage.getItem('editing')
    }
  },
  methods:{
