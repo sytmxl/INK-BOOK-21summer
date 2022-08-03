@@ -9,8 +9,9 @@
       <h5>{{description}}</h5>
       <h5>最后编辑-{{ lastEditTime }}</h5>
       <div class="social-touch">
-        <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" ></el-button>
+        <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
+        <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" />
+        <el-button type="danger" icon="el-icon-delete" circle title="测试" @click="getData"/>
       </div>
     </div>
   </el-card>
@@ -24,8 +25,9 @@ export default {
   props:{
     id:{default:0},
   },
-  mounted() {
-
+  beforeMount() {
+    console.log("reloaded");
+    this.getData();
   },
   methods:{
     edit(){
@@ -44,10 +46,15 @@ export default {
     getData(){
       this.$axios({
         method: "post" ,
-        url: "/getuml" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/getgraph" ,
         data: qs.stringify({
           id:this.$props.id
         }),
+      }).then(res => {
+        this.$data.title = res.data.header;
+        this.$data.description = res.data.brief;
+        this.$data.lastEditTime = res.data.lastedit;
+        //this.$data.base64src = res.data.data;
       })
     }
 
