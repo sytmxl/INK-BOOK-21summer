@@ -1,5 +1,5 @@
 <template>
-  <div class="top" v-if="sessionStorage.getItem('editing') == 'false'">
+  <div class="top">
 
     <div class="left">
          <img src="../assets/logo.png" alt="">

@@ -1,7 +1,7 @@
 <template>
  <div id="app">
    <router-view v-if="isRouterAlive"/>
-   <project-aside style="z-index: auto"></project-aside>
+
  </div>
  
 </template>

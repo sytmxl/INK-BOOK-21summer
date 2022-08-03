@@ -1,7 +1,7 @@
 <template>
   <div id="init">
     <el-container>
-      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
+      <el-menu default-active="1-4-1" class="el-menu-vertical-demo">
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-plus"></i>
