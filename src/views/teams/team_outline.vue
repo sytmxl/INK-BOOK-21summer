@@ -3,7 +3,7 @@
      
      <div class="main" v-if="teamname">
        <div class="teamname" >
-          <h1>Hi! <br>这里是"{{teamname}}"的团队概况  <i class="el-icon-edit" style="font-size:20px" @click="changename()"></i></h1>
+          <h1>╰(￣▽￣)╭ <br>这里是"{{teamname}}"的团队概况  <i class="el-icon-edit" style="font-size:20px" @click="changename()"></i></h1>
         </div>
 
         <div class="content">
