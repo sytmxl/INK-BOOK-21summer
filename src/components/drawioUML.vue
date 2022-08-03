@@ -11,7 +11,7 @@
       <div class="social-touch">
         <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
         <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" />
-        <el-button type="danger" icon="el-icon-delete" circle title="测试" @click="getData"/>
+        <el-button icon="el-icon-magic-stick" circle title="测试" @click="getData"/>
       </div>
     </div>
   </el-card>
@@ -26,12 +26,10 @@ export default {
     id:{default:0},
   },
   beforeMount() {
-    console.log("reloaded");
     this.getData();
   },
   methods:{
     edit(){
-      console.log(this.$refs.graph)
       drawio.DiagramEditor.editElement( this.$refs.graph, this.$data.configs, "kennedy", null, ['dark=1', 'pv=0']);
     },
     del(){
