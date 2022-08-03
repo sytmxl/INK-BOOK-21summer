@@ -1,5 +1,5 @@
 <template>
-  <el-card :body-style="{ padding: '0px' }" style="text-align: center;" shadow="hover">
+  <el-card :body-style="{ padding: '0px' }" style="text-align: center;" shadow>
     <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;" shadow="hover">
       <img style="cursor: pointer;" title="编辑" @click="edit"
            :src="this.base64src">

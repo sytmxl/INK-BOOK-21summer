@@ -1,31 +1,31 @@
 <template>
   <div id="init">
     <el-container>
-      <el-menu default-active="1-4-1" class="el-menu-vertical-demo">
-        <el-submenu index="1">
+      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
+        <el-submenu class="outside" index="1">
           <template slot="title">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
           </template>
           <el-menu-item-group>
             <span slot="title">新建UML</span>
-            <el-menu-item index="1-1">空画布</el-menu-item>
-            <el-menu-item index="1-2">用例图示例</el-menu-item>
-            <el-menu-item index="1-3">类图示例</el-menu-item>
-            <el-menu-item index="1-4">包图示例</el-menu-item>
-            <el-menu-item index="1-5">顺序图示例</el-menu-item>
-            <el-menu-item index="1-6">协作图示例</el-menu-item>
-            <el-menu-item index="1-7">状态图示例</el-menu-item>
-            <el-menu-item index="1-8">活动图示例</el-menu-item>
-            <el-menu-item index="1-9">构件图示例</el-menu-item>
-            <el-menu-item index="1-10">部署图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-1">空画布</el-menu-item>
+            <el-menu-item class="inside" index="1-2">用例图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-3">类图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-4">包图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-5">顺序图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-6">协作图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-7">状态图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-8">活动图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-9">构件图示例</el-menu-item>
+            <el-menu-item class="inside" index="1-10">部署图示例</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="2">
+        <el-menu-item class="outside" index="2">
           <i class="el-icon-edit-outline"></i>
           <span slot="title">管理</span>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item class="outside" index="3">
           <i class="el-icon-delete"></i>
           <span slot="title">回收站</span>
         </el-menu-item>
@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 #init{
-    margin:20px auto;
+    margin:0px auto;
     color:blueviolet;
     font-size: large;
     font-weight: bold;
@@ -58,5 +58,34 @@ export default {
   margin: 22px;
   /* background-color: beige; */
   z-index: 0;
+}
+.el-menu-vertical-demo {
+  float: top;
+  background-color: rgb(255, 255, 255) !important;
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+
+}
+.el-container {
+  padding-top: 0%;
+  margin-top: 0%;
+}
+
+.inside {
+  transition: 0.5s;
+}
+.inside:hover {
+  margin: 15px 10px 8px 10px;
+  border-radius: 15px;
+}
+.outside {
+  transition: 0.5s;
+}
+.outside:hover {
+  margin: 15px 0px 15px 0px;
+  border: 5px;
+  border-radius: 90px;
 }
 </style>

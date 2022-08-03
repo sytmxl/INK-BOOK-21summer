@@ -1,18 +1,31 @@
 <template>
   <el-container>
     <el-header>
-    <top-frame></top-frame>
+      <top-frame></top-frame>
     </el-header>
     <el-container>
-      <el-aside width="300px">Aside</el-aside>
+      <el-aside width="600px">
+        <div class="pic" v-if="!imageUrl">
+          <img src="../../assets/member_270x210.jpg" alt="" />
+        </div>
+        <div class="pic" v-else><img :src="imageUrl" alt="" /></div>
+      </el-aside>
       <el-main>Main</el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+import qs from "qs";
 import topFrame from "../../components/topFrame.vue";
 export default {
+  inject: ['reload'],
+  data() {
+    return { 
+      imageUrl: "" 
+    
+    };
+  },
   components: {
     topFrame,
   },
@@ -35,7 +48,7 @@ export default {
   color: #333;
   text-align: center;
   line-height: 200px;
-  height: 100%;
+  height: 100vh;
 }
 
 .el-main {
@@ -45,5 +58,18 @@ export default {
   top: 80px;
   bottom: 0;
   overflow-y: hidden;
+}
+.pic {
+  margin: 0 auto;
+  padding-top: 10%;
+  margin-bottom: -15px;
+  height: 55%;
+  width: 80%;
+  /* background:pink; */
+}
+.pic img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
 }
 </style>
