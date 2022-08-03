@@ -5,7 +5,7 @@
     <el-container>
   <el-aside><project-aside></project-aside></el-aside>
   <el-container>
-    <el-header style="height:80px;"><top-frame></top-frame></el-header>
+    <!-- <el-header style="height:80px;"><top-frame></top-frame></el-header> -->
     <el-main> 
 
   <div id="init">
@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import topFrame from "../../components/topFrame.vue";
+// import topFrame from "../../components/topFrame.vue";
 import ProjectAside from "../../components/ProjectAside";
 export default {
  components: {
-    topFrame,
+    // topFrame,
     ProjectAside,
   },
 }

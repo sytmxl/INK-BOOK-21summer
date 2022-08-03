@@ -8,9 +8,9 @@
     <el-header style="height:80px;"><top-frame></top-frame></el-header>
     <el-main> 
 
-  <div id="init">
+  <!-- <div> -->
     <router-view></router-view>
-  </div>
+  <!-- </div> -->
 
   </el-main>
   </el-container>
