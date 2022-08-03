@@ -2,7 +2,7 @@
   <div id="init">
     <el-row>
       <el-col :span="7" v-for="item in menu">
-        <EtherpadFile  v-for="item in menu" :title="item.label"/>
+        <EtherpadFile :title="item.label"/>
       </el-col>
     </el-row>
   </div>

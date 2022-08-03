@@ -115,12 +115,14 @@ export default {
   margin: 8px;
   height: min-content;
   width: 184px;
-  background-color: aliceblue;
+  background-color: rgb(241, 242, 243) !important;
+  box-shadow: 1px !important;
   transition: 0.5s;
   z-index: 0;
 }
 .el-menu-item:hover {
-  background-color: aliceblue;
+  background-color: rgb(184, 184, 194) !important;
+  color: rgb(255, 255, 255);
   width: 250px;
   margin: 20px;
   z-index: 0;

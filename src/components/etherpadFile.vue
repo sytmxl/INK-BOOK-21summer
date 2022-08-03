@@ -1,7 +1,12 @@
 <template>
   <el-card :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;" shadow>
     <el-card  :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;" shadow="hover" >
-      <div id="incard" @click="edit"></div>
+      <div id="incard" @click="edit">
+				<div class="pattern"></div>
+				<div class="pattern"></div>
+				<div class="pattern"></div>
+				<div class="pattern"></div>
+			</div>
     </el-card>
 
     <div style="padding: 14px;">
@@ -68,8 +73,18 @@ export default {
 }
 
 #incard {
+		padding-top: 15%;
     background-color: rgb(238, 238, 238);
     height: 200px;
-    width: 300px;
+    width: 500px;
+}
+
+.pattern {
+	border: 2px;
+	border-radius: 4px;
+	background-color: rgb(255, 255, 255);
+	margin: 5% 0% 5% 20%;	
+	width: auto;
+	height: 20px;
 }
 </style>
