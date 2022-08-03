@@ -3,7 +3,7 @@
     background-color="rgb(240, 242, 245)"
     text-color="black"
     active-text-color="#2878ff"
-    default-active="1-4-1"
+    default-active="1"
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
@@ -30,11 +30,17 @@
         <span slot="title">{{ item.label }}</span>
       </template>
       <el-menu-item-group
-        v-for="(subItem) in item.children"
+        v-for="(subItem, index) in item.children"
         :key="subItem.path"
         :route="subItem.path" 
       >
-        <el-menu-item :index="subItem.path" @click="clickMenu(subItem)" > <i :class="'el-icon-' + subItem.icon"></i>{{ subItem.label }}</el-menu-item>
+        <el-menu-item 
+        :class="subItem.name" 
+        :index="index" 
+        @click="clickMenu(subItem)" > 
+          <i :class="'el-icon-' + subItem.icon"></i>
+          {{ subItem.label }}
+        </el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>
@@ -118,14 +124,26 @@ export default {
   background-color: rgb(241, 242, 243) !important;
   box-shadow: 1px !important;
   transition: 0.5s;
-  z-index: 0;
+  z-index: 1;
 }
 .el-menu-item:hover {
-  background-color: rgba(197, 216, 233, 0.42) !important;
+  background-color: rgba(150, 169, 183, 0.422) !important;
   color: rgb(255, 255, 255);
   width: 250px;
   margin: 20px;
-  z-index: 0;
+  z-index: 1;
+}
+.el-menu-item:active {
+  background-color: rgba(134, 143, 150, 0.42) !important;
+  transition: 0.2s;
+  color: rgb(255, 255, 255) !important;
+  z-index: 1;
+}
+.el-menu-item:focus {
+  background-color: rgb(150, 169, 183) !important;
+  transition: 0.5s;
+  color: rgb(255, 255, 255) !important;
+  z-index: 1;
 }
 .el-menu i{
   font-size: 15px;
@@ -137,4 +155,6 @@ export default {
 .el-submenu .el-menu-item{
   font-size: 15px;
 }
+
+
 </style>

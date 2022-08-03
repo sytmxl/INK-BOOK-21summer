@@ -15,7 +15,7 @@
           <i class="el-icon-delete"></i>
           <span slot="title">回收站</span>
         </el-menu-item>
-        <el-submenu class="outside" index="1" >
+        <el-submenu class="outside" index="1">
           <template slot="title">
             <i class="el-icon-plus"></i>
             <span slot="title">排版占位不可见</span>
