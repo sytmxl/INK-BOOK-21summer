@@ -183,7 +183,7 @@ export default {
 }
 .el-col {
   margin: 22px;
-  width: 29%;
+  width: 360px;
   /* background-color: beige; */
   z-index: 0;
 }

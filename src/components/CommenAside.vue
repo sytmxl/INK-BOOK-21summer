@@ -65,6 +65,12 @@ export default {
           label: "项目管理",
           icon: "goods",
         },
+        {
+          path: "../views/teams/team_dustbin.vue",
+          name: "team_dustbin",
+          label: "回收站",
+          icon: "delete",
+        },
       ],
     };
   },

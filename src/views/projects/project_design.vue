@@ -25,7 +25,7 @@
       </el-menu>
 
         <el-row>
-          <el-col :span="7" v-for="(o, index) in 8" :key="o" >
+          <el-col :span="7" v-for="(o, index) in 2" :key="o" >
             <drawio-prototype/>
           </el-col>
         </el-row>
@@ -62,7 +62,7 @@ export default {
 }
 .el-col {
   margin: 22px;
-  width: 29%;
+  width: 360px;
   /* background-color: beige; */
 }
 .el-menu-vertical-demo {

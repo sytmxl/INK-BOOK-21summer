@@ -6,6 +6,7 @@
 		                <div class="member-info">
 		                	<h3>用户名：{{people.user_name}}</h3>
 		                    <h5>身份：管理员</h5>
+                            <h5>真实姓名：{{people.real_name}}</h5>
 		                 <h5>邮箱：{{people.email}}</h5>
 		                    <div class="social-touch">
 		                    	<el-button type="success" icon="el-icon-user" circle title="个人信息"></el-button>

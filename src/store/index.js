@@ -14,6 +14,10 @@ export default new Vuex.Store({
       teamId: '',
       teamname: '',
   },
+
+  searched: JSON.parse(sessionStorage.getItem("searched")) || {
+    content:''
+},
   },
   mutations: {
       enterEditing(){
@@ -43,6 +47,18 @@ export default new Vuex.Store({
       sessionStorage.removeItem('team')
       state.team = null
     },
+
+    $_setsearched(state, value) {
+
+      sessionStorage.setItem('searched', JSON.stringify(value))
+      state.searched = value
+    },
+    $_removesearched(state) {
+
+      sessionStorage.removeItem('searched')
+      state.searched = null
+    },
+
   },
   actions: {
 
@@ -61,5 +77,13 @@ export default new Vuex.Store({
       clearteam({ commit }) {
           commit('$_removeteam');
       },
+
+      savesearched({ commit }, data) {
+        commit('$_setsearched', data)
+    },
+
+    clearsearched({ commit }) {
+        commit('$_removesearched');
+    },
   },
 })
