@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    background-color="#fff"
+    background-color="rgb(240, 242, 245)"
     text-color="black"
     active-text-color="#2878ff"
     default-active="1-4-1"
@@ -104,14 +104,37 @@ export default {
   min-height: 400px;
 }
 .el-menu {
-  /* border: none; */
+  padding: 0;
   height: 100%;
-  
+  background-color: rgb(73, 105, 160);
+}
+.el-menu-item {
+  float: left;
+  outline: 1px;
+  border-radius: 10px;
+  margin: 8px;
+  height: min-content;
+  width: 184px;
+  background-color: rgb(241, 242, 243) !important;
+  box-shadow: 1px !important;
+  transition: 0.5s;
+  z-index: 0;
+}
+.el-menu-item:hover {
+  background-color: rgb(184, 184, 194) !important;
+  color: rgb(255, 255, 255);
+  width: 250px;
+  margin: 20px;
+  z-index: 0;
+}
+.el-menu i{
+  font-size: 15px;
 }
 .el-menu span{
-  font-size: 18px;
+  font-size: 15px;
 }
+
 .el-submenu .el-menu-item{
-  font-size: 18px;
+  font-size: 15px;
 }
 </style>

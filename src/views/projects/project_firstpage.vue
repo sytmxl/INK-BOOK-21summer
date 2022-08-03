@@ -5,6 +5,7 @@
     <el-container>
   <el-aside><project-aside></project-aside></el-aside>
   <el-container>
+<<<<<<< HEAD
     <!-- <el-header style="height:80px;"><top-frame></top-frame></el-header> -->
     <el-main> 
 
@@ -13,6 +14,14 @@
   </div>
 
   </el-main>
+=======
+    <el-aside>
+      <project-aside/>
+    </el-aside>
+    <el-main style="padding-top: 0">
+      <router-view></router-view>
+    </el-main>
+>>>>>>> 620f1ed258528a344c527d6d1df62280a87cc23e
   </el-container>
 </el-container>
 
@@ -29,7 +38,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .el-main {
      /* overflow:visible;  */
@@ -37,7 +46,7 @@ export default {
   position: absolute;
   left: 200px;
   right: 0;
-  top: 80px;
+  top: 0px;
   bottom: 0;
   overflow-y: scroll;
   }
@@ -48,12 +57,5 @@ export default {
   top: 80px;
   bottom: 0;
 }
-.el-header {
-  background-color: white;
-  text-align: left;
-  color:black;
-  /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
-   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-  z-index: 1;
-}
+
 </style>
