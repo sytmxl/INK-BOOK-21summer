@@ -25,9 +25,9 @@
           <i class="el-icon-edit-outline"></i>
           <span slot="title">管理</span>
         </el-menu-item>
-        <el-menu-item class="outside" index="3">
+        <el-menu-item class="outside" index="3" @click = "viewDel">
           <i class="el-icon-delete"></i>
-          <span slot="title">回收站</span>
+          <span slot="title" >回收站</span>
         </el-menu-item>
         <el-menu-item class="outside" index="4" @click="test">
         <i class="el-icon-cpu"></i>
@@ -36,8 +36,8 @@
       </el-menu>
 
       <el-row>
-        <el-col :span="7" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 1 : 0">
-          <drawio-u-m-l :id = "id"/>
+        <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+          <drawio-u-m-l :id = "id" :isdel = "viewingDel"/>
         </el-col>
       </el-row>
     </el-container>
@@ -50,19 +50,23 @@ import qs from "qs";
 export default {
   components: {DrawioUML},
   beforeMount() {
-    this.get_list();
+    this.get_list(false);
   },
   methods:{
     test(){
-      this.get_list();
+      this.get_list(false);
     },
-    get_list(){
+    viewDel(){
+      this.viewingDel=!this.viewingDel;
+      this.get_list(this.viewingDel);
+    },
+    get_list(del){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/getgraphlist" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph_list" ,
         data: qs.stringify({
           type:0,
-          isdeleted:false
+          isdeleted:del
         }),
       }).then(res => {
         console.log(res.data)
@@ -72,7 +76,7 @@ export default {
     add_graph(template) {
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/newgraph" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/new_graph" ,
         data: qs.stringify({
           type:0,
           template:template
@@ -86,6 +90,7 @@ export default {
   },
   data() {
     return {
+      viewingDel:false,
       UMLList:[]
     }
   }
@@ -113,10 +118,6 @@ export default {
   width: 200px;
   min-height: 400px;
 
-}
-.el-container {
-  padding-top: 0%;
-  margin-top: 0%;
 }
 
 .inside {

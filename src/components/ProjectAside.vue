@@ -9,6 +9,11 @@
     @close="handleClose"
     :collapse="isCollapse"
   >
+    <el-menu-item>
+      <el-page-header @back="goBack" content="项目">
+      </el-page-header>
+    </el-menu-item>
+
     <el-menu-item
       v-for="item in noChildren"
       :index="item.path"
@@ -81,6 +86,7 @@ export default {
     };
   },
   methods: {
+    goBack(){window.location.href = "/team_projects"},
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },

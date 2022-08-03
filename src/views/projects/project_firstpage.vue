@@ -12,7 +12,6 @@
 </template>
 
 <script>
-// import topFrame from "../../components/topFrame.vue";
 import ProjectAside from "../../components/ProjectAside";
 export default {
  components: {
