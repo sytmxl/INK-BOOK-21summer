@@ -12,7 +12,6 @@
         <el-col :span="20">
           <el-input
               placeholder="请输入标题"
-              prefix-icon="el-icon-search"
               v-model="newHeader">
           </el-input>
         </el-col>
@@ -25,7 +24,6 @@
           <el-input
               placeholder="请输入图注"
               v-model="newBrief">
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
           </el-input>
         </el-col>
       </el-row>
@@ -111,6 +109,14 @@ export default {
       })
     },
     add_graph(template) {
+      let newid = null;
+      if(this.$data.newHeader == null || this.$data.newHeader == '' ){
+        this.$message({
+          message: 'UML图的标题不得为空',
+          type: 'warning'
+        });
+        return;
+      }
       this.closeDialog();
       this.$axios({
         method: "post" ,
@@ -120,17 +126,30 @@ export default {
           template:template
         }),
       }).then(res => {
-        console.log(res.data)
+        newid = res.data
         this.$data.UMLList.push(res.data)
-        console.log(this.$data.UMLList)
       })
+      this.$axios({
+        method: "post" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/modify_graph" ,
+        data: qs.stringify({
+          graph_id:newid,
+          graph_name:this.$data.newHeader,
+          graph_info:this.$data.newBrief
+        }),
+      })
+      this.$message({
+        message: '成功新建了\"'+this.$data.newHeader+'\"',
+        type: 'success'
+      });
+      this.$data.newHeader = this.$data.newBrief = null;
     }
   },
   data() {
     return {
       newHeader:null,
       newBrief:null,
-      dialogVisible:true,
+      dialogVisible:false,
       viewingDel:false,
       UMLList:[],
       template:"1",
