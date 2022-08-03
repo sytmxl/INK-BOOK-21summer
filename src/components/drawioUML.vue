@@ -1,5 +1,5 @@
 <template>
-  <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;" shadow="hover">
+  <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;" shadow="hover">
     <div class="preview">
       <img style="cursor: pointer;" title="编辑" @click="edit"
            :src="this.base64src" id="graph" ref="graph">

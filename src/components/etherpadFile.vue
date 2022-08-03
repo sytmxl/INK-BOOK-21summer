@@ -1,5 +1,5 @@
 <template>
-  <el-card :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;" shadow>
+  <el-card :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
     <el-card  :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;" shadow="hover" >
       <div id="delete" @click=""><i class="el-icon-delete"></i></div>
       <div id="incard" @click="edit">

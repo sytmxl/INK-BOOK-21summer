@@ -81,6 +81,7 @@ export default {
 }
 .el-col {
   margin: 22px;
+  width: 360px;
 }
 .el-menu--collapse{
   float: top;
