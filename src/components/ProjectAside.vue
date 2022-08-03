@@ -59,8 +59,8 @@ export default {
       isCollapse: false,
       menu: [
         {
-          path: "../views/projects/project_firstpage.vue",
-          name: "project_firstpage",
+          path: "../views/projects/project_outline.vue",
+          name: "project_outline",
           label: "项目介绍",
           icon: "view",
         },
