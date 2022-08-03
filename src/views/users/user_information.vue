@@ -3,16 +3,16 @@
     <el-header style="height: 80px">
       <top-frame2></top-frame2>
     </el-header>
-    <el-main>
-      <el-row>
-        <el-col>
-          <div class="pic" v-if="!imageUrl">
-            <img src="../../assets/member_270x210.jpg" alt="" />
-          </div>
-          <div class="pic" v-else><img :src="imageUrl" alt="" /></div>
-          <div class="info">
+    <el-main style="overflow: scroll">
+      <el-row style="margin: 2.5%">
+        <el-col span="10" >
+          <img v-if="!imageUrl" class="pic" src="../../assets/member_270x210.jpg" alt="" />
+          <img v-else class="pic" :src="imageUrl" alt="" />
+        </el-col>
+
+        <el-col span="14">
+          <el-card style="max-width: 80%" shadow="never">
             <el-descriptions
-                class="margin-top"
                 :column="4"
                 size="medium"
                 border
@@ -75,72 +75,118 @@
                 </div>
               </el-descriptions-item>
             </el-descriptions>
-          </div>
-        </el-col>
-        <el-col>
-
+          </el-card>
         </el-col>
       </el-row>
-
       <el-divider></el-divider>
-      <el-tabs
-        v-model="activeName"
-        tab-position="left"
-        @tab-click="handleClick"
-      >
-        <el-tab-pane label="个人所在团队" name="first">
-          <el-card class="box-card">
-                <div  class="text item name">
-                  <span class="og">团队名称：</span>
-                  {{teamname}}
+      <el-row style="margin: 2.5%">
+        <el-tabs
+            v-model="activeName"
+            tab-position="left"
+            @tab-click="handleClick"
+        >
+          <el-tab-pane label="个人所在团队" name="first">
+            <el-card class="box-card">
+              <div  class="text item name">
+                <span class="og">团队名称：</span>
+                {{teamname}}
 
-                </div>
-                <div  class="text item type">
-                  <span class="og">团队类型：</span>
-                  {{teamtype}}
-                </div>
-                 <div  class="text item setter">
-                  <span class="og">团队创始人：</span>
-                  {{teamsetter}}
-                </div>
-                 <div  class="text item settime">
-                  <span class="og">创建时间：</span>
-                  {{teamsettime}}
-                </div>
-                 <div  class="text item peoplenum">
-                  <span class="og">现有人数：</span>
-                  {{teamernum}}
-                </div>
+              </div>
+              <div  class="text item type">
+                <span class="og">团队类型：</span>
+                {{teamtype}}
+              </div>
+              <div  class="text item setter">
+                <span class="og">团队创始人：</span>
+                {{teamsetter}}
+              </div>
+              <div  class="text item settime">
+                <span class="og">创建时间：</span>
+                {{teamsettime}}
+              </div>
+              <div  class="text item peoplenum">
+                <span class="og">现有人数：</span>
+                {{teamernum}}
+              </div>
 
-              </el-card>
-              <el-card class="box-card">
-                <div  class="text item name">
-                  <span class="og">团队名称：</span>
-                  {{teamname}}
+            </el-card>
+            <el-card class="box-card">
+              <div  class="text item name">
+                <span class="og">团队名称：</span>
+                {{teamname}}
 
-                </div>
-                <div  class="text item type">
-                  <span class="og">团队类型：</span>
-                  {{teamtype}}
-                </div>
-                 <div  class="text item setter">
-                  <span class="og">团队创始人：</span>
-                  {{teamsetter}}
-                </div>
-                 <div  class="text item settime">
-                  <span class="og">创建时间：</span>
-                  {{teamsettime}}
-                </div>
-                 <div  class="text item peoplenum">
-                  <span class="og">现有人数：</span>
-                  {{teamernum}}
-                </div>
+              </div>
+              <div  class="text item type">
+                <span class="og">团队类型：</span>
+                {{teamtype}}
+              </div>
+              <div  class="text item setter">
+                <span class="og">团队创始人：</span>
+                {{teamsetter}}
+              </div>
+              <div  class="text item settime">
+                <span class="og">创建时间：</span>
+                {{teamsettime}}
+              </div>
+              <div  class="text item peoplenum">
+                <span class="og">现有人数：</span>
+                {{teamernum}}
+              </div>
 
-              </el-card>
-        </el-tab-pane>
-        <el-tab-pane label="正在进行项目" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane>
-      </el-tabs>
+            </el-card>
+
+            <el-card class="box-card">
+              <div  class="text item name">
+                <span class="og">团队名称：</span>
+                {{teamname}}
+
+              </div>
+              <div  class="text item type">
+                <span class="og">团队类型：</span>
+                {{teamtype}}
+              </div>
+              <div  class="text item setter">
+                <span class="og">团队创始人：</span>
+                {{teamsetter}}
+              </div>
+              <div  class="text item settime">
+                <span class="og">创建时间：</span>
+                {{teamsettime}}
+              </div>
+              <div  class="text item peoplenum">
+                <span class="og">现有人数：</span>
+                {{teamernum}}
+              </div>
+
+            </el-card>
+            <el-card class="box-card">
+              <div  class="text item name">
+                <span class="og">团队名称：</span>
+                {{teamname}}
+
+              </div>
+              <div  class="text item type">
+                <span class="og">团队类型：</span>
+                {{teamtype}}
+              </div>
+              <div  class="text item setter">
+                <span class="og">团队创始人：</span>
+                {{teamsetter}}
+              </div>
+              <div  class="text item settime">
+                <span class="og">创建时间：</span>
+                {{teamsettime}}
+              </div>
+              <div  class="text item peoplenum">
+                <span class="og">现有人数：</span>
+                {{teamernum}}
+              </div>
+
+            </el-card>          </el-tab-pane>
+          <el-tab-pane label="正在进行项目" name="second">配置管理</el-tab-pane>
+          <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane>
+        </el-tabs>
+      </el-row>
     </el-main>
   </el-container>
 </template>
@@ -242,18 +288,12 @@ export default {
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
-.pic {
-  margin: 0;
-  padding-top: 3%;
-  margin-bottom: -15px;
-  height: 48%;
-  width: 38%;
-  /* background:pink; */
-}
-.pic img {
+
+.pic{
   height: 200px;
   width: 200px;
   border-radius: 50%;
+
 }
 .el-divider--horizontal {
   display: block;
@@ -286,13 +326,6 @@ export default {
   color: #303133;
   position: relative;
 }
-.info {
-  float: right;
-  position: relative;
-  top: -40%;
-  right: 10%;
-  width: 800px;
-}
  .text {
     font-size: 20px;
   }
@@ -311,6 +344,7 @@ export default {
     
   }
   .box-card .og{
+    margin-top: 20px;
     font-weight: bold;
   }
 </style>
