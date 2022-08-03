@@ -154,15 +154,16 @@ export default {
           }),
         })
           .then((res) => {
+            console.log(res)
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
-            switch (res.errno) {
-              case 0:
-                this.$message.success("登录成功！");
+            if(res.data.errno==0)
+            {
+              this.$message.success("登录成功！");
                 var user = {
-                  userId: res.data.user_id,
-                  username: res.data.user_name,
+                  userId: res.data.data.user_id,
+                  username: res.data.data.user_name,
                 };
                 this.$store.dispatch("saveuser", user);
                 console.log(user);
@@ -178,21 +179,13 @@ export default {
                     this.$router.push({ path: history_pth });
                   }
                 }, 1000);
-                break;
-              case 2002:
-                this.$message({
-                  message: res.msg,
+            }
+            else{
+              this.$message({
+                  message: res.data.msg,
                   center: true,
                   type: "error",
                 });
-                break;
-              case 2003:
-                this.$message({
-                  message: res.msg,
-                  center: true,
-                  type: "error",
-                });
-                break;
             }
           })
           .catch((err) => {
@@ -223,12 +216,13 @@ export default {
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
-            switch (res.errno) {
-              case 0:
-                this.$message.success("登录成功！");
+            console.log(res.data)
+            if(res.data.errno==0)
+            {
+              this.$message.success("登录成功！");
                 var user = {
-                  userId: res.data.user_id,
-                  username: res.data.user_name,
+                  userId: res.data.data.user_id,
+                  username: res.data.data.user_name,
                 };
                 this.$store.dispatch("saveuser", user);
                 console.log(user);
@@ -244,21 +238,13 @@ export default {
                     this.$router.push({ path: history_pth });
                   }
                 }, 1000);
-                break;
-              case 2002:
-                this.$message({
+            }
+            else{
+              this.$message({
                   message: res.msg,
                   center: true,
                   type: "error",
                 });
-                break;
-              case 2003:
-                this.$message({
-                  message: res.msg,
-                  center: true,
-                  type: "error",
-                });
-                break;
             }
           })
           .catch((err) => {
