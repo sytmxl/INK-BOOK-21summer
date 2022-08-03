@@ -47,9 +47,9 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container >
+    <el-container>
       <div>
-        <el-menu style="z-index: -1" default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
