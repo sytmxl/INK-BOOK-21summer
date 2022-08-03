@@ -4,140 +4,83 @@
       <top-frame2></top-frame2>
     </el-header>
     <el-main>
-      <el-row>
-        <el-col>
-          <div class="pic" v-if="!imageUrl">
-            <img src="../../assets/member_270x210.jpg" alt="" />
-          </div>
-          <div class="pic" v-else><img :src="imageUrl" alt="" /></div>
-          <div class="info">
-            <el-descriptions
-                class="margin-top"
-                :column="4"
-                size="medium"
-                border
-                direction="vertical"
-                title="个人信息"
+      <div class="pic" v-if="!imageUrl">
+        <img src="../../assets/member_270x210.jpg" alt="" />
+      </div>
+      <div class="pic" v-else><img :src="imageUrl" alt="" /></div>
+      <div class="info">
+        <el-descriptions
+          class="margin-top"
+          :column="4"
+          size="medium"
+          border
+          direction="vertical"
+          title="个人信息"
+        >
+          <template slot="extra">
+            <el-button id="edit" type="primary" size="small" @click="edit()"
+              >编辑</el-button
             >
-              <template slot="extra">
-                <el-button id="edit" type="primary" size="small" @click="edit()"
-                >编辑</el-button
-                >
-                <el-button
-                    id="save"
-                    type="primary"
-                    size="small"
-                    @click="save()"
-                    style="display: none"
-                >保存</el-button
-                >
-              </template>
-              <el-descriptions-item>
-                <template slot="label">
-                  <i class="el-icon-user"></i>
-                  用户名
-                </template>
-                <div class="user_name">{{username}}</div>
-                <div class="new_user_name" style="display: none">
-                  <el-input
-                      v-model="new_user_name"
-                      placeholder="请输入新用户名"
-                      id="new_user_name"
-                  ></el-input>
-                </div>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">
-                  <i class="el-icon-s-custom"></i>
-                  真实姓名
-                </template>
-                <div class="real_name">{{realname}}</div>
-                <div class="new_real_name" style="display: none">
-                  <el-input
-                      v-model="new_real_name"
-                      placeholder="请输入新真实姓名"
-                      id="new_real_name"
-                  ></el-input>
-                </div>
-              </el-descriptions-item>
-              <el-descriptions-item>
-                <template slot="label">
-                  <i class="el-icon-message"></i>
-                  联系邮箱
-                </template>
-                <div class="email">{{email}}</div>
-                <div class="new_email" style="display: none">
-                  <el-input
-                      v-model="new_email"
-                      placeholder="请输入新邮箱"
-                      id="new_email"
-                  ></el-input>
-                </div>
-              </el-descriptions-item>
-            </el-descriptions>
-          </div>
-        </el-col>
-        <el-col>
-
-        </el-col>
-      </el-row>
-
+            <el-button
+              id="save"
+              type="primary"
+              size="small"
+              @click="save()"
+              style="display: none"
+              >保存</el-button
+            >
+          </template>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-user"></i>
+              用户名
+            </template>
+            <div class="username">sss</div>
+            <div class="new_username" style="display: none">
+              <el-input
+                v-model="new_username"
+                placeholder="请输入新用户名"
+                id="new_username"
+              ></el-input>
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-s-custom"></i>
+              真实姓名
+            </template>
+            <div class="real_name">王大狗</div>
+            <div class="new_real_name" style="display: none">
+              <el-input
+                v-model="new_real_name"
+                placeholder="请输入新真实姓名"
+                id="new_real_name"
+              ></el-input>
+            </div>
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">
+              <i class="el-icon-message"></i>
+              联系邮箱
+            </template>
+            <div class="email">10086@qq.com</div>
+            <div class="new_email" style="display: none">
+              <el-input
+                v-model="new_email"
+                placeholder="请输入新邮箱"
+                id="new_email"
+              ></el-input>
+            </div>
+          </el-descriptions-item>
+        </el-descriptions>
+      </div>
       <el-divider></el-divider>
       <el-tabs
         v-model="activeName"
         tab-position="left"
         @tab-click="handleClick"
       >
-        <el-tab-pane label="个人所在团队" name="first">
-          <el-card class="box-card">
-                <div  class="text item name">
-                  <span class="og">团队名称：</span>
-                  {{teamname}}
-
-                </div>
-                <div  class="text item type">
-                  <span class="og">团队类型：</span>
-                  {{teamtype}}
-                </div>
-                 <div  class="text item setter">
-                  <span class="og">团队创始人：</span>
-                  {{teamsetter}}
-                </div>
-                 <div  class="text item settime">
-                  <span class="og">创建时间：</span>
-                  {{teamsettime}}
-                </div>
-                 <div  class="text item peoplenum">
-                  <span class="og">现有人数：</span>
-                  {{teamernum}}
-                </div>
-
-              </el-card>
-              <el-card class="box-card">
-                <div  class="text item name">
-                  <span class="og">团队名称：</span>
-                  {{teamname}}
-
-                </div>
-                <div  class="text item type">
-                  <span class="og">团队类型：</span>
-                  {{teamtype}}
-                </div>
-                 <div  class="text item setter">
-                  <span class="og">团队创始人：</span>
-                  {{teamsetter}}
-                </div>
-                 <div  class="text item settime">
-                  <span class="og">创建时间：</span>
-                  {{teamsettime}}
-                </div>
-                 <div  class="text item peoplenum">
-                  <span class="og">现有人数：</span>
-                  {{teamernum}}
-                </div>
-
-              </el-card>
-        </el-tab-pane>
+        <el-tab-pane label="个人所在团队" name="first">用户管理</el-tab-pane>
         <el-tab-pane label="正在进行项目" name="second">配置管理</el-tab-pane>
         <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane>
       </el-tabs>
@@ -154,67 +97,29 @@ export default {
     return {
       imageUrl: "",
       activeName: "first",
-      username: JSON.parse(sessionStorage.getItem("user")).username,
+      username: "",
       realname: "",
       email: "",
-      new_user_name:"",
-      new_real_name:"",
-      new_email:"",
-      user:JSON.parse(sessionStorage.getItem("user"))
     };
   },
   components: {
     topFrame2,
   },
   methods: {
-    init_intro(){
-      // 发包
-    },
     edit() {
       let x = document.querySelector("#edit");
       let y = document.querySelector("#save");
-      let a1 = document.getElementsByClassName("user_name");
-      let a2 = document.getElementsByClassName("new_user_name");
-      let a3 = document.getElementsByClassName("real_name");
-      let a4 = document.getElementsByClassName("new_real_name");
-      let a5 = document.getElementsByClassName("email");
-      let a6 = document.getElementsByClassName("new_email");
+      let a = document.getElementsByClassName("username") ;
       x.style.display = "none";
       y.style.display = "block";
-      a1[0].style.display = "none";
-      a3[0].style.display = "none";
-      a5[0].style.display = "none";
-      a4[0].style.display = "block";
-      a2[0].style.display = "block";
-      a6[0].style.display = "block";
     },
     save() {
       let x = document.querySelector("#edit");
       let y = document.querySelector("#save");
-      let a1 = document.getElementsByClassName("user_name");
-      let a2 = document.getElementsByClassName("new_user_name");
-      let a3 = document.getElementsByClassName("real_name");
-      let a4 = document.getElementsByClassName("new_real_name");
-      let a5 = document.getElementsByClassName("email");
-      let a6 = document.getElementsByClassName("new_email");
       x.style.display = "block";
       y.style.display = "none";
-      a2[0].style.display = "none";
-      a4[0].style.display = "none";
-      a6[0].style.display = "none";
-      a1[0].style.display = "block";
-      a3[0].style.display = "block";
-      a5[0].style.display = "block";
-      a1[0].innerHTML = this.new_user_name;
-      a3[0].innerHTML = this.new_real_name;
-      a5[0].innerHTML = this.new_email;
-      // 发包
     },
   },
-  mounted(){
-      this.init_intro();
-      // this.init_personal();
-    }
 };
 </script>
 
@@ -293,24 +198,4 @@ export default {
   right: 10%;
   width: 800px;
 }
- .text {
-    font-size: 20px;
-  }
-
-  .item {
-    padding: 18px 0;
-  }
-
-  .box-card {
-    width: 550px;
-    height: 350px;
-    float: left;
-    margin-left: 50px;
-    border-radius: 15px;
-    text-align: left;
-    
-  }
-  .box-card .og{
-    font-weight: bold;
-  }
 </style>
