@@ -35,8 +35,21 @@
 
 <script>
 import drawioPrototype from "@/components/drawioPrototype";
+import qs from "qs";
 export default {
   components: {drawioPrototype},
+  methods:{
+    add_graph(template){
+      this.$axios({
+        method: "post" /* 指明请求方式，可以是 get 或 post */,
+        url: "/newgraph" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        data: qs.stringify({
+          type : 0,
+          template : template
+        }),
+      })
+    },
+  }
 }
 </script>
 
@@ -58,7 +71,7 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
-  
+
 }
 .el-container {
   padding-top: 0%;
