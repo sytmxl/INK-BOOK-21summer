@@ -137,7 +137,7 @@ export default {
   color: rgb(255, 255, 255);
   width: 250px;
   margin: 20px;
-  z-index: 0;
+  z-index: 1;
 }
 .el-menu-item:active {
   background-color: rgba(134, 143, 150, 0.42) !important;
@@ -149,7 +149,7 @@ export default {
   background-color: rgb(150, 169, 183) !important;
   transition: 0.5s;
   color: rgb(255, 255, 255) !important;
-  z-index: 0;
+  z-index: 1;
 }
 .el-menu i{
   font-size: 15px;
