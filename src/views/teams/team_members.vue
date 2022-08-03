@@ -2,7 +2,7 @@
 <el-container>
   <div class="main">
     <div class="title" >
-        <h1>:) <br>这里是团队的成员们</h1>
+        <h1>/(*￣▽￣*)/ <br>这里是团队的成员们</h1>
     </div>
     <div class="boss people">
       <div class="boss_info">
