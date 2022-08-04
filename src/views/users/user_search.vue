@@ -16,21 +16,21 @@
             <el-tab-pane label="用户" name="first">
               <el-card class="box-card" v-for="item in userlist">
                 <div slot="header" class="clearfix">
-                  <span style="float: left; margin-top:-11px">用户名称：{{ item.user_name }}</span>
+                  <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name }}</span>
                   <el-button style="float: right; margin-top:-19px" type="text">发送邀请</el-button>
-                  <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text" >查看信息</el-button>
+                  <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text">查看信息</el-button>
                 </div>
                 <div class="text item name">
                   <span class="og">用户编号：</span>
-                  {{item.user_id}}
+                  {{ item.user_id }}
                 </div>
                 <div class="text item setter">
                   <span class="og">用户邮箱：</span>
-                  {{item.email}}
+                  {{ item.email }}
                 </div>
                 <div class="text item settime">
                   <span class="og">个性签名：</span>
-                  {{item.user_info}}
+                  {{ item.user_info }}
                 </div>
               </el-card>
             </el-tab-pane>
@@ -56,8 +56,8 @@ export default {
       user_name: "",
       activeName: "first",
       content: JSON.parse(sessionStorage.getItem("searched")).content,
-      userlist:[],
-      teamlist:[],
+      userlist: [],
+      teamlist: [],
     };
   },
   methods: {
@@ -69,16 +69,16 @@ export default {
         //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
         // }
         data: qs.stringify({
-            /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-            user_name:this.content,
-            query_type:"fuzzy"
-          }),
+          /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          user_name: this.content,
+          query_type: "fuzzy"
+        }),
       })
         .then((res) => {
           console.log(res);
           if (res.data.errno == 0) {
             console.log("成功搜索用户");
-             res.data.data.user_list.forEach((item) => {
+            res.data.data.user_list.forEach((item) => {
               var tmp = {
                 user_id: "",
                 user_name: "",
@@ -105,7 +105,7 @@ export default {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
     },
-    lookinfo(){
+    lookinfo() {
 
     }
   },
@@ -127,6 +127,7 @@ export default {
   bottom: 0;
   overflow-y: hidden;
 }
+
 .el-header {
   background-color: white;
   text-align: left;
@@ -134,6 +135,7 @@ export default {
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
+
 .slo {
   font-weight: bold;
   font-size: 25px;
@@ -150,29 +152,39 @@ export default {
 }
 
 .item {
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
 .box-card {
   width: 40%;
-  height: 200px;
+  height: 220px;
   float: left;
   /* margin-left: 10px; */
-  margin-right:60px;
+  margin-right: 60px;
   margin-left: 35px;
   border-radius: 15px;
   text-align: left;
   margin-bottom: 20px;
 }
+
 .box-card .og {
   margin-top: 20px;
   font-weight: bold;
 }
+
 .el-card {
   border-radius: 20px;
   border-color: #c0c4cc;
 }
+
 .el-card:hover {
   border-color: #3f77e7;
+}
+
+.settime {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 </style>
