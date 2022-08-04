@@ -79,7 +79,7 @@
           </el-menu-item>
         </el-menu>
       </div>
-      <div>
+      <div class="right">
         <el-row>
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
@@ -232,9 +232,14 @@ export default {
   /* background-color: beige; */
   z-index: 0;
 }
+.right {
+  margin-left: 80px;
+}
 .el-menu-vertical-demo {
   float: top;
   background-color: rgb(255, 255, 255) !important;
+  position: fixed;
+  height: 1000px;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
@@ -253,8 +258,9 @@ export default {
   transition: 0.5s;
 }
 .outside:hover {
-  margin: 15px 0px 15px 0px;
+  margin: 15px 0px 15px 5px;
   border: 5px;
   border-radius: 90px;
+  background-color: rgba(150, 169, 183, 0.422) !important;
 }
 </style>

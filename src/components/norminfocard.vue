@@ -114,8 +114,13 @@ export default {
         }),
       })
         .then((res) => {
-          this.$message.success(res.data.msg);
-          location.reload();
+          if(res.data.erron==0){
+            this.$message.success(res.data.msg);
+            location.reload();
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
         })
         .catch((err) => {
           console.log(err); 

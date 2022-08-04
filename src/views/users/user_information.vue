@@ -113,10 +113,10 @@
           @tab-click="handleClick"
         >
           <el-tab-pane label="个人所在团队" name="first">
-            <el-card class="box-card" v-for="item in teamlist">
-              <div class="text item name">
-                <span class="og">团队名称：</span>
-                {{ item.teamname }}
+            <el-card class="box-card" v-for="item in teamlist" >
+              <div class="text item name" >
+                <a href="/team_outline" class="goteam"><span class="og">团队名称：</span>
+                {{ item.teamname }}</a>
               </div>
               <div class="text item type">
                 <span class="og">团队类型：</span>
@@ -139,8 +139,10 @@
           <el-tab-pane label="个人所在项目" name="second">
             <el-card class="box-card" v-for="item in projectlist">
               <div class="text item name">
+                <a href="/project_outline" class="goproject">
                 <span class="og">项目名称：</span>
                 {{ item.project_name }}
+                </a>
               </div>
               <div class="text item type">
                 <span class="og">项目编号：</span>
@@ -165,10 +167,12 @@
               <!-- <div class="text tag re">
                 <span class="tag1">已回收项目！！！</span>
               </div> -->
+              <a href="/team_dustbin" class="goreproject">
               <div class="text item name">
                 <span class="og">项目名称：</span>
                 {{ item.project_name }}
               </div>
+              </a>
               <div class="text item type">
                 <span class="og">项目编号：</span>
                 {{ item.project_id }}
@@ -229,17 +233,17 @@ export default {
     topFrame3,
   },
   methods: {
-    // gototeam(){
-    //   this.$message({
-    //             message: "正在跳转团队详细页面",
-    //             center: true,
-    //             type: "success",
-    //             duration:1500
-    //           });
-    //   setTimeout(() => {
-    //               this.$router.push({ path:'team_outline' });
-    //           }, 1000);
-    // },
+    gototeam(){
+      this.$message({
+                message: "正在跳转团队详细页面",
+                center: true,
+                type: "success",
+                duration:1500
+              });
+      setTimeout(() => {
+                  this.$router.push({ path:'team_outline' });
+              }, 1000);
+    },
     edit() {
       this.notedit = false;
     },
@@ -505,7 +509,7 @@ export default {
 
 .el-header {
   /* background-color: white; */
-  backdrop-filter: blur(10px) brightness(110%);
+  backdrop-filter: blur(10px black) ;
 
   text-align: left;
   color: black;
@@ -596,5 +600,17 @@ export default {
   background-color: rgb(150, 169, 183) !important;
   border-color: rgb(150, 169, 183);
   color: rgb(255, 255, 255);
+}
+.goteam{
+  text-decoration: none;
+  color:black;
+}
+.goproject{
+  text-decoration: none;
+  color:black;
+}
+.goreproject{
+  text-decoration: none;
+  color:black;
 }
 </style>
