@@ -43,7 +43,7 @@ export default {
         url: "app/del_graph" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
-          graph_id:this.$props.id
+          graph_id:this.$props.graph_id
         }),
       })
     },
@@ -52,7 +52,7 @@ export default {
         method: "post" ,
         url: "app/recover_graph" ,
         data: qs.stringify({
-          graph_id:this.$props.id
+          graph_id:this.$props.graph_id
         }),
       })
       this.$message({
@@ -71,7 +71,7 @@ export default {
           url: "/app/full_del_graph" ,
           data: qs.stringify({
             project_id:this.$data.project_id,
-            graph_id:this.$props.id
+            graph_id:this.$props.graph_id
           }),
         });
         this.$message({
@@ -85,7 +85,7 @@ export default {
         method: "post" ,
         url: "app/get_graph" ,
         data: qs.stringify({
-          graph_id:this.$props.id
+          graph_id:this.$props.graph_id
         }),
       }).then(res => {
         this.$data.title = res.data.header;
