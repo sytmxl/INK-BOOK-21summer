@@ -10,41 +10,36 @@
         <div class="content">
 
         <div v-for="i in 4" :key="i">
-            <el-card class="box-card" shadow="hover" v-if="project_list[i-1]&&i%2==1">
-                 <h5>{{project_list[i-1].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名" ></i></h5>
-                 <p>创建时间：{{project_list[i-1].create_time}}</p>
-                 <p>最近修改时间：{{project_list[i-1].update_time}}</p>
+            <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]&&i%2==1">
+                 <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
+                 <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
+                 <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
                    <div class="bottom">
-                    <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
-                    <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
+                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i].project_id)">查看详情</el-button>
+                    <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(project_list[project_list.length-i].project_id)">删除项目</el-button>
                   </div>
               </el-card>
 
-              <el-card class="box-card2" shadow="hover" v-if="project_list[i-1]&&i%2==0">
-                <h5>{{project_list[i-1].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名" ></i></h5>
-                  <p>创建时间：{{project_list[i-1].create_time}}</p>
-          <p>最近修改时间：{{project_list[i-1].update_time}}</p>
+              <el-card class="box-card2" shadow="hover" v-if="project_list[project_list.length-i]&&i%2==0">
+                <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
+                  <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
+          <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
                    <div class="bottom">
-                    <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
-                    <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
+                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i].project_id)">查看详情</el-button>
+                    <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(project_list[project_list.length-i].project_id)">删除项目</el-button>
                   </div>
               </el-card>
 
-               <el-card class="box-card" shadow="hover" v-if="(!project_list[i-1])&&i%2==1">
+               <el-card class="box-card" shadow="hover" v-if="(!project_list[project_list.length-i])&&i%2==1">
                 <h5>敬请期待（＞人＜；）</h5>
               </el-card>
 
-               <el-card class="box-card2" shadow="hover" v-if="(!project_list[i-1])&&i%2==0">
+               <el-card class="box-card2" shadow="hover" v-if="(!project_list[project_list.length-i])&&i%2==0">
                  <h5>敬请期待（＞人＜；）</h5>
               </el-card>
         </div>
               
 
-              <el-card class="box-card" shadow="hover" v-if="project_list[2]">
-              </el-card>
-
-              <el-card class="box-card2" shadow="hover" v-if="project_list[3]">
-              </el-card>
         </div>
     </div>
     <div class="recent" v-else>
@@ -60,15 +55,22 @@
       <h1>全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover" v-if="index%2==0">
-          <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名" ></i></h5>
+          <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
           <p>创建时间：{{item.create_time}}</p>
           <p>最近修改时间：{{item.update_time}}</p>
           <div class="bottom">
-          <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
-          <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
+          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item.project_id)">查看详情</el-button>
+          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
           </div>
       </el-card>
       <el-card class="box-card2" shadow="hover" v-else>
+        <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
+          <p>创建时间：{{item.create_time}}</p>
+          <p>最近修改时间：{{item.update_time}}</p>
+          <div class="bottom">
+          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item.project_id)">查看详情</el-button>
+          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
+          </div>
       </el-card>
       </div>
     
@@ -100,7 +102,8 @@ export default {
     
   },
    methods:{
-      changename(){
+      changename(id){
+        console.log(id);
          this.$prompt('请输入新的项目名称', '修改项目名称', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -108,8 +111,25 @@ export default {
           this.$message({
             type: 'success',
             message: '修改成功'
-            //发包
           });
+          console.log(888);
+          console.log(value);
+          this.$axios({
+        method: "post",
+        url: "/app/rename_project",
+        data: qs.stringify({
+          project_id: id,
+          project_name: value
+        }),
+      })
+        .then((res) => {
+        
+         location.reload();
+          
+          })
+        .catch((err) => {
+          console.log(err); 
+        });
         }).catch(() => {
               
         });
@@ -138,6 +158,32 @@ export default {
         }).catch(() => {
               
         });
+      },
+      deleteproject(id){
+        this.$axios({
+        method: "post",
+        url: "/app/del_project",
+        data: qs.stringify({
+          project_id: id,
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno ==0){
+            this.$message.success(res.data.msg);
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+          location.reload();
+       
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+      },
+      information(id){
+        this.$store.dispatch("saveproject", id);
+        location.href = "project_firstpage";
       },
       init(){
          this.$axios({

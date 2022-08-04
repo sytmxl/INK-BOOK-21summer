@@ -9,15 +9,22 @@
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover" v-if="index%2==0">
           <h5>{{item.project_name}}</h5>
-          <p>创建时间：{{item.project_setup}}</p>
-          <p>删除时间：{{item.project_modify}}</p>
+          <p>创建时间：{{item.create_time}}</p>
+          <p>删除时间：{{item.update_time}}</p>
           <div class="bottom">
-          <el-button type="success" icon="el-icon-check"  title="恢复项目">恢复项目</el-button>
-          <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
+          <el-button type="success" icon="el-icon-check"  title="恢复项目" @click="restore(item.project_id)">恢复项目</el-button>
+          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteforever(item.project_id)">删除项目</el-button>
           </div>
             
       </el-card>
       <el-card class="box-card2" shadow="hover" v-else>
+        <h5>{{item.project_name}}</h5>
+          <p>创建时间：{{item.create_time}}</p>
+          <p>删除时间：{{item.update_time}}</p>
+          <div class="bottom">
+          <el-button type="success" icon="el-icon-check"  title="恢复项目" @click="restore(item.project_id)">恢复项目</el-button>
+          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteforever(item.project_id)">删除项目</el-button>
+          </div>
       </el-card>
       </div>
     
@@ -93,6 +100,10 @@
     font-size: 18px;
     margin-top: 15px;
   }
+   .box-card2 p{
+    font-size: 18px;
+    margin-top: 15px;
+  }
   .bottom{
     margin-top: 100px;
   }
@@ -108,10 +119,61 @@ export default {
     data(){
         return{
             teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
-            project_list:[
-              {project_name:'小学期前端',project_setup:'2022.08.01 14：35',project_modify:'2022.08.03 15：25'}
-            ]
+            project_list:[]
         }
+    },
+    methods:{
+      init(){
+         this.$axios({
+        method: "post",
+        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
+        url: "/app/get_project_list",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+        }),
+      })
+        .then((res) => {
+         this.project_list = res.data.data.project_recycle_list;
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+      },
+      restore(id){
+        this.$axios({
+        method: "post",
+        url: "/app/recycle_project",
+        data: qs.stringify({
+          project_id: id,
+        }),
+      })
+        .then((res) => {
+         this.$message.success("恢复成功");
+         location.reload();
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+      },
+      deleteforever(id){
+        this.$axios({
+             method: "post",
+             url: "/app/permanent_del_project",
+             data: qs.stringify({
+               project_id: id,
+             }),
+        })
+            .then((res) => {
+             this.$message.success("已经彻底删除");
+             location.reload();
+            })
+            .catch((err) => {
+              console.log(err); 
+        });
+      }
+    },
+    mounted(){
+      this.init();
     }
 }
 </script>

@@ -49,7 +49,10 @@ export default {
   data(){
     return{
       teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
-      team_member_list:[]
+      team_member_list:[],
+      boss_list:[],
+      manager_list:[],
+      member_list:[],
     }
   },
   methods:{
@@ -76,8 +79,23 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
-          this.team_member_list = res.data.data.team_member_list    
+          this.team_member_list = res.data.data.team_member_list;
+          console.log(this.team_member_list);
+          var count1 = 0;
+          var count2 = 0;
+          var count3 = 0;
+          for(var i =0; i < this.team_member_list.length; i++ ){
+            if(this.team_member_list[i].identitys==3){
+              this.boss_list[count1++] = this.team_member_list[i];
+            }
+            else if(this.team_member_list[i].identitys==2){
+              this.manager_list[count2++] = this.team_member_list[i];
+            }
+            else if(this.team_member_list[i].identitys==1){
+              this.member_list[count3++] = this.team_member_list[i];
+            }
+          }   
+          console.log(this.boss_list);
         })
         .catch((err) => {
           console.log(err); 
@@ -122,6 +140,9 @@ export default {
     margin-left: 20px;
   } */
   .manager_info .norminfo-card{
+    float:left;
+  }
+  .worker_info .lowerinfo-card{
     float:left;
   }
   .main{

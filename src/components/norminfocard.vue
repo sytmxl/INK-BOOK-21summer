@@ -10,15 +10,15 @@
 		                 <h5>邮箱：{{people.email}}</h5>
 		                    <div class="social-touch">
 		                    	<el-button type="success" icon="el-icon-user" circle title="个人信息"></el-button>
-                                <el-button type="info" icon="el-icon-minus" circle title="取消管理"></el-button>
-                                <el-button type="danger" icon="el-icon-delete" circle title="删除成员"></el-button>
+                                <el-button type="info" icon="el-icon-minus" circle title="取消管理" @click="cancelmanager()"></el-button>
+                                <el-button type="danger" icon="el-icon-delete" circle title="删除成员" @click="deletemember()"></el-button>
 		                    </div>
 		                </div>
 		            </div>
 </template>
 
 <style scoped>
-.single-member{border-radius: 35px;width: 280px; float: left; margin: 30px 2.5%; background-color: rgb(26, 85, 153); text-align: center; position: relative;}
+.single-member{border-radius: 35px;width: 250px; float: left; margin: 30px 2.5%; background-color: rgb(26, 85, 153); text-align: center; position: relative;}
 .member-image img{max-width: 100%; vertical-align: middle;height: 100%;}
 h3 {font-size: 24px; font-weight: normal; margin: 10px 0 0; text-transform: uppercase;}
 h5 {font-size: 16px; font-weight: 300; margin: 0 0 15px; line-height: 22px;}
@@ -43,6 +43,7 @@ p {font-size: 14px; font-weight: 300; line-height: 22px; padding: 0 30px; margin
 </style>
 
 <script>
+import qs from 'qs';
 export default {
     // props:["name","type","email","realname","id"]
     props:{
@@ -57,6 +58,46 @@ export default {
                        identitys:''
                     }
                 }
+        }
+    },
+    methods:{
+         deletemember(){
+            var x = this.people.user_id;
+            x = x.toString();
+             this.$axios({
+        method: "post",
+        url: "/app/del_team_member",
+        data: qs.stringify({
+           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          user_id_to_del: this.people.user_id,
+        }),
+      })
+        .then((res) => {
+          this.$message.success(res.data.msg);
+          location.reload();
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+        },
+
+        cancelmanager(){
+            this.$axios({
+        method: "post",
+        url: "/app/change_team_member_identitys",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          user_id_to_change: this.people.user_id,
+          identitys: "member",
+        }),
+      })
+        .then((res) => {
+          this.$message.success(res.data.msg);
+          location.reload();
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
         }
     }
 }
