@@ -47,13 +47,14 @@ export default {
   components: {DrawioUML},
   name: "project_outline",
   beforeMount() {
+    sessionStorage.setItem("project_id","1");
     this.get_uml_list();
   },
   methods:{
     get_uml_list(){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph_list" ,
+        url: "app/get_graph_list" ,
         data: qs.stringify({
           type:0,
           isdeleted:false
@@ -65,6 +66,7 @@ export default {
   },
   data() {
     return {
+      project_id : sessionStorage.getItem("project_id"),
       team_name:"团队名称",
       team_intro:"团队介绍",
       project_name:"项目名称",
