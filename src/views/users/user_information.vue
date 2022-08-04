@@ -104,9 +104,9 @@
             @tab-click="handleClick"
         >
           <el-tab-pane label="个人所在团队" name="first">
-            <el-card class="box-card" v-for="item in teamlist">
+            <el-card class="box-card" v-for="item in teamlist" >
               <div  class="text item name">
-                <span class="og">团队名称：</span>
+                <span class="og" >团队名称：</span>
                 {{item.teamname}}
 
               </div>
@@ -128,8 +128,32 @@
               </div>
             </el-card>
             </el-tab-pane>
-          <el-tab-pane label="正在进行项目" name="second">配置管理</el-tab-pane>
-          <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane>
+          <el-tab-pane label="个人所在项目" name="second">
+            <el-card class="box-card" v-for="item in teamlist" >
+              <div  class="text item name">
+                <span class="og" >项目名称：</span>
+                {{item.project_name}}
+
+              </div>
+              <div  class="text item type">
+                <span class="og">项目编号：</span>
+                {{item.project_id}}
+              </div>
+              <div  class="text item setter">
+                <span class="og">创建时间：</span>
+                {{item.project_create_time}}
+              </div>
+              <div  class="text item settime">
+                <span class="og">更新时间：</span>
+                {{item.project_update_time}}
+              </div>
+              <div  class="text item peoplenum">
+                <span class="og">所属团队编号：</span>
+                {{item.teamnum}}
+              </div>
+            </el-card>
+          </el-tab-pane>
+          <!-- <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane> -->
         </el-tabs>
       </el-row>
     </el-main>
@@ -177,12 +201,46 @@ export default {
           teamernum:"22"
         }
       ],
+      projectlist:[
+        {
+          projectname:"1",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        },
+        {
+          teamname:"2",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        },
+        {
+          teamname:"3",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        }
+      ],
     };
   },
   components: {
     topFrame2,
   },
   methods: {
+    // gototeam(){
+    //   this.$message({
+    //             message: "正在跳转团队详细页面",
+    //             center: true,
+    //             type: "success",
+    //             duration:1500
+    //           }); 
+    //   setTimeout(() => {
+    //               this.$router.push({ path:'team_outline' });
+    //           }, 1000);
+    // },
     edit() {
       this.notedit=false;
     },
@@ -254,10 +312,48 @@ export default {
           .catch((err) => {
             console.log(err); /* 若出现异常则在终端输出相关信息 */
           });
+    },
+    getTeam()
+    {
+    },
+    getProject()
+    {
+       console.log(JSON.parse(sessionStorage.getItem("token")));
+       this.$axios({
+          method: "get" /* 指明请求方式，可以是 get 或 post */,
+          url: "http://localhost:8000/app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+          headers:{
+            'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+          }
+        })
+          .then((res) => {
+            console.log(res)
+            if(res.data.errno==0)
+            {
+                console.log("成功")
+                this.username = res.data.data.user_name;
+                this.realname = res.data.data.real_name;
+                this.email = res.data.data.email;
+                this.word = res.data.data.user_info;
+            }
+            else{
+              this.$message({
+                  message: res.data.msg,
+                  center: true,
+                  type: "error",
+                });
+            }
+          })
+          .catch((err) => {
+            console.log(err); /* 若出现异常则在终端输出相关信息 */
+          });
     }
+
   },
   mounted() {
     this.init();
+    this.getTeam();
+    this.getProject();
   },
 };
 </script>
@@ -345,4 +441,12 @@ export default {
     margin-top: 20px;
     font-weight: bold;
   }
+  .el-card{
+    border-radius: 20px;
+    border-color: #C0C4CC;
+  }
+  .el-card:hover{
+    border-color: #3f77e7;
+  }
+
 </style>
