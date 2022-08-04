@@ -62,9 +62,10 @@
     </div>
     <div class="search">
             <el-input
-              placeholder="搜索"
+              placeholder="按下回车键即可搜索"
               prefix-icon="el-icon-search"
-              v-model="input" clearable="true" >
+              v-model="input" clearable="true" 
+              @keyup.enter.native="doSearch()">
             </el-input>
   </div>
      <div class="right">
@@ -73,7 +74,7 @@
 
             
        
-            <img src="../assets/bk3.jpg" alt=""></img>
+            <img src="../assets/bk3.jpg" alt=""/>
             <div class="username">
                 <a href="user_information" title="个人中心">{{username}}</a>
                 <a href="/" title="登出">登出</a>
@@ -108,9 +109,16 @@ export default {
         formLabelWidth: '120px',
         allteams:[],
         username:JSON.parse(sessionStorage.getItem('user')).username,
+        input:"",
       }
     },
     methods:{
+      doSearch()
+      {
+        var info = {content:this.input };
+        this.$router.push({path:'/user_search'})
+        this.$store.dispatch("savesearched", info);
+      },
       checkit(content){
         console.log(content)
         this.checkedteam = content.name
