@@ -2,9 +2,6 @@
     <el-container>
      
      <div class="main" v-if="teamname">
-       <div class="teamname" >
-          <h1>╰(￣▽￣)╭ <br>这里是"{{teamname}}"的团队概况  <i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名">修改团队名称</i></h1>
-        </div>
 
         <div class="content">
 
@@ -12,7 +9,7 @@
                 <div  class="text item name">
                   <span class="og">团队名称：</span>
                   {{teamname}}
-                   
+                   <i class="el-icon-edit" style="font-size:20px" @click="changeintro()" title="重命名团队名称"></i>
                 </div>
                 <div  class="text item type">
                   <span class="og">团队类型：</span>
@@ -197,5 +194,25 @@ export default {
   }
   .box-card2 .og{
     font-weight: bold;
+  }
+  .el-icon-edit{
+    height: 30px;
+    width:38px;
+    border-radius: 10px;
+    
+    /* background: linear-gradient(270.6deg, #cbcddb06 -8.4%, rgba(150, 169, 183, 0.422) 100%); */
+    background-color: rgb(206, 218, 226);
+    
+    color: black;
+    text-align: center;
+    
+    overflow: hidden;
+    transition: 0.2s;
+    padding-top: 8px;
+  }
+  .el-icon-edit:hover {
+    border-radius: 50%;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
 </style>
