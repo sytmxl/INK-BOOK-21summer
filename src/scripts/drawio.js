@@ -2,18 +2,21 @@
  * Copyright (c) 2006-2020, JGraph Ltd
  * Copyright (c) 20s06-2020, Gaudenz Alder
  */
-const col = require("element-ui/packages/col");
+const axios = require("axios");
+const qs = require("qs");
 module.exports = {
     DiagramEditor
 }
 
-function DiagramEditor(config, ui, done, initialized, urlParams)
+function DiagramEditor(config, ui, done, graph_id , initialized, urlParams)
 {
     this.config = (config != null) ? config : this.config;
     this.ui = (ui != null) ? ui : this.ui;
     this.done = (done != null) ? done : this.done;
     this.initialized = (initialized != null) ? initialized : this.initialized;
     this.urlParams = urlParams;
+    this.graph_id = graph_id;
+
 
     var self = this;
 
@@ -45,13 +48,12 @@ DiagramEditor.prototypeDefaultProject = "data:image/png;base64,iVBORw0KGgoAAAANS
  * Static method to edit the diagram in the given img or object.
  */
 //import store from "../store/index";
-DiagramEditor.editElement = function(elt, config, ui, done, urlParams)
+DiagramEditor.editElement = function(elt, config, ui, done, urlParams ,graph_id)
 {
     if (!elt.diagramEditorStarting)
     {
         elt.diagramEditorStarting = true;
-
-        return new DiagramEditor(config, ui, done, function()
+        return new DiagramEditor(config, ui, done, graph_id , function()
         {
             delete elt.diagramEditorStarting;
         }, urlParams).editElement(elt);
@@ -137,6 +139,15 @@ DiagramEditor.prototype.setElementData = function(elem, data)
 {
     var name = elem.nodeName.toLowerCase();
     console.log(data.substring(data.indexOf(',') + 1))
+    axios({
+            method: "post" ,
+            url: "/app/update_graph_data" ,
+            data:qs.stringify({
+                graph_id:this.graph_id,
+                graph_data:data
+            })
+        }
+    ).then(r => {})
     if (name == 'svg')
     {
         elem.outerHTML = atob(data.substring(data.indexOf(',') + 1));
@@ -418,9 +429,6 @@ DiagramEditor.prototype.save = function(data, draft, elt)
  */
 DiagramEditor.prototype.done = function()
 {
-    console.log(this.data)
-    sessionStorage.setItem("editing","false");
-    //TODO： 在这里向后端发送this.data即可
 };
 
 /**
