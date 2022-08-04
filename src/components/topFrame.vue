@@ -29,7 +29,7 @@
                  </span>
                
                  <el-dropdown-menu slot="dropdown">
-                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.name}}</el-dropdown-item>
+                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
                     <div class="splitline"></div>
                   <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
                  </el-dropdown-menu>
@@ -55,7 +55,7 @@
                 </el-form>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="dialogFormVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                      <el-button type="primary" @click="newteam()">确 定</el-button>
                     </div>
                   </el-dialog>
 
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import qs from "qs";
 export default {
     data(){
       return{
@@ -104,12 +105,8 @@ export default {
           intro:''
         },
         formLabelWidth: '120px',
-        allteams:[
-          {id:1,name:'啊对对对'},
-          {id:2,name:'摆大烂队'},
-          {id:3,name:'牛逼哄哄队'},
-          {id:4,name:'123456789'},],
-        username:'Cooper'
+        allteams:[],
+        username:JSON.parse(sessionStorage.getItem('user')).username,
       }
     },
     methods:{
@@ -120,17 +117,25 @@ export default {
         location.reload();
       },
       newteam(){
+        this.dialogFormVisible = false;
+        console.log(this.form);
          this.$axios({
         method: "post",
-        headers: { "authorization": "" },
-        url: "http://127.0.0.1/app/create_team",
+        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
+        url: "/app/create_team",
         data: qs.stringify({
-          
-         //待定
+          team_name: this.form.name,
+          team_type:this.form.type,
+          team_info: this.form.intro
         }),
       })
         .then((res) => {
-          
+          console.log(res);
+          var content = {teamId: res.data.data.team_id, teamname: this.form.name}; 
+          console.log(content);
+           this.$store.dispatch("saveteam", content);
+           this.$message.success(res.data.msg);
+           location.reload();
           // this.start = res.data.OrderDate;
           //待定
             
@@ -141,13 +146,31 @@ export default {
 
       },
       init(){
+         this.$axios({
+        method: "get",
+        url: "/app/get_team_list",
+        data: qs.stringify({
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          this.allteams = res.data.data.team_list_owner;
+            
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+
+
         if(JSON.parse(sessionStorage.getItem('team'))==null){
           this.checkedteam = '请选择你的团队';
           console.log(this.checkedteam)
         }
         else{
-          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).name
+          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name
         }
+
+
       }
     },
     mounted(){
