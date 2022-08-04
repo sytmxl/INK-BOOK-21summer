@@ -223,6 +223,8 @@ export default {
                 }
                 this.$store.dispatch("saveuser", user);
                 this.$store.dispatch("savetoken", token);
+                localStorage.setItem("saveuser", qs.stringify(user));
+              localStorage.setItem("savetoken", qs.stringify(token));
                 console.log(user);
                 console.log(token);
                 console.log(this.$store.state.user);
