@@ -82,9 +82,9 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
+        <div class="regis" @click="toRegister">没有账号？前去注册</div>
       </el-tabs>
-
-      <div class="regis" @click="toRegister">没有账号？前去注册</div>
+      
     </div>
   </div>
 </template>
@@ -261,15 +261,6 @@ export default {
   font-family: myFont;
   src: url("../assets/Futura.ttc");
 }
-/* .logo{
-  width: 300px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 15%;
-  
-} */
 
 .logo {
   float: left;
@@ -281,11 +272,6 @@ export default {
   top: 15%;  left: 50%;  
 	transform: translate(-50%,-50%);
 }
-
-/* .logo .pic img{
-  width: 100px;
-  height: 65px;
-} */
 .kuang {
   width: 300px;
   height: auto;
@@ -299,10 +285,16 @@ export default {
   top: 45%;  left: 50%;  
 	transform: translate(-50%,-50%);
 
+  transition: 0.5s;
+
   backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
 
   box-shadow: 0 0px 0px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
+}
+.kuang:hover {
+  width: 320px;
+  height: auto;
 }
 
 .login {
@@ -323,19 +315,20 @@ export default {
 .login >>> .el-input__inner {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-
+.el-tabs {
+  margin-top: 30px;
+}
 .regis {
   font-size: 12px;
   float: right;
   color: #999;
   cursor: pointer;
   transition: 0.5s;
-  height: 20px;
 }
 .regis:hover {
   color: rgb(145, 171, 203);
   font-size: 15px;
-  margin: 0px 0px 10px 0px;
+  padding: 0px 0px 10px 0px;
 }
 .el-form{
   border-radius: 25px !important;

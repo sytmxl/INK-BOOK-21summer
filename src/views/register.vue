@@ -1,25 +1,11 @@
 <template>
   <div class="register">
-    <img src="../assets/re1.png" alt="" />
+    <img src="../assets/bg.svg" alt="" />
     <div class="logo">
-      <div class="name1">INK BOOK</div>
-      <div
-        id="Layer1"
-        style="
-          width: 2px;
-          height: 50px;
-          z-index: 1;
-          background-color: #000000;
-          layer-background-color: #000000;
-          border: 2px none #000000;
-          margin-top: 29px;
-          margin-left: 18px;
-        "
-      ></div>
-      <div class="name2">墨书</div>
+      INK BOOK
     </div>
     <div class="kuang">
-      <p>欢迎使用</p>
+      <p>Welcome</p>
       <el-form ref="form" :model="form" class="form">
         <el-form-item
           prop="email"
@@ -107,8 +93,8 @@
             @keyup.enter.native="register"
             style="width: 60%; float: left"
           ></el-input>
-          <el-button type="primary" style="float: right" @click="submit"
-            >发送验证码</el-button
+          <el-button class="send" type="primary" style="float: right" @click="submit"
+            >发送</el-button
           >
         </el-form-item>
         <el-form-item>
@@ -326,66 +312,43 @@ export default {
   src: url("../assets/Futura.ttc");
 }
 .logo {
-  width: 396px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 1%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  color: black;
-}
-
-/* .logo .pic{
-  float: left;
-  margin-top: 20px;
-} */
-.logo .name1 {
   float: left;
   font-size: 40px;
   font-weight: 400;
   font-family: myfont;
-  margin-left: -6px;
-  margin-top: 30px;
+  color: black;
+  position: absolute;
+  top: 10%;  left: 50%;  
+	transform: translate(-50%,-50%);
 }
-.logo .name2 {
-  float: right;
-  font-size: 40px;
-  font-weight: 400;
-  font-family: "楷体";
-  margin-left: 20px;
-  margin-top: 30px;
-}
-/* .logo .pic img{
-  width: 100px;
-  height: 65px;
-} */
 .kuang {
   width: 300px;
-  height: 550px;
-  padding: 0 25px;
-  border: 1px solid grey;
+  height: auto;
+  padding: 30px 25px 0px 25px;
+  /* border: 1px solid grey; */
   margin: 21px auto;
-  border-radius: 25px;
+  border-radius: 40px;
   line-height: 80px; /*可以让文字往下移一点 */
+
   position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 15%;
-  backdrop-filter: blur(20px);
+  top: 50%;  left: 50%;  
+	transform: translate(-50%,-50%);
+
+  transition: 0.5s;
+
+  backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
 
-  box-shadow: 0 4px 6px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
-  border-radius: 12px;
+  box-shadow: 0 0px 0px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
 }
 .kuang p {
   color: black;
-  font-family: "楷体";
+  font-family: myfont;
   font-size: 30px;
+}
+.kuang:hover {
+  width: 320px;
+  height: auto;
 }
 .register {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -403,7 +366,7 @@ export default {
 .register >>> .el-input__inner {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-.btn_register {
+/* .btn_register {
   width: 30%;
   margin-top: 5px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -412,20 +375,58 @@ export default {
   width: 30%;
   margin-top: 5px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
-}
+} */
 .regis {
+  font-size: 12px;
   float: right;
-  margin-top: -34px;
   color: #999;
   cursor: pointer;
-}
-.regis {
-  float: right;
-  margin-top: -34px;
-  color: black;
-  cursor: pointer;
+  transition: 0.5s;
 }
 .regis:hover {
-  color: blue;
+  color: rgb(145, 171, 203);
+  font-size: 15px;
+  padding: 0px 0px 10px 0px;
+}
+.el-button:not(.send) {
+  border: none;
+  border-radius: 20px !important;
+  background-color:rgba(121, 167, 213, 0.73);
+  font-size: 20px;
+  width: 30%;
+  transition: 0.5s !important;
+}
+.el-button:not(.send):hover {
+  border-radius: 20px !important;
+  background-color:rgba(121, 167, 213, 0.377);
+  margin: 10px 0px 10px 0px;
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+
+  width: 60%;
+}
+.el-button:active {
+  border-radius: 20px !important;
+  background-color:rgb(82, 109, 137);
+  color: rgb(255, 255, 255);
+
+  font-size: 20px;
+}
+.send {
+  height: 40px !important;
+  border: 2px rgba(121, 167, 213, 0.377) solid;
+  border-radius: 20px !important;
+  background-color:rgba(121, 167, 213, 0); 
+  color: rgba(121, 167, 213, 0.377);
+  font-size: 20px;
+  padding: 1px;
+  width: 30%;
+  transition: 0.5s !important;
+}
+.send:hover {
+  border-radius: 20px !important;
+  background-color:rgb(121, 167, 213);
+  color: rgb(255, 255, 255);
+  width: 33%;
 }
 </style>
