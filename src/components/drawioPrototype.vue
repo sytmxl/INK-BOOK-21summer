@@ -36,7 +36,7 @@ export default {
     del(){
       this.$axios({
         method: "post" ,
-        url: "/delgraph" ,
+        url: "app/del_graph" ,
         data: qs.stringify({
           id:this.$props.id
         }),
@@ -45,7 +45,7 @@ export default {
     getData(){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph" ,
+        url: "app/get_graph" ,
         data: qs.stringify({
           id:this.$props.id
         }),

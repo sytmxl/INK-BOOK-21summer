@@ -105,6 +105,7 @@
 
 <script>
 import qs from "qs";
+import axios from "axios";
 export default {
   name: "Login",
   data() {
@@ -184,6 +185,15 @@ export default {
                     this.$router.push({ path: history_pth });
                   }
                 }, 1000);
+                axios.interceptors.request.use(
+                  config => {
+                    config.headers['Authorization'] = token
+                    return config;
+                  },
+                  error => {
+                    return Promise.reject(error);
+                  }
+              );
             }
             else{
               this.$message({

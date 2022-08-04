@@ -101,8 +101,9 @@ export default {
     get_list(del){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph_list" ,
+        url: "app/get_graph_list" ,
         data: qs.stringify({
+          project_id:this.$data.project_id,
           type:0,
           isdeleted:del
         }),
@@ -122,8 +123,9 @@ export default {
       this.closeDialog();
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/new_graph" ,
+        url: "app/new_graph" ,
         data: qs.stringify({
+          project_id:this.$data.project_id,
           type:0,
           template:template
         }),
@@ -133,7 +135,7 @@ export default {
       })
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/modify_graph" ,
+        url: "app/modify_graph" ,
         data: qs.stringify({
           graph_id:newid,
           graph_name:this.$data.newHeader,
@@ -149,6 +151,7 @@ export default {
   },
   data() {
     return {
+      project_id : sessionStorage.getItem("project_id"),
       newHeader:null,
       newBrief:null,
       dialogVisible:false,
