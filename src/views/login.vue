@@ -165,8 +165,13 @@ export default {
                   userId: res.data.data.user_id,
                   username: res.data.data.user_name,
                 };
+                var token={
+                  token_num:res.data.data.token
+                }
                 this.$store.dispatch("saveuser", user);
+                this.$store.dispatch("savetoken", token);
                 console.log(user);
+                console.log(token);
                 console.log(this.$store.state.user);
                 window.location.href = "team_firstpage";
                 /* 从 localStorage 中读取 preRoute 键对应的值 */
@@ -224,8 +229,13 @@ export default {
                   userId: res.data.data.user_id,
                   username: res.data.data.user_name,
                 };
+                var token={
+                  token_num:res.data.data.token
+                }
                 this.$store.dispatch("saveuser", user);
+                this.$store.dispatch("savetoken", token);
                 console.log(user);
+                console.log(token);
                 console.log(this.$store.state.user);
                 window.location.href = "team_firstpage";
                 /* 从 localStorage 中读取 preRoute 键对应的值 */

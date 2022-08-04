@@ -8,10 +8,14 @@
       <h3>{{title}}</h3>
       <h5>{{description}}</h5>
       <h5>最后编辑-{{ lastEditTime }}</h5>
-      <div class="social-touch">
+      <div class="social-touch" v-if="isdel != true">
         <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
         <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" />
         <el-button icon="el-icon-magic-stick" circle title="测试" @click="getData"/>
+      </div>
+      <div class="social-touch" v-else>
+        <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
+        <el-button type="danger" icon="el-icon-close" circle title="彻底删除" @click="foreverDel" />
       </div>
     </div>
   </el-card>
@@ -24,6 +28,7 @@ export default {
   name: "drawioPrototype",
   props:{
     id:{default:0},
+    isdel:{default: false}
   },
   beforeMount() {
     this.getData();
@@ -35,16 +40,48 @@ export default {
     del(){
       this.$axios({
         method: "post" ,
-        url: "/delgraph" ,
+        url: "app/delgraph" ,
         data: qs.stringify({
           id:this.$props.id
         }),
       })
     },
+    recover(){
+      this.$axios({
+        method: "post" ,
+        url: "/app/recover_graph" ,
+        data: qs.stringify({
+          id:this.$props.id
+        }),
+      })
+      this.$message({
+        type: 'info',
+        message: '已恢复\"'+this.$data.title+'\"'
+      });
+    },
+    foreverDel(){
+      this.$confirm('永久删除\"'+this.$data.title+'\"?', '您正试图进行不可逆操作', {
+        confirmButtonText: '是的',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios({
+          method: "post" ,
+          url: "" ,
+          data: qs.stringify({
+            id:this.$props.id
+          }),
+        });
+        this.$message({
+          type: 'info',
+          message: '已删除\"'+this.$data.title+'\"'
+        });
+      })
+    },
     getData(){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/getgraph" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph" ,
         data: qs.stringify({
           id:this.$props.id
         }),
