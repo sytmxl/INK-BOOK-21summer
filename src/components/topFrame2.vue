@@ -24,7 +24,7 @@
       <div class="user">
         <a href="user_information" ><img  src="../assets/bk3.jpg" alt="" /></a>
         <div class="username">
-          <a href="user_information" >{{user.username}}&nbsp;&nbsp;</a>
+          <a href="user_information" >{{user_name}}&nbsp;&nbsp;</a>
           <a href="/" @click="logout()" >登出</a>
         </div>
         
@@ -76,7 +76,7 @@ export default {
             // this.$store.dispatch("saveusericon", usericon);
             if(res.data.errno==0)
             {
-                consolo.log("成功")
+                console.log("成功")
                 this.user_name=res.data.data.user_name;
                 // var user = {
                 //   userId: res.data.data.user_id,
