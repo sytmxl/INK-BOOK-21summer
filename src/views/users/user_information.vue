@@ -9,7 +9,7 @@
           <img
             v-if="!imageUrl"
             class="pic"
-            src="../../assets/member_270x210.jpg"
+            src="../../assets/bk3.jpg"
             alt=""
           />
           <img v-else class="pic" :src="imageUrl" alt="" />
