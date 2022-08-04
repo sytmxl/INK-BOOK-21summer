@@ -11,8 +11,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 axios.defaults.baseURL = "http://127.0.0.1:8000/";
 axios.interceptors.request.use(
     config => {
-        if (JSON.parse(sessionStorage.getItem("token")) != null) {
-            config.headers['Authorization'] = JSON.parse(sessionStorage.getItem("token")).token_num;
+        if (localStorage.getItem("savetoken")!= null) {
+            config.headers['Authorization'] = localStorage.getItem("savetoken").split('=')[1];
         }
         return config;
     },
