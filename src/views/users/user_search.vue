@@ -14,27 +14,82 @@
         <el-col :span="16">
           <el-tabs v-model="activeName">
             <el-tab-pane label="用户" name="first">
-              <el-card class="box-card" v-for="item in userlist" :key="item">
+              <div v-if="userlist.length!=0">
+              <el-card class="box-card" v-for="item in userlist">
                 <div slot="header" class="clearfix">
-                  <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name }}</span>
+                  <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name
+                  }}</span>
                   <el-button style="float: right; margin-top:-19px" type="text">发送邀请</el-button>
                   <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text">查看信息</el-button>
                 </div>
-                <div class="text item name">
-                  <span class="og">用户编号：</span>
-                  {{ item.user_id }}
-                </div>
-                <div class="text item setter">
-                  <span class="og">用户邮箱：</span>
-                  {{ item.email }}
-                </div>
-                <div class="text item settime">
-                  <span class="og">个性签名：</span>
-                  {{ item.user_info }}
-                </div>
+                <el-row>
+                  <el-col :span="8">
+                    <div class="photo">
+                      <img src="../../assets/bk3.jpg"></img>
+                    </div>
+                  </el-col>
+                  <el-col :span="16">
+                    <div class="text item name">
+                      <span class="og">用户编号：</span>
+                      {{ item.user_id }}
+                    </div>
+                    <div class="text item setter">
+                      <span class="og">用户邮箱：</span>
+                      {{ item.email }}
+                    </div>
+                    <div class="text item settime">
+                      <span class="og">个性签名：</span>
+                      {{ item.user_info }}
+                    </div>
+                  </el-col>
+
+                </el-row>
               </el-card>
+              </div>
+              <div v-else style="margin-top:10%">
+                <img src="../../assets/no.png" style="width:100px;height:100px;"></img>
+                <div class="txt">抱歉，没有搜到符合条件的用户，请尝试一下别的条件</div>
+              </div>
             </el-tab-pane>
-            <el-tab-pane label="团队" name="second">团队</el-tab-pane>
+            <el-tab-pane label="团队" name="second">
+              <div v-if="teamlist.length!=0">
+              <el-card class="box-card1" v-for="item in teamlist">
+                  <div slot="header" class="clearfix">
+                    <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.team_name
+                    }}</span>
+                    <el-button style="float: right; margin-top:-19px" type="text">申请加入团队</el-button>
+                  </div>
+                  <div class="text item name">
+                    <span class="og">团队编号：</span>
+                    {{ item.team_id }}
+                  </div>
+                  <div class="text item setter">
+                    <span class="og">团队类型：</span>
+                    {{ item.team_type }}
+                  </div>
+                  <div class="text item setter">
+                    <span class="og">团队人数：</span>
+                    {{ item.team_member_num }}
+                  </div>
+                  <div class="text item setter">
+                    <span class="og">队长姓名：</span>
+                    {{ item.team_owner_user_name }}
+                  </div>
+                  <div class="text item setter">
+                    <span class="og">队长邮箱：</span>
+                    {{ item.team_owner_user_email }}
+                  </div>
+                  <div class="text item settime">
+                    <span class="og">团队简介：</span>
+                    {{ item.team_owner_user_info }}
+                  </div>
+              </el-card>
+              </div>
+              <div v-else style="margin-top:10%">
+                <img src="../../assets/no.png" style="width:100px;height:100px;"></img>
+                <div class="txt">抱歉，没有搜到符合条件的团队，请尝试一下别的条件</div>
+              </div>
+            </el-tab-pane>
           </el-tabs>
         </el-col>
         <el-col :span="4"><img></img></el-col>
@@ -104,6 +159,53 @@ export default {
         .catch((err) => {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
+
+      this.$axios({
+        method: "post" /* 指明请求方式，可以是 get 或 post */,
+        url: "/app/search_team_by_teamname" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        // headers:{
+        //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+        // }
+        data: qs.stringify({
+          /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          team_name: this.content,
+          query_type: "fuzzy"
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.data.errno == 0) {
+            console.log("成功搜索团队");
+            res.data.data.team_fuzzy_list.forEach((item) => {
+              var tmp = {
+                team_name: "",
+                team_id: "",
+                team_type: "",
+                team_member_num: "",
+                team_owner_user_name: "",
+                team_owner_user_email: "",
+              };
+              tmp.team_id = item.team_id;
+              tmp.team_name = item.team_name;
+              tmp.team_type = item.team_type;
+              tmp.team_member_num = item.team_member_num;
+              tmp.team_owner_user_name = item.team_owner_user_name;
+              tmp.team_owner_user_email = item.team_owner_user_email;
+              console.log(tmp);
+              this.teamlist.push(tmp);
+              console.log(this.teamlist);
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              center: true,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err); /* 若出现异常则在终端输出相关信息 */
+        });
     },
     lookinfo() {
 
@@ -156,12 +258,24 @@ export default {
 }
 
 .box-card {
-  width: 40%;
+  width: 45%;
   height: 220px;
   float: left;
   /* margin-left: 10px; */
-  margin-right: 60px;
-  margin-left: 35px;
+  margin-right: 30px;
+  margin-left: 5px;
+  border-radius: 15px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.box-card1 {
+  width: 45%;
+  height: 350px;
+  float: left;
+  /* margin-left: 10px; */
+  margin-right: 30px;
+  margin-left: 5px;
   border-radius: 15px;
   text-align: left;
   margin-bottom: 20px;
@@ -186,5 +300,17 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  height: 20vh;
+  margin-top: -4px;
+}
+
+.photo img {
+  width: 90%;
+  height: 100%;
+  border-radius: 50%;
 }
 </style>

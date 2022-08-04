@@ -59,7 +59,7 @@
 import drawio from "@/scripts/drawio";
 import qs from "qs";
 export default {
-  name: "drawioPrototype",
+  name: "drawioDigram",
   props:{
     graph_id:{default:0},
     isdel:{default: false}
@@ -177,7 +177,7 @@ export default {
       dialogVisible:false,
       newHeader:null,
       newBrief:null,
-      project_id:sessionStorage.getItem("project_id"),
+      project_id:sessionStorage.getItem("project"),
       title:"项目",
       description:"无简介",
       lastEditTime:"2077-01-01",

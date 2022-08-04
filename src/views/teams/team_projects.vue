@@ -151,7 +151,7 @@ export default {
         .then((res) => {
          
          this.$store.dispatch("saveproject", res.data.data.project_id);
-         location.href = "/project_firstpage"
+         location.href = "/project_outline"
         })
         .catch((err) => {
           console.log(err); 
@@ -200,7 +200,7 @@ export default {
       },
       information(id){
         this.$store.dispatch("saveproject", id);
-        location.href = "project_firstpage";
+        location.href = "project_outline";
       },
       init(){
          this.$axios({

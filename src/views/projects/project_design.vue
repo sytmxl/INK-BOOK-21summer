@@ -1,69 +1,236 @@
 <template>
   <div id="init">
+    <el-dialog
+        title="新建一个原型设计图"
+        :visible.sync="dialogVisible"
+        width="50%"
+        :before-close="closeDialog">
+      <span>
+        <span>
+          <el-row>
+            <el-col :span="4">
+              原型设计标题：
+            </el-col>
+            <el-col :span="20">
+              <el-input
+                  placeholder="请输入标题"
+                  v-model="newHeader">
+              </el-input>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="4">
+              原型设计图注：
+            </el-col>
+            <el-col :span="20">
+              <el-input
+                  placeholder="请输入图注"
+                  v-model="newBrief">
+              </el-input>
+            </el-col>
+          </el-row>
+        </span>
+        <span>
+          <el-row>
+            <el-col :span="4">
+              原型设计模板：
+            </el-col>
+            <el-col :span="4">
+              <el-select v-model="template" placeholder="请选择">
+                <el-option
+                    v-for="item in template_options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col span="16">
+              <img :src="template_options[template].preview">
+            </el-col>
+          </el-row>
+        </span>
+      </span>
+
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="add_graph">新建</el-button>
+      </span>
+    </el-dialog>
     <el-container>
-      <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
-        <el-submenu class="outside" index="1">
-          <template slot="title">
+      <div>
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
+          <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
-          </template>
-          <el-menu-item-group>
-            <span slot="title">新建原型设计</span>
-            <el-menu-item class="inside" index="1-1">空画布</el-menu-item>
-            <el-menu-item class="inside" index="1-2">移动端设计原型</el-menu-item>
-            <el-menu-item class="inside" index="1-3">网络端设计原型</el-menu-item>
-          </el-menu-item-group>
-        </el-submenu>
-        <el-menu-item class="outside" index="2">
-          <i class="el-icon-edit-outline"></i>
-          <span slot="title">管理</span>
-        </el-menu-item>
-        <el-menu-item class="outside" index="3">
-          <i class="el-icon-delete"></i>
-          <span slot="title">回收站</span>
-        </el-menu-item>
-      </el-menu>
-
+          </el-menu-item>
+          <el-menu-item class="outside" index="2">
+            <i class="el-icon-edit-outline"></i>
+            <span slot="title">管理</span>
+          </el-menu-item>
+          <el-menu-item class="outside" index="3" @click = "viewDel">
+            <i class="el-icon-delete"></i>
+            <span slot="title" >回收站</span>
+          </el-menu-item>
+          <el-menu-item class="outside" index="4" @click="test">
+            <i class="el-icon-cpu"></i>
+            <span slot="title">测试</span>
+          </el-menu-item>
+        </el-menu>
+      </div>
+      <div>
         <el-row>
-          <el-col :span="7" v-for="(o, index) in 2" :key="o" >
-            <drawio-prototype/>
+          <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
+            <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
           </el-col>
         </el-row>
+      </div>
     </el-container>
   </div>
 </template>
 
 <script>
-import drawioPrototype from "@/components/drawioPrototype";
+import drawioDigram from "@/components/drawioDiagram";
 import qs from "qs";
+import drawio from "@/scripts/drawio";
 export default {
-  components: {drawioPrototype},
+  components: {drawioDigram},
+  beforeMount() {
+    this.get_list("0");
+  },
   methods:{
-    add_graph(template){
+    updateOnDel(){
+      setTimeout(()=>{}
+          ,200);
+      this.get_list(this.$data.viewingDel);
+    },
+    viewDel(){
+      if(this.viewingDel == "1"){
+        this.viewingDel = "0";
+      }else {
+        this.viewingDel = "1";
+      };
+      this.get_list(this.viewingDel);
+    },
+    closeDialog(){
+      this.$data.dialogVisible = false
+    },
+    get_list(del){
       this.$axios({
-        method: "post" /* 指明请求方式，可以是 get 或 post */,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/new_graph" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        method: "post" ,
+        url: "app/get_graph_list" ,
         data: qs.stringify({
-          type : 0,
-          template : template
+          project_id:this.$data.project_id,
+          type:1,
+          isdeleted:del
         }),
+      }).then(res => {
+        let graph_list = res.data.data.graph_list
+
+        this.$data.PrototypeList = [];
+        let i;
+        for(i in graph_list){
+          //console.log(graph_list[i].graph_id)
+          this.$data.PrototypeList.push(graph_list[i].graph_id);
+        }
       })
     },
+    async add_graph(template) {
+      let newid = null;
+      if(this.$data.newHeader == null || this.$data.newHeader == '' ){
+        this.$message({
+          message: '原型设计图的标题不得为空',
+          type: 'warning'
+        });
+        return;
+      }
+      this.closeDialog();
+      await this.$axios({
+        method: "post" ,
+        url: "app/new_graph" ,
+        data: qs.stringify({
+          project_id:this.$data.project_id,
+          graph_type:1,
+          template:this.$data.template
+        }),
+      }).then(res => {
+        newid = res.data.data.graph_id
+        this.$data.PrototypeList.push(res.data)
+        this.$axios({
+          method: "post" ,
+          url: "app/modify_graph" ,
+          data: qs.stringify({
+            graph_id:newid,
+            graph_name:this.$data.newHeader,
+            graph_info:this.$data.newBrief
+          }),
+        })
+        this.$axios({
+          method: "post" ,
+          url: "/app/update_graph_data" ,
+          data: qs.stringify({
+            graph_id:newid,
+            graph_data : this.$data.template_options[this.$data.template].preview
+          }),
+        })
+      })
+
+      await this.updateOnDel();
+      this.$message({
+        message: '成功新建了\"'+this.$data.newHeader+'\"',
+        type: 'success'
+      });
+      this.$data.newHeader = this.$data.newBrief = null;
+    }
+  },
+  data() {
+    return {
+      project_id : sessionStorage.getItem("project"),
+      newHeader:null,
+      newBrief:null,
+      dialogVisible:false,
+      viewingDel:"0",
+      PrototypeList:[],
+      template: 1,
+      template_options: [{
+        value: 1,
+        label: '空白模板',
+        preview : drawio.DiagramEditor.prototypeDefaultProject
+      }, {
+        value: 2,
+        label: '模板1',
+        preview : drawio.DiagramEditor.prototypeDefaultProject
+      }, {
+        value: 3,
+        label: '模板2',
+        preview : drawio.DiagramEditor.prototypeDefaultProject
+      }, {
+        value: 4,
+        label: '模板3',
+        preview : drawio.DiagramEditor.prototypeDefaultProject
+      }, {
+        value: 5,
+        label: '模板4',
+        preview : drawio.DiagramEditor.prototypeDefaultProject
+      }],
+    }
   }
 }
 </script>
 
 <style scoped>
 #init{
-    margin:0px auto;
-    color:blueviolet;
-    font-size: large;
-    font-weight: bold;
+  margin:0px auto;
+  color:blueviolet;
+  font-size: large;
+  font-weight: bold;
 }
 .el-col {
   margin: 22px;
   width: 360px;
   /* background-color: beige; */
+  z-index: 0;
 }
 .el-menu-vertical-demo {
   float: top;
@@ -73,10 +240,6 @@ export default {
   width: 200px;
   min-height: 400px;
 
-}
-.el-container {
-  padding-top: 0%;
-  margin-top: 0%;
 }
 
 .inside {
