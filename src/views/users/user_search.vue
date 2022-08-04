@@ -20,7 +20,7 @@
                   <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name
                   }}</span>
                   <el-button style="float: right; margin-top:-19px" type="text">发送邀请</el-button>
-                  <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text">查看信息</el-button>
+                  <!-- <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text" @click="lookinfo()">查看信息</el-button> -->
                 </div>
                 <el-row>
                   <el-col :span="8">
@@ -207,8 +207,8 @@ export default {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
     },
-    lookinfo() {
-
+    lookinfo(val) {
+      // this.$router.push({path:'/home',query: {user_id:val}})     
     }
   },
   mounted() {

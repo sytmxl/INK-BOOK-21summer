@@ -485,10 +485,16 @@ export default {
 </script>
 
 <style scoped>
-.el-tabs--left,
+/* .el-tabs--left,
 .el-tabs--right {
   overflow: hidden;
   margin-left: 20%;
+} */
+.el-tabs--left,
+.el-tabs--right {
+      overflow: hidden;
+    margin-left: 5%;
+    margin-top: 7%;
 }
 .el-main {
   /* overflow:visible;  */
@@ -596,5 +602,17 @@ export default {
   background-color: rgb(150, 169, 183) !important;
   border-color: rgb(150, 169, 183);
   color: rgb(255, 255, 255);
+}
+.goteam{
+  text-decoration: none;
+  color:black;
+}
+.goproject{
+  text-decoration: none;
+  color:black;
+}
+.goreproject{
+  text-decoration: none;
+  color:black;
 }
 </style>
