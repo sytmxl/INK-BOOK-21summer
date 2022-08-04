@@ -270,7 +270,7 @@ export default {
               // var icon = { userId: res.data.user_id, picurl: "" };
               // this.$store.dispatch("saveusericon", icon);
               setTimeout(() => {
-                  this.$router.push({ path:'team_projects' });
+                  this.$router.push({ path:'team_outline' });
               }, 1000);
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */

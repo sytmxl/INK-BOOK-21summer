@@ -8,6 +8,17 @@ import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios)
 import 'element-ui/lib/theme-chalk/index.css'
 
+axios.defaults.baseURL="http://127.0.0.1:8000/";
+axios.interceptors.request.use(
+    config => {
+        config.headers['Authorization'] = JSON.parse(sessionStorage.getItem("token")).token_num;
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
+
 
 // 全局引入wow,animate
 import "animate.css"

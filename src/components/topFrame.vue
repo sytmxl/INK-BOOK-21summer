@@ -318,6 +318,7 @@ export default {
   }
   .search:hover {
     width: 300px;
+    box-shadow: 5px;
   }
 </style>
 <style>

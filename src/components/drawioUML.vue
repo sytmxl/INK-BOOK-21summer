@@ -27,7 +27,7 @@ import qs from "qs";
 export default {
   name: "drawioPrototype",
   props:{
-    id:{default:0},
+    graph_id:{default:0},
     isdel:{default: false}
   },
   beforeMount() {
@@ -40,18 +40,19 @@ export default {
     del(){
       this.$axios({
         method: "post" ,
-        url: "app/delgraph" ,
+        url: "app/del_graph" ,
         data: qs.stringify({
-          id:this.$props.id
+          project_id:this.$data.project_id,
+          graph_id:this.$props.id
         }),
       })
     },
     recover(){
       this.$axios({
         method: "post" ,
-        url: "/app/recover_graph" ,
+        url: "app/recover_graph" ,
         data: qs.stringify({
-          id:this.$props.id
+          graph_id:this.$props.id
         }),
       })
       this.$message({
@@ -67,9 +68,10 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "" ,
+          url: "/app/full_del_graph" ,
           data: qs.stringify({
-            id:this.$props.id
+            project_id:this.$data.project_id,
+            graph_id:this.$props.id
           }),
         });
         this.$message({
@@ -81,9 +83,9 @@ export default {
     getData(){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph" ,
+        url: "app/get_graph" ,
         data: qs.stringify({
-          id:this.$props.id
+          graph_id:this.$props.id
         }),
       }).then(res => {
         this.$data.title = res.data.header;
@@ -96,6 +98,7 @@ export default {
   },
   data() {
     return {
+      project_id:sessionStorage.getItem("project_id"),
       title:"项目",
       description:"无简介",
       lastEditTime:"2077-01-01",
