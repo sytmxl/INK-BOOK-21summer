@@ -24,7 +24,7 @@
           </el-submenu>
         </el-menu>
       </div>
-      <div>
+      <div class="right">
         <el-row>
           <el-col :span="7" v-for="item in menu">
             <EtherpadFile :title="item.label"/>
@@ -82,6 +82,9 @@ export default {
     font-size: large;
     font-weight: bold;
 }
+.right {
+  margin-left: 80px;
+}
 .el-col {
   margin: 22px;
   width: 360px;
@@ -90,6 +93,8 @@ export default {
   float: top;
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
+  position: fixed;
+  height: 1000px;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
@@ -111,9 +116,10 @@ export default {
   transition: 0.5s;
 }
 .outside:hover {
-  margin: 15px 0px 15px 0px;
+  margin: 15px 0px 15px 5px;
   border: 5px;
   border-radius: 90px;
+  background-color: rgba(150, 169, 183, 0.422) !important;
 }
 
 .el-row {

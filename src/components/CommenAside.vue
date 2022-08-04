@@ -120,9 +120,11 @@ export default {
   z-index: 1;
 }
 .el-menu-item:hover {
+  backdrop-filter: blur(3px) !important;
+
   background-color: rgba(150, 169, 183, 0.422) !important;
   color: rgb(255, 255, 255);
-  width: 250px;
+  width: 200px;
   margin: 20px;
   z-index: 1;
 }
