@@ -2,21 +2,7 @@
   <div class="login">
     <img src="../assets/bg.svg" alt="" />
     <div class="logo">
-      <div class="name1">INK BOOK</div>
-      <!-- <div
-        id="Layer1"
-        style="
-          width: 2px;
-          height: 50px;
-          z-index: 1;
-          background-color: #000000;
-          layer-background-color: #000000;
-          border: 2px none #000000;
-          margin-top: 29px;
-          margin-left: 18px;
-        "
-      ></div>
-      <div class="name2">墨书</div> -->
+      INK BOOK
     </div>
     <div class="kuang">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -293,39 +279,18 @@ export default {
   top: 15%;
   
 } */
+
 .logo {
-  width: 396px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 1%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  color: black;
-}
-/* .logo .pic{
-  float: left;
-  margin-top: 20px;
-} */
-.logo .name1 {
   float: left;
   font-size: 40px;
   font-weight: 400;
   font-family: myfont;
-  margin-left: -6px;
-  margin-top: 130px;
+  color: black;
+  position: absolute;
+  top: 15%;  left: 50%;  
+	transform: translate(-50%,-50%);
 }
-.logo .name2 {
-  float: right;
-  font-size: 40px;
-  font-weight: 400;
-  font-family: "楷体";
-  margin-left: 20px;
-  margin-top: 30px;
-}
+
 /* .logo .pic img{
   width: 100px;
   height: 65px;
@@ -374,6 +339,7 @@ export default {
   color: #999;
   cursor: pointer;
   transition: 0.5s;
+  height: 20px;
 }
 .regis:hover {
   color: rgb(145, 171, 203);
