@@ -2,29 +2,35 @@
   <el-menu
     background-color="rgb(240, 242, 245)"
     text-color="black"
-    active-text-color="#2878ff"
+    active-text-color="rgb(153, 213, 255)"
     default-active="1"
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
     :collapse="isCollapse"
   >
-    <el-menu-item>
-      <el-page-header @back="goBack" content="项目">
-      </el-page-header>
-    </el-menu-item>
+    
+    <div class="title" @click="goBack">
+      <div class="back">
+        ⬅️&nbsp;
+      </div>
+      项目
+    </div>
 
-    <el-menu-item
+    <div class="menu_base">
+      <el-menu-item
       v-for="item in noChildren"
       :index="item.path"
       :key="item.path"
       :route="item.path"
       @click="clickMenu(item)"
-    >
-      <i :class="'el-icon-' + item.icon"></i>
-      <span slot="title">{{ item.label }}</span>
-    </el-menu-item>
-    <el-submenu
+      >
+        <i :class="'el-icon-' + item.icon"></i>
+        <span slot="title">{{ item.label }}</span>
+      </el-menu-item>
+    </div>
+    
+    <!-- <el-submenu
       v-for="item in hasChildren"
       :index="item.path"
       :key="item.path"
@@ -47,7 +53,7 @@
           {{ subItem.label }}
         </el-menu-item>
       </el-menu-item-group>
-    </el-submenu>
+    </el-submenu> -->
   </el-menu>
 </template>
 
@@ -127,7 +133,7 @@ export default {
   margin: 8px;
   height: min-content;
   width: 184px;
-  background-color: rgb(241, 242, 243) !important;
+  background-color: rgba(255, 255, 255, 0.622) !important;
   box-shadow: 1px !important;
   transition: 0.5s;
   z-index: 0;
@@ -161,6 +167,32 @@ export default {
 .el-submenu .el-menu-item{
   font-size: 15px;
 }
-
-
+.el-page-header {
+  margin: 15px;
+}
+.title {
+  font-size: 50px;
+  font-weight: bolder;
+  float: left;
+  margin: 10px 0px 0px 20px;
+  color: rgb(150, 169, 183);
+  /* colorgb(5, 5, 6)55); */
+  transition: 0.5s;
+}
+.title:hover {
+  font-size: 50px;
+  background-color: rgba(150, 169, 183, 0.14);
+  border-radius: 20px;
+  padding: 0px 10px 0px 10px;
+  margin: 10px 0px 10px 10px;
+}
+.back {
+  font-size: 0px;
+  transition: 0.5s;
+  float: left;
+}
+.title:hover .back{
+  font-size: 50px;
+  float: left;
+  }
 </style>
