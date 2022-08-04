@@ -151,7 +151,7 @@ export default {
         .then((res) => {
          
          this.$store.dispatch("saveproject", res.data.data.project_id);
-         location.href = "/project_firstpage"
+         location.href = "/project_outline"
         })
         .catch((err) => {
           console.log(err); 
@@ -161,7 +161,14 @@ export default {
         });
       },
       deleteproject(id){
-        this.$axios({
+
+         this.$confirm('此操作将将项目移至回收站, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+        
+          this.$axios({
         method: "post",
         url: "/app/del_project",
         data: qs.stringify({
@@ -181,10 +188,19 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+        
       },
       information(id){
         this.$store.dispatch("saveproject", id);
-        location.href = "project_firstpage";
+        location.href = "project_outline";
       },
       init(){
          this.$axios({

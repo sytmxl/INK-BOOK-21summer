@@ -148,7 +148,14 @@ export default {
         });
       },
       restore(id){
-        this.$axios({
+
+         this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+          this.$axios({
         method: "post",
         url: "/app/recycle_project",
         data: qs.stringify({
@@ -162,9 +169,29 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消恢复'
+          });          
+        });
+
+
+
+        
       },
       deleteforever(id){
-        this.$axios({
+
+
+
+         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+          this.$axios({
              method: "post",
              url: "/app/permanent_del_project",
              data: qs.stringify({
@@ -178,6 +205,17 @@ export default {
             .catch((err) => {
               console.log(err); 
         });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+
+
+        
       }
     },
     mounted(){

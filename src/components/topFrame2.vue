@@ -128,7 +128,7 @@ export default {
   font-family: myFont;
   user-select: none;
   text-decoration: none;
-  color:black;
+  color:rgb(73, 88, 100);
 }
 .brandtext2 {
   font-family: "楷体";

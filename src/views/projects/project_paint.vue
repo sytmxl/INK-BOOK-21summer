@@ -82,8 +82,7 @@
       <div>
         <el-row>
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-u-m-l :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
-            {{id}}
+            <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
           </el-col>
         </el-row>
       </div>
@@ -92,11 +91,11 @@
 </template>
   
 <script>
-import DrawioUML from "@/components/drawioUML";
+import drawioDigram from "@/components/drawioDiagram";
 import qs from "qs";
 import drawio from "@/scripts/drawio";
 export default {
-  components: {DrawioUML},
+  components: {drawioDigram},
   beforeMount() {
     this.get_list("0");
   },
@@ -187,7 +186,7 @@ export default {
   },
   data() {
     return {
-      project_id : sessionStorage.getItem("project_id"),
+      project_id : sessionStorage.getItem("project"),
       newHeader:null,
       newBrief:null,
       dialogVisible:false,

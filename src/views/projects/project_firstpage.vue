@@ -12,8 +12,11 @@
 <script>
 import ProjectAside from "../../components/ProjectAside";
 export default {
- components: {
-    // topFrame,
+  beforeMount() {
+
+    },
+  components: {
+    // topFrame,F
     ProjectAside,
   },
 }
@@ -35,7 +38,7 @@ export default {
    display: block;
   position: absolute;
   height: 100%;
-  background-color: rgba(244, 247, 249, 0.371);
+  /* background-color: rgba(244, 247, 249, 0.371); */
 }
 
 </style>

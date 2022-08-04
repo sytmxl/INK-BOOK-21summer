@@ -1,15 +1,14 @@
 <template>
   <div>
-    <drawio-u-m-l :del = "true"/>
+    <drawio-digram :del = "true"/>
   </div>
 </template>
 
 <script>
-import DrawioPrototype from "@/components/drawioPrototype";
-import DrawioUML from "@/components/drawioUML";
+import drawioDigram from "@/components/drawioDiagram";
 export default {
   name: "testpage",
-  components: {DrawioPrototype,DrawioUML}
+  components: {drawioDigram}
 }
 </script>
 

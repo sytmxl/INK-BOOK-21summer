@@ -201,7 +201,7 @@ export default {
   font-family: myFont;
   user-select: none;
   text-decoration: none;
-  color:black;
+  color:rgb(73, 88, 100);
 }
 .brandtext2 {
   font-family: "楷体";
@@ -331,7 +331,7 @@ export default {
   }
   .team:active {
     background: rgba(150, 169, 183, 0.721);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 12px;
     margin-top: 7px;
     font-size: 19px;

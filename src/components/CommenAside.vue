@@ -2,7 +2,7 @@
   <el-menu
     background-color="rgb(240, 242, 245)"
     text-color="black"
-    active-text-color="#2878ff"
+    active-text-color="rgb(134, 143, 150)"
     default-active="1-4-1"
     class="el-menu-vertical-demo"
     @open="handleOpen"
