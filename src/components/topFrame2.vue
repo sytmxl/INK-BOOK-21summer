@@ -31,7 +31,7 @@
       </div>
       <div class="search">
         <el-input
-          placeholder="搜索"
+          placeholder="按下回车键即可搜索"
           prefix-icon="el-icon-search"
           v-model="input"
           clearable="true"
@@ -61,15 +61,16 @@ export default {
     },
     init()
     {
-       console.log(JSON.parse(sessionStorage.getItem("token")));
+      //  console.log(JSON.parse(sessionStorage.getItem("token")));
        this.$axios({
           method: "get" /* 指明请求方式，可以是 get 或 post */,
-          url: "http://localhost:8000/app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
-          headers:{
-            'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
-          }
+          url: "/app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+          // headers:{
+          //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+          // }
         })
           .then((res) => {
+
             console.log(res)
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
@@ -109,6 +110,10 @@ export default {
             console.log(err); /* 若出现异常则在终端输出相关信息 */
           });
     }
+  },
+  created()
+  {
+    this.init();
   },
   mounted() {
     this.init();
