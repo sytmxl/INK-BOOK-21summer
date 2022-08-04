@@ -1,22 +1,8 @@
 <template>
   <div class="login">
-    <img src="../assets/re1.png" alt="" />
+    <img src="../assets/bg.svg" alt="" />
     <div class="logo">
-      <div class="name1">INK BOOK</div>
-      <div
-        id="Layer1"
-        style="
-          width: 2px;
-          height: 50px;
-          z-index: 1;
-          background-color: #000000;
-          layer-background-color: #000000;
-          border: 2px none #000000;
-          margin-top: 29px;
-          margin-left: 18px;
-        "
-      ></div>
-      <div class="name2">墨书</div>
+      INK BOOK
     </div>
     <div class="kuang">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -293,61 +279,39 @@ export default {
   top: 15%;
   
 } */
+
 .logo {
-  width: 396px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 1%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  color: black;
-}
-/* .logo .pic{
-  float: left;
-  margin-top: 20px;
-} */
-.logo .name1 {
   float: left;
   font-size: 40px;
   font-weight: 400;
   font-family: myfont;
-  margin-left: -6px;
-  margin-top: 30px;
+  color: black;
+  position: absolute;
+  top: 15%;  left: 50%;  
+	transform: translate(-50%,-50%);
 }
-.logo .name2 {
-  float: right;
-  font-size: 40px;
-  font-weight: 400;
-  font-family: "楷体";
-  margin-left: 20px;
-  margin-top: 30px;
-}
+
 /* .logo .pic img{
   width: 100px;
   height: 65px;
 } */
 .kuang {
   width: 300px;
-  height: 315px;
+  height: auto;
   padding: 0 25px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   margin: 21px auto;
-  border-radius: 25px;
+  border-radius: 40px;
   line-height: 80px; /*可以让文字往下移一点 */
+
   position: absolute;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  top: 15%;
-  backdrop-filter: blur(20px);
+  top: 45%;  left: 50%;  
+	transform: translate(-50%,-50%);
+
+  backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
 
-  box-shadow: 0 4px 6px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
-  border-radius: 12px;
+  box-shadow: 0 0px 0px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
 }
 
 .login {
@@ -368,24 +332,41 @@ export default {
 .login >>> .el-input__inner {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
-.btn_login {
-  width: 100%;
-  margin-top: 5px;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
+
 .regis {
+  font-size: 12px;
   float: right;
-  margin-top: -34px;
   color: #999;
   cursor: pointer;
-}
-.regis {
-  float: right;
-  margin-top: -34px;
-  color: #999;
-  cursor: pointer;
+  transition: 0.5s;
+  height: 20px;
 }
 .regis:hover {
-  color: blue;
+  color: rgb(145, 171, 203);
+  font-size: 15px;
+  margin: 0px 0px 10px 0px;
+}
+.el-form{
+  border-radius: 25px !important;
+}
+.el-button{
+  border: none;
+  border-radius: 20px !important;
+  background-color:rgba(121, 167, 213, 0.73);
+  font-size: 20px;
+  width: 100%;
+  transition: 0.5s !important;
+}
+.el-button:hover{
+  border-radius: 20px !important;
+  background-color:rgba(121, 167, 213, 0.377);
+  margin: 10px 0px 10px 0px;
+  font-size: 20px;
+}
+.el-button:active{
+  border-radius: 20px !important;
+  background-color:rgb(82, 109, 137);
+
+  font-size: 20px;
 }
 </style>

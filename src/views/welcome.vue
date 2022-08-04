@@ -16,7 +16,7 @@
         <div id="nav-header">
           <a class="brand" href="/"></a>
           <a class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</a>
-          <div
+          <!-- <div
             id="Layer1"
             style="
               width: 2px;
@@ -27,26 +27,28 @@
               border: 2px none #000000;
             "
           ></div>
-          <a class="brandtext2" href="/">&nbsp;墨书</a>
+          <a class="brandtext2" href="/">&nbsp;墨书</a> -->
         </div>
         <ul id="nav-section">
           <li class="func">
-            <a href="#part1">助力工作</a>
+            <a class="part" href="#part1">助力工作</a>
           </li>
           <li class="team">
-            <a href="#part2">团队协作</a>
+            <a class="part" href="#part2">团队协作</a>
           </li>
           <li class="draw">
-            <a href="#part3">灵活绘图</a>
+            <a class="part" href="#part3">灵活绘图</a>
           </li>
         </ul>
         <ul id="nav-footer">
-          <el-button type="primary" plain round size="small" @click="login()"
+          <!-- <el-button type="primary" plain round size="small" @click="login"
             >登录</el-button
           >
           <el-button type="success" plain round size="small" @click="register()"
             >注册</el-button
-          >
+          > -->
+          <div class="login_button" @click="login()">登录</div>
+          <div class="login_button" @click="register()">注册</div>
         </ul>
       </div>
     </div>
@@ -162,7 +164,7 @@ export default {
   margin-left: 90px;
   align-items: center;
   font-size: 35px;
-  width: 480px;
+  width: 250px;
 }
 #nav-section {
   display: flex;
@@ -182,7 +184,7 @@ export default {
 #nav-section li a:hover{
   user-select: none;
   text-decoration: none;
-  color:#00bfff;
+  color:rgb(150, 169, 183);
 }
 .func {
   display: flex;
@@ -199,7 +201,6 @@ export default {
 #nav-footer {
   display: flex;
   margin-left: 350px;
-  margin-right: 75px;
   font-size: 30px;
 }
 .brandtext1 {
@@ -380,5 +381,18 @@ export default {
   padding-bottom: 40px;
   width:400px;
   margin:0 auto;
+}
+.login_button {
+  float: right;
+  font-size: 20px;
+  border: 1px solid rgba(150, 169, 183, 0.413);
+  border-radius: 30px;
+  margin: 10px;
+  padding: 10px;
+  width: 80px;
+}
+.login_button:hover {
+  background-color: rgb(150, 169, 183);
+  color: white;
 }
 </style>

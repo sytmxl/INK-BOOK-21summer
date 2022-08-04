@@ -103,10 +103,11 @@
 </style>
 
 <script>
+import qs from 'qs';
 export default {
     data(){
         return{
-            teamname:JSON.parse(sessionStorage.getItem('team')).name,
+            teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
             project_list:[
               {project_name:'小学期前端',project_setup:'2022.08.01 14：35',project_modify:'2022.08.03 15：25'}
             ]
