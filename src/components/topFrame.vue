@@ -62,9 +62,10 @@
     </div>
     <div class="search">
             <el-input
-              placeholder="搜索"
+              placeholder="按下回车键即可搜索"
               prefix-icon="el-icon-search"
-              v-model="input" clearable="true" >
+              v-model="input" clearable="true" 
+              @keyup.enter.native="doSearch()">
             </el-input>
   </div>
      <div class="right">
@@ -107,9 +108,16 @@ export default {
         formLabelWidth: '120px',
         allteams:[],
         username:JSON.parse(sessionStorage.getItem('user')).username,
+        input:"",
       }
     },
     methods:{
+      doSearch()
+      {
+        var info = {content:this.input };
+        this.$router.push({path:'/user_search'})
+        this.$store.dispatch("savesearched", info);
+      },
       checkit(content){
         console.log(content)
         this.checkedteam = content.name
