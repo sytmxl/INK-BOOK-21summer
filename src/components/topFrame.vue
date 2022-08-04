@@ -4,7 +4,7 @@
     <div class="left">
         <div id="nav-header">
           <a class="brand" href="/"></a>
-          <a class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</a>
+          <span class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</span>
           <div
             id="Layer1"
             style="
@@ -16,7 +16,7 @@
               border: 2px none #000000;
             "
           ></div>
-          <a class="brandtext2" href="/">&nbsp;墨书&nbsp;</a>
+          <span class="brandtext2" href="/">&nbsp;墨书</span>
         </div>
   </div>
 
@@ -31,9 +31,34 @@
                  <el-dropdown-menu slot="dropdown">
                    <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.name}}</el-dropdown-item>
                     <div class="splitline"></div>
-                  <el-dropdown-item icon="el-icon-plus" @click.native="newteam()">点击创建团队</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
                  </el-dropdown-menu>
                </el-dropdown>
+
+
+               <el-dialog title="创建团队" :visible.sync="dialogFormVisible">
+                <el-form :model="form">
+                    <el-form-item label="团队类型" :label-width="formLabelWidth">
+                    <el-select v-model="form.type" placeholder="请选择团队类型" >
+                           <el-option label="IT" value="IT" ></el-option>
+                           <el-option label="教育" value="教育"></el-option>
+                           <el-option label="金融" value="金融"></el-option>
+                         </el-select>
+                  </el-form-item>
+                  <el-form-item label="团队名称" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" autocomplete="off" placeholder="20字以内"></el-input>
+                  </el-form-item>
+              
+                  <el-form-item label="团队介绍" :label-width="formLabelWidth">
+                    <el-input v-model="form.intro" autocomplete="off" placeholder="50字以内"></el-input>
+                  </el-form-item>
+                </el-form>
+                    <div slot="footer" class="dialog-footer">
+                      <el-button @click="dialogFormVisible = false">取 消</el-button>
+                      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                    </div>
+                  </el-dialog>
+
     </div>
     <div class="search">
             <el-input
@@ -46,14 +71,12 @@
 
        <div class="user">
 
-
-        
-     
             <img src="../assets/bk3.jpg" alt="">
        
             
             <div class="username">
-                <span>Cooper</span>
+                <a href="user_information" title="个人中心"><span>{{username}}</span></a>
+                <a href="/" title="登出"><span>登出</span></a>
             </div>
             
       </div>
@@ -72,13 +95,20 @@
 export default {
     data(){
       return{
-        input: '',
         checkedteam:'',
+        dialogFormVisible:false,
+        form: {
+          name: '',
+          type: '',
+          intro:''
+        },
+        formLabelWidth: '120px',
         allteams:[
           {id:1,name:'啊对对对'},
           {id:2,name:'摆大烂队'},
           {id:3,name:'牛逼哄哄队'},
-          {id:4,name:'123456789'},]
+          {id:4,name:'123456789'},],
+        username:'Cooper'
       }
     },
     methods:{
@@ -89,21 +119,25 @@ export default {
         location.reload();
       },
       newteam(){
-         this.$prompt('请为你的团队起个名称', '创建团队', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: '你的团队是: ' + value
-            //发包
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消输入'
-          });       
+         this.$axios({
+        method: "post",
+        headers: { "authorization": "" },
+        url: "http://127.0.0.1/app/create_team",
+        data: qs.stringify({
+          
+         //待定
+        }),
+      })
+        .then((res) => {
+          
+          // this.start = res.data.OrderDate;
+          //待定
+            
+        })
+        .catch((err) => {
+          console.log(err); 
         });
+
       },
       init(){
         if(JSON.parse(sessionStorage.getItem('team'))==null){
@@ -192,6 +226,17 @@ export default {
   margin-top: 20px;
   font-size: 20px;
   float: right;
+}
+.username a{
+  text-decoration:none;
+  margin-right: 20px;
+  color: black;
+}
+.username a:visited{
+  color: black;
+}
+.username a:hover{
+  color: wheat;
 }
 .el-input >>> .el-input__inner{
     border-radius:25px;

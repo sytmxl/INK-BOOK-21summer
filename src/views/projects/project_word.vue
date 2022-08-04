@@ -1,33 +1,36 @@
 <template>
   <div id="init">
     <el-container>
-      <el-menu width=65px default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
-        
-        <el-menu-item class="outside" index="2">
-          <i class="el-icon-plus"></i>
-          <span slot="title">新建表</span>
-        </el-menu-item>
-        <el-menu-item class="outside" index="2">
-          <i class="el-icon-edit-outline"></i>
-          <span slot="title">管理</span>
-        </el-menu-item>
-        <el-menu-item class="outside" index="3">
-          <i class="el-icon-delete"></i>
-          <span slot="title">回收站</span>
-        </el-menu-item>
-        <el-submenu class="outside" index="1">
-          <template slot="title">
-            <i class="el-icon-plus"></i>
-            <span slot="title">排版占位不可见</span>
-          </template>
-        </el-submenu>
-      </el-menu>
+      <div>
+        <el-menu width=65px default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
 
-      <el-row>
-        <el-col :span="7" v-for="item in menu">
-          <EtherpadFile :title="item.label"/>
-        </el-col>
-      </el-row>
+          <el-menu-item class="outside" index="2">
+            <i class="el-icon-plus"></i>
+            <span slot="title">新建表</span>
+          </el-menu-item>
+          <el-menu-item class="outside" index="2">
+            <i class="el-icon-edit-outline"></i>
+            <span slot="title">管理</span>
+          </el-menu-item>
+          <el-menu-item class="outside" index="3">
+            <i class="el-icon-delete"></i>
+            <span slot="title">回收站</span>
+          </el-menu-item>
+          <el-submenu class="outside" index="1">
+            <template slot="title">
+              <i class="el-icon-plus"></i>
+              <span slot="title">排版占位不可见</span>
+            </template>
+          </el-submenu>
+        </el-menu>
+      </div>
+      <div>
+        <el-row>
+          <el-col :span="7" v-for="item in menu">
+            <EtherpadFile :title="item.label"/>
+          </el-col>
+        </el-row>
+      </div>
     </el-container>
   </div>
 </template>

@@ -9,6 +9,11 @@
     @close="handleClose"
     :collapse="isCollapse"
   >
+    <el-menu-item>
+      <el-page-header @back="goBack" content="项目">
+      </el-page-header>
+    </el-menu-item>
+
     <el-menu-item
       v-for="item in noChildren"
       :index="item.path"
@@ -54,8 +59,8 @@ export default {
       isCollapse: false,
       menu: [
         {
-          path: "../views/projects/project_firstpage.vue",
-          name: "project_firstpage",
+          path: "../views/projects/project_outline.vue",
+          name: "project_outline",
           label: "项目介绍",
           icon: "view",
         },
@@ -81,6 +86,7 @@ export default {
     };
   },
   methods: {
+    goBack(){window.location.href = "/team_projects"},
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -124,12 +130,12 @@ export default {
   background-color: rgb(241, 242, 243) !important;
   box-shadow: 1px !important;
   transition: 0.5s;
-  z-index: 1;
+  z-index: 0;
 }
 .el-menu-item:hover {
   background-color: rgba(150, 169, 183, 0.422) !important;
   color: rgb(255, 255, 255);
-  width: 250px;
+  width: 200px;
   margin: 20px;
   z-index: 1;
 }
@@ -137,7 +143,7 @@ export default {
   background-color: rgba(134, 143, 150, 0.42) !important;
   transition: 0.2s;
   color: rgb(255, 255, 255) !important;
-  z-index: 1;
+  z-index: 0;
 }
 .el-menu-item:focus {
   background-color: rgb(150, 169, 183) !important;

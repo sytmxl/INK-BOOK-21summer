@@ -24,6 +24,7 @@ export default {
   name: "drawioPrototype",
   props:{
     id:{default:0},
+    selected:{default: false}
   },
   beforeMount() {
     this.getData();
@@ -44,7 +45,7 @@ export default {
     getData(){
       this.$axios({
         method: "post" ,
-        url: "http://127.0.0.1:4523/m1/1379703-0-default/getgraph" ,
+        url: "http://127.0.0.1:4523/m1/1379703-0-default/app/get_graph" ,
         data: qs.stringify({
           id:this.$props.id
         }),

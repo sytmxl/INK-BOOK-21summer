@@ -1,9 +1,10 @@
 <template>
 <el-container>
-  <div class="main">
+  <div class="main" v-if="teamname">
     <div class="title" >
-        <h1>/(*￣▽￣*)/ <br>这里是团队的成员们</h1>
+        <h1>/(*￣▽￣*)/ <br>这里是团队的成员们 <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员">添加新成员</i></h1>
     </div>
+    
     <div class="boss people">
       <div class="boss_info">
            <info-card  v-for="item in team_member_list" :key="item"  :people="item"></info-card>
@@ -24,7 +25,9 @@
       </div>
     </div>
   </div>
-
+ <div class="chooseteam" v-else>
+            <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
+        </div>
   <div class="clear"></div>
   
 </el-container>
@@ -36,6 +39,7 @@
 import infoCard from "../../components/infocard.vue";
 import norminfoCard from "../../components/norminfocard.vue";
 import lowerinfoCard from "../../components/lowerinfocard.vue";
+import user_informationVue from '../users/user_information.vue';
 export default {
    components: {
     infoCard,
@@ -44,7 +48,7 @@ export default {
   },
   data(){
     return{
-      teamname:'',
+      teamname:JSON.parse(sessionStorage.getItem('team')).name,
       member1:{
          user_id:'1',
          user_name:'1',
@@ -90,6 +94,21 @@ export default {
       },
       ]
     }
+  },
+  methods:{
+    addmember(){
+         this.$prompt('请输入用户名', '邀请新成员', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+         //存session
+         //调用搜索功能，跳转到搜索页面
+         this.$store.dispatch("savesearched", value);
+         //此处需要发包
+        }).catch(() => {
+              
+        });
+      }
   }
   
 }
@@ -99,6 +118,14 @@ export default {
 .clear{
   clear: both;
 }
+  .chooseteam{
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  .el-icon-plus:hover{
+     cursor: pointer;
+  }
   .title{
     height: 150px;
     width: 100%;
