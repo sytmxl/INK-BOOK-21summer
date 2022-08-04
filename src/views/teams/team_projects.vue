@@ -67,7 +67,6 @@
           <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
           <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
           </div>
-            
       </el-card>
       <el-card class="box-card2" shadow="hover" v-else>
       </el-card>
@@ -239,6 +238,10 @@ export default {
     margin-left: 5px;
   }
   .box-card p{
+    font-size: 18px;
+    margin-top: 15px;
+  }
+    .box-card2 p{
     font-size: 18px;
     margin-top: 15px;
   }
