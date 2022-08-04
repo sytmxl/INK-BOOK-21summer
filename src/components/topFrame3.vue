@@ -8,14 +8,14 @@
   
         </div>
   </div>
-    <div class="search">
+    <!-- <div class="search">
             <el-input
               placeholder="按下回车键即可搜索"
               prefix-icon="el-icon-search"
               v-model="input" clearable="true" 
               @keyup.enter.native="doSearch()">
             </el-input>
-  </div>
+  </div> -->
      <div class="right">
        <div class="user">
             <img src="../assets/bk3.jpg" alt=""/>

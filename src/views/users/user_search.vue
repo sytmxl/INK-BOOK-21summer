@@ -18,7 +18,7 @@
                 <div slot="header" class="clearfix">
                   <span style="float: left; margin-top:-11px">用户名称：{{ item.user_name }}</span>
                   <el-button style="float: right; margin-top:-19px" type="text">发送邀请</el-button>
-                  <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text" @click="lookinfo({{item.}})">查看信息</el-button>
+                  <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text" >查看信息</el-button>
                 </div>
                 <div class="text item name">
                   <span class="og">用户编号：</span>
