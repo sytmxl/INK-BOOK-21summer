@@ -92,7 +92,7 @@ const routes = [{
     component: () =>
         import ('../views/testpage.vue')
 },{
-    path: '/taketoken:id',
+    path: '/taketoken/:id',
     name: 'taketoken',
     component: () =>
         import ('../views/taketoken.vue')

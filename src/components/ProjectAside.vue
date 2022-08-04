@@ -138,7 +138,7 @@ export default {
   background-color: rgb(247, 250, 252) !important;
   transition: 0.5s;
   text-align: left;
-  z-index: 1;
+  z-index: 0;
 }
 .el-menu-item:hover {
   backdrop-filter: blur(3px) !important;

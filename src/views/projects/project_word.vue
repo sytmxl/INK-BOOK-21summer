@@ -1,18 +1,41 @@
 <template>
   <div id="init">
+    <el-dialog
+        title="新建一個共享文檔"
+        :visible.sync="dialogVisible"
+        width="50%"
+        :before-close="closeDialog">
+      <span>
+          <el-row>
+            <el-col :span="4">
+              文檔標題：
+            </el-col>
+            <el-col :span="20">
+              <el-input
+                  placeholder="请输入标题"
+                  v-model="newDocName">
+              </el-input>
+            </el-col>
+          </el-row>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="add_doc">新建</el-button>
+      </span>
+    </el-dialog>
     <el-container>
       <div>
         <el-menu width=65px default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
 
           <el-menu-item class="outside" index="2">
-            <i class="el-icon-plus"></i>
+            <i class="el-icon-plus" @click="dialogVisible = true"></i>
             <span slot="title">新建表</span>
           </el-menu-item>
           <el-menu-item class="outside" index="2">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">管理</span>
           </el-menu-item>
-          <el-menu-item class="outside" index="3">
+          <el-menu-item class="outside" index="3" @click="enter_exit_Recycle">
             <i class="el-icon-delete"></i>
             <span slot="title">回收站</span>
           </el-menu-item>
@@ -24,10 +47,15 @@
           </el-submenu>
         </el-menu>
       </div>
-      <div class="right">
-        <el-row>
-          <el-col :span="7" v-for="item in menu">
-            <EtherpadFile :title="item.label"/>
+      <div>
+        <el-row   v-if="inRecycle == false">
+          <el-col :span="7" v-for="item in doc_list">
+            <EtherpadFile @deled="get_doc_list" :in-recycle="false" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+          </el-col>
+        </el-row>
+        <el-row v-if="inRecycle == true">
+          <el-col :span="7" v-for="item in recycle_list">
+            <EtherpadFile @deled="get_doc_list" :in-recycle="true" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
           </el-col>
         </el-row>
       </div>
@@ -37,10 +65,16 @@
 
 <script>
 import EtherpadFile from "../../components/etherpadFile.vue";
+import qs from "qs";
 export default {
   components: { EtherpadFile },
+  beforeMount() {
+    this.get_doc_list();
+  },
   data() {
     return {
+      dialogVisible : false,
+      inRecycle : false,
       isCollapse: false,
       menu: [
         {
@@ -68,7 +102,59 @@ export default {
           icon: "goods",
         },
       ],
+      doc_list : [],
+      recycle_list : [],
+      project_id : JSON.parse(sessionStorage.getItem("project")).project_id,
+      newDocName : ''
     };
+  },
+  methods:{
+    enter_exit_Recycle(){
+      this.$data.inRecycle = ! this.$data.inRecycle
+    },
+    openDialog(){
+      this.$data.dialogVisible = false
+    },
+    closeDialog(){
+      this.$data.dialogVisible = false
+    },
+    get_doc_list(){
+      this.$axios({
+        method: "post" ,
+        url: "/app/get_doc_list" ,
+        data: qs.stringify({
+          project_id:this.$data.project_id,
+        }),
+      }).then(res=>{
+        console.log(res.data.data)
+        let resData = res.data.data;
+        this.$data.doc_list = resData.doc_normal_list;
+        this.$data.recycle_list = resData.doc_recycle_list;
+      })
+    },
+    async add_doc(){
+      if(this.$data.newDocName == null || this.$data.newDocName == '' ){
+        this.$message({
+          message: '文檔標題不能為空',
+          type: 'warning'
+        });
+        return;
+      }
+      await this.$axios({
+        method: "post" ,
+        url: "/app/create_doc" ,
+        data: qs.stringify({
+          doc_name : this.$data.newDocName,
+          project_id : this.$data.project_id,
+        }),
+      })
+      this.$data.dialogVisible = false;
+      this.$message({
+        message: '文檔\"'+this.$data.newDocName+'\"新建成功',
+        type: 'success'
+      });
+      await this.get_doc_list();
+    },
   }
 }
 

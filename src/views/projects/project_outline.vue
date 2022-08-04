@@ -18,21 +18,33 @@
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期原型图</h1>
         </el-col>
       </el-row>
-    </el-card>
-    <el-card shadow="never">
       <el-row>
-        <el-col :span="24">
-            <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
-        </el-col>
-        <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-          <drawio-digram :id = "id" :isdel = "viewingDel"/>
+        <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
+          <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
         </el-col>
       </el-row>
     </el-card>
     <el-card shadow="never">
       <el-row>
         <el-col :span="24">
+            <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
+        </el-col>
+        <el-row>
+          <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+            <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+          </el-col>
+        </el-row>
+      </el-row>
+    </el-card>
+    <el-card shadow="never">
+      <el-row>
+        <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期文档</h1>
+        </el-col>
+      </el-row>
+      <el-row >
+        <el-col :span="7" v-for="item in doc_list">
+          <EtherpadFile @deled="get_doc_list" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
         </el-col>
       </el-row>
     </el-card>
@@ -42,35 +54,84 @@
 <script>
 import qs from "qs";
 import drawioDigram from "@/components/drawioDiagram";
+import EtherpadFile from "@/components/etherpadFile";
 
 export default {
-  components: {drawioDigram},
+  components: {drawioDigram,EtherpadFile},
   name: "project_outline",
   beforeMount() {
     sessionStorage.setItem("project_id","1");
     this.get_uml_list();
+    this.get_prototype_list();
+    this.get_doc_list();
   },
   methods:{
+    get_prototype_list(){
+      this.$axios({
+        method: "post" ,
+        url: "app/get_graph_list" ,
+        data: qs.stringify({
+          project_id:this.$data.project_id,
+          type:1,
+          isdeleted:"0"
+        }),
+      }).then(res => {
+        let graph_list = res.data.data.graph_list
+
+        this.$data.PrototypeList = [];
+        let i;
+        for(i in graph_list){
+          //console.log(graph_list[i].graph_id)
+          this.$data.PrototypeList.push(graph_list[i].graph_id);
+        }
+        this.$data.PrototypeList = this.$data.PrototypeList.slice(0,3);
+      })
+    },
     get_uml_list(){
       this.$axios({
         method: "post" ,
         url: "app/get_graph_list" ,
         data: qs.stringify({
+          project_id:this.$data.project_id,
           type:0,
-          isdeleted:false
+          isdeleted:"0"
         }),
       }).then(res => {
-        this.$data.UMLList = res.data.slice(0, 3);
+        let graph_list = res.data.data.graph_list
+
+        this.$data.UMLList = [];
+        let i;
+        for(i in graph_list){
+          //console.log(graph_list[i].graph_id)
+          this.$data.UMLList.push(graph_list[i].graph_id);
+        }
+        this.$data.UMLList =this.$data.UMLList.slice(0,3);
+      })
+    },
+    get_doc_list(){
+      this.$axios({
+        method: "post" ,
+        url: "/app/get_doc_list" ,
+        data: qs.stringify({
+          project_id:this.$data.project_id,
+        }),
+      }).then(res=>{
+        console.log(res.data.data)
+        let resData = res.data.data;
+        this.$data.doc_list = resData.doc_normal_list.slice(0,3);
+        console.log(this.$data.doc_list)
       })
     },
   },
   data() {
     return {
-      project_id : sessionStorage.getItem("project"),
-      team_name:"团队名称",
-      team_intro:"团队介绍",
-      project_name:"项目名称",
+      project_id : JSON.parse(sessionStorage.getItem("project")).project_id,
+      team_name: JSON.parse(sessionStorage.getItem("team")).team_name,
+      team_intro: sessionStorage.getItem(""),
+      project_name: JSON.parse(sessionStorage.getItem("project")).project_name,
       UMLList:[],
+      PrototypeList:[],
+      doc_list:[],
     }
   }
 }
