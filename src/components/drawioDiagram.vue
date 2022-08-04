@@ -127,7 +127,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "/app/full_del_graph" ,
+          url: "full_del_graph" ,
           data: qs.stringify({
             project_id:this.$data.project_id,
             graph_id:this.$props.graph_id

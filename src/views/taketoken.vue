@@ -12,7 +12,7 @@ export default {
         init(){
             this.$axios({
         method: "post",
-        url: "/app/join_team_by_token",
+        url: "join_team_by_token",
         data: qs.stringify({
           token: this.$route.params,
         }),
