@@ -29,7 +29,7 @@
       </el-row>
       <el-row>
         <el-col :span="4">
-          UML标题：
+          UML模板：
         </el-col>
         <el-col :span="20">
           <el-select v-model="template" placeholder="请选择">
@@ -71,7 +71,7 @@
       <div>
         <el-row>
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-u-m-l :graph_id = "id" :isdel = "viewingDel"/>
+            <drawio-u-m-l :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
           </el-col>
         </el-row>
       </div>
@@ -85,14 +85,18 @@ import qs from "qs";
 export default {
   components: {DrawioUML},
   beforeMount() {
-    this.get_list(false);
+    this.get_list("0");
   },
   methods:{
-    test(){
-      this.get_list(false);
+    updateOnDel(){
+      this.get_list(this.$data.viewingDel);
     },
     viewDel(){
-      this.viewingDel=!this.viewingDel;
+      if(this.viewingDel == "1"){
+        this.viewingDel = "0";
+      }else {
+        this.viewingDel = "1";
+      };
       this.get_list(this.viewingDel);
     },
     closeDialog(){
@@ -108,8 +112,14 @@ export default {
           isdeleted:del
         }),
       }).then(res => {
-        console.log(res.data.data.graph_list)
-        this.$data.UMLList = res.data.data.graph_list
+        let graph_list = res.data.data.graph_list
+
+        this.$data.UMLList = [];
+        let i;
+        for(i in graph_list){
+          //console.log(graph_list[i].graph_id)
+          this.$data.UMLList.push(graph_list[i].graph_id);
+        }
       })
     },
     add_graph(template) {
@@ -156,7 +166,7 @@ export default {
       newHeader:null,
       newBrief:null,
       dialogVisible:false,
-      viewingDel:false,
+      viewingDel:"0",
       UMLList:[],
       template:"1",
       template_options: [{
