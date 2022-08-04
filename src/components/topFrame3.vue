@@ -119,6 +119,8 @@ export default {
 .top{
   margin-top: 10px;
   display: flex;
+  backdrop-filter: blur(5px);
+
 }
 @font-face {
   font-family: myFont;
@@ -128,7 +130,7 @@ export default {
   font-family: myFont;
   user-select: none;
   text-decoration: none;
-  color:black;
+  color:rgb(73, 88, 100);
 }
 .brandtext2 {
   font-family: "楷体";
