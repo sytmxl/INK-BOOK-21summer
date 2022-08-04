@@ -109,6 +109,7 @@
         <el-tabs
           v-model="activeName"
           tab-position="left"
+          type="card"
           @tab-click="handleClick"
         >
           <el-tab-pane label="个人所在团队" name="first">
@@ -161,9 +162,9 @@
           </el-tab-pane>
           <el-tab-pane label="个人回收项目" name="third">
             <el-card class="box-card" v-for="item in reprojectlist">
-              <div class="text tag re">
+              <!-- <div class="text tag re">
                 <span class="tag1">已回收项目！！！</span>
-              </div>
+              </div> -->
               <div class="text item name">
                 <span class="og">项目名称：</span>
                 {{ item.project_name }}
@@ -495,13 +496,17 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top: 62px;
+  top: 0;
   bottom: 0;
+  padding-top: 62px;
   overflow-y: hidden;
+  background-color: rgba(234, 239, 242, 0.425);
 }
 
 .el-header {
-  background-color: white;
+  /* background-color: white; */
+  backdrop-filter: blur(10px) brightness(110%);
+
   text-align: left;
   color: black;
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
@@ -553,24 +558,24 @@ export default {
 }
 
 .box-card {
-  width: 550px;
+  width: 490px;
   height: 350px;
   float: left;
   margin-left: 50px;
   border-radius: 15px;
   text-align: left;
   margin-bottom: 20px;
+  border-color: rgb(206, 218, 226) 2px !important;
+  padding: 0px 30px 0px 30px;
+  box-shadow: none;
 }
 .box-card .og {
   margin-top: 20px;
   font-weight: bold;
 }
-.el-card {
-  border-radius: 20px;
-  border-color: #c0c4cc;
-}
+
 .el-card:hover {
-  border-color: #3f77e7;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .tag1{
   font-weight: bold;
@@ -580,5 +585,16 @@ export default {
 .re{
   padding: 0px 0;
   text-align:center;
+}
+.el-button {
+  background-color: rgb(206, 218, 226);
+  border-color: rgb(206, 218, 226);
+  color: black;
+  transition: 0.5s;
+}
+.el-button:hover {
+  background-color: rgb(150, 169, 183) !important;
+  border-color: rgb(150, 169, 183);
+  color: rgb(255, 255, 255);
 }
 </style>
