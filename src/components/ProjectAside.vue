@@ -12,10 +12,11 @@
     
     <div class="title" @click="goBack">
       <div class="back">
-        ⬅️&nbsp;
+        &lt;&nbsp;
       </div>
       项目
     </div>
+    <el-divider></el-divider>
 
     <div class="menu_base">
       <el-menu-item
@@ -28,6 +29,7 @@
         <i :class="'el-icon-' + item.icon"></i>
         <span slot="title">{{ item.label }}</span>
       </el-menu-item>
+
     </div>
     
     <!-- <el-submenu
@@ -171,11 +173,11 @@ export default {
   margin: 15px;
 }
 .title {
-  font-size: 50px;
+  font-size: 30px;
   font-weight: bolder;
   float: left;
   margin: 10px 0px 0px 20px;
-  color: rgb(150, 169, 183);
+  color: rgb(45, 52, 57);
   /* colorgb(5, 5, 6)55); */
   transition: 0.5s;
 }
@@ -195,4 +197,7 @@ export default {
   font-size: 50px;
   float: left;
   }
+.el-divider {
+  margin-top: auto;
+}
 </style>
