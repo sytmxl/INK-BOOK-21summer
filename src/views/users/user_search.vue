@@ -14,7 +14,7 @@
         <el-col :span="16">
           <el-tabs v-model="activeName">
             <el-tab-pane label="用户" name="first">
-              <el-card class="box-card" v-for="item in userlist">
+              <el-card class="box-card" v-for="item in userlist" :key="item">
                 <div slot="header" class="clearfix">
                   <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name }}</span>
                   <el-button style="float: right; margin-top:-19px" type="text">发送邀请</el-button>
