@@ -31,9 +31,7 @@ export default {
   },
   methods:{
     edit(){
-		
-      console.log("localhost:9001/p/"+this.$options.propsData.title);
-      location.href="http://localhost:9001/p/"+this.$options.propsData.title;
+		      location.href="http://43.138.67.29:9001/p/"+this.$options.propsData.title;
     }
 	},
 	data() {
