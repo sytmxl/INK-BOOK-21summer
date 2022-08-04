@@ -1,12 +1,13 @@
 <template>
 <el-container>
    <div class="main" v-if="teamname">
-     <div class="title" >
-        <h1> (ง •_•)ง <br>这里是团队的项目<i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="新建项目">新建项目</i></h1>
+    <div class="title" @click="addproject()">
+      <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
 
     <div class="recent" v-if="project_list.length!=0">
-      <h1>热门项目</h1>
+      <h1 class="label">近期项目</h1>
+      
         <div class="content">
 
         <div v-for="i in 4" :key="i">
@@ -43,7 +44,7 @@
         </div>
     </div>
     <div class="recent" v-else>
-      <h1>热门项目</h1>
+      <h1 class="label">近期项目</h1>
        <div class="chooseteam">
             <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
               <el-button @click="addproject()">新建项目</el-button>
@@ -52,7 +53,7 @@
     </div>
 
     <div class="all" v-if="project_list.length!=0">
-      <h1>全部项目</h1>
+      <h1 class="label">全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover" v-if="index%2==0">
           <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
@@ -220,20 +221,7 @@ export default {
   .el-icon-plus:hover{
      cursor: pointer;
   }
-  .title{
-    height: 150px;
-    width: 100%;
-    background: linear-gradient(270.6deg, #e3f6fd -8.4%, #f6faff 100%);
-    font-size: 36px;
-    color: black;
-    text-align: left;
-    line-height: 60px;
-    border-radius: 10px;
-  }
-  .title h1{
-    margin-left: 50px;
-    margin-top: 20px;
-  }
+  
    .main{
     width: 100%;
   }
@@ -257,28 +245,6 @@ export default {
   .content{
     margin-top: 20px;
   }
-  .box-card {
-    width: 550px;
-    height: 300px;
-    float: left;
-    margin-left: 50px;
-    margin-top: 50px;
-    border-radius: 15px;
-    text-align: left;
-    border-color: skyblue;
-  }
-    .box-card2 {
-    width: 550px;
-    height: 300px;
-    float: right;
-    margin-right: 50px;
-    margin-top: 50px;
-    border-radius: 15px;
-    text-align: left;
-    border-color: skyblue;
-  }
-
-
   .el-icon-edit{
     cursor: pointer;
     margin-left: 5px;
@@ -297,5 +263,59 @@ export default {
   .bottom .el-button{
     border-radius: 20px;
     margin-left: 85px;
+  }
+  .title{
+    width: 62px;
+    border-radius: 20px;
+    
+    /* background: linear-gradient(270.6deg, #cbcddb06 -8.4%, rgba(150, 169, 183, 0.422) 100%); */
+    background-color: rgb(206, 218, 226);
+    font-size: 36px;
+    color: black;
+    text-align: center;
+    
+    overflow: hidden;
+    transition: 0.2s;
+    padding-bottom: 10px;
+    float: right;
+    left: 93%;
+    position: fixed;
+  }
+  .title:hover {
+    width: 62px;
+    border-radius: 50%;
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+  }
+  .box-card{
+    width: 510px;
+    height: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 20px;
+    float: left;
+    border-color: rgb(206, 218, 226) 2px;
+    margin-bottom: 50px;
+  }
+    .box-card2{
+    width: 510px;
+    height: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 20px;
+    float: left;
+    border-color: rgb(206, 218, 226) 2px;
+    margin-bottom: 50px;
+  }
+  .label {
+    margin: 0px 0px 0px 50px !important;
+    font-size: 50px;
+    float: left;
+    width: 100%;
+    color: rgb(114, 132, 145);
   }
 </style>

@@ -3,45 +3,56 @@
     <el-dialog
         title="新建一个UML图"
         :visible.sync="dialogVisible"
-        width="40%"
+        width="50%"
         :before-close="closeDialog">
-      <el-row>
-        <el-col :span="4">
-          UML标题：
-        </el-col>
-        <el-col :span="20">
-          <el-input
-              placeholder="请输入标题"
-              v-model="newHeader">
-          </el-input>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="4">
-        UML图注：
-        </el-col>
-        <el-col :span="20">
-          <el-input
-              placeholder="请输入图注"
-              v-model="newBrief">
-          </el-input>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="4">
-          UML模板：
-        </el-col>
-        <el-col :span="20">
-          <el-select v-model="template" placeholder="请选择">
-            <el-option
-                v-for="item in template_options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
+      <span>
+        <span>
+          <el-row>
+            <el-col :span="4">
+              UML标题：
+            </el-col>
+            <el-col :span="20">
+              <el-input
+                  placeholder="请输入标题"
+                  v-model="newHeader">
+              </el-input>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="4">
+              UML图注：
+            </el-col>
+            <el-col :span="20">
+              <el-input
+                  placeholder="请输入图注"
+                  v-model="newBrief">
+              </el-input>
+            </el-col>
+          </el-row>
+        </span>
+        <span>
+          <el-row>
+            <el-col :span="4">
+              UML模板：
+            </el-col>
+            <el-col :span="4">
+              <el-select v-model="template" placeholder="请选择">
+                <el-option
+                    v-for="item in template_options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col span="16">
+              <img :src="template_options[template].preview">
+            </el-col>
+          </el-row>
+        </span>
+      </span>
+
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
         <el-button type="primary" @click="add_graph">新建</el-button>
@@ -72,6 +83,7 @@
         <el-row>
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-u-m-l :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+            {{id}}
           </el-col>
         </el-row>
       </div>
@@ -82,6 +94,7 @@
 <script>
 import DrawioUML from "@/components/drawioUML";
 import qs from "qs";
+import drawio from "@/scripts/drawio";
 export default {
   components: {DrawioUML},
   beforeMount() {
@@ -89,6 +102,8 @@ export default {
   },
   methods:{
     updateOnDel(){
+      setTimeout(()=>{}
+      ,200);
       this.get_list(this.$data.viewingDel);
     },
     viewDel(){
@@ -122,7 +137,7 @@ export default {
         }
       })
     },
-    add_graph(template) {
+    async add_graph(template) {
       let newid = null;
       if(this.$data.newHeader == null || this.$data.newHeader == '' ){
         this.$message({
@@ -132,7 +147,7 @@ export default {
         return;
       }
       this.closeDialog();
-      this.$axios({
+      await this.$axios({
         method: "post" ,
         url: "app/new_graph" ,
         data: qs.stringify({
@@ -141,18 +156,28 @@ export default {
           template:this.$data.template
         }),
       }).then(res => {
-        newid = res.data
+        newid = res.data.data.graph_id
         this.$data.UMLList.push(res.data)
+        this.$axios({
+          method: "post" ,
+          url: "app/modify_graph" ,
+          data: qs.stringify({
+            graph_id:newid,
+            graph_name:this.$data.newHeader,
+            graph_info:this.$data.newBrief
+          }),
+        })
+        this.$axios({
+          method: "post" ,
+          url: "/app/update_graph_data" ,
+          data: qs.stringify({
+            graph_id:newid,
+            graph_data : this.$data.template_options[this.$data.template].preview
+          }),
+        })
       })
-      this.$axios({
-        method: "post" ,
-        url: "app/modify_graph" ,
-        data: qs.stringify({
-          graph_id:newid,
-          graph_name:this.$data.newHeader,
-          graph_info:this.$data.newBrief
-        }),
-      })
+
+      await this.updateOnDel();
       this.$message({
         message: '成功新建了\"'+this.$data.newHeader+'\"',
         type: 'success'
@@ -168,22 +193,27 @@ export default {
       dialogVisible:false,
       viewingDel:"0",
       UMLList:[],
-      template:"1",
+      template: 1,
       template_options: [{
-        value: '1',
-        label: '空白模板'
+        value: 1,
+        label: '空白模板',
+        preview : drawio.DiagramEditor.umlDefaultProject
       }, {
-        value: '2',
-        label: '模板1'
+        value: 2,
+        label: '模板1',
+        preview : drawio.DiagramEditor.umlDefaultProject
       }, {
-        value: '3',
-        label: '模板2'
+        value: 3,
+        label: '模板2',
+        preview : drawio.DiagramEditor.umlDefaultProject
       }, {
-        value: '4',
-        label: '模板3'
+        value: 4,
+        label: '模板3',
+        preview : drawio.DiagramEditor.umlDefaultProject
       }, {
-        value: '5',
-        label: '模板4'
+        value: 5,
+        label: '模板4',
+        preview : drawio.DiagramEditor.umlDefaultProject
       }],
     }
   }

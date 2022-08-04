@@ -1,8 +1,8 @@
 <template>
 <el-container>
   <div class="main" v-if="teamname">
-    <div class="title" >
-        <h1>/(*￣▽￣*)/ <br>这里是团队的成员们 <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员">添加新成员</i></h1>
+    <div class="title" @click="addmember()">
+      <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
     
     <div class="boss people">
@@ -122,18 +122,27 @@ export default {
      cursor: pointer;
   }
   .title{
-    height: 150px;
-    width: 100%;
-    background: linear-gradient(270.6deg, #e3f6fd -8.4%, #f6faff 100%);
+    width: 62px;
+    border-radius: 20px;
+    
+    /* background: linear-gradient(270.6deg, #cbcddb06 -8.4%, rgba(150, 169, 183, 0.422) 100%); */
+    background-color: rgb(206, 218, 226);
     font-size: 36px;
     color: black;
-    text-align: left;
-    line-height: 60px;
-    border-radius: 10px;
+    text-align: center;
+    
+    overflow: hidden;
+    transition: 0.2s;
+    padding-bottom: 10px;
+    float: right;
+    left: 93%;
+    position: fixed;
   }
-  .title h1{
-    margin-left: 50px;
-    margin-top: 20px;
+  .title:hover {
+    width: 62px;
+    border-radius: 50%;
+    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
   /* .main .people{
     margin-bottom: 200px;

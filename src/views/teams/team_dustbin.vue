@@ -1,11 +1,9 @@
 <template>
     <el-container>
         <div class="main" v-if="teamname">
-            <div class="title" >
-                    <h1> ~(～￣▽￣)～ <br>不小心删掉的项目可以在这里恢复哦</h1>
-            </div>
-            <div class="all">
-      <h1>全部项目</h1>
+            
+      <div class="all">
+      <h1 class="label">全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover" v-if="index%2==0">
           <h5>{{item.project_name}}</h5>
@@ -70,27 +68,6 @@
   .content{
     margin-top: 20px;
   }
-  .box-card {
-    width: 550px;
-    height: 300px;
-    float: left;
-    margin-left: 50px;
-    margin-top: 50px;
-    border-radius: 15px;
-    text-align: left;
-    border-color: skyblue;
-  }
-    .box-card2 {
-    width: 550px;
-    height: 300px;
-    float: right;
-    margin-right: 50px;
-    margin-top: 50px;
-    border-radius: 15px;
-    text-align: left;
-    border-color: skyblue;
-  }
-
 
   .el-icon-edit{
     cursor: pointer;
@@ -110,6 +87,37 @@
   .bottom .el-button{
     border-radius: 20px;
     margin-left: 85px;
+  }
+  .box-card{
+    width: 510px;
+    height: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 20px;
+    float: left;
+    border-color: rgb(206, 218, 226) 2px;
+    margin-bottom: 50px;
+  }
+    .box-card2{
+    width: 510px;
+    height: 300px;
+    margin-left: 50px;
+    margin-top: 50px;
+    border-radius: 15px;
+    text-align: left;
+    padding: 20px;
+    float: left;
+    border-color: rgb(206, 218, 226) 2px;
+    margin-bottom: 50px;
+  }
+  .label {
+    margin: 20px 0px 0px 50px !important;
+    font-size: 50px;
+    float: left;
+    width: 100%;
+    color: rgb(114, 132, 145);
   }
 </style>
 

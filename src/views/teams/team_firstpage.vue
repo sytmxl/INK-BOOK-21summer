@@ -34,6 +34,7 @@ export default {
 .el-main {
      /* overflow:visible;  */
     /* padding-top: 0;  */
+  background-color: rgba(244, 247, 249, 0.371);
   position: absolute;
   left: 200px;
   right: 0;
