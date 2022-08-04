@@ -1,13 +1,43 @@
 <template>
   <el-container>
-    <el-header style="height: 80px; z-index: 1">
+    <el-header style="height: 80px; z-index: 2">
       <top-frame2></top-frame2>
     </el-header>
-    <el-main style="overflow: scroll"> 
+    <el-main style="overflow: scroll">
       <el-row class="info">
-        <el-col :span="8">
-            <span class="slo">您搜索{{content}}的结果如下：</span>
+        <el-col :span="14">
+          <span class="slo">您搜索"{{ content }}"的结果如下：</span>
         </el-col>
+      </el-row>
+      <el-row class="nei">
+        <el-col :span="4"><img></img></el-col>
+        <el-col :span="16">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="用户" name="first">
+              <el-card class="box-card" v-for="item in userlist">
+                <div slot="header" class="clearfix">
+                  <span style="float: left; margin-top:-11px">用户名称：{{ item.user_name }}</span>
+                  <el-button style="float: right; margin-top:-19px" type="text">发送邀请</el-button>
+                  <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text" @click="lookinfo({{item.}})">查看信息</el-button>
+                </div>
+                <div class="text item name">
+                  <span class="og">用户编号：</span>
+                  {{item.user_id}}
+                </div>
+                <div class="text item setter">
+                  <span class="og">用户邮箱：</span>
+                  {{item.email}}
+                </div>
+                <div class="text item settime">
+                  <span class="og">个性签名：</span>
+                  {{item.user_info}}
+                </div>
+              </el-card>
+            </el-tab-pane>
+            <el-tab-pane label="团队" name="second">团队</el-tab-pane>
+          </el-tabs>
+        </el-col>
+        <el-col :span="4"><img></img></el-col>
       </el-row>
     </el-main>
   </el-container>
@@ -21,28 +51,128 @@ export default {
   components: {
     topFrame2,
   },
-  data(){
+  data() {
     return {
-      content:JSON.parse(sessionStorage.getItem("searched")).content,
+      user_name: "",
+      activeName: "first",
+      content: JSON.parse(sessionStorage.getItem("searched")).content,
+      userlist:[],
+      teamlist:[],
     };
   },
-  methods:{
-    
-  },
-  mounted()
-  {
-    console.log(this.$route.path);
-  },
-  
-};
+  methods: {
+    init() {
+      this.$axios({
+        method: "post" /* 指明请求方式，可以是 get 或 post */,
+        url: "/app/search_user_by_username" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        // headers:{
+        //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+        // }
+        data: qs.stringify({
+            /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+            user_name:this.content,
+            query_type:"fuzzy"
+          }),
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.data.errno == 0) {
+            console.log("成功搜索用户");
+             res.data.data.user_list.forEach((item) => {
+              var tmp = {
+                user_id: "",
+                user_name: "",
+                email: "",
+                user_info: "",
+              };
+              tmp.user_id = item.user_id;
+              tmp.user_name = item.user_name;
+              tmp.email = item.email;
+              tmp.user_info = item.user_info;
+              console.log(tmp);
+              this.userlist.push(tmp);
+              console.log(this.userlist);
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              center: true,
+              type: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err); /* 若出现异常则在终端输出相关信息 */
+        });
+    },
+    lookinfo(){
 
+    }
+  },
+  mounted() {
+    console.log(this.$route.path);
+    this.init();
+  },
+};
 </script>
 
 <style scoped>
-  .slo{
-    font-weight: bold;
-    font-size: 30px;
-    color:#444444;
-    margin-left: -15%;
+.el-main {
+  /* overflow:visible;  */
+  /* padding-top: 0;  */
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 62px;
+  bottom: 0;
+  overflow-y: hidden;
+}
+.el-header {
+  background-color: white;
+  text-align: left;
+  color: black;
+  /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+}
+.slo {
+  font-weight: bold;
+  font-size: 25px;
+  color: #444444;
+  margin-right: 40%;
+}
+
+.nei {
+  margin-top: 2%;
+}
+
+.text {
+  font-size: 15px;
+}
+
+.item {
+  padding: 12px 0;
+}
+
+.box-card {
+  width: 40%;
+  height: 200px;
+  float: left;
+  /* margin-left: 10px; */
+  margin-right:60px;
+  margin-left: 35px;
+  border-radius: 15px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+.box-card .og {
+  margin-top: 20px;
+  font-weight: bold;
+}
+.el-card {
+  border-radius: 20px;
+  border-color: #c0c4cc;
+}
+.el-card:hover {
+  border-color: #3f77e7;
 }
 </style>
