@@ -1,24 +1,58 @@
 <template>
-  <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;" shadow="hover">
-    <div class="preview">
-      <img style="cursor: pointer;" title="编辑" @click="edit"
-           :src="this.base64src" id="graph" ref="graph">
-    </div>
-    <div class="member-info">
-      <h3>{{title}}</h3>
-      <h5>{{description}}</h5>
-      <h5>最后编辑-{{ lastEditTime }}</h5>
-      <div class="social-touch" v-if="isdel != true">
-        <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
-        <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" />
-        <el-button icon="el-icon-magic-stick" circle title="测试" @click="getData"/>
+  <div>
+    <el-dialog
+        title="新建一个UML图"
+        :visible.sync="dialogVisible"
+        width="40%"
+        :before-close="closeDialog">
+      <el-row>
+        <el-col :span="4">
+          UML标题：
+        </el-col>
+        <el-col :span="20">
+          <el-input
+              placeholder="请输入标题"
+              v-model="newHeader">
+          </el-input>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="4">
+          UML图注：
+        </el-col>
+        <el-col :span="20">
+          <el-input
+              placeholder="请输入图注"
+              v-model="newBrief">
+          </el-input>
+        </el-col>
+      </el-row>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="updateData">新建</el-button>
+      </span>
+    </el-dialog>
+    <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;" shadow="hover">
+      <div class="preview">
+        <img style="cursor: pointer;" title="编辑" @click="edit"
+             :src="this.base64src" id="graph" ref="graph">
       </div>
-      <div class="social-touch" v-else>
-        <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
-        <el-button type="danger" icon="el-icon-close" circle title="彻底删除" @click="foreverDel" />
+      <div class="member-info">
+        <h3>{{title}}</h3>
+        <h5>{{description}}</h5>
+        <h5>最后编辑-{{ lastEditTime }}</h5>
+        <div class="social-touch" v-if="isdel != true">
+          <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
+          <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" @click="del"/>
+          <el-button icon="el-icon-magic-stick" circle title="修改信息" @click="openDialog"/>
+        </div>
+        <div class="social-touch" v-else>
+          <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
+          <el-button type="danger" icon="el-icon-close" circle title="彻底删除" @click="foreverDel" />
+        </div>
       </div>
-    </div>
-  </el-card>
+    </el-card>
+  </div>
 </template>
 
 <script>
@@ -34,17 +68,34 @@ export default {
     this.getData();
   },
   methods:{
+    closeDialog(){
+      this.$data.dialogVisible = false
+    },
+    openDialog(){
+      this.$data.dialogVisible = true
+    },
     edit(){
       drawio.DiagramEditor.editElement( this.$refs.graph, this.$data.configs, "kennedy", null, ['dark=1', 'pv=0']);
     },
     del(){
-      this.$axios({
-        method: "post" ,
-        url: "app/del_graph" ,
-        data: qs.stringify({
-          project_id:this.$data.project_id,
-          graph_id:this.$props.graph_id
-        }),
+      this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
+        confirmButtonText: '是的',
+        cancelButtonText: '取消',
+        type: 'info'
+      }).then(() => {
+        this.$axios({
+          method: "post" ,
+          url: "app/del_graph" ,
+          data: qs.stringify({
+            project_id:this.$data.project_id,
+            graph_id:this.$props.graph_id
+          }),
+        });
+        this.$emit('deled');
+        this.$message({
+          type: 'info',
+          message: '已将\"'+this.$data.title+'\"扔到回收站'
+        });
       })
     },
     recover(){
@@ -55,6 +106,7 @@ export default {
           graph_id:this.$props.graph_id
         }),
       })
+      this.$emit('deled');
       this.$message({
         type: 'info',
         message: '已恢复\"'+this.$data.title+'\"'
@@ -74,6 +126,7 @@ export default {
             graph_id:this.$props.graph_id
           }),
         });
+        this.$emit('deled');
         this.$message({
           type: 'info',
           message: '已删除\"'+this.$data.title+'\"'
@@ -88,16 +141,35 @@ export default {
           graph_id:this.$props.graph_id
         }),
       }).then(res => {
-        this.$data.title = res.data.header;
-        this.$data.description = res.data.brief;
-        this.$data.lastEditTime = res.data.lastedit;
+        this.$data.title = this.$data.newHeader = res.data.data.header;
+        this.$data.description = this.$data.newBrief = res.data.data.brief;
+        this.$data.lastEditTime = res.data.data.lastedit;
         //this.$data.base64src = res.data.data;
       })
+    },
+    updateData(){
+      this.$axios({
+        method: "post" ,
+        url: "app/modify_graph" ,
+        data: qs.stringify({
+          graph_id:this.$props.graph_id,
+          graph_name:this.$data.newHeader,
+          graph_info:this.$data.newBrief
+        }),
+      })
+      this.$message({
+        message: '\"'+this.$data.newHeader+'\"已更新了信息',
+        type: 'success'
+      });
+      this.$data.newHeader = this.$data.newBrief = null;
+      this.$data.dialogVisible = false;
     }
-
   },
   data() {
     return {
+      dialogVisible:false,
+      newHeader:null,
+      newBrief:null,
       project_id:sessionStorage.getItem("project_id"),
       title:"项目",
       description:"无简介",
