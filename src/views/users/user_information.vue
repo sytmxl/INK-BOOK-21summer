@@ -1,61 +1,63 @@
 <template>
   <el-container>
-    <el-header style="height: 80px">
+    <el-header style="height: 80px;z-index: 1;">
       <top-frame2></top-frame2>
     </el-header>
-    <el-main >
+    <el-main style="overflow:scroll">
       <el-row style="margin-top: 2.5%;margin-bottom: 5.5%;">
         <el-col span="10" >
           <img v-if="!imageUrl" class="pic" src="../../assets/member_270x210.jpg" alt="" />
           <img v-else class="pic" :src="imageUrl" alt="" />
         </el-col>
 
-        <el-col span="11" style="margin-top: 2.5%;">         
+        <el-col span="11" style="margin-top: -0.5%;">         
             <el-descriptions
-                :column="4"
+                :column="3"
                 size="medium"
                 border
                 direction="vertical"
                 title="个人信息"
             >
               <template slot="extra">
-                <el-button id="edit" type="primary" size="small" @click="edit()"
+                <el-button id="edit" type="primary" size="small" @click="edit()" v-if="notedit"
                 >编辑</el-button
                 >
                 <el-button
+                    v-else
                     id="save"
                     type="primary"
                     size="small"
                     @click="save()"
-                    style="display: none"
                 >保存</el-button
                 >
               </template>
               <el-descriptions-item>
                 <template slot="label">
-                  <i class="el-icon-user"></i>
+                  <i class="el-icon-user-solid"></i>
                   用户名
                 </template>
                 <div class="user_name">{{username}}</div>
-                <div class="new_user_name" style="display: none">
+                <!-- <div class="new_user_name"  v-else>
                   <el-input
                       v-model="new_user_name"
                       placeholder="请输入新用户名"
                       id="new_user_name"
+                      size="small"
                   ></el-input>
-                </div>
+                </div> -->
               </el-descriptions-item>
               <el-descriptions-item>
                 <template slot="label">
                   <i class="el-icon-s-custom"></i>
                   真实姓名
                 </template>
-                <div class="real_name">{{realname}}</div>
-                <div class="new_real_name" style="display: none">
+                <div class="real_name" v-if="notedit">{{realname}}</div>
+                <div class="new_real_name" v-else>
                   <el-input
                       v-model="new_real_name"
                       placeholder="请输入新真实姓名"
                       id="new_real_name"
+                      size="small"
                   ></el-input>
                 </div>
               </el-descriptions-item>
@@ -64,14 +66,31 @@
                   <i class="el-icon-message"></i>
                   联系邮箱
                 </template>
-                <div class="email">{{email}}</div>
-                <div class="new_email" style="display: none">
+                <div class="email" >{{email}}</div>
+                <!-- <div class="new_email" v-else>
                   <el-input
                       v-model="new_email"
                       placeholder="请输入新邮箱"
                       id="new_email"
+                      size="small"
+                  ></el-input>
+                </div> -->
+              </el-descriptions-item>
+              <el-descriptions-item>
+                <template slot="label">
+                  <i class="el-icon-star-on"></i>
+                  个性签名
+                </template>
+                <div class="word" v-if="notedit">{{word}}</div>
+                <div class="new_email" v-else>
+                  <el-input
+                      v-model="new_word"
+                      placeholder="请输入新个性签名"
+                      id="new_email"
+                      size="small"
                   ></el-input>
                 </div>
+                
               </el-descriptions-item>
             </el-descriptions>
           
@@ -85,128 +104,56 @@
             @tab-click="handleClick"
         >
           <el-tab-pane label="个人所在团队" name="first">
-            <el-card class="box-card">
+            <el-card class="box-card" v-for="item in teamlist" >
               <div  class="text item name">
-                <span class="og">团队名称：</span>
-                {{teamname}}
+                <span class="og" >团队名称：</span>
+                {{item.teamname}}
 
               </div>
               <div  class="text item type">
                 <span class="og">团队类型：</span>
-                {{teamtype}}
+                {{item.teamtype}}
               </div>
               <div  class="text item setter">
                 <span class="og">团队创始人：</span>
-                {{teamsetter}}
+                {{item.teamsetter}}
               </div>
               <div  class="text item settime">
                 <span class="og">创建时间：</span>
-                {{teamsettime}}
+                {{item.teamsettime}}
               </div>
               <div  class="text item peoplenum">
                 <span class="og">现有人数：</span>
-                {{teamernum}}
+                {{item.teamernum}}
               </div>
-
             </el-card>
-            <el-card class="box-card">
-              <div  class="text item name">
-                <span class="og">团队名称：</span>
-                {{teamname}}
-
-              </div>
-              <div  class="text item type">
-                <span class="og">团队类型：</span>
-                {{teamtype}}
-              </div>
-              <div  class="text item setter">
-                <span class="og">团队创始人：</span>
-                {{teamsetter}}
-              </div>
-              <div  class="text item settime">
-                <span class="og">创建时间：</span>
-                {{teamsettime}}
-              </div>
-              <div  class="text item peoplenum">
-                <span class="og">现有人数：</span>
-                {{teamernum}}
-              </div>
-
-            </el-card>
-
-            <el-card class="box-card">
-              <div  class="text item name">
-                <span class="og">团队名称：</span>
-                {{teamname}}
-
-              </div>
-              <div  class="text item type">
-                <span class="og">团队类型：</span>
-                {{teamtype}}
-              </div>
-              <div  class="text item setter">
-                <span class="og">团队创始人：</span>
-                {{teamsetter}}
-              </div>
-              <div  class="text item settime">
-                <span class="og">创建时间：</span>
-                {{teamsettime}}
-              </div>
-              <div  class="text item peoplenum">
-                <span class="og">现有人数：</span>
-                {{teamernum}}
-              </div>
-
-            </el-card>
-            <el-card class="box-card">
-              <div  class="text item name">
-                <span class="og">团队名称：</span>
-                {{teamname}}
-
-              </div>
-              <div  class="text item type">
-                <span class="og">团队类型：</span>
-                {{teamtype}}
-              </div>
-              <div  class="text item setter">
-                <span class="og">团队创始人：</span>
-                {{teamsetter}}
-              </div>
-              <div  class="text item settime">
-                <span class="og">创建时间：</span>
-                {{teamsettime}}
-              </div>
-              <div  class="text item peoplenum">
-                <span class="og">现有人数：</span>
-                {{teamernum}}
-              </div>
-            </el-card> 
-            <el-card class="box-card">
-              <div  class="text item name">
-                <span class="og">团队名称：</span>
-                {{teamname}}
-
-              </div>
-              <div  class="text item type">
-                <span class="og">团队类型：</span>
-                {{teamtype}}
-              </div>
-              <div  class="text item setter">
-                <span class="og">团队创始人：</span>
-                {{teamsetter}}
-              </div>
-              <div  class="text item settime">
-                <span class="og">创建时间：</span>
-                {{teamsettime}}
-              </div>
-              <div  class="text item peoplenum">
-                <span class="og">现有人数：</span>
-                {{teamernum}}
-              </div>
-            </el-card>        
             </el-tab-pane>
-          <el-tab-pane label="正在进行项目" name="second">配置管理</el-tab-pane>
-          <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane>
+          <el-tab-pane label="个人所在项目" name="second">
+            <el-card class="box-card" v-for="item in teamlist" >
+              <div  class="text item name">
+                <span class="og" >项目名称：</span>
+                {{item.project_name}}
+
+              </div>
+              <div  class="text item type">
+                <span class="og">项目编号：</span>
+                {{item.project_id}}
+              </div>
+              <div  class="text item setter">
+                <span class="og">创建时间：</span>
+                {{item.project_create_time}}
+              </div>
+              <div  class="text item settime">
+                <span class="og">更新时间：</span>
+                {{item.project_update_time}}
+              </div>
+              <div  class="text item peoplenum">
+                <span class="og">所属团队编号：</span>
+                {{item.teamnum}}
+              </div>
+            </el-card>
+          </el-tab-pane>
+          <!-- <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane> -->
         </el-tabs>
       </el-row>
     </el-main>
@@ -225,53 +172,114 @@ export default {
       username: "",
       realname: "",
       email: "",
+      word:"",
       new_username: "",
       new_real_name: "",
       new_email: "",
+      new_word:"",
+      notedit:true,
+      teamlist:[
+        {
+          teamname:"1",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        },
+        {
+          teamname:"2",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        },
+        {
+          teamname:"3",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        }
+      ],
+      projectlist:[
+        {
+          projectname:"1",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        },
+        {
+          teamname:"2",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        },
+        {
+          teamname:"3",
+          teamtype:"ss",
+          teamsetter:"ss",
+          teamsettime:"12/2",
+          teamernum:"22"
+        }
+      ],
     };
   },
   components: {
     topFrame2,
   },
   methods: {
+    // gototeam(){
+    //   this.$message({
+    //             message: "正在跳转团队详细页面",
+    //             center: true,
+    //             type: "success",
+    //             duration:1500
+    //           }); 
+    //   setTimeout(() => {
+    //               this.$router.push({ path:'team_outline' });
+    //           }, 1000);
+    // },
     edit() {
-      let x = document.querySelector("#edit");
-      let y = document.querySelector("#save");
-      let a1 = document.getElementsByClassName("username") ;
-      let a2 = document.getElementsByClassName("real_name") ;
-      let a3 = document.getElementsByClassName("email") ;
-      let b1 = document.getElementsByClassName("new_username") ;
-      let b2 = document.getElementsByClassName("new_real_name") ;
-      let b3 = document.getElementsByClassName("new_email") ;
-      x.style.display = "none";
-      y.style.display = "block";
-      a1[0].style.display = "none";
-      a2[0].style.display = "none";
-      a3[0].style.display = "none";
-      b1[0].style.display = "block";
-      b2[0].style.display = "block";
-      b3[0].style.display = "block";
+      this.notedit=false;
     },
     save() {
-      let x = document.querySelector("#edit");
-      let y = document.querySelector("#save");
-      let a1 = document.getElementsByClassName("username") ;
-      let a2 = document.getElementsByClassName("real_name") ;
-      let a3 = document.getElementsByClassName("email") ;
-      let b1 = document.getElementsByClassName("new_username") ;
-      let b2 = document.getElementsByClassName("new_real_name") ;
-      let b3 = document.getElementsByClassName("new_email") ;
-      x.style.display = "block";
-      y.style.display = "none";
-      a1[0].innerHTML=this.new_username;
-      a2[0].innerHTML=this.new_real_name;
-      a3[0].innerHTML=this.new_email
-      a1[0].style.display = "block";
-      a2[0].style.display = "block";
-      a3[0].style.display = "block";
-      b1[0].style.display = "none";
-      b2[0].style.display = "none";
-      b3[0].style.display = "none";
+      this.notedit=true;
+      this.$axios({
+          method: "post" /* 指明请求方式，可以是 get 或 post */,
+          url: "http://localhost:8000/app/update_user_info" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+          headers:{
+            'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+          },
+          data: qs.stringify({
+            /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+            real_name: this.new_real_name,
+            user_info: this.new_word,
+          }),
+        })
+          .then((res) => {
+            console.log(res)
+            // if(res.data.errno==0)
+            // {
+            //     console.log("成功")
+            //     this.username = res.data.data.user_name;
+            //     this.realname = res.data.data.real_name;
+            //     this.email = res.data.data.email;
+            //     this.word = res.data.data.user_info;
+            // }
+            // else{
+              this.$message({
+                  message: "修改成功",
+                  center: true,
+                  type: "success",
+                });
+            })
+          // })
+          .catch((err) => {
+            console.log(err); /* 若出现异常则在终端输出相关信息 */
+          });
+      this.reload();
     },
     init()
     {
@@ -288,9 +296,45 @@ export default {
             if(res.data.errno==0)
             {
                 console.log("成功")
-                this.username=res.data.data.user_name;
-                this.realname=res.data.data.real_name;
-                this.email=res.data.data.email;
+                this.username = res.data.data.user_name;
+                this.realname = res.data.data.real_name;
+                this.email = res.data.data.email;
+                this.word = res.data.data.user_info;
+            }
+            else{
+              this.$message({
+                  message: res.data.msg,
+                  center: true,
+                  type: "error",
+                });
+            }
+          })
+          .catch((err) => {
+            console.log(err); /* 若出现异常则在终端输出相关信息 */
+          });
+    },
+    getTeam()
+    {
+    },
+    getProject()
+    {
+       console.log(JSON.parse(sessionStorage.getItem("token")));
+       this.$axios({
+          method: "get" /* 指明请求方式，可以是 get 或 post */,
+          url: "http://localhost:8000/app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+          headers:{
+            'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+          }
+        })
+          .then((res) => {
+            console.log(res)
+            if(res.data.errno==0)
+            {
+                console.log("成功")
+                this.username = res.data.data.user_name;
+                this.realname = res.data.data.real_name;
+                this.email = res.data.data.email;
+                this.word = res.data.data.user_info;
             }
             else{
               this.$message({
@@ -304,9 +348,12 @@ export default {
             console.log(err); /* 若出现异常则在终端输出相关信息 */
           });
     }
+
   },
   mounted() {
     this.init();
+    this.getTeam();
+    this.getProject();
   },
 };
 </script>
@@ -388,10 +435,18 @@ export default {
     margin-left: 50px;
     border-radius: 15px;
     text-align: left;
-    
+    margin-bottom: 20px;
   }
   .box-card .og{
     margin-top: 20px;
     font-weight: bold;
   }
+  .el-card{
+    border-radius: 20px;
+    border-color: #C0C4CC;
+  }
+  .el-card:hover{
+    border-color: #3f77e7;
+  }
+
 </style>
