@@ -110,7 +110,7 @@ export default {
     return {
       user_name: "",
       activeName: "first",
-      content: JSON.parse(sessionStorage.getItem("searched")),
+      content: JSON.parse(sessionStorage.getItem("searched")).content,
       userlist: [],
       teamlist: [],
     };

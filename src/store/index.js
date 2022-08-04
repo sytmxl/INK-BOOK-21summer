@@ -24,6 +24,7 @@ export default new Vuex.Store({
 
         project: JSON.parse(sessionStorage.getItem("project")) || {
             project_id:'',
+            project_name:'',
         },
     },
     mutations: {

@@ -62,7 +62,7 @@ export default {
           cancelButtonText: '取消',
         }).then(({ value }) => {
          
-         this.$store.dispatch("savesearched", value);
+         this.$store.dispatch("savesearched", {content:value});
          location.href="user_search";
         }).catch(() => {
               
