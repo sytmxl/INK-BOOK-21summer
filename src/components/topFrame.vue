@@ -5,7 +5,7 @@
         <div id="nav-header">
           <a class="brand" href="/"></a>
           <span class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</span>
-          <div
+          <!-- <div
             id="Layer1"
             style="
               width: 2px;
@@ -16,7 +16,7 @@
               border: 2px none #000000;
             "
           ></div>
-          <span class="brandtext2" href="/">&nbsp;墨书</span>
+          <span class="brandtext2" href="/">&nbsp;墨书</span> -->
         </div>
   </div>
 
@@ -29,7 +29,7 @@
                  </span>
                
                  <el-dropdown-menu slot="dropdown">
-                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.name}}</el-dropdown-item>
+                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
                     <div class="splitline"></div>
                   <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
                  </el-dropdown-menu>
@@ -55,7 +55,7 @@
                 </el-form>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="dialogFormVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                      <el-button type="primary" @click="newteam()">确 定</el-button>
                     </div>
                   </el-dialog>
 
@@ -71,13 +71,14 @@
 
        <div class="user">
 
-            <img src="../assets/bk3.jpg" alt="">
-       
             
+       
+            <img src="../assets/bk3.jpg" alt=""></img>
             <div class="username">
-                <a href="user_information" title="个人中心"><span>{{username}}</span></a>
-                <a href="/" title="登出"><span>登出</span></a>
+                <a href="user_information" title="个人中心">{{username}}</a>
+                <a href="/" title="登出">登出</a>
             </div>
+            
             
       </div>
         
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+import qs from "qs";
 export default {
     data(){
       return{
@@ -103,12 +105,8 @@ export default {
           intro:''
         },
         formLabelWidth: '120px',
-        allteams:[
-          {id:1,name:'啊对对对'},
-          {id:2,name:'摆大烂队'},
-          {id:3,name:'牛逼哄哄队'},
-          {id:4,name:'123456789'},],
-        username:'Cooper'
+        allteams:[],
+        username:JSON.parse(sessionStorage.getItem('user')).username,
       }
     },
     methods:{
@@ -119,17 +117,25 @@ export default {
         location.reload();
       },
       newteam(){
+        this.dialogFormVisible = false;
+        console.log(this.form);
          this.$axios({
         method: "post",
-        headers: { "authorization": "" },
-        url: "http://127.0.0.1/app/create_team",
+        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
+        url: "/app/create_team",
         data: qs.stringify({
-          
-         //待定
+          team_name: this.form.name,
+          team_type:this.form.type,
+          team_info: this.form.intro
         }),
       })
         .then((res) => {
-          
+          console.log(res);
+          var content = {teamId: res.data.data.team_id, teamname: this.form.name}; 
+          console.log(content);
+           this.$store.dispatch("saveteam", content);
+           this.$message.success(res.data.msg);
+           location.reload();
           // this.start = res.data.OrderDate;
           //待定
             
@@ -140,13 +146,31 @@ export default {
 
       },
       init(){
+         this.$axios({
+        method: "get",
+        url: "/app/get_team_list",
+        data: qs.stringify({
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          this.allteams = res.data.data.team_list_owner;
+            
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+
+
         if(JSON.parse(sessionStorage.getItem('team'))==null){
           this.checkedteam = '请选择你的团队';
           console.log(this.checkedteam)
         }
         else{
-          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).name
+          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name
         }
+
+
       }
     },
     mounted(){
@@ -182,12 +206,11 @@ export default {
   margin-left: 20px;
   align-items: center;
   font-size: 35px;
-  /* width: 480px; */
 }
 .left{
   float: left;
   position: absolute;
-  left: 0;
+  left: 20px;
 }
 .right{
   float: right;
@@ -207,36 +230,45 @@ export default {
   float: right;
 }
 .team{
-   margin-left: 350px;
+  margin-left: 250px;
   margin-top: 15px;
   float: right;
-  
 }
 .user{
-  margin-right:50px;
+  margin-right:0px;
   float: right;
 }
+
 .user img{
-   width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
+  margin: 10px;
   border-radius: 50%;
 }
 .username{
-  margin-left: 30px;
-  margin-top: 20px;
-  font-size: 20px;
+  font-size: 0px;
+  transition: 0.5s;
   float: right;
 }
 .username a{
   text-decoration:none;
   margin-right: 20px;
   color: black;
+
 }
 .username a:visited{
   color: black;
 }
 .username a:hover{
-  color: wheat;
+  color: rgb(150, 169, 183);
+}
+.user:hover .username {
+  font-size: 20px;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 0px 10px 0px;
+  float: right;
+
+  /* padding: 10px 10px 10px 80px; */
 }
 .el-input >>> .el-input__inner{
     border-radius:25px;

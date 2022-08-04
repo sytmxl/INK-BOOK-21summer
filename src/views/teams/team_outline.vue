@@ -51,18 +51,20 @@
 </el-container>
 </template>
 <script>
+import qs from 'qs';
 export default {
     data(){
       return{
-        teamname:JSON.parse(sessionStorage.getItem('team')).name,
+        teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
+        teamid:JSON.parse(sessionStorage.getItem('team')).team_id,
         newteamname:'',
         flag1: false,
         flag2: false,
-        teamtype:'IT',
-        teamsetter:'Cooper',
-        teamsettime:'2022.08.01',
-        teamernum:'6',
-        teamintro:'小学期暑假工，均曾有过叙利亚暑假工实习经验，多曾从事悍匪职业，有较高职业素养'
+        teamtype:'',
+        teamsetter:'',
+        teamsettime:'',
+        teamernum:'',
+        teamintro:''
       }
     },
     methods:{
@@ -76,10 +78,57 @@ export default {
             message: '修改成功'
             //发包
           });
+          this.$axios({
+        method: "post",
+        url: "/app/rename_team",
+        data: qs.stringify({
+          team_id: this.teamid,
+          team_name: value
+        }),
+      })
+        .then((res) => {
+        
+        var content = {team_id: this.teamid,team_name:value}
+        this.$store.dispatch("saveteam", content);
+         location.reload();
+          
+          })
+        .catch((err) => {
+          console.log(err); 
+        });
         }).catch(() => {
               
         });
       },
+      init(){
+        this.$axios({
+        method: "get",
+        url: "/app/get_team_list",
+        data: qs.stringify({
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          this.allteams = res.data.data.team_list_owner;
+          console.log(this.allteams)
+          for (var i = 0; i < this.allteams.length; i++) { 
+                 if(this.allteams[i].team_id == this.teamid){
+                    this.teamtype = this.allteams[i].team_type;
+                    this.teamsetter = this.allteams[i].team_owner_user_name;
+                    this.teamsettime = this.allteams[i].team_time;
+                    this.teamernum = this.allteams[i].team_member_num;
+                    this.teamintro = this.allteams[i].team_info;
+                    break;
+                 }
+              }
+          })
+        .catch((err) => {
+          console.log(err); 
+        });
+      }
+    },
+    mounted(){
+      this.init();
     }
 }
 </script>

@@ -39,7 +39,7 @@
 import infoCard from "../../components/infocard.vue";
 import norminfoCard from "../../components/norminfocard.vue";
 import lowerinfoCard from "../../components/lowerinfocard.vue";
-import user_informationVue from '../users/user_information.vue';
+import qs from 'qs';
 export default {
    components: {
     infoCard,
@@ -48,51 +48,8 @@ export default {
   },
   data(){
     return{
-      teamname:JSON.parse(sessionStorage.getItem('team')).name,
-      member1:{
-         user_id:'1',
-         user_name:'1',
-         real_name:'1',
-         email:'1',
-         identitys:'1'
-      },
-      member2:{
-         user_id:'2',
-         user_name:'2',
-         real_name:'2',
-         email:'2',
-         identitys:'2'
-      },
-        member3:{
-         user_id:'3',
-         user_name:'3',
-         real_name:'3',
-         email:'3',
-         identitys:'3'
-      },
-      team_member_list:[
-        {
-         user_id:'1',
-         user_name:'1',
-         real_name:'1',
-         email:'1',
-         identitys:'1'
-      },
-      {
-         user_id:'2',
-         user_name:'2',
-         real_name:'2',
-         email:'2',
-         identitys:'2'
-      },
-        {
-         user_id:'3',
-         user_name:'3',
-         real_name:'3',
-         email:'3',
-         identitys:'3'
-      },
-      ]
+      teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
+      team_member_list:[]
     }
   },
   methods:{
@@ -108,9 +65,29 @@ export default {
         }).catch(() => {
               
         });
+      },
+
+      init(){
+        this.$axios({
+        method: "post",
+        url: "/app/get_team_member_list",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          this.team_member_list = res.data.data.team_member_list    
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+
       }
-  }
-  
+  },
+   mounted(){
+      this.init()
+    }
 }
 </script>
 

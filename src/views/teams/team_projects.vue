@@ -5,15 +5,15 @@
         <h1> (ง •_•)ง <br>这里是团队的项目<i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="新建项目">新建项目</i></h1>
     </div>
 
-    <div class="recent">
+    <div class="recent" v-if="project_list.length!=0">
       <h1>热门项目</h1>
         <div class="content">
 
         <div v-for="i in 4" :key="i">
             <el-card class="box-card" shadow="hover" v-if="project_list[i-1]&&i%2==1">
                  <h5>{{project_list[i-1].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名" ></i></h5>
-                 <p>创建时间：{{project_list[i-1].project_setup}}</p>
-                 <p>最近修改时间：{{project_list[i-1].project_modify}}</p>
+                 <p>创建时间：{{project_list[i-1].create_time}}</p>
+                 <p>最近修改时间：{{project_list[i-1].update_time}}</p>
                    <div class="bottom">
                     <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
                     <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
@@ -22,8 +22,8 @@
 
               <el-card class="box-card2" shadow="hover" v-if="project_list[i-1]&&i%2==0">
                 <h5>{{project_list[i-1].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名" ></i></h5>
-                  <p>创建时间：{{project_list[i-1].project_setup}}</p>
-          <p>最近修改时间：{{project_list[i-1].project_modify}}</p>
+                  <p>创建时间：{{project_list[i-1].create_time}}</p>
+          <p>最近修改时间：{{project_list[i-1].update_time}}</p>
                    <div class="bottom">
                     <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
                     <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
@@ -47,27 +47,40 @@
               </el-card>
         </div>
     </div>
-  
+    <div class="recent" v-else>
+      <h1>热门项目</h1>
+       <div class="chooseteam">
+            <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
+              <el-button @click="addproject()">新建项目</el-button>
+            </el-empty>
+        </div>
+    </div>
 
-    <div class="all">
+    <div class="all" v-if="project_list.length!=0">
       <h1>全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover" v-if="index%2==0">
           <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名" ></i></h5>
-          <p>创建时间：{{item.project_setup}}</p>
-          <p>最近修改时间：{{item.project_modify}}</p>
+          <p>创建时间：{{item.create_time}}</p>
+          <p>最近修改时间：{{item.update_time}}</p>
           <div class="bottom">
           <el-button type="primary" icon="el-icon-edit"  title="查看详情">查看详情</el-button>
           <el-button type="danger" icon="el-icon-delete"  title="删除项目">删除项目</el-button>
           </div>
-            
       </el-card>
       <el-card class="box-card2" shadow="hover" v-else>
       </el-card>
       </div>
     
     </div>
-
+    <div class="all" v-else>
+      <h1>全部项目</h1>
+       <div class="chooseteam">
+            <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
+              <el-button @click="addproject()">新建项目</el-button>
+            </el-empty>
+        </div>
+    </div>
   </div>
    <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
@@ -77,14 +90,12 @@
 </template>
 
 <script>
-
+import qs from 'qs';
 export default {
   data(){
     return{
-      teamname:JSON.parse(sessionStorage.getItem('team')).name,
-      project_list:[
-        {project_name:'小学期前端',project_setup:'2022.08.01 14：35',project_modify:'2022.08.03 15：25'}
-      ]
+      teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
+      project_list:[]
     }
     
   },
@@ -108,11 +119,48 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
-         //此处需要发包
+          this.$axios({
+        method: "post",
+        url: "/app/create_project",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          project_name: value
+        }),
+      })
+        .then((res) => {
+         
+         this.$store.dispatch("saveproject", res.data.data.project_id);
+         location.href = "/project_firstpage"
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
         }).catch(() => {
               
         });
+      },
+      init(){
+         this.$axios({
+        method: "post",
+        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
+        url: "/app/get_project_list",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+        }),
+      })
+        .then((res) => {
+          
+          console.log(666)
+         this.project_list = res.data.data.project_normal_list;
+         console.log(this.project_list)
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
       }
+    },
+    mounted(){
+      this.init();
     }
 }
 </script>
@@ -190,6 +238,10 @@ export default {
     margin-left: 5px;
   }
   .box-card p{
+    font-size: 18px;
+    margin-top: 15px;
+  }
+    .box-card2 p{
     font-size: 18px;
     margin-top: 15px;
   }

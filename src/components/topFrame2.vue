@@ -4,7 +4,7 @@
       <div id="nav-header">
         <a class="brand" href="/"></a>
         <a class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</a>
-        <div
+        <!-- <div
           id="Layer1"
           style="
             width: 2px;
@@ -15,7 +15,7 @@
             border: 2px none #000000;
           "
         ></div>
-        <a class="brandtext2" href="/">&nbsp;墨书</a>
+        <a class="brandtext2" href="/">&nbsp;墨书</a> -->
       </div>
     </div>
 

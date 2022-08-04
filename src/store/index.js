@@ -21,6 +21,10 @@ export default new Vuex.Store({
         token: JSON.parse(sessionStorage.getItem("token")) || {
             token_num: ''
         },
+
+        project: JSON.parse(sessionStorage.getItem("project")) || {
+            project_id:'',
+        },
     },
     mutations: {
         enterEditing() {
@@ -71,6 +75,17 @@ export default new Vuex.Store({
             sessionStorage.removeItem('token', JSON.stringify(value))
             state.token = null
         },
+
+        $_setproject(state, value) {
+
+            sessionStorage.setItem('project', JSON.stringify(value))
+            state.project = value
+        },
+        $_removeproject(state, value) {
+
+            sessionStorage.removeItem('project', JSON.stringify(value))
+            state.project = null
+        },
     },
     actions: {
 
@@ -104,6 +119,14 @@ export default new Vuex.Store({
 
         cleartoken({ commit }) {
             commit('$_removetoken');
+        },
+
+        saveproject({ commit }, data) {
+            commit('$_setproject', data)
+        },
+
+        clearproject({ commit }) {
+            commit('$_removeproject');
         },
     },
 })
