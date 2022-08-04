@@ -80,7 +80,6 @@
       <h1>全部项目</h1>
        <div class="chooseteam">
             <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
-              <el-button @click="addproject()">新建项目</el-button>
             </el-empty>
         </div>
     </div>

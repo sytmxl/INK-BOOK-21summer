@@ -141,6 +141,7 @@ export default {
   z-index: 0;
 }
 .el-menu-item:hover {
+  backdrop-filter: blur(20px);
   background-color: rgba(150, 169, 183, 0.422) !important;
   color: rgb(255, 255, 255);
   width: 200px;
@@ -148,6 +149,7 @@ export default {
   z-index: 1;
 }
 .el-menu-item:active {
+  backdrop-filter: blur(20px);
   background-color: rgba(134, 143, 150, 0.42) !important;
   transition: 0.2s;
   color: rgb(255, 255, 255) !important;
