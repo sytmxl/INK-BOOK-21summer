@@ -74,7 +74,7 @@
 
             
        
-            <img src="../assets/bk3.jpg" alt=""></img>
+            <img src="../assets/bk3.jpg" alt=""/>
             <div class="username">
                 <a href="user_information" title="个人中心">{{username}}</a>
                 <a href="/" title="登出">登出</a>
