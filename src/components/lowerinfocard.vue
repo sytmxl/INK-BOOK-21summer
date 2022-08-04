@@ -63,7 +63,14 @@ export default {
     methods:{
 
         tobemanager(){
-             this.$axios({
+
+           this.$confirm('是否将其设为管理员, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+       
+           this.$axios({
         method: "post",
         url: "/app/change_team_member_identitys",
         data: qs.stringify({
@@ -79,12 +86,27 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
+       
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消设置管理员'
+          });          
+        });
+
+            
         },
 
 
         deletemember(){
-            console.log(this.people.user_id);
-             this.$axios({
+            
+           this.$confirm('是否要从团队删除此用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+          this.$axios({
         method: "post",
         url: "/app/del_team_member",
         data: qs.stringify({
@@ -99,6 +121,15 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+             
         }
     }
 }

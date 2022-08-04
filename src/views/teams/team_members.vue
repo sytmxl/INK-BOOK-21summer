@@ -61,10 +61,9 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
-         //存session
-         //调用搜索功能，跳转到搜索页面
+         
          this.$store.dispatch("savesearched", value);
-         //此处需要发包
+         location.href="user_search";
         }).catch(() => {
               
         });
