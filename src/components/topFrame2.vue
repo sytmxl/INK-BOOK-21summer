@@ -1,44 +1,34 @@
 <template>
   <div class="top">
-    <div class="left">
-      <div id="nav-header">
-        <a class="brand" href="/"></a>
-        <a class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</a>
-        <!-- <div
-          id="Layer1"
-          style="
-            width: 2px;
-            height: 50px;
-            z-index: 1;
-            background-color: #000000;
-            layer-background-color: #000000;
-            border: 2px none #000000;
-          "
-        ></div>
-        <a class="brandtext2" href="/">&nbsp;墨书</a> -->
-      </div>
-    </div>
 
-    <div class="right">
-      <div class="user">
-        <a href="user_information"><img src="../assets/bk3.jpg" alt="" /></a>
-        <div class="username">
-          <a href="user_information">{{ user_name }}&nbsp;&nbsp;</a>
-          <a href="/" @click="logout()">登出</a>
+    <div class="left">
+        <div id="nav-header">
+          <a class="brand" href="/"></a>
+          <span class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</span>
+  
         </div>
-      </div>
-      <div class="search">
-        <el-input
-          placeholder="按下回车键即可搜索"
-          prefix-icon="el-icon-search"
-          v-model="input"
-          clearable="true"
-          @keyup.enter.native="doSearch()"
-        >
-        </el-input>
-      </div>
-    </div>
-    <div class="clear"></div>
+  </div>
+    <div class="search">
+            <el-input
+              placeholder="按下回车键即可搜索"
+              prefix-icon="el-icon-search"
+              v-model="input" clearable="true" 
+              @keyup.enter.native="doSearch()">
+            </el-input>
+  </div>
+     <div class="right">
+       <div class="user">
+            <img src="../assets/bk3.jpg" alt=""/>
+            <div class="username">
+                <a href="user_information" title="个人中心">{{username}}</a>
+                <a href="/" title="登出">登出</a>
+            </div>
+      </div> 
+     </div>
+  <div class="clear"></div>
+          
+       
+
   </div>
 </template>
 
@@ -126,7 +116,7 @@ export default {
 </script>
 
 <style scoped>
-.top {
+.top{
   margin-top: 10px;
   display: flex;
 }
@@ -138,13 +128,13 @@ export default {
   font-family: myFont;
   user-select: none;
   text-decoration: none;
-  color: black;
+  color:black;
 }
 .brandtext2 {
   font-family: "楷体";
   user-select: none;
   text-decoration: none;
-  color: black;
+    color:black;
 }
 #nav-header {
   display: flex;
@@ -152,92 +142,151 @@ export default {
   margin-left: 20px;
   align-items: center;
   font-size: 35px;
-  /* width: 480px; */
 }
-.left {
+.left{
   float: left;
   position: absolute;
-  left: 0;
+  left: 20px;
 }
-.right {
+.right{
   float: right;
   position: absolute;
-  right: 0;
+  right:0;
 }
-.splitline {
+.splitline{
   height: 1px;
   width: 90%;
   margin-left: 5%;
   background-color: #e0e0e0;
 }
-.search {
-  margin-right: 238px;
+.search{
+
+  margin-right: 150px;
   margin-top: 10px;
   float: right;
 }
-.team {
-  margin-left: 350px;
+.team{
+  margin-left: 250px;
   margin-top: 15px;
   float: right;
 }
-.user {
-  margin-right: 50px;
+.user{
+  margin-right:0px;
   float: right;
-}
-.user img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-}
-.username {
-  margin-left: 25px;
-  margin-top: 20px;
-  font-size: 20px;
-  float: right;
-}
-.username a {
-  text-decoration: none;
-  color: black;
-}
-.username a:hover {
-  color: #2878ff;
-}
-.el-input >>> .el-input__inner {
-  border-radius: 25px;
-  font-size: 20px;
-}
-.el-dropdown-link {
-  cursor: pointer;
-  color: black;
-  font-size: 20px;
-}
-.el-icon-arrow-down {
-  font-size: 15px;
 }
 
-.el-dropdown-menu {
-  border-radius: 15px;
+.user img{
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 50%;
 }
-.el-dropdown-menu >>> .el-dropdown-menu__item {
-  font-size: 16px;
-  color: #2878ff;
+.username{
+  font-size: 0px;
+  transition: 0.5s;
+  float: right;
 }
-.el-input--suffix >>> .el-input__inner {
-  padding-right: 271px;
+.username a{
+  text-decoration:none;
+  margin-right: 20px;
+  color: black;
+
 }
-.demonstration {
-  display: block;
-  /* color: #409EFF; */
-  font-size: 15px;
-  margin-bottom: 20px;
-  /* border-radius: 15px; */
+.username a:visited{
+  color: black;
 }
+.username a:hover{
+  color: rgb(150, 169, 183);
+}
+.user:hover .username {
+  font-size: 20px;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 0px 10px 0px;
+  float: right;
+
+  /* padding: 10px 10px 10px 80px; */
+}
+.el-input >>> .el-input__inner{
+    border-radius:25px;
+    font-size:20px;
+}
+ .el-dropdown-link {
+    cursor: pointer;
+    color: black;
+    font-size: 20px;
+  }
+  .el-icon-arrow-down {
+    font-size: 15px;
+     
+  }
+
+  .el-dropdown-menu {
+      border-radius: 15px;
+  }
+  .el-dropdown-menu>>>.el-dropdown-menu__item{
+      font-size: 16px;
+      color: #2878ff;
+   
+  }
+
+  .demonstration {
+    display: block;
+    /* color: #409EFF; */
+    font-size: 15px;
+    margin-bottom: 20px;
+    /* border-radius: 15px; */
+  }
+  .left {
+    margin-top: 7px;
+  }
+  .left:hover {
+    background: rgba(150, 169, 183, 0.164);
+    border-radius: 10px;
+    margin-top: 7px;
+  }
+  .team {
+    padding: 10px;
+    margin-top: 7px;
+    border-radius: 20px;
+    transition: 0.2s;
+  }
+  .team:hover {
+    background: rgba(150, 169, 183, 0.23);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 7px;
+  }
+  .team:active {
+    background: rgba(150, 169, 183, 0.721);
+    border-radius: 5px;
+    padding: 12px;
+    margin-top: 7px;
+    font-size: 19px;
+    transition: 0.05s;
+  }
+  .el-dropdown-item {
+    transition: 0.5s;
+  }
+  .el-dropdown-item:hover{
+    background: rgba(150, 169, 183, 0.422) !important;
+    border-radius: 10px !important;
+    margin: 10px !important;
+  }
+  .search {
+    margin-left: 230px;
+    width: 5px;
+    transition: 0.5s;
+  }
+  .search:hover {
+    width: 300px;
+    box-shadow: 5px;
+  }
 </style>
 <style>
-.el-message-box {
-  border-radius: 15px;
-}
-.el-button--small {
-  border-radius: 15px;
-}
+    .el-message-box{
+    border-radius: 15px;
+  }
+  .el-button--small{
+    border-radius: 15px;
+  }
 </style>
