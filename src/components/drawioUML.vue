@@ -75,7 +75,12 @@ export default {
       this.$data.dialogVisible = true
     },
     edit(){
-      drawio.DiagramEditor.editElement( this.$refs.graph, this.$data.configs, "kennedy", null, ['dark=1', 'pv=0']);
+      drawio.DiagramEditor.editElement(
+          this.$refs.graph, this.$data.configs,
+          "kennedy",
+          null,
+          ['dark=1', 'pv=0'],
+          this.$props.graph_id);
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
@@ -91,6 +96,8 @@ export default {
             graph_id:this.$props.graph_id
           }),
         });
+        setTimeout(()=>{}
+            ,200);
         this.$emit('deled');
         this.$message({
           type: 'info',
@@ -144,7 +151,7 @@ export default {
         this.$data.title = this.$data.newHeader = res.data.data.header;
         this.$data.description = this.$data.newBrief = res.data.data.brief;
         this.$data.lastEditTime = res.data.data.lastedit;
-        //this.$data.base64src = res.data.data;
+        this.$data.base64src = res.data.data.data;
       })
     },
     updateData(){
