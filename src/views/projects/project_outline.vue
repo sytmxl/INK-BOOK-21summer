@@ -25,7 +25,7 @@
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
         </el-col>
         <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-          <drawio-u-m-l :id = "id" :isdel = "viewingDel"/>
+          <drawio-digram :id = "id" :isdel = "viewingDel"/>
         </el-col>
       </el-row>
     </el-card>
@@ -41,10 +41,10 @@
 
 <script>
 import qs from "qs";
-import DrawioUML from "@/components/drawioUML";
+import drawioDigram from "@/components/drawioDiagram";
 
 export default {
-  components: {DrawioUML},
+  components: {drawioDigram},
   name: "project_outline",
   beforeMount() {
     sessionStorage.setItem("project_id","1");
@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      project_id : sessionStorage.getItem("project_id"),
+      project_id : sessionStorage.getItem("project"),
       team_name:"团队名称",
       team_intro:"团队介绍",
       project_name:"项目名称",
