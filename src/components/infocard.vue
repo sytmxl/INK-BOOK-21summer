@@ -17,7 +17,7 @@
 </template>
 
 <style scoped>
-.single-member{border-radius: 35px;width: 280px; float: left; margin: 30px 2.5%; background-color: rgb(0, 49, 83); text-align: center; position: relative;}
+.single-member{border-radius: 35px;width: 250px; float: left; margin: 30px 2.5%; background-color: rgb(0, 49, 83); text-align: center; position: relative;}
 .member-image img{max-width: 100%; vertical-align: middle;height: 100%;}
 h3 {font-size: 24px; font-weight: normal; margin: 10px 0 0; text-transform: uppercase;}
 h5 {font-size: 16px; font-weight: 300; margin: 0 0 15px; line-height: 22px;}
