@@ -140,7 +140,7 @@ export default {
   .title:hover {
     width: 62px;
     border-radius: 50%;
-    
+
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
   /* .main .people{

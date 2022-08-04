@@ -2,7 +2,7 @@
   <el-menu
     background-color="rgb(240, 242, 245)"
     text-color="black"
-    active-text-color="rgb(153, 213, 255)"
+    active-text-color="rgb(134, 143, 150)"
     default-active="1"
     class="el-menu-vertical-demo"
     @open="handleOpen"
@@ -135,13 +135,14 @@ export default {
   margin: 8px;
   height: min-content;
   width: 184px;
-  background-color: rgba(255, 255, 255, 0.622) !important;
-  box-shadow: 1px !important;
+  background-color: rgb(247, 250, 252) !important;
   transition: 0.5s;
-  z-index: 0;
+  text-align: left;
+  z-index: 1;
 }
 .el-menu-item:hover {
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(3px) !important;
+
   background-color: rgba(150, 169, 183, 0.422) !important;
   color: rgb(255, 255, 255);
   width: 200px;
@@ -149,11 +150,10 @@ export default {
   z-index: 1;
 }
 .el-menu-item:active {
-  backdrop-filter: blur(20px);
   background-color: rgba(134, 143, 150, 0.42) !important;
   transition: 0.2s;
   color: rgb(255, 255, 255) !important;
-  z-index: 0;
+  z-index: 1;
 }
 .el-menu-item:focus {
   background-color: rgb(150, 169, 183) !important;
@@ -175,10 +175,10 @@ export default {
   margin: 15px;
 }
 .title {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bolder;
   float: left;
-  margin: 10px 0px 0px 20px;
+  margin: 20px 0px 0px 30px;
   color: rgb(45, 52, 57);
   /* colorgb(5, 5, 6)55); */
   transition: 0.5s;
@@ -186,6 +186,13 @@ export default {
 .title:hover {
   font-size: 50px;
   background-color: rgba(150, 169, 183, 0.14);
+  border-radius: 20px;
+  padding: 0px 10px 0px 10px;
+  margin: 10px 0px 10px 10px;
+}
+.title:active {
+  font-size: 50px;
+  background-color: rgba(134, 143, 150, 0.42) !important;
   border-radius: 20px;
   padding: 0px 10px 0px 10px;
   margin: 10px 0px 10px 10px;

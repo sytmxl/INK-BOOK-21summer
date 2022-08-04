@@ -245,12 +245,6 @@ export default {
   margin-left: 5%;
   background-color: #e0e0e0;
 }
-.search{
-
-  margin-right: 150px;
-  margin-top: 10px;
-  float: right;
-}
 .team{
   margin-left: 250px;
   margin-top: 15px;
@@ -358,6 +352,11 @@ export default {
     border-radius: 10px !important;
     margin: 10px !important;
   }
+  .search{
+    margin-right: 150px;
+    margin-top: 10px;
+    float: right;
+  }
   .search {
     margin-left: 50px;
     width: 5px;
@@ -365,6 +364,17 @@ export default {
   }
   .search:hover {
     width: 300px;
+    border-color: rgb(150, 169, 183) !important;
+    box-shadow: 5px;
+  }
+  .search:active {
+    width: 300px;
+    border-color: rgb(95, 106, 113) !important;
+    box-shadow: 5px;
+  }
+  .search:focus {
+    width: 300px;
+    border-color: rgb(95, 106, 113) !important;
     box-shadow: 5px;
   }
 </style>
