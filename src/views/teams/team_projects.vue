@@ -2,7 +2,7 @@
 <el-container>
    <div class="main" v-if="teamname">
      <div class="title" >
-        <h1> (ง •_•)ง <br>这里是团队的项目</h1>
+        <h1> (ง •_•)ง <br>这里是团队的项目<i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="新建项目">新建项目</i></h1>
     </div>
 
     <div class="recent">
@@ -102,6 +102,16 @@ export default {
         }).catch(() => {
               
         });
+      },
+      addproject(){
+         this.$prompt('请输入新项目名', '新建项目', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(({ value }) => {
+         //此处需要发包
+        }).catch(() => {
+              
+        });
       }
     }
 }
@@ -112,6 +122,9 @@ export default {
     position: absolute;
     left: 0;
     right: 0;
+  }
+  .el-icon-plus:hover{
+     cursor: pointer;
   }
   .title{
     height: 150px;
