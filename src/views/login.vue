@@ -92,6 +92,7 @@
 <script>
 import qs from "qs";
 import axios from "axios";
+import async from "async";
 export default {
   name: "Login",
   data() {
@@ -110,15 +111,7 @@ export default {
       console.log(tab, event);
       console.log(this.activeName);
     },
-    login() {
-      // if (
-      //   !/^\w+$/.exec(this.form.username) ||
-      //   !/^\w+$/.exec(this.form.password)
-      // ) {
-      //   this.$message.warning("请检查邮箱和密码的输入");
-      //   return;
-      // }
-      //window.alert("用户名是："+this.username +" 密码是：" +this.password);
+    async login() {
       if (this.activeName == "first") {
         if (this.form.email === "" && this.form.password === "") {
           this.$message.warning("请输入邮箱和密码！");
@@ -130,7 +123,7 @@ export default {
           this.$message.warning("密码不能为空！");
           return;
         }
-        this.$axios({
+        await this.$axios({
           method: "post" /* 指明请求方式，可以是 get 或 post */,
           url: "http://localhost:8000/app/login" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
           data: qs.stringify({
@@ -140,38 +133,37 @@ export default {
             password: this.form.password,
           }),
         })
-          .then((res) => {
+          .then(async (res) => {
             console.log(res)
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
-            if(res.data.errno==0)
-            {
+            if (res.data.errno == 0) {
               this.$message.success("登录成功！");
-                var user = {
-                  userId: res.data.data.user_id,
-                  username: res.data.data.user_name,
-                };
-                var token={
-                  token_num:res.data.data.token
+              var user = {
+                userId: res.data.data.user_id,
+                username: res.data.data.user_name,
+              };
+              var token = {
+                token_num: res.data.data.token
+              }
+              await this.$store.dispatch("saveuser", user);
+              await this.$store.dispatch("savetoken", token);
+              console.log(user);
+              console.log(token);
+              console.log(this.$store.state.user);
+              window.location.href = "team_firstpage";
+              /* 从 localStorage 中读取 preRoute 键对应的值 */
+              // const history_pth = localStorage.getItem("FirstPage");
+              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
+              setTimeout(() => {
+                if (history_pth == null || history_pth === "/register") {
+                  this.$router.push("/");
+                } else {
+                  this.$router.push({path: history_pth});
                 }
-                this.$store.dispatch("saveuser", user);
-                this.$store.dispatch("savetoken", token);
-                console.log(user);
-                console.log(token);
-                console.log(this.$store.state.user);
-                window.location.href = "team_firstpage";
-                /* 从 localStorage 中读取 preRoute 键对应的值 */
-                // const history_pth = localStorage.getItem("FirstPage");
-                /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-                setTimeout(() => {
-                  if (history_pth == null || history_pth === "/register") {
-                    this.$router.push("/");
-                  } else {
-                    this.$router.push({ path: history_pth });
-                  }
-                }, 1000);
-                axios.interceptors.request.use(
+              }, 1000);
+              axios.interceptors.request.use(
                   config => {
                     config.headers['Authorization'] = token
                     return config;
@@ -180,13 +172,12 @@ export default {
                     return Promise.reject(error);
                   }
               );
-            }
-            else{
-              this.$message({
-                  message: res.data.msg,
-                  center: true,
-                  type: "error",
-                });
+            } else {
+              await this.$message({
+                message: res.data.msg,
+                center: true,
+                type: "error",
+              });
             }
           })
           .catch((err) => {

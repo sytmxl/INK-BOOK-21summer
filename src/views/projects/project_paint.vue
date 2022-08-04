@@ -71,7 +71,7 @@
       <div>
         <el-row>
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-u-m-l :id = "id" :isdel = "viewingDel"/>
+            <drawio-u-m-l :graph_id = "id" :isdel = "viewingDel"/>
           </el-col>
         </el-row>
       </div>
@@ -108,7 +108,8 @@ export default {
           isdeleted:del
         }),
       }).then(res => {
-        this.$data.UMLList = res.data
+        console.log(res.data.data.graph_list)
+        this.$data.UMLList = res.data.data.graph_list
       })
     },
     add_graph(template) {
@@ -126,8 +127,8 @@ export default {
         url: "app/new_graph" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
-          type:0,
-          template:template
+          graph_type:0,
+          template:this.$data.template
         }),
       }).then(res => {
         newid = res.data
