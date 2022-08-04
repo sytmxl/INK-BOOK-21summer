@@ -55,7 +55,7 @@
                 </el-form>
                     <div slot="footer" class="dialog-footer">
                       <el-button @click="dialogFormVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+                      <el-button type="primary" @click="newteam()">确 定</el-button>
                     </div>
                   </el-dialog>
 
@@ -92,6 +92,7 @@
 </template>
 
 <script>
+import qs from "qs";
 export default {
     data(){
       return{
@@ -119,17 +120,23 @@ export default {
         location.reload();
       },
       newteam(){
+        this.dialogFormVisible = false;
          this.$axios({
         method: "post",
-        headers: { "authorization": "" },
-        url: "http://127.0.0.1/app/create_team",
+        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
+        url: "/app/create_team",
         data: qs.stringify({
-          
-         //待定
+          team_name: this.form.name,
+          team_type:this.form.type,
+          team_inf: this.form.intro
         }),
       })
         .then((res) => {
-          
+          console.log(res);
+          var content = {teamId: res.data.team_id, teamname: form.name}; 
+           this.$store.dispatch("saveteam", content);
+           this.$message.success(res.data.msg);
+           windows.reload();
           // this.start = res.data.OrderDate;
           //待定
             
