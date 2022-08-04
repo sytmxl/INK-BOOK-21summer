@@ -218,15 +218,7 @@ export default {
       notedit: true,
       teamlist: [],
       projectlist: [],
-      reprojectlist: [
-        {
-          project_id: "1",
-          project_name: "1",
-          create_time: "1",
-          update_time: "1",
-          team_id: "1",
-        },
-      ],
+      reprojectlist: [],
     };
   },
   components: {
