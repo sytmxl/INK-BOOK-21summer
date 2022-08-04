@@ -12,8 +12,11 @@
 <script>
 import ProjectAside from "../../components/ProjectAside";
 export default {
- components: {
-    // topFrame,
+  beforeMount() {
+
+    },
+  components: {
+    // topFrame,F
     ProjectAside,
   },
 }
