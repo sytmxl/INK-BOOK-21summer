@@ -149,7 +149,8 @@ export default {
       })
         .then((res) => {
          
-         this.$store.dispatch("saveproject", res.data.data.project_id);
+         var project = {project_id:res.data.data.project_id,project_name:value,}
+         this.$store.dispatch("saveproject", project);
          location.href = "/project_outline"
         })
         .catch((err) => {
