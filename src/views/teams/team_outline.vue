@@ -61,7 +61,8 @@ export default {
         teamsetter:'',
         teamsettime:'',
         teamernum:'',
-        teamintro:''
+        teamintro:'',
+        allteams:[]
       }
     },
     methods:{
@@ -106,7 +107,18 @@ export default {
       })
         .then((res) => {
           console.log(res);
-          this.allteams = res.data.data.team_list_owner;
+          if(res.data.data.team_list_owner.length>0)
+          for( var i in res.data.data.team_list_owner){
+            this.allteams.push(res.data.data.team_list_owner[i]);
+          }
+          if(res.data.data.team_list_admin.length>0)
+          for( var i in res.data.data.team_list_admin){
+            this.allteams.push(res.data.data.team_list_admin[i]);
+          }
+          if(res.data.data.team_list_member.length>0)
+          for( var i in res.data.data.team_list_member){
+            this.allteams.push(res.data.data.team_list_member[i]);
+          }
           console.log(this.allteams)
           for (var i = 0; i < this.allteams.length; i++) { 
                  if(this.allteams[i].team_id == this.teamid){

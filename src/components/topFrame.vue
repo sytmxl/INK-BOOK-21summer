@@ -162,9 +162,22 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
-          this.allteams = res.data.data.team_list_owner;
-            
+          console.log(res.data.data);
+          console.log(666);
+          for( var i in res.data.data.team_list_owner){
+            this.allteams.push(res.data.data.team_list_owner[i]);
+          }
+           for( var i in res.data.data.team_list_admin){
+            this.allteams.push(res.data.data.team_list_admin[i]);
+          }
+           for( var i in res.data.data.team_list_member){
+            this.allteams.push(res.data.data.team_list_member[i]);
+          }
+          // this.allteams.push(res.data.data.team_list_owner);
+          // this.allteams.push(res.data.data.team_list_admin);
+          // this.allteams.push(res.data.data.team_list_member);
+          
+          console.log(this.allteams)
         })
         .catch((err) => {
           console.log(err); 

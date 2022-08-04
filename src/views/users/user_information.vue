@@ -509,7 +509,7 @@ export default {
 
 .el-header {
   /* background-color: white; */
-  backdrop-filter: blur(10px) brightness(110%);
+  backdrop-filter: blur(10px black) ;
 
   text-align: left;
   color: black;
