@@ -259,7 +259,7 @@ export default {
   font-weight: bold;
   font-size: 25px;
   color: #444444;
-  margin-right: 40%;
+  margin-left: 0px;
 }
 
 .nei {
@@ -326,8 +326,8 @@ export default {
 }
 
 .photo img {
-  width: 90%;
-  height: 100%;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 </style>
