@@ -119,7 +119,7 @@ export default {
     invite(user_name){
       this.$axios({
         method: "post",
-        url: "/app/generate_invite_link",
+        url: "generate_invite_link",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           invite_method: 'email',

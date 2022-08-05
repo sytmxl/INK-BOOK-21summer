@@ -116,7 +116,7 @@ export default {
       doSearch()
       {
         var info = {content: this.input};
-        this.$router.push({path:'/user_search'})
+        this.$router.push({path:'/user_search'});
         this.$store.dispatch("savesearched", info);
       },
       checkit(content){
