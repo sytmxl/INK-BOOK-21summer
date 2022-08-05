@@ -481,10 +481,16 @@ export default {
 </script>
 
 <style scoped>
-.el-tabs--left,
+/* .el-tabs--left,
 .el-tabs--right {
   overflow: hidden;
   margin-left: 20%;
+} */
+.el-tabs--left,
+.el-tabs--right {
+    overflow: hidden;
+    margin-left: 5%;
+    margin-top: 7%;
 }
 .el-main {
   /* overflow:visible;  */
