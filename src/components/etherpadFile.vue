@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-        title="重命名文檔"
+        title="重命名文档"
         :visible.sync="dialogVisible"
         width="50%"
         :before-close="closeDialog"
@@ -9,7 +9,7 @@
       <span>
           <el-row>
             <el-col :span="4">
-              文檔標題：
+              文档标题：
             </el-col>
             <el-col :span="20">
               <el-input
@@ -118,7 +118,7 @@ export default {
         }),
       })
       this.$message({
-        message: '已經衝命名文檔為\"'+this.$data.newTitle+'\"',
+        message: '已经重命名文档为\"'+this.$data.newTitle+'\"',
         type: 'success'
       });
       this.$data.title = this.$data.newTitle;

@@ -4,7 +4,7 @@
       <el-col :span="24">
         <el-card shadow="never">
           <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%; font-size: 30px">
-            {{team_name}}::{{project_name}}
+            {{team_name}}/{{project_name}}
           </h1>
           <p style="text-align: left; margin-left: 2.5%;">
             {{team_intro}}

@@ -47,7 +47,7 @@
           </el-submenu>
         </el-menu>
       </div>
-      <div>
+      <div class="right">
         <el-row   v-if="inRecycle == false">
           <el-col :span="7" v-for="item in doc_list">
             <EtherpadFile @deled="get_doc_list" :in-recycle="false" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
