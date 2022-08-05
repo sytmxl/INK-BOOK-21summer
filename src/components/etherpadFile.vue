@@ -79,7 +79,7 @@ export default {
       location.href="http://43.138.67.29:9001/p/"+this.$options.propsData.title;
       this.$axios({
         method: "post" ,
-        url: "app/update_doc_edit_time" ,
+        url: "update_doc_edit_time" ,
         data: qs.stringify({
           doc_id:this.$props.id,
           doc_name:this.$props.title
@@ -94,7 +94,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "app/del_doc" ,
+          url: "del_doc" ,
           data: qs.stringify({
             doc_id:this.$props.id
           }),
@@ -111,7 +111,7 @@ export default {
     modify(){
       this.$axios({
         method: "post" ,
-        url: "app/rename_doc" ,
+        url: "rename_doc" ,
         data: qs.stringify({
           doc_id:this.$props.id,
           doc_name:this.$data.newTitle
@@ -133,7 +133,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "app/permanent_del_doc" ,
+          url: "permanent_del_doc" ,
           data: qs.stringify({
             doc_id:this.$props.id
           }),
@@ -148,7 +148,7 @@ export default {
     recover() {
       this.$axios({
         method: "post" ,
-        url: "app/recycle_doc" ,
+        url: "recycle_doc" ,
         data: qs.stringify({
           doc_id:this.$props.id
         }),

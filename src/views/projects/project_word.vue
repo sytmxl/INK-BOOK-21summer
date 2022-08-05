@@ -121,7 +121,7 @@ export default {
     get_doc_list(){
       this.$axios({
         method: "post" ,
-        url: "/app/get_doc_list" ,
+        url: "get_doc_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
         }),
@@ -142,7 +142,7 @@ export default {
       }
       await this.$axios({
         method: "post" ,
-        url: "/app/create_doc" ,
+        url: "create_doc" ,
         data: qs.stringify({
           doc_name : this.$data.newDocName,
           project_id : this.$data.project_id,

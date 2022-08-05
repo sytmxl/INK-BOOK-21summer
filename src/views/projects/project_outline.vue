@@ -69,7 +69,7 @@ export default {
     get_prototype_list(){
       this.$axios({
         method: "post" ,
-        url: "app/get_graph_list" ,
+        url: "get_graph_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
           type:1,
@@ -90,7 +90,7 @@ export default {
     get_uml_list(){
       this.$axios({
         method: "post" ,
-        url: "app/get_graph_list" ,
+        url: "get_graph_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
           type:0,
@@ -111,7 +111,7 @@ export default {
     get_doc_list(){
       this.$axios({
         method: "post" ,
-        url: "/app/get_doc_list" ,
+        url: "get_doc_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
         }),

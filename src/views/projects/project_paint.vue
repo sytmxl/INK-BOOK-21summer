@@ -119,7 +119,7 @@ export default {
     get_list(del){
       this.$axios({
         method: "post" ,
-        url: "app/get_graph_list" ,
+        url: "get_graph_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
           type:0,
@@ -148,7 +148,7 @@ export default {
       this.closeDialog();
       await this.$axios({
         method: "post" ,
-        url: "app/new_graph" ,
+        url: "new_graph" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
           graph_type:0,
@@ -159,7 +159,7 @@ export default {
         this.$data.UMLList.push(res.data)
         this.$axios({
           method: "post" ,
-          url: "app/modify_graph" ,
+          url: "modify_graph" ,
           data: qs.stringify({
             graph_id:newid,
             graph_name:this.$data.newHeader,
