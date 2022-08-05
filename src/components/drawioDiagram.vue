@@ -96,15 +96,14 @@ export default {
             project_id:this.$data.project_id,
             graph_id:this.$props.graph_id
           }),
-        });
-        setTimeout(()=>{}
-            ,200);
-        this.$emit('deled');
+        }).then(res=>{this.$emit('deled');});
         this.$message({
           type: 'info',
           message: '已将\"'+this.$data.title+'\"扔到回收站'
         });
-      })
+
+      });
+
     },
     recover(){
       this.$axios({
@@ -113,8 +112,7 @@ export default {
         data: qs.stringify({
           graph_id:this.$props.graph_id
         }),
-      })
-      this.$emit('deled');
+      }).then(res=>{this.$emit('deled');});
       this.$message({
         type: 'info',
         message: '已恢复\"'+this.$data.title+'\"'
@@ -133,13 +131,13 @@ export default {
             project_id:this.$data.project_id,
             graph_id:this.$props.graph_id
           }),
-        });
-        this.$emit('deled');
+        }).then(res=>{this.$emit('deled');});
         this.$message({
           type: 'info',
           message: '已删除\"'+this.$data.title+'\"'
         });
-      })
+      });
+
     },
     getData(){
       this.$axios({
@@ -164,7 +162,7 @@ export default {
           graph_name:this.$data.newHeader,
           graph_info:this.$data.newBrief
         }),
-      })
+      }).then(res=>{this.$emit('deled');});
       this.$message({
         message: '\"'+this.$data.newHeader+'\"已更新了信息',
         type: 'success'
