@@ -162,7 +162,7 @@ export default {
           graph_name:this.$data.newHeader,
           graph_info:this.$data.newBrief
         }),
-      })
+      }).then(res=>{this.$emit('deled');});
       this.$message({
         message: '\"'+this.$data.newHeader+'\"已更新了信息',
         type: 'success'

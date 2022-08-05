@@ -113,7 +113,7 @@ export default {
           doc_id:this.$props.id,
           doc_name:this.$data.newTitle
         }),
-      })
+      }).then(res=>{this.$emit('deled');});
       this.$message({
         message: '已经重命名文档为\"'+this.$data.newTitle+'\"',
         type: 'success'
