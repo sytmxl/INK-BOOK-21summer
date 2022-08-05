@@ -119,8 +119,8 @@ export default {
 .top{
   margin-top: 10px;
   display: flex;
-  backdrop-filter: blur(5px);
-
+  background-color: #e0e0e0;
+  backdrop-filter: blur(20px);
 }
 @font-face {
   font-family: myFont;
@@ -226,9 +226,8 @@ export default {
       border-radius: 15px;
   }
   .el-dropdown-menu>>>.el-dropdown-menu__item{
-      font-size: 16px;
-      color: #2878ff;
-   
+    font-size: 16px;
+    color: #2878ff;
   }
 
   .demonstration {

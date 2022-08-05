@@ -25,7 +25,6 @@
       <h1 class="label">近期项目</h1>
        <div class="chooseteam">
             <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
-              <el-button @click="addproject()">新建项目</el-button>
             </el-empty>
         </div>
     </div>
@@ -61,13 +60,13 @@
       </div>
     
     </div>
-    <div class="all" v-else>
-      <h1>全部项目</h1>
-       <div class="chooseteam">
+    <!-- <div class="all" v-else>
+      <h1 class="label">全部项目</h1>
+       <div>
             <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
             </el-empty>
         </div>
-    </div>
+    </div> -->
   </div>
    <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
@@ -283,6 +282,7 @@ export default {
     float: right;
     left: 93%;
     position: fixed;
+    z-index: 1;
   }
   .title:hover {
     width: 62px;
@@ -292,7 +292,7 @@ export default {
   }
   .box-card{
     width: 510px;
-    height: 180px;
+    height: 170px;
     margin-left: 50px;
     margin-top: 50px;
     border-radius: 15px;
@@ -309,7 +309,9 @@ export default {
     float: left;
     width: 100%;
     color: rgb(114, 132, 145);
+    
   }
+  
 
 #tools {
   background-color: rgb(157, 162, 176);
