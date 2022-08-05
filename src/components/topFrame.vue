@@ -77,7 +77,7 @@
             <img src="../assets/bk3.jpg" alt=""/>
             <div class="username">
                 <a href="user_information" title="个人中心">{{username}}</a>
-                <a href="/" title="登出">登出</a>
+                <a href="/" title="登出" @click="logout()">登出</a>
             </div>
             
             
@@ -113,6 +113,9 @@ export default {
       }
     },
     methods:{
+      logout(){
+        sessionStorage.removeItem('team');
+      },
       doSearch()
       {
         var info = {content: this.input};
@@ -140,7 +143,7 @@ export default {
       })
         .then((res) => {
           console.log(res);
-          var content = {teamId: res.data.data.team_id, teamname: this.form.name}; 
+          var content = {teamId: res.data.data.team_id, team_name: this.form.name}; 
           console.log(content);
            this.$store.dispatch("saveteam", content);
            this.$message.success(res.data.msg);
@@ -189,7 +192,7 @@ export default {
           console.log(this.checkedteam)
         }
         else{
-          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name
+          this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name;
         }
 
 

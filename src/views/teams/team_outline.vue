@@ -71,11 +71,7 @@ export default {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(({ value }) => {
-          this.$message({
-            type: 'success',
-            message: '修改成功'
-            //发包
-          });
+          
           this.$axios({
         method: "post",
         url: "rename_team",
@@ -86,9 +82,19 @@ export default {
       })
         .then((res) => {
         
-        var content = {team_id: this.teamid,team_name:value}
+        if(res.data.errno==0){
+           var content = {team_id: this.teamid,team_name:value}
         this.$store.dispatch("saveteam", content);
          location.reload();
+         this.$message({
+            type: 'success',
+            message: '修改成功'
+            //发包
+          });
+        }
+       else{
+        this.$message.warning(res.data.msg+'，不具备修改权限');
+       }
           
           })
         .catch((err) => {
