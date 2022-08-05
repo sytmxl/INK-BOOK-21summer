@@ -44,7 +44,9 @@
       </el-row>
       <el-row >
         <el-col :span="7" v-for="item in doc_list">
-          <EtherpadFile v-on:deled = "get_doc_list" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+          <EtherpadFile v-on:deled = "get_doc_list"
+                        :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"
+          />
         </el-col>
       </el-row>
     </el-card>

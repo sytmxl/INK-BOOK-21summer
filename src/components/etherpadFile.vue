@@ -63,6 +63,7 @@ export default {
   name: "etherpadFile",
   props:{
     id:{default: 0},
+    url:{default:"",type:String},
     inRecycle:{default:false},
     title:{default: "示例项目",type: String},
     description:{default: "无简介", type:String},
@@ -76,7 +77,7 @@ export default {
       this.$data.dialogVisible = true;
     },
     edit(){
-      location.href="http://43.138.67.29:9001/p/"+this.$options.propsData.title;
+      location.href=this.$props.url;
       this.$axios({
         method: "post" ,
         url: "update_doc_edit_time" ,

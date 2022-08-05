@@ -50,12 +50,15 @@
       <div class="right">
         <el-row   v-if="inRecycle == false">
           <el-col :span="7" v-for="item in doc_list">
-            <EtherpadFile v-on:deled="get_doc_list" :in-recycle="false" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+            <EtherpadFile v-on:deled="get_doc_list" :in-recycle="false"
+                          :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"
+            />
           </el-col>
         </el-row>
         <el-row v-if="inRecycle == true">
           <el-col :span="7" v-for="item in recycle_list">
-            <EtherpadFile v-on:deled="get_doc_list" :in-recycle="true" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+            <EtherpadFile v-on:deled="get_doc_list" :in-recycle="true"
+                          :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"/>
           </el-col>
         </el-row>
       </div>
