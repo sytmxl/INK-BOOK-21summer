@@ -1,14 +1,14 @@
 <template>
   <div id="init">
     <el-dialog
-        title="新建一個共享文檔"
+        title="新建一个共享文档"
         :visible.sync="dialogVisible"
         width="50%"
         :before-close="closeDialog">
       <span>
           <el-row>
             <el-col :span="4">
-              文檔標題：
+              文档标题：
             </el-col>
             <el-col :span="20">
               <el-input
@@ -135,7 +135,7 @@ export default {
     async add_doc(){
       if(this.$data.newDocName == null || this.$data.newDocName == '' ){
         this.$message({
-          message: '文檔標題不能為空',
+          message: '文档标题不能为空',
           type: 'warning'
         });
         return;
@@ -150,7 +150,7 @@ export default {
       })
       this.$data.dialogVisible = false;
       this.$message({
-        message: '文檔\"'+this.$data.newDocName+'\"新建成功',
+        message: '文档\"'+this.$data.newDocName+'\"新建成功',
         type: 'success'
       });
       await this.get_doc_list();
