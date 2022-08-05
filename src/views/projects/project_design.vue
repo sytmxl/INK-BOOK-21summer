@@ -193,23 +193,23 @@ export default {
       PrototypeList:[],
       template: 1,
       template_options: [{
-        value: 1,
+        value: 0,
         label: '空白模板',
         preview : drawio.DiagramEditor.prototypeDefaultProject0
       }, {
-        value: 2,
+        value: 1,
         label: '模板1',
         preview : drawio.DiagramEditor.prototypeDefaultProject1
       }, {
-        value: 3,
+        value: 2,
         label: '模板2',
         preview : drawio.DiagramEditor.prototypeDefaultProject2
       }, {
-        value: 4,
+        value: 3,
         label: '模板3',
         preview : drawio.DiagramEditor.prototypeDefaultProject3
       }, {
-        value: 5,
+        value: 4,
         label: '模板4',
         preview : drawio.DiagramEditor.prototypeDefaultProject4
       }],
