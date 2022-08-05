@@ -98,10 +98,7 @@ export default {
           data: qs.stringify({
             doc_id:this.$props.id
           }),
-        });
-        setTimeout(()=>{}
-            ,200);
-        this.$emit('deled');
+        }).then(res=>{this.$emit('deled');});
         this.$message({
           type: 'info',
           message: '已将\"'+this.$data.title+'\"扔到回收站'
@@ -153,6 +150,7 @@ export default {
           doc_id:this.$props.id
         }),
       });
+      this.$emit('deled');
       this.$message({
         type: 'info',
         message: '已恢复\"'+this.$data.title+'\"'

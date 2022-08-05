@@ -50,12 +50,12 @@
       <div class="right">
         <el-row   v-if="inRecycle == false">
           <el-col :span="7" v-for="item in doc_list">
-            <EtherpadFile @deled="get_doc_list" :in-recycle="false" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+            <EtherpadFile v-on:deled="get_doc_list" :in-recycle="false" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
           </el-col>
         </el-row>
         <el-row v-if="inRecycle == true">
           <el-col :span="7" v-for="item in recycle_list">
-            <EtherpadFile @deled="get_doc_list" :in-recycle="true" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+            <EtherpadFile v-on:deled="get_doc_list" :in-recycle="true" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
           </el-col>
         </el-row>
       </div>
@@ -67,6 +67,8 @@
 import EtherpadFile from "../../components/etherpadFile.vue";
 import qs from "qs";
 export default {
+  inject: ["reload"],
+
   components: { EtherpadFile },
   beforeMount() {
     this.get_doc_list();
@@ -109,6 +111,9 @@ export default {
     };
   },
   methods:{
+    updateOnDel(){
+      this.get_doc_list(this.$data.inRecycle);
+    },
     enter_exit_Recycle(){
       this.$data.inRecycle = ! this.$data.inRecycle
     },

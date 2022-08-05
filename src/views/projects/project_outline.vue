@@ -20,7 +20,7 @@
       </el-row>
       <el-row>
         <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
-          <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+          <drawio-digram v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
         </el-col>
       </el-row>
     </el-card>
@@ -31,7 +31,7 @@
         </el-col>
         <el-row>
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+            <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
           </el-col>
         </el-row>
       </el-row>
@@ -44,7 +44,7 @@
       </el-row>
       <el-row >
         <el-col :span="7" v-for="item in doc_list">
-          <EtherpadFile @deled="get_doc_list" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
+          <EtherpadFile v-on:deled = "get_doc_list" :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"/>
         </el-col>
       </el-row>
     </el-card>
@@ -61,12 +61,16 @@ export default {
   name: "project_outline",
   beforeMount() {
     sessionStorage.setItem("project_id","1");
-    this.get_uml_list();
-    this.get_prototype_list();
-    this.get_doc_list();
+    this.refresh();
   },
   methods:{
+    refresh(){
+      this.get_uml_list();
+      this.get_prototype_list();
+      this.get_doc_list();
+      },
     get_prototype_list(){
+      this.$data.PrototypeList = []
       this.$axios({
         method: "post" ,
         url: "get_graph_list" ,
@@ -88,6 +92,7 @@ export default {
       })
     },
     get_uml_list(){
+      this.$data.UMLList = [];
       this.$axios({
         method: "post" ,
         url: "get_graph_list" ,

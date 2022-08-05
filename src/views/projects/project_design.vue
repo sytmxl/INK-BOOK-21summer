@@ -82,7 +82,7 @@
       <div class="right">
         <el-row>
           <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+            <drawio-digram :graph_id = "id" :isdel = "viewingDel" v-on:deled = "updateOnDel"/>
           </el-col>
         </el-row>
       </div>
@@ -95,14 +95,13 @@ import drawioDigram from "@/components/drawioDiagram";
 import qs from "qs";
 import drawio from "@/scripts/drawio";
 export default {
+  inject: ["reload"],
   components: {drawioDigram},
   beforeMount() {
     this.get_list("0");
   },
   methods:{
     updateOnDel(){
-      setTimeout(()=>{}
-          ,200);
       this.get_list(this.$data.viewingDel);
     },
     viewDel(){
@@ -154,29 +153,29 @@ export default {
           graph_type:1,
           template:this.$data.template
         }),
-      }).then(res => {
+      }).then(async res => {
         newid = res.data.data.graph_id
-        this.$data.PrototypeList.push(res.data)
-        this.$axios({
-          method: "post" ,
-          url: "modify_graph" ,
+        await this.$axios({
+          method: "post",
+          url: "modify_graph",
           data: qs.stringify({
-            graph_id:newid,
-            graph_name:this.$data.newHeader,
-            graph_info:this.$data.newBrief
+            graph_id: newid,
+            graph_name: this.$data.newHeader,
+            graph_info: this.$data.newBrief
           }),
         })
-        this.$axios({
-          method: "post" ,
-          url: "update_graph_data" ,
+        await this.$axios({
+          method: "post",
+          url: "update_graph_data",
           data: qs.stringify({
-            graph_id:newid,
-            graph_data : this.$data.template_options[this.$data.template].preview
+            graph_id: newid,
+            graph_data: this.$data.template_options[this.$data.template].preview
           }),
         })
+        await this.updateOnDel();
       })
 
-      await this.updateOnDel();
+
       this.$message({
         message: '成功新建了\"'+this.$data.newHeader+'\"',
         type: 'success'

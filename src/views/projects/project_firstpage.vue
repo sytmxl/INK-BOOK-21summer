@@ -12,6 +12,8 @@
 <script>
 import ProjectAside from "../../components/ProjectAside";
 export default {
+  inject: ["reload"],
+
   beforeMount() {
 
     },
