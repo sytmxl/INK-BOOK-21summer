@@ -32,15 +32,15 @@ export default {
           console.log(this.str.length);
           if(res.data.errno==0){
             this.$message.success("加入成功");
-            window.location.href="http://localhost:8080";
+            window.location.href="http://43.138.67.29/";
           }
           else if(res.data.errno==1001){
             this.$message.warning("请登录后重试");
-            window.location.href="http://localhost:8080";
+            window.location.href="http://43.138.67.29/";
           }
           else if(res.data.errno==2006){
             this.$message.success("你已经加入团队了，无须重复加入");
-            window.location.href="http://localhost:8080";
+            window.location.href="http://43.138.67.29/";
           }
           
         })
