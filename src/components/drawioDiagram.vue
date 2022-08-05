@@ -7,7 +7,7 @@
         :before-close="closeDialog">
       <el-row>
         <el-col :span="4">
-          UML标题：
+          标题：
         </el-col>
         <el-col :span="20">
           <el-input
@@ -18,7 +18,7 @@
       </el-row>
       <el-row>
         <el-col :span="4">
-          UML图注：
+          图注：
         </el-col>
         <el-col :span="20">
           <el-input
@@ -32,10 +32,11 @@
         <el-button type="primary" @click="updateData">確定</el-button>
       </span>
     </el-dialog>
-    <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;" shadow="hover">
+    <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;" shadow="always">
       <div class="preview">
-        <img style="cursor: pointer;" title="编辑" @click="edit"
+        <img v-if="base64src" style="cursor: pointer;" title="编辑" @click="edit"
              :src="this.base64src" id="graph" ref="graph">
+        <i v-else class="el-icon-loading" style="margin-top: 35%"/>
       </div>
       <div class="member-info">
         <h3>{{title}}</h3>
@@ -79,7 +80,7 @@ export default {
           this.$refs.graph, this.$data.configs,
           "kennedy",
           null,
-          ['dark=1', 'pv=0'],
+          ['pv=0'],
           this.$props.graph_id);
     },
     del(){
@@ -181,7 +182,7 @@ export default {
       title:"项目",
       description:"无简介",
       lastEditTime:"2077-01-01",
-      base64src:drawio.DiagramEditor.umlDefaultProject,
+      base64src:'',
       configs: {
         "defaultLibraries": "uml;er;ios;basic;",
       }
@@ -221,7 +222,7 @@ export default {
   clear: both
 }
 
-.diagram{border-radius: 35px;width: 100%; height: auto; float: left; margin: 30px 2.5%; background-color: #ffffff; text-align: center; position: relative;}
+.diagram{	border-radius: 4px;width: 100%; height: auto; float: left; margin: 30px 2.5%; background-color: #ffffff; text-align: center; position: relative;}
 .preview img{max-width: 100%; vertical-align: middle;height: 100%;}
 h3 {font-size: 24px; font-weight: normal; margin: 10px 0 0; text-transform: uppercase;}
 h5 {font-size: 16px; font-weight: 300; margin: 0 0 15px; line-height: 22px;}

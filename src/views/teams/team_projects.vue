@@ -7,41 +7,19 @@
 
     <div class="recent" v-if="project_list.length!=0">
       <h1 class="label">近期项目</h1>
-      
-        <div class="content">
-
+      <div class="content">
         <div v-for="i in 4" :key="i">
-            <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]&&i%2==1">
+            <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]">
+              <div id="tools">
+                <i class="el-icon-delete" @click="deleteproject(project_list[project_list.length-i].project_id)"></i>
+                <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
+              </div>
                  <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
                  <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
                  <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
-                   <div class="bottom">
-                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i])">查看详情</el-button>
-                    <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(project_list[project_list.length-i].project_id)">删除项目</el-button>
-                  </div>
-              </el-card>
-
-              <el-card class="box-card2" shadow="hover" v-if="project_list[project_list.length-i]&&i%2==0">
-                <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
-                  <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
-          <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
-                   <div class="bottom">
-                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i])">查看详情</el-button>
-                    <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(project_list[project_list.length-i].project_id)">删除项目</el-button>
-                  </div>
-              </el-card>
-
-               <el-card class="box-card" shadow="hover" v-if="(!project_list[project_list.length-i])&&i%2==1">
-                <h5>敬请期待（＞人＜；）</h5>
-              </el-card>
-
-               <el-card class="box-card2" shadow="hover" v-if="(!project_list[project_list.length-i])&&i%2==0">
-                 <h5>敬请期待（＞人＜；）</h5>
-              </el-card>
+            </el-card>   
         </div>
-              
-
-        </div>
+      </div>
     </div>
     <div class="recent" v-else>
       <h1 class="label">近期项目</h1>
@@ -56,6 +34,12 @@
       <h1 class="label">全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover" v-if="index%2==0">
+
+          <div id="tools">
+          <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
+          <i class="el-icon-edit-outline" @click="information(item)"></i>
+          </div>
+          
           <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
           <p>创建时间：{{item.create_time}}</p>
           <p>最近修改时间：{{item.update_time}}</p>
@@ -64,14 +48,15 @@
           <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
           </div>
       </el-card>
-      <el-card class="box-card2" shadow="hover" v-else>
+      <el-card class="box-card" shadow="hover" v-else>
+        <div id="tools">
+          <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
+          <i class="el-icon-edit-outline" @click="information(item)"></i>
+          </div>
         <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
           <p>创建时间：{{item.create_time}}</p>
           <p>最近修改时间：{{item.update_time}}</p>
-          <div class="bottom">
-          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item)">查看详情</el-button>
-          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
-          </div>
+          
       </el-card>
       </div>
     
@@ -94,6 +79,7 @@
 <script>
 import qs from 'qs';
 export default {
+  inject:["reload"],
   data(){
     return{
       teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
@@ -124,7 +110,7 @@ export default {
       })
         .then((res) => {
         
-         location.reload();
+         this.reload();
           
           })
         .catch((err) => {
@@ -182,7 +168,7 @@ export default {
           else{
             this.$message.warning(res.data.msg);
           }
-          location.reload();
+          this.reload();
        
         })
         .catch((err) => {
@@ -246,7 +232,7 @@ export default {
     width: 100%;
     text-align: left;
     font-size: 36px;
-    height: 800px;
+    /* height: 800px; */
   }
   .recent h1{
     margin-top: 20px;
@@ -306,28 +292,17 @@ export default {
   }
   .box-card{
     width: 510px;
-    height: 300px;
+    height: 180px;
     margin-left: 50px;
     margin-top: 50px;
     border-radius: 15px;
     text-align: left;
-    padding: 20px;
+    padding: 0px;
     float: left;
     border-color: rgb(206, 218, 226) 2px;
     margin-bottom: 50px;
   }
-    .box-card2{
-    width: 510px;
-    height: 300px;
-    margin-left: 50px;
-    margin-top: 50px;
-    border-radius: 15px;
-    text-align: left;
-    padding: 20px;
-    float: left;
-    border-color: rgb(206, 218, 226) 2px;
-    margin-bottom: 50px;
-  }
+  
   .label {
     margin: 0px 0px 0px 50px !important;
     font-size: 50px;
@@ -335,4 +310,51 @@ export default {
     width: 100%;
     color: rgb(114, 132, 145);
   }
+
+#tools {
+  background-color: rgb(157, 162, 176);
+  color: rgba(0, 0, 0, 0);
+  transition: 0.5s;
+  height: 0px;
+  padding: 0px;
+  font-size: 0px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.box-card:hover #tools{
+  height: 40px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  margin-bottom: 60px;
+}
+
+.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+  color: rgb(247, 239, 239);
+  border-radius: 5px;
+  padding: 0px;
+  transition: 0.2s;
+  width: 30%;
+}
+.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover{
+  color: rgb(247, 239, 239);
+  border-radius: 10px;
+  width: 40%;
+}
+.el-icon-delete:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-edit-outline:hover {
+  background-color: rgb(113, 142, 199);
+}
+.el-icon-document-delete:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-magic-stick:hover {
+  background-color: rgb(113, 199, 130);
+}
+.box-card:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+  /* background-color: rgb(199, 113, 113); */
+  padding: 5px;
+}
 </style>

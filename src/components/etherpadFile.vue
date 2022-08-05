@@ -24,8 +24,8 @@
         <el-button type="primary" @click="modify">重命名</el-button>
       </span>
     </el-dialog>
-    <el-card :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
-      <el-card  :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;" shadow="hover" >
+    <el-card class="toolbar" :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
+      <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;" shadow="hover" >
         <div id="tools" v-if="inRecycle == false">
           <i class="el-icon-delete" @click="del"/>
           <i><img style="width: 25%" /></i>
@@ -206,31 +206,56 @@ export default {
 	height: 20px;
 }
 
-#tools {
-  background-color: rgb(157, 176, 171);
-  color: rgba(0, 0, 0, 0);
-  transition: 0.5s;
-  height: 0px;
-  padding: auto;
-  font-size: 0px;
-}
-
 #toolsRecycle {
   background-color: rgb(157, 162, 176);
   color: rgba(0, 0, 0, 0);
   transition: 0.5s;
   height: 0px;
-  padding: auto;
+  padding: 0px;
   font-size: 0px;
 }
 
-.el-card:hover #tools{
+#tools {
+  background-color: rgb(157, 162, 176);
+  color: rgba(0, 0, 0, 0);
+  transition: 0.5s;
+  height: 0px;
+  padding: 0px;
+  font-size: 0px;
+}
+
+.toolbar:hover #tools{
   height: 40px;
   color: rgb(0, 0, 0);
   font-size: 30px;
 }
 
-el-icon-delete {
-  margin: auto;
+.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+  color: rgb(247, 239, 239);
+  border-radius: 5px;
+  padding: 0px;
+  transition: 0.2s;
+  width: 10%;
+}
+.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover{
+  color: rgb(247, 239, 239);
+  border-radius: 10px;
+  width: 40%;
+}
+.el-icon-delete:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-edit-outline:hover {
+  background-color: rgb(113, 142, 199);
+}
+.el-icon-document-delete:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-magic-stick:hover {
+  background-color: rgb(113, 199, 130);
+}
+.toolbar:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+  /* background-color: rgb(199, 113, 113); */
+  padding: 5px;
 }
 </style>
