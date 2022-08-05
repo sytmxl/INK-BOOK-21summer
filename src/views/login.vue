@@ -154,7 +154,7 @@ export default {
               console.log(user);
               console.log(token);
               console.log(this.$store.state.user);
-              window.location.href = "team_firstpage";
+              window.location.href = "team_outline";
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               // const history_pth = localStorage.getItem("FirstPage");
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
