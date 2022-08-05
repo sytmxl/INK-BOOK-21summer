@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-        title="新建一個共享文檔"
+        title="重命名文檔"
         :visible.sync="dialogVisible"
         width="50%"
         :before-close="closeDialog"

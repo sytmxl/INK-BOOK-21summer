@@ -141,7 +141,7 @@ DiagramEditor.prototype.setElementData = function(elem, data)
     console.log(data.substring(data.indexOf(',') + 1))
     axios({
             method: "post" ,
-            url: "/app/update_graph_data" ,
+            url: "update_graph_data" ,
             data:qs.stringify({
                 graph_id:this.graph_id,
                 graph_data:data

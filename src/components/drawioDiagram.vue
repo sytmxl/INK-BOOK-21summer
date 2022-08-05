@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-        title="新建一个UML图"
+        title="修改圖表信息"
         :visible.sync="dialogVisible"
         width="40%"
         :before-close="closeDialog">
@@ -29,7 +29,7 @@
       </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="updateData">新建</el-button>
+        <el-button type="primary" @click="updateData">確定</el-button>
       </span>
     </el-dialog>
     <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;" shadow="hover">
@@ -127,7 +127,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "/app/full_del_graph" ,
+          url: "full_del_graph" ,
           data: qs.stringify({
             project_id:this.$data.project_id,
             graph_id:this.$props.graph_id

@@ -72,7 +72,7 @@ export default {
        
            this.$axios({
         method: "post",
-        url: "/app/change_team_member_identitys",
+        url: "change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.people.user_id,
@@ -108,7 +108,7 @@ export default {
           
           this.$axios({
         method: "post",
-        url: "/app/del_team_member",
+        url: "del_team_member",
         data: qs.stringify({
            team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_del: this.people.user_id,

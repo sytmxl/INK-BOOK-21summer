@@ -168,7 +168,7 @@ export default {
         })
         this.$axios({
           method: "post" ,
-          url: "/app/update_graph_data" ,
+          url: "update_graph_data" ,
           data: qs.stringify({
             graph_id:newid,
             graph_data : this.$data.template_options[this.$data.template].preview
@@ -186,7 +186,7 @@ export default {
   },
   data() {
     return {
-      project_id : sessionStorage.getItem("project"),
+      project_id : JSON.parse(sessionStorage.getItem("project")).project_id,
       newHeader:null,
       newBrief:null,
       dialogVisible:false,

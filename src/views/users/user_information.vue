@@ -243,7 +243,7 @@ export default {
       this.notedit = true;
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
-        url: "/app/update_user_info" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "update_user_info" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
         // headers:{
         //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
         // },
@@ -288,7 +288,7 @@ export default {
       console.log(JSON.parse(sessionStorage.getItem("token")));
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
-        url: "/app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
         // headers:{
         //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
         // }
@@ -316,7 +316,7 @@ export default {
     getTeam() {
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
-        url: "/app/get_team_list" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "get_team_list" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
           console.log(res);
@@ -392,7 +392,7 @@ export default {
       console.log(JSON.parse(sessionStorage.getItem("token")));
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
-        url: "/app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
           console.log(res);
@@ -433,7 +433,7 @@ export default {
       console.log(JSON.parse(sessionStorage.getItem("token")));
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
-        url: "/app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
           console.log(res);

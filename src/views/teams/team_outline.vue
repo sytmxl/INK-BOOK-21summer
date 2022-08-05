@@ -78,7 +78,7 @@ export default {
           });
           this.$axios({
         method: "post",
-        url: "/app/rename_team",
+        url: "rename_team",
         data: qs.stringify({
           team_id: this.teamid,
           team_name: value
@@ -101,7 +101,7 @@ export default {
       init(){
         this.$axios({
         method: "get",
-        url: "/app/get_team_list",
+        url: "get_team_list",
         data: qs.stringify({
         }),
       })

@@ -16,7 +16,7 @@
                  <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
                  <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
                    <div class="bottom">
-                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i].project_id)">查看详情</el-button>
+                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i])">查看详情</el-button>
                     <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(project_list[project_list.length-i].project_id)">删除项目</el-button>
                   </div>
               </el-card>
@@ -26,7 +26,7 @@
                   <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
           <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
                    <div class="bottom">
-                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i].project_id)">查看详情</el-button>
+                    <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(project_list[project_list.length-i])">查看详情</el-button>
                     <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(project_list[project_list.length-i].project_id)">删除项目</el-button>
                   </div>
               </el-card>
@@ -60,7 +60,7 @@
           <p>创建时间：{{item.create_time}}</p>
           <p>最近修改时间：{{item.update_time}}</p>
           <div class="bottom">
-          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item.project_id)">查看详情</el-button>
+          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item)">查看详情</el-button>
           <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
           </div>
       </el-card>
@@ -69,7 +69,7 @@
           <p>创建时间：{{item.create_time}}</p>
           <p>最近修改时间：{{item.update_time}}</p>
           <div class="bottom">
-          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item.project_id)">查看详情</el-button>
+          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item)">查看详情</el-button>
           <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
           </div>
       </el-card>
@@ -116,7 +116,7 @@ export default {
           console.log(value);
           this.$axios({
         method: "post",
-        url: "/app/rename_project",
+        url: "rename_project",
         data: qs.stringify({
           project_id: id,
           project_name: value
@@ -141,7 +141,7 @@ export default {
         }).then(({ value }) => {
           this.$axios({
         method: "post",
-        url: "/app/create_project",
+        url: "create_project",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           project_name: value
@@ -149,7 +149,7 @@ export default {
       })
         .then((res) => {
          
-         var project = {project_id:res.data.data.project_id,project_name:value,}
+         var project = {project_id:res.data.data.project_id, project_name:value};
          this.$store.dispatch("saveproject", project);
          location.href = "/project_outline"
         })
@@ -170,7 +170,7 @@ export default {
         
           this.$axios({
         method: "post",
-        url: "/app/del_project",
+        url: "del_project",
         data: qs.stringify({
           project_id: id,
         }),
@@ -198,15 +198,16 @@ export default {
 
         
       },
-      information(id){
-        this.$store.dispatch("saveproject", id);
+      information(item){
+        var project = {project_id:item.project_id, project_name:item.project_name};
+        this.$store.dispatch("saveproject", project);
         location.href = "project_outline";
       },
       init(){
          this.$axios({
         method: "post",
         // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
-        url: "/app/get_project_list",
+        url: "get_project_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
         }),
