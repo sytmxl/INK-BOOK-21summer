@@ -9,7 +9,7 @@
                 <div  class="text item name">
                   <span class="og">团队名称：</span>
                   {{teamname}}
-                   <i class="el-icon-edit" style="font-size:20px" @click="changeintro()" title="重命名团队名称"></i>
+                   <i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名团队名称"></i>
                 </div>
                 <div  class="text item type">
                   <span class="og">团队类型：</span>

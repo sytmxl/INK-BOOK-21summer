@@ -78,8 +78,13 @@ export default {
         }),
       })
         .then((res) => {
-          this.$message.success(res.data.msg);
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
           location.reload();
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
         })
         .catch((err) => {
           console.log(err); 
@@ -114,7 +119,7 @@ export default {
         }),
       })
         .then((res) => {
-          if(res.data.erron==0){
+          if(res.data.errno==0){
             this.$message.success(res.data.msg);
             location.reload();
           }
