@@ -1,6 +1,7 @@
 <template>
 <el-container>
   <div class="main" v-if="teamname">
+    <h1 class="label">团队成员</h1>
     <div class="title" @click="addmember()">
       <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
@@ -155,6 +156,7 @@ export default {
   }
   .main{
     width: 100%;
+    text-align: left;
   }
   .boss{
     height: auto;
@@ -167,5 +169,12 @@ export default {
   .worker{
      height: auto;
     width: 100%;
+  }
+  .label {
+    margin: 20px 0px 0px 50px !important;
+    font-size: 50px;
+    float: left;
+    width: 100%;
+    color: rgb(114, 132, 145);
   }
 </style>

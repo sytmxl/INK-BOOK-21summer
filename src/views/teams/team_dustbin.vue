@@ -3,29 +3,19 @@
         <div class="main" v-if="teamname">
             
       <div class="all">
-      <h1 class="label">全部项目</h1>
+      <h1 class="label">回收站</h1>
       <div v-for="(item,index) in project_list" :key="item">
-        <el-card class="box-card" shadow="hover" v-if="index%2==0">
+        <el-card class="box-card" shadow="hover">
+          <div id="tools">
+          <i class="el-icon-document-delete" @click="deleteforever(item.project_id)"></i>
+          <i class="el-icon-magic-stick" @click="restore(item)"></i>
+          </div>
           <h5>{{item.project_name}}</h5>
-          <p>创建时间：{{item.create_time}}</p>
-          <p>删除时间：{{item.update_time}}</p>
-          <div class="bottom">
-          <el-button type="success" icon="el-icon-check"  title="恢复项目" @click="restore(item.project_id)">恢复项目</el-button>
-          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteforever(item.project_id)">删除项目</el-button>
-          </div>
-            
-      </el-card>
-      <el-card class="box-card2" shadow="hover" v-else>
-        <h5>{{item.project_name}}</h5>
-          <p>创建时间：{{item.create_time}}</p>
-          <p>删除时间：{{item.update_time}}</p>
-          <div class="bottom">
-          <el-button type="success" icon="el-icon-check"  title="恢复项目" @click="restore(item.project_id)">恢复项目</el-button>
-          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteforever(item.project_id)">删除项目</el-button>
-          </div>
+          <p>创建时间：<br/>{{item.create_time}}</p>
+          <p>删除时间：<br/>{{item.update_time}}</p>
+
       </el-card>
       </div>
-    
     </div>
         </div>
          <div class="chooseteam" v-else>
@@ -89,29 +79,63 @@
     margin-left: 85px;
   }
   .box-card{
-    width: 510px;
-    height: 300px;
-    margin-left: 50px;
-    margin-top: 50px;
+    width: 280px;
+    /* width: fit-content; */
+    height: 220px;
+    margin-left: 30px;
+    margin-top: 30px;
     border-radius: 15px;
     text-align: left;
-    padding: 20px;
+    padding: 0px;
     float: left;
     border-color: rgb(206, 218, 226) 2px;
     margin-bottom: 50px;
   }
-    .box-card2{
-    width: 510px;
-    height: 300px;
-    margin-left: 50px;
-    margin-top: 50px;
-    border-radius: 15px;
-    text-align: left;
-    padding: 20px;
-    float: left;
-    border-color: rgb(206, 218, 226) 2px;
-    margin-bottom: 50px;
-  }
+  #tools {
+  background-color: rgb(157, 162, 176);
+  color: rgba(0, 0, 0, 0);
+  transition: 0.5s;
+  height: 0px;
+  padding: 0px;
+  font-size: 0px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.box-card:hover #tools{
+  height: 40px;
+  color: rgb(0, 0, 0);
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+  color: rgb(247, 239, 239);
+  border-radius: 5px;
+  padding: 0px;
+  transition: 0.2s;
+  width: 30%;
+}
+.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover{
+  color: rgb(247, 239, 239);
+  border-radius: 10px;
+  width: 40%;
+}
+.el-icon-delete:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-edit-outline:hover {
+  background-color: rgb(113, 142, 199);
+}
+.el-icon-document-delete:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-magic-stick:hover {
+  background-color: rgb(113, 199, 130);
+}
+.box-card:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+  /* background-color: rgb(199, 113, 113); */
+  padding: 5px;
+}
   .label {
     margin: 20px 0px 0px 50px !important;
     font-size: 50px;
@@ -119,6 +143,19 @@
     width: 100%;
     color: rgb(114, 132, 145);
   }
+.box-card h5 {
+  display: inline-block;
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
+  text-overflow:ellipsis;
+  transition: 0.5s;
+}
+.box-card:hover h5{
+  white-space:unset; 
+  text-overflow: unset;
+  font-size: 25px;
+}
 </style>
 
 <script>

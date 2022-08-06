@@ -2,7 +2,7 @@
     <el-container>
      
      <div class="main" v-if="teamname">
-
+        <h1 class="label">团队信息</h1>
         <div class="content">
 
               <el-card class="box-card">
@@ -151,6 +151,7 @@ export default {
 
 .main{
   width: 100%;
+  text-align: left;
 }
 .content .el-icon-edit{
   float: right;
@@ -232,5 +233,12 @@ export default {
     border-radius: 50%;
 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+  }
+  .label {
+    margin: 20px 0px 20px 50px !important;
+    font-size: 50px;
+    float: left;
+    width: 100%;
+    color: rgb(114, 132, 145);
   }
 </style>

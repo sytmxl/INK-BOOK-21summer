@@ -15,8 +15,8 @@
                 <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
               </div>
                  <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
-                 <p>创建时间：{{project_list[project_list.length-i].create_time}}</p>
-                 <p>最近修改时间：{{project_list[project_list.length-i].update_time}}</p>
+                 <p>创建时间：<br/>{{project_list[project_list.length-i].create_time}}</p>
+                 <p>最近修改时间：<br/>{{project_list[project_list.length-i].update_time}}</p>
             </el-card>   
         </div>
       </div>
@@ -32,7 +32,7 @@
     <div class="all" v-if="project_list.length!=0">
       <h1 class="label">全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
-        <el-card class="box-card" shadow="hover" v-if="index%2==0">
+        <el-card class="box-card" shadow="hover">
 
           <div id="tools">
           <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
@@ -40,33 +40,14 @@
           </div>
           
           <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
-          <p>创建时间：{{item.create_time}}</p>
-          <p>最近修改时间：{{item.update_time}}</p>
-          <div class="bottom">
-          <el-button type="primary" icon="el-icon-edit"  title="查看详情" @click="information(item)">查看详情</el-button>
-          <el-button type="danger" icon="el-icon-delete"  title="删除项目" @click="deleteproject(item.project_id)">删除项目</el-button>
-          </div>
-      </el-card>
-      <el-card class="box-card" shadow="hover" v-else>
-        <div id="tools">
-          <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
-          <i class="el-icon-edit-outline" @click="information(item)"></i>
-          </div>
-        <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
-          <p>创建时间：{{item.create_time}}</p>
-          <p>最近修改时间：{{item.update_time}}</p>
+          <p>创建时间：<br/>{{item.create_time}}</p>
+          <p>最近修改时间：<br/>{{item.update_time}}</p>
           
       </el-card>
+      
       </div>
     
     </div>
-    <!-- <div class="all" v-else>
-      <h1 class="label">全部项目</h1>
-       <div>
-            <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
-            </el-empty>
-        </div>
-    </div> -->
   </div>
    <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
@@ -255,10 +236,6 @@ export default {
     font-size: 18px;
     margin-top: 15px;
   }
-    .box-card2 p{
-    font-size: 18px;
-    margin-top: 15px;
-  }
   .bottom{
     margin-top: 100px;
   }
@@ -291,16 +268,18 @@ export default {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
   .box-card{
-    width: 510px;
-    height: 170px;
-    margin-left: 50px;
-    margin-top: 50px;
+    /* width: 280px; */
+    width: 280px;
+    height: 220px;
+    margin-left: 30px;
+    margin-top: 30px;
     border-radius: 15px;
     text-align: left;
     padding: 0px;
     float: left;
     border-color: rgb(206, 218, 226) 2px;
     margin-bottom: 50px;
+    transition: 0.5s;
   }
   
   .label {
@@ -328,7 +307,7 @@ export default {
   height: 40px;
   color: rgb(0, 0, 0);
   font-size: 30px;
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 
 .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
@@ -358,5 +337,18 @@ export default {
 .box-card:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
+}
+.box-card h5 {
+  display: inline-block;
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
+  text-overflow:ellipsis;
+  transition: 0.5s;
+}
+.box-card:hover h5{
+  white-space:unset; 
+  text-overflow: unset;
+  font-size: 25px;
 }
 </style>
