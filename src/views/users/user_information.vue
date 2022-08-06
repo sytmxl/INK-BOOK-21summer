@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header style="height: 80px; z-index: 1">
-      <topFrame v-on:search="false" :team="false"/>
-    </el-header>
+    <!-- <el-header style="height: 80px; z-index: 1"> -->
+      <topFrame v-on:team="false" :search="false"/>
+    <!-- </el-header> -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 2.5%; margin-bottom: 5.5%">
         <el-col span="10">
@@ -481,11 +481,6 @@ export default {
 </script>
 
 <style scoped>
-/* .el-tabs--left,
-.el-tabs--right {
-  overflow: hidden;
-  margin-left: 20%;
-} */
 .el-tabs--left,
 .el-tabs--right {
     overflow: hidden;
@@ -493,8 +488,6 @@ export default {
     margin-top: 7%;
 }
 .el-main {
-  /* overflow:visible;  */
-  /* padding-top: 0;  */
   position: absolute;
   left: 0;
   right: 0;
@@ -506,9 +499,6 @@ export default {
 }
 
 .el-header {
-  /* background-color: white; */
-  backdrop-filter: blur(10px black) ;
-
   text-align: left;
   color: black;
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */

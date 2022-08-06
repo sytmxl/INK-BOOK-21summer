@@ -1,14 +1,12 @@
 <template>
   <el-container>
     <el-aside><TeamAside/></el-aside>
-    <el-container>
-      <el-header style="height:80px;">
-        <topFrame v-on:search="false" :team="false"/>
-      </el-header>
+    <!-- <el-container> -->
+      <topFrame/>
     <el-main> 
       <router-view></router-view>
     </el-main>
-    </el-container>
+    <!-- </el-container> -->
   </el-container>
 </template>
 
@@ -26,14 +24,13 @@ export default {
 <style scoped>
 
 .el-main {
-     /* overflow:visible;  */
-    /* padding-top: 0;  */
   background-color: rgba(244, 247, 249, 0.371);
   position: absolute;
   left: 200px;
   right: 0;
-  top: 80px;
+  top: 0px;
   bottom: 0;
+  padding-top: 80px;
   overflow-y: scroll;
   }
   .el-aside{
@@ -44,7 +41,7 @@ export default {
   bottom: 0;
 }
 .el-header {
-  background-color: white;
+  /* background-color: white; */
   text-align: left;
   color:black;
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */

@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header style="height: 80px; z-index: 2">
+    <!-- <el-header style="height: 80px; z-index: 2"> -->
       <topFrame/>
-    </el-header>
+    <!-- </el-header> -->
     <el-main style="overflow: scroll">
       <el-row class="info">
         <el-col :span="14">

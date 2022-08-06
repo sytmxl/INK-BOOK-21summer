@@ -1,13 +1,14 @@
 <template>
+<el-header style="height:80px;">
   <div class="top">
     <div class="left">
         <div id="nav-header">
           <a class="brand" href="/"></a>
-          <span class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</span>
+          <span class="brandtext" href="/">INK BOOK</span>
         </div>
     </div>
 
-    <div class="team" v-if="team=true">
+    <div class="team" v-if="team==true">
       <el-dropdown trigger="click">
         <span class="el-dropdown-link">
           {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -44,7 +45,7 @@
         </el-dialog>
     </div>
 
-    <div class="search" v-if="search=true">
+    <div class="search" v-if="search==true">
       <el-input
         placeholder="按下回车键即可搜索"
         prefix-icon="el-icon-search"
@@ -62,8 +63,8 @@
         </div>
       </div> 
     </div>
-    <div class="clear"></div>
   </div>
+</el-header>
 </template>
 
 <script>
@@ -85,7 +86,7 @@ export default {
       }
     },
     props: {
-      search:{default:true},
+      search:{default:true},//根据传参判断是否显示组件
       team:{default:true}
     },
     methods:{
@@ -181,7 +182,13 @@ export default {
 </script>
 
 <style scoped>
-.top{
+.el-header {
+  backdrop-filter: blur(25px) brightness(110%);
+  background-color: #53667713 !important;
+  z-index: 100;
+  width: 100%;
+}
+.top {
   margin-top: 10px;
   display: flex;
 }
@@ -189,17 +196,11 @@ export default {
   font-family: myFont;
   src: url("../assets/Futura.ttc");
 }
-.brandtext1 {
+.brandtext {
   font-family: myFont;
   user-select: none;
   text-decoration: none;
   color:rgb(73, 88, 100);
-}
-.brandtext2 {
-  font-family: "楷体";
-  user-select: none;
-  text-decoration: none;
-    color:black;
 }
 #nav-header {
   display: flex;
@@ -209,14 +210,16 @@ export default {
   font-size: 35px;
 }
 .left{
-  float: left;
-  position: absolute;
+  /* float: left; */
+  /* position: absolute; */
   left: 20px;
+  padding-right: 20px;
 }
 .right{
-  float: right;
+  /* float: right; */
   position: absolute;
   right:0;
+  top: 7px;
 }
 .splitline{
   height: 1px;
@@ -224,11 +227,7 @@ export default {
   margin-left: 5%;
   background-color: #e0e0e0;
 }
-.team{
-  margin-left: 250px;
-  margin-top: 15px;
-  float: right;
-}
+
 .user{
   margin-right:0px;
   float: right;
@@ -297,6 +296,7 @@ export default {
   }
   .left {
     margin-top: 7px;
+    float: left;
   }
   .left:hover {
     background: rgba(150, 169, 183, 0.164);
@@ -304,8 +304,11 @@ export default {
     margin-top: 7px;
   }
   .team {
+    /* margin-left: 250px; */
+    /* float: left; */
     padding: 10px;
     margin-top: 7px;
+    margin-left: 5px;
     border-radius: 20px;
     transition: 0.2s;
   }
@@ -331,15 +334,12 @@ export default {
     border-radius: 10px !important;
     margin: 10px !important;
   }
-  .search{
-    margin-right: 150px;
-    margin-top: 10px;
-    float: right;
-  }
   .search {
+    margin-top: 10px;
     margin-left: 50px;
     width: 5px;
     transition: 0.5s;
+    /* float: right; */
   }
   .search:hover {
     width: 300px;

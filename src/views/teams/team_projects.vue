@@ -1,7 +1,7 @@
 <template>
 <el-container>
    <div class="main" v-if="teamname">
-    <div class="title" @click="addproject()">
+    <div class="add" @click="addproject()">
       <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
 
@@ -9,15 +9,15 @@
       <h1 class="label label_top">近期项目</h1>
       <div class="content">
         <div v-for="i in 4" :key="i">
-            <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]">
-              <div id="tools">
-                <i class="el-icon-delete" @click="deleteproject(project_list[project_list.length-i].project_id)"></i>
-                <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
-              </div>
-                 <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
-                 <p>创建时间：<br/>{{project_list[project_list.length-i].create_time}}</p>
-                 <p>最近修改时间：<br/>{{project_list[project_list.length-i].update_time}}</p>
-            </el-card>   
+          <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]">
+            <div id="tools">
+              <i class="el-icon-delete" @click="deleteproject(project_list[project_list.length-i].project_id)"></i>
+              <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
+            </div>
+                <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
+                <p>创建时间：<br/>{{project_list[project_list.length-i].create_time}}</p>
+                <p>最近修改时间：<br/>{{project_list[project_list.length-i].update_time}}</p>
+          </el-card>   
         </div>
       </div>
     </div>
@@ -240,7 +240,7 @@ export default {
     border-radius: 20px;
     margin-left: 85px;
   }
-  .title{
+  .add{
     width: 62px;
     border-radius: 20px;
     
@@ -257,8 +257,9 @@ export default {
     left: 93%;
     position: fixed;
     z-index: 1;
+    top: 100px;
   }
-  .title:hover {
+  .add:hover {
     width: 62px;
     border-radius: 50%;
 
