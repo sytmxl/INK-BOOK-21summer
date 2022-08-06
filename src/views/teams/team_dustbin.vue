@@ -80,16 +80,27 @@
   }
   .box-card{
     width: 280px;
-    /* width: fit-content; */
     height: 220px;
-    margin-left: 30px;
-    margin-top: 30px;
+    margin: 15px;
     border-radius: 15px;
     text-align: left;
     padding: 0px;
     float: left;
     border-color: rgb(206, 218, 226) 2px;
-    margin-bottom: 50px;
+    transition: 0.5s;
+  }
+  .box-card:hover{
+    width: 290px;
+    height: 230px;
+    margin: 10px;
+  }
+  
+  .label {
+    margin: 30px 0px 0px 30px !important;
+    font-size: 50px;
+    float: left;
+    width: 100%;
+    color: rgb(114, 132, 145); 
   }
   #tools {
   background-color: rgb(157, 162, 176);
@@ -136,13 +147,6 @@
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
 }
-  .label {
-    margin: 20px 0px 0px 50px !important;
-    font-size: 50px;
-    float: left;
-    width: 100%;
-    color: rgb(114, 132, 145);
-  }
 .box-card h5 {
   display: inline-block;
   white-space: nowrap; 

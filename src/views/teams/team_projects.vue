@@ -6,7 +6,7 @@
     </div>
 
     <div class="recent" v-if="project_list.length!=0">
-      <h1 class="label">近期项目</h1>
+      <h1 class="label label_top">近期项目</h1>
       <div class="content">
         <div v-for="i in 4" :key="i">
             <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]">
@@ -214,9 +214,6 @@ export default {
     font-size: 36px;
     /* height: 800px; */
   }
-  .recent h1{
-    margin-top: 20px;
-  }
   .all{
     width: 100%;
     text-align: left;
@@ -268,27 +265,31 @@ export default {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
   .box-card{
-    /* width: 280px; */
     width: 280px;
     height: 220px;
-    margin-left: 30px;
-    margin-top: 30px;
+    margin: 15px;
     border-radius: 15px;
     text-align: left;
     padding: 0px;
     float: left;
     border-color: rgb(206, 218, 226) 2px;
-    margin-bottom: 50px;
     transition: 0.5s;
+  }
+  .box-card:hover{
+    width: 290px;
+    height: 230px;
+    margin: 10px;
   }
   
   .label {
-    margin: 0px 0px 0px 50px !important;
+    margin: 30px 0px 0px 30px;
     font-size: 50px;
     float: left;
     width: 100%;
-    color: rgb(114, 132, 145);
-    
+    color: rgb(114, 132, 145); 
+  }
+  .label_top{
+    margin: 10px 0px 0px 30px !important;
   }
   
 

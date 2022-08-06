@@ -235,10 +235,10 @@ export default {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
   .label {
-    margin: 20px 0px 20px 50px !important;
+    margin: 30px 0px 50px 30px;
     font-size: 50px;
     float: left;
     width: 100%;
-    color: rgb(114, 132, 145);
+    color: rgb(114, 132, 145); 
   }
 </style>

@@ -171,10 +171,10 @@ export default {
     width: 100%;
   }
   .label {
-    margin: 20px 0px 0px 50px !important;
+    margin: 30px 0px 0px 30px;
     font-size: 50px;
     float: left;
     width: 100%;
-    color: rgb(114, 132, 145);
+    color: rgb(114, 132, 145); 
   }
 </style>
