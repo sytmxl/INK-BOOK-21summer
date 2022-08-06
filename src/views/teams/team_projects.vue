@@ -1,6 +1,7 @@
 <template>
 <el-container>
-   <div class="main" v-if="teamname">
+  <div class="main" v-if="teamname">
+
     <div class="add" @click="addproject()">
       <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
@@ -14,44 +15,41 @@
               <i class="el-icon-delete" @click="deleteproject(project_list[project_list.length-i].project_id)"></i>
               <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
             </div>
-                <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
-                <p>创建时间：<br/>{{project_list[project_list.length-i].create_time}}</p>
-                <p>最近修改时间：<br/>{{project_list[project_list.length-i].update_time}}</p>
+              <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
+              <p>创建时间：<br/>{{project_list[project_list.length-i].create_time}}</p>
+              <p>最近修改时间：<br/>{{project_list[project_list.length-i].update_time}}</p>
           </el-card>   
         </div>
       </div>
     </div>
+
     <div class="recent" v-else>
       <h1 class="label">近期项目</h1>
-       <div class="chooseteam">
-            <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
-            </el-empty>
-        </div>
+      <div class="chooseteam">
+        <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
+        </el-empty>
+      </div>
     </div>
 
     <div class="all" v-if="project_list.length!=0">
       <h1 class="label">全部项目</h1>
       <div v-for="(item,index) in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
-
           <div id="tools">
-          <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
-          <i class="el-icon-edit-outline" @click="information(item)"></i>
+            <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
+            <i class="el-icon-edit-outline" @click="information(item)"></i>
           </div>
           
           <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
           <p>创建时间：<br/>{{item.create_time}}</p>
           <p>最近修改时间：<br/>{{item.update_time}}</p>
-          
-      </el-card>
-      
+        </el-card>
       </div>
-    
     </div>
   </div>
-   <div class="chooseteam" v-else>
-            <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
-        </div>
+  <div class="chooseteam" v-else>
+    <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
+  </div>
 </el-container>
  
 </template>
@@ -281,7 +279,7 @@ export default {
     height: 230px;
     margin: 10px;
   } */
-  
+  /* 这个悬浮效果会有一点显示bug 暂且放着吧 */
   .label {
     margin: 30px 0px 0px 30px;
     font-size: 50px;

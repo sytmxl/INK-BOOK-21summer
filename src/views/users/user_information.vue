@@ -1,8 +1,7 @@
 <template>
   <el-container>
-    <!-- <el-header style="height: 80px; z-index: 1"> -->
-      <topFrame v-on:team="false" :search="false"/>
-    <!-- </el-header> -->
+      <topFrame v-on: team="false" search="false"/> 
+      <!-- 这里效果是对的 但是不知道为什么报错 可以不用管 -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 2.5%; margin-bottom: 5.5%">
         <el-col span="10">
@@ -481,14 +480,14 @@ export default {
 </script>
 
 <style scoped>
-.el-tabs--left,
+.el-tabs--left, 
 .el-tabs--right {
     overflow: hidden;
     margin-left: 5%;
     margin-top: 7%;
 }
 .el-main {
-  position: absolute;
+  position: absolute; 
   left: 0;
   right: 0;
   top: 0;
