@@ -1,31 +1,25 @@
 <template>
-
-   
-
-    <el-container>
-  <el-aside><common-aside></common-aside></el-aside>
   <el-container>
-    <el-header style="height:80px;"><top-frame></top-frame></el-header>
+    <el-aside><TeamAside/></el-aside>
+    <el-container>
+      <el-header style="height:80px;">
+        <topFrame v-on:search="false" :team="false"/>
+      </el-header>
     <el-main> 
-
-  <!-- <div> -->
-    <router-view></router-view>
-  <!-- </div> -->
-
-  </el-main>
+      <router-view></router-view>
+    </el-main>
+    </el-container>
   </el-container>
-</el-container>
-
 </template>
 
 <script>
 import topFrame from "../../components/topFrame.vue";
-import CommonAside from "../../components/CommenAside.vue";
+import TeamAside from "../../components/TeamAside.vue";
 export default {
  components: {
     topFrame,
-    CommonAside
-  },
+    TeamAside
+},
 }
 </script>
 

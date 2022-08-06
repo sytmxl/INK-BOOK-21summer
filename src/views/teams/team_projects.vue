@@ -275,11 +275,11 @@ export default {
     border-color: rgb(206, 218, 226) 2px;
     transition: 0.5s;
   }
-  .box-card:hover{
+  /* .box-card:hover{
     width: 290px;
     height: 230px;
     margin: 10px;
-  }
+  } */
   
   .label {
     margin: 30px 0px 0px 30px;

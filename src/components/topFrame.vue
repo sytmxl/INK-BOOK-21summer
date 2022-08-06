@@ -1,96 +1,68 @@
 <template>
   <div class="top">
-
     <div class="left">
         <div id="nav-header">
           <a class="brand" href="/"></a>
           <span class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</span>
-          <!-- <div
-            id="Layer1"
-            style="
-              width: 2px;
-              height: 50px;
-              z-index: 1;
-              background-color: #000000;
-              layer-background-color: #000000;
-              border: 2px none #000000;
-            "
-          ></div>
-          <span class="brandtext2" href="/">&nbsp;墨书</span> -->
         </div>
-  </div>
-
-  
-
-    <div class="team">
-               <el-dropdown trigger="click">
-                 <span class="el-dropdown-link">
-                   {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
-                 </span>
-               
-                 <el-dropdown-menu slot="dropdown">
-                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
-                    <div class="splitline"></div>
-                  <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
-                 </el-dropdown-menu>
-               </el-dropdown>
-
-
-               <el-dialog title="创建团队" :visible.sync="dialogFormVisible">
-                <el-form :model="form">
-                    <el-form-item label="团队类型" :label-width="formLabelWidth">
-                    <el-select v-model="form.type" placeholder="请选择团队类型" >
-                           <el-option label="IT" value="IT" ></el-option>
-                           <el-option label="教育" value="教育"></el-option>
-                           <el-option label="金融" value="金融"></el-option>
-                         </el-select>
-                  </el-form-item>
-                  <el-form-item label="团队名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off" placeholder="20字以内"></el-input>
-                  </el-form-item>
-              
-                  <el-form-item label="团队介绍" :label-width="formLabelWidth">
-                    <el-input v-model="form.intro" autocomplete="off" placeholder="50字以内"></el-input>
-                  </el-form-item>
-                </el-form>
-                    <div slot="footer" class="dialog-footer">
-                      <el-button @click="dialogFormVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="newteam()">确 定</el-button>
-                    </div>
-                  </el-dialog>
-
     </div>
-    <div class="search">
-            <el-input
-              placeholder="按下回车键即可搜索"
-              prefix-icon="el-icon-search"
-              v-model="input" clearable="true" 
-              @keyup.enter.native="doSearch()">
-            </el-input>
-  </div>
-     <div class="right">
 
-       <div class="user">
-
-            
-       
-            <img src="../assets/bk3.jpg" alt=""/>
-            <div class="username">
-                <a href="user_information" title="个人中心">{{username}}</a>
-                <a href="/" title="登出" @click="logout()">登出</a>
-            </div>
-            
-            
-      </div>
+    <div class="team" v-if="team=true">
+      <el-dropdown trigger="click">
+        <span class="el-dropdown-link">
+          {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
       
-        
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
+          <div class="splitline"></div>
+        <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
 
-         
-     </div>
-  <div class="clear"></div>
-          
-       
+      <el-dialog title="创建团队" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+          <el-form-item label="团队类型" :label-width="formLabelWidth">
+          <el-select v-model="form.type" placeholder="请选择团队类型" >
+                  <el-option label="IT" value="IT" ></el-option>
+                  <el-option label="教育" value="教育"></el-option>
+                  <el-option label="金融" value="金融"></el-option>
+                </el-select>
+        </el-form-item>
+        <el-form-item label="团队名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off" placeholder="20字以内"></el-input>
+        </el-form-item>
+    
+        <el-form-item label="团队介绍" :label-width="formLabelWidth">
+          <el-input v-model="form.intro" autocomplete="off" placeholder="50字以内"></el-input>
+        </el-form-item>
+      </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="newteam()">确 定</el-button>
+          </div>
+        </el-dialog>
+    </div>
 
+    <div class="search" v-if="search=true">
+      <el-input
+        placeholder="按下回车键即可搜索"
+        prefix-icon="el-icon-search"
+        v-model="input" clearable="true" 
+        @keyup.enter.native="doSearch()">
+      </el-input>
+    </div>
+
+    <div class="right">
+      <div class="user">
+        <img src="../assets/bk3.jpg" alt=""/>
+        <div class="username">
+          <a href="user_information" title="个人中心">{{username}}</a>
+          <a href="/" title="登出" @click="logout()">登出</a>
+        </div>
+      </div> 
+    </div>
+    <div class="clear"></div>
   </div>
 </template>
 
@@ -111,6 +83,10 @@ export default {
         username:JSON.parse(sessionStorage.getItem('user')).username,
         input:"",
       }
+    },
+    props: {
+      search:{default:true},
+      team:{default:true}
     },
     methods:{
       logout(){
