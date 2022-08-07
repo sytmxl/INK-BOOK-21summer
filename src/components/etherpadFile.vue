@@ -63,13 +63,22 @@ export default {
   name: "etherpadFile",
   props:{
     id:{default: 0},
-    url:{default:"",type:String},
+    tok:{default: "p.cykablyatabaaba",type:String},
     inRecycle:{default:false},
     title:{default: "示例项目",type: String},
     description:{default: "无简介", type:String},
-    last_edit_time:{default: "2022-08-01",type:String}
+    last_edit_time:{default: "2022-08-01",type:String},
+  },
+  beforeMount() {
+    this.getProps();
   },
   methods:{
+    test(){
+      //仅用于测试
+    },
+    getProps(){
+      //TODO 加载预览
+    },
     closeDialog(){
       this.$data.dialogVisible = false;
     },
@@ -77,7 +86,8 @@ export default {
       this.$data.dialogVisible = true;
     },
     edit(){
-      location.href=this.$props.url;
+      //TODO 使用iframe加载,应该在此处用可传参的自定义事件（参数为了告知父组件被点击的id）并在team_editdoc中使用一个iframe加载编辑器
+      /*
       this.$axios({
         method: "post" ,
         url: "update_doc_edit_time" ,
@@ -85,7 +95,8 @@ export default {
           doc_id:this.$props.id,
           doc_name:this.$props.title
         }),
-      })
+      })*/
+      //TODO 上次编辑的时间已经可以交由team_editdoc 处理
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
@@ -142,6 +153,7 @@ export default {
           message: '已删除\"'+this.$data.title+'\"'
         });
       })
+      //TODO 在这里调EtherPad的API彻底删除其服务中存储的文件
     },
     recover() {
       this.$axios({
@@ -156,13 +168,20 @@ export default {
         type: 'info',
         message: '已恢复\"'+this.$data.title+'\"'
       });
-    }
+    },
+    getShareLink(){
+      //TODO 获取只读的分享链接
+    },
+    catUrl(token){
+      //TODO 在这里根据EtherPad服务的baseUrl拼出应该访问的文档
+    },
   },
 	data() {
     return {
       title:this.$props.title,
       dialogVisible:false,
       newTitle:'',
+      preview:'',
     }
   }
 }
