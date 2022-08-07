@@ -341,7 +341,6 @@ export default {
   
    .main{
     width: 100%;
-    margin-top: 50px;
   }
   .recent{
     width: 100%;

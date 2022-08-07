@@ -137,6 +137,7 @@ export default {
     float: right;
     left: 93%;
     position: fixed;
+    top:100px
   }
   .title:hover {
     width: 62px;
