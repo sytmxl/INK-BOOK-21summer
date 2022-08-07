@@ -15,7 +15,7 @@
         </span>
       
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
+          <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)">{{item.team_name}} <i class="el-icon-check" v-if="item.team_id==checkedteamid"></i></el-dropdown-item>
           <div class="splitline"></div>
         <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
         </el-dropdown-menu>
@@ -73,6 +73,7 @@ export default {
     data(){
       return{
         checkedteam:'',
+        checkedteamid:'',
         dialogFormVisible:false,
         form: {
           name: '',
@@ -101,7 +102,8 @@ export default {
       },
       checkit(content){
         console.log(content)
-        this.checkedteam = content.name
+        this.checkedteam = content.team_name;
+        this.checkedteamid = content.team_id;
         this.$store.dispatch("saveteam", content);
         location.reload();
       },
@@ -170,6 +172,7 @@ export default {
         }
         else{
           this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name;
+          this.checkedteamid = JSON.parse(sessionStorage.getItem('team')).team_id;
         }
 
 
