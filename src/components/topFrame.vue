@@ -3,8 +3,7 @@
   <div class="top">
     <div class="left">
         <div id="nav-header">
-          <a class="brand" href="/"></a>
-          <span class="brandtext" href="/">INK BOOK</span>
+          <span class="brandtext" ><a href="/">INK BOOK</a></span>
         </div>
     </div>
 
@@ -15,13 +14,13 @@
         </span>
       
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
+          <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)">{{item.team_name}} <i class="el-icon-check" v-if="item.team_id==checkedteamid"></i></el-dropdown-item>
           <div class="splitline"></div>
         <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-dialog title="创建团队" :visible.sync="dialogFormVisible">
+      <el-dialog title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
       <el-form :model="form">
           <el-form-item label="团队类型" :label-width="formLabelWidth">
           <el-select v-model="form.type" placeholder="请选择团队类型" >
@@ -31,11 +30,11 @@
                 </el-select>
         </el-form-item>
         <el-form-item label="团队名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" placeholder="20字以内"></el-input>
+          <el-input v-model="form.name" autocomplete="off" maxlength="20" show-word-limit></el-input>
         </el-form-item>
     
         <el-form-item label="团队介绍" :label-width="formLabelWidth">
-          <el-input v-model="form.intro" autocomplete="off" placeholder="50字以内"></el-input>
+          <el-input v-model="form.intro" autocomplete="off" maxlength="50" show-word-limit></el-input>
         </el-form-item>
       </el-form>
           <div slot="footer" class="dialog-footer">
@@ -73,6 +72,7 @@ export default {
     data(){
       return{
         checkedteam:'',
+        checkedteamid:'',
         dialogFormVisible:false,
         form: {
           name: '',
@@ -101,7 +101,8 @@ export default {
       },
       checkit(content){
         console.log(content)
-        this.checkedteam = content.name
+        this.checkedteam = content.team_name;
+        this.checkedteamid = content.team_id;
         this.$store.dispatch("saveteam", content);
         location.reload();
       },
@@ -170,6 +171,7 @@ export default {
         }
         else{
           this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name;
+          this.checkedteamid = JSON.parse(sessionStorage.getItem('team')).team_id;
         }
 
 
@@ -199,8 +201,13 @@ export default {
 .brandtext {
   font-family: myFont;
   user-select: none;
-  text-decoration: none;
   color:rgb(73, 88, 100);
+}
+.brandtext a{
+    text-decoration: none;
+}
+.brandtext a:visited{
+  color: black;
 }
 #nav-header {
   display: flex;
@@ -329,6 +336,11 @@ export default {
   .el-dropdown-item {
     transition: 0.5s;
   }
+  /* .el-dropdown-menu__item{
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+  } */
   .el-dropdown-item:hover{
     background: rgba(150, 169, 183, 0.422) !important;
     border-radius: 10px !important;

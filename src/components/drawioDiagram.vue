@@ -12,6 +12,8 @@
         <el-col :span="20">
           <el-input
               placeholder="请输入标题"
+              maxlength="20"
+              show-word-limit
               v-model="newHeader">
           </el-input>
         </el-col>
@@ -23,6 +25,8 @@
         <el-col :span="20">
           <el-input
               placeholder="请输入图注"
+              maxlength="20"
+              show-word-limit
               v-model="newBrief">
           </el-input>
         </el-col>

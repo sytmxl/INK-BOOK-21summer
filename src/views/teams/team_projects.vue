@@ -3,8 +3,53 @@
   <div class="main" v-if="teamname">
 
     <div class="add" @click="addproject()">
-      <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
+      <i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="添加新成员"></i>
     </div>
+
+     <div class="folder" @click="isopen = !isopen">
+      <i class="el-icon-folder" style="font-size:20px"  title="文档中心"></i>
+    </div>
+
+
+    <div class="filefolder" v-if="isopen" id="draggable">
+      <el-input prefix-icon="el-icon-search"
+          v-model="filterText">
+      </el-input>
+      <el-tree
+      :data="data"
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :filter-node-method="filterNode"
+        :props="defaultProps"
+        class="filter-tree"
+        ref="tree"
+        @node-drag-start="handleDragStart"
+        @node-drag-enter="handleDragEnter"
+        @node-drag-leave="handleDragLeave"
+        @node-drag-over="handleDragOver"
+        @node-drag-end="handleDragEnd"
+        @node-drop="handleDrop"
+        :allow-drop="allowDrop"
+        :allow-drag="allowDrag">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <el-button v-if="data.depth>=3"
+            type="text"
+            @click="() => append(data)">
+            <i class='el-icon-circle-plus-outline'></i>
+          </el-button>
+          <el-button v-if="data.depth>=3"
+            type="text"
+            @click="() => remove(node, data)">
+            <i class='el-icon-remove-outline'></i>
+          </el-button>
+        </span>
+      </span>
+    </el-tree>
+    </div>
+
 
     <div class="recent" v-if="project_list.length!=0">
       <h1 class="label label_top">近期项目</h1>
@@ -33,7 +78,7 @@
 
     <div class="all" v-if="project_list.length!=0">
       <h1 class="label">全部项目</h1>
-      <div v-for="(item,index) in project_list" :key="item">
+      <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
             <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
@@ -61,16 +106,54 @@ export default {
   data(){
     return{
       teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
-      project_list:[]
+      project_list:[],
+      isopen:false,
+      filterText:'',
+      data: [{
+          id: 1,
+          label: '文档中心',
+          depth: 1,
+          children: [{
+            id: 2,
+            label: '项目文档区',
+            depth: 2,
+            children: [{
+              id: 4,
+              label: '三级 3-1-1',
+              depth: 3,
+            }, {
+              id: 5,
+              label: '三级 3-1-2',
+              depth: 3,
+            }]
+          }, {
+            id: 3,
+            label: '团队文件区',
+            depth: 2,
+            children: [{
+              id: 6,
+              label: '三级 3-2-1',
+              depth: 3,
+            }, {
+              id: 7,
+              label: '三级 3-2-2',
+              depth: 3,
+            }]
+          }]
+        }],
     }
     
   },
    methods:{
       changename(id){
-        console.log(id);
          this.$prompt('请输入新的项目名称', '修改项目名称', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          inputPattern: /^.{1,20}$/,
+          inputErrorMessage: '项目名称长度不合格',
+          inputPlaceholder: '不超过20字',
+          isMouseDown: '',
+          
         }).then(({ value }) => {
           this.$message({
             type: 'success',
@@ -102,8 +185,12 @@ export default {
          this.$prompt('请输入新项目名', '新建项目', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          inputPattern: /^.{1,20}$/,
+          inputErrorMessage: '项目名称长度不合格',
+          inputPlaceholder: '不超过20字'
         }).then(({ value }) => {
-          this.$axios({
+         
+        this.$axios({
         method: "post",
         url: "create_project",
         data: qs.stringify({
@@ -120,6 +207,8 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
+          
+     
         }).catch(() => {
               
         });
@@ -170,7 +259,6 @@ export default {
       init(){
          this.$axios({
         method: "post",
-        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
         url: "get_project_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
@@ -185,15 +273,63 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
-      }
-    },
+      },
+      append(data) {
+        const newChild = { id: data.id+1, label: 'testtest', children: [] ,depth: data.depth+1};
+        if (!data.children) {
+          this.$set(data, 'children', []);
+        }
+        data.children.push(newChild);
+      },
+
+      remove(node, data) {
+        const parent = node.parent;
+        const children = parent.data.children || parent.data;
+        const index = children.findIndex(d => d.id === data.id);
+        children.splice(index, 1);
+      },
+      filterNode(value, data) {
+        if (!value) return true;
+        return data.label.indexOf(value) !== -1;
+      },
+
+
+   },
     mounted(){
       this.init();
-    }
+    },
+     watch: {
+      filterText(val) {
+        this.$refs.tree.filter(val);
+      }
+    },
 }
 </script>
 
 <style scoped>
+.filefolder{
+  width: 300px;
+  height: 600px;
+  position: fixed;
+   backdrop-filter: blur(25px) brightness(110%);
+  background-color: #53667713 !important;
+  border-radius: 25px;
+  right: 130px;
+  top: 100px;
+}
+.el-input{
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.el-input >>> .el-input__inner{
+    border-radius:25px;
+    font-size:15px;
+
+}
+.el-tree{
+  background-color: rgb(242, 244, 245);
+}
   .chooseteam{
     position: absolute;
     left: 0;
@@ -263,6 +399,31 @@ export default {
 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
+
+    .folder{
+    width: 62px;
+    border-radius: 20px;
+    background-color: rgb(206, 218, 226);
+    font-size: 36px;
+    color: black;
+    text-align: center;
+
+    overflow: hidden;
+    transition: 0.2s;
+    padding-bottom: 10px;
+    float: right;
+    left: 93%;
+    position: fixed;
+    z-index: 1;
+    top: 160px;
+  }
+  .folder:hover {
+    width: 62px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+  }
+
+
   .box-card{
     width: 280px;
     height: 220px;
