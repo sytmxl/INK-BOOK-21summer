@@ -21,7 +21,7 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-dialog title="创建团队" :visible.sync="dialogFormVisible">
+      <el-dialog title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
       <el-form :model="form">
           <el-form-item label="团队类型" :label-width="formLabelWidth">
           <el-select v-model="form.type" placeholder="请选择团队类型" >
@@ -332,6 +332,11 @@ export default {
   .el-dropdown-item {
     transition: 0.5s;
   }
+  /* .el-dropdown-menu__item{
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+  } */
   .el-dropdown-item:hover{
     background: rgba(150, 169, 183, 0.422) !important;
     border-radius: 10px !important;

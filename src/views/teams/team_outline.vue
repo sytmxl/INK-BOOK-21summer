@@ -32,11 +32,25 @@
 
               <el-card class="box-card2">
                 <div  class="text item introduce">
-                  <span class="og">团队简介：<i class="el-icon-edit" style="font-size:20px" @click="changeintro()" title="重命名"></i></span>
-                  
+                  <span class="og">团队简介：<i class="el-icon-edit" style="font-size:20px" @click="dialogVisible = true" title="修改简介"></i></span>
                   <p style="text-indent:2em;font-weight:500">{{teamintro}}</p>
                 </div>
-                
+                <el-dialog
+                  title="修改简介"
+                  :visible.sync="dialogVisible"
+                  width="30%"
+                  :before-close="handleClose">
+                  <el-input
+                    type="textarea"
+                    :rows="6"
+                    placeholder="请不要超过100字"
+                    v-model="newteamintro">
+                  </el-input>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="changeintro()">确 定</el-button>
+                  </span>
+                </el-dialog>
               </el-card>
         </div>
      </div>
@@ -55,8 +69,10 @@ export default {
         teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
         teamid:JSON.parse(sessionStorage.getItem('team')).team_id,
         newteamname:'',
+        newteamintro:'',
         flag1: false,
         flag2: false,
+        dialogVisible:false,
         teamtype:'',
         teamsetter:'',
         teamsettime:'',
@@ -66,10 +82,14 @@ export default {
       }
     },
     methods:{
+      changeintro(){
+       this.dialogVisible = false;
+      },
       changename(){
          this.$prompt('请输入新的团队名称', '修改团队名称', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          inputPlaceholder:'请不要超过20个字'
         }).then(({ value }) => {
           
           this.$axios({
@@ -93,6 +113,7 @@ export default {
           });
         }
        else{
+        //看后端给的是啥。
         this.$message.warning(res.data.msg+'，不具备修改权限');
        }
           
