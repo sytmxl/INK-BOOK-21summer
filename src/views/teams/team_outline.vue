@@ -98,6 +98,35 @@ export default {
     methods:{
       changeintro(){
        this.dialogVisible = false;
+
+       this.$axios({
+        method: "post",
+        url: "update_team_info",
+        data: qs.stringify({
+          team_id: this.teamid,
+          team_info: this.teamintro,
+        }),
+      })
+        .then((res) => {
+        
+        if(res.data.errno==0){
+         this.$message({
+            type: 'success',
+            message: '修改成功'
+          });
+        }
+       else{
+        if(res.data.errno==2004)
+        this.$message.warning(res.data.msg+'，不具备修改权限');
+        else
+        this.$message.warning(res.data.msg);
+       }
+          location.reload();
+          })
+        .catch((err) => {
+          console.log(err); 
+        });
+
       },
       changename(){
         this.dialogVisible0 = false;

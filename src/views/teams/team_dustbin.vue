@@ -4,7 +4,7 @@
             
       <div class="all">
       <h1 class="label">回收站</h1>
-      <div v-for="(item,index) in project_list" :key="item">
+      <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
           <i class="el-icon-document-delete" @click="deleteforever(item.project_id)"></i>
