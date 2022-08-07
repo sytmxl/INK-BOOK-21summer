@@ -213,8 +213,50 @@ export default {
     edit() {
       this.notedit = false;
     },
-    save() {
-      this.notedit = true;
+    changeUserName() {
+      this.noteditUserName = false;
+    },
+    saveUserName(){
+      this.noteditUserName = true;
+      this.$axios({
+        method: "post" /* 指明请求方式，可以是 get 或 post */,
+        url: "update_username" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        // headers:{
+        //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
+        // },
+        data: qs.stringify({
+          /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          user_name: this.new_username,
+        }),
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.data.errno == 0) {
+              this.$message({
+              // message: res.data.msg,
+              message: "成功修改用户名",
+              center: true,
+              type: "success",
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              center: true,
+              type: "warning",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err); /* 若出现异常则在终端输出相关信息 */
+        })
+        // this.reload();
+        setTimeout(() => {location.reload()}, 1000);
+    },
+    changeRealName() {
+      this.noteditRealName = false;
+    },
+    saveRealName(){
+      this.noteditRealName = true;
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
         url: "update_user_realname" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -224,12 +266,18 @@ export default {
         data: qs.stringify({
           /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
           real_name: this.new_real_name,
-          user_info: this.new_word,
         }),
       })
         .then((res) => {
           console.log(res);
           if (res.data.errno == 0) {
+            this.$message({
+              // message: res.data.msg,
+              message: "成功修改真实姓名",
+              center: true,
+              type: "success",
+            });
+          } else {
             this.$message({
               message: res.data.msg,
               center: true,
