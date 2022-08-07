@@ -3,8 +3,7 @@
   <div class="top">
     <div class="left">
         <div id="nav-header">
-          <a class="brand" href="/"></a>
-          <span class="brandtext" href="/">INK BOOK</span>
+          <span class="brandtext" ><a href="/">INK BOOK</a></span>
         </div>
     </div>
 
@@ -202,8 +201,13 @@ export default {
 .brandtext {
   font-family: myFont;
   user-select: none;
-  text-decoration: none;
   color:rgb(73, 88, 100);
+}
+.brandtext a{
+    text-decoration: none;
+}
+.brandtext a:visited{
+  color: black;
 }
 #nav-header {
   display: flex;

@@ -29,33 +29,7 @@
         <i :class="'el-icon-' + item.icon"></i>
         <span slot="title">{{ item.label }}</span>
       </el-menu-item>
-
     </div>
-    
-    <!-- <el-submenu
-      v-for="item in hasChildren"
-      :index="item.path"
-      :key="item.path"
-      :route="item.path"
-    >
-      <template slot="title">
-        <i :class="'el-icon-' + item.icon"></i>
-        <span slot="title">{{ item.label }}</span>
-      </template>
-      <el-menu-item-group
-        v-for="(subItem, index) in item.children"
-        :key="subItem.path"
-        :route="subItem.path" 
-      >
-        <el-menu-item 
-        :class="subItem.name" 
-        :index="index" 
-        @click="clickMenu(subItem)" > 
-          <i :class="'el-icon-' + subItem.icon"></i>
-          {{ subItem.label }}
-        </el-menu-item>
-      </el-menu-item-group>
-    </el-submenu> -->
   </el-menu>
 </template>
 
@@ -70,25 +44,25 @@ export default {
           path: "../views/projects/project_outline.vue",
           name: "project_outline",
           label: "项目介绍",
-          icon: "view",
+          icon: "notebook-1",
         },
         {
           path: "../views/projects/project_design.vue",
           name: "project_design",
           label: "原型设计",
-          icon: "s-opportunity",
+          icon: "bank-card",
         },
         {
           path: "../views/projects/project_paint.vue",
           name: "project_paint",
           label: "UML绘制",
-          icon: "s-promotion",
+          icon: "postcard",
         },
         {
           path: "../views/projects/project_word.vue",
           name: "project_word",
           label: "共享文档",
-          icon: "edit",
+          icon: "document",
         },
       ],
     };
@@ -102,9 +76,12 @@ export default {
       console.log(key, keyPath);
     },
     clickMenu(item) {
+      console.log(this.$router.currentRoute.name);
+     
       this.$router.push({
         name: item.name,
       }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
+
     },
   },
   computed: {
@@ -135,7 +112,7 @@ export default {
   margin: 8px;
   height: min-content;
   width: 184px;
-  background-color: rgb(247, 250, 252) !important;
+  /* background-color: rgb(247, 250, 252) !important; */
   transition: 0.5s;
   text-align: left;
   z-index: 0;
@@ -149,17 +126,14 @@ export default {
   margin: 20px;
   z-index: 1;
 }
-.el-menu-item:active {
-  background-color: rgba(134, 143, 150, 0.42) !important;
-  transition: 0.2s;
-  color: rgb(255, 255, 255) !important;
-  z-index: 1;
-}
 .el-menu-item:focus {
   background-color: rgb(150, 169, 183) !important;
   transition: 0.5s;
   color: rgb(255, 255, 255) !important;
   z-index: 1;
+}
+.selected, .selected:hover {
+  background-color: rgb(150, 169, 183) !important;
 }
 .el-menu i{
   font-size: 15px;

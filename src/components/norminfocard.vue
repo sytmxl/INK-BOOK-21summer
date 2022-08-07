@@ -109,7 +109,7 @@ export default {
           type: 'warning'
         }).then(() => {
           
-           this.$axios({
+        this.$axios({
         method: "post",
         url: "change_team_member_identitys",
         data: qs.stringify({

@@ -2,29 +2,12 @@
 <el-container>
   <div class="main" v-if="teamname">
     <h1 class="label">团队成员</h1>
-    <div class="title" @click="addmember()">
+    <div class="add" @click="addmember()">
       <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
-    
-    <div class="boss people">
-      <div class="boss_info">
-           <info-card  v-for="item in team_member_list" :key="item"  :people="item"></info-card>
-      </div>
-    </div>
-    <div class="manager people">
-      <div class="manager_info">
- 
-            <norminfo-card  v-for="item in team_member_list" :key="item"  :people="item"></norminfo-card>
-
-      </div>
-    </div>
-    <div class="worker people">
-      <div class="worker_info">
-   
-            <lowerinfo-card  v-for="item in team_member_list" :key="item"  :people="item"></lowerinfo-card>
-      
-      </div>
-    </div>
+    <Teammate v-for="item in team_member_list" 
+      :key="item"  :identity="item.identitys" :user_name="item.user_name" :user_id="item.user_id"
+      :realname="item.real_name" :email="item.email"/>
   </div>
  <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
@@ -41,12 +24,14 @@ import infoCard from "../../components/infocard.vue";
 import norminfoCard from "../../components/norminfocard.vue";
 import lowerinfoCard from "../../components/lowerinfocard.vue";
 import qs from 'qs';
+import Teammate from "@/components/teammate.vue";
 export default {
    components: {
     infoCard,
     norminfoCard,
-    lowerinfoCard
-  },
+    lowerinfoCard,
+    Teammate
+},
   data(){
     return{
       teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
@@ -121,7 +106,7 @@ export default {
   .el-icon-plus:hover{
      cursor: pointer;
   }
-  .title{
+  .add{
     width: 62px;
     border-radius: 20px;
     
@@ -137,8 +122,10 @@ export default {
     float: right;
     left: 93%;
     position: fixed;
+    z-index: 1;
+    top: 100px;
   }
-  .title:hover {
+  .add:hover {
     width: 62px;
     border-radius: 50%;
 
@@ -173,7 +160,7 @@ export default {
   .label {
     margin: 30px 0px 0px 30px;
     font-size: 50px;
-    float: left;
+    /* float: left; */
     width: 100%;
     color: rgb(114, 132, 145); 
   }
