@@ -3,7 +3,7 @@
   <div class="main" v-if="teamname">
 
     <div class="add" @click="addproject()">
-      <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
+      <i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="添加新成员"></i>
     </div>
 
     <div class="recent" v-if="project_list.length!=0">
@@ -33,7 +33,7 @@
 
     <div class="all" v-if="project_list.length!=0">
       <h1 class="label">全部项目</h1>
-      <div v-for="(item,index) in project_list" :key="item">
+      <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
             <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
@@ -67,10 +67,13 @@ export default {
   },
    methods:{
       changename(id){
-        console.log(id);
          this.$prompt('请输入新的项目名称', '修改项目名称', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          inputPattern: /^.{1,20}$/,
+          inputErrorMessage: '项目名称长度不合格',
+          inputPlaceholder: '不超过20字'
+          
         }).then(({ value }) => {
           this.$message({
             type: 'success',
@@ -102,8 +105,12 @@ export default {
          this.$prompt('请输入新项目名', '新建项目', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          inputPattern: /^.{1,20}$/,
+          inputErrorMessage: '项目名称长度不合格',
+          inputPlaceholder: '不超过20字'
         }).then(({ value }) => {
-          this.$axios({
+         
+        this.$axios({
         method: "post",
         url: "create_project",
         data: qs.stringify({
@@ -120,6 +127,8 @@ export default {
         .catch((err) => {
           console.log(err); 
         });
+          
+     
         }).catch(() => {
               
         });
@@ -170,7 +179,6 @@ export default {
       init(){
          this.$axios({
         method: "post",
-        // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
         url: "get_project_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,

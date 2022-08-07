@@ -31,11 +31,11 @@
                 </el-select>
         </el-form-item>
         <el-form-item label="团队名称" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" placeholder="20字以内"></el-input>
+          <el-input v-model="form.name" autocomplete="off" maxlength="20" show-word-limit></el-input>
         </el-form-item>
     
         <el-form-item label="团队介绍" :label-width="formLabelWidth">
-          <el-input v-model="form.intro" autocomplete="off" placeholder="50字以内"></el-input>
+          <el-input v-model="form.intro" autocomplete="off" maxlength="50" show-word-limit></el-input>
         </el-form-item>
       </el-form>
           <div slot="footer" class="dialog-footer">
