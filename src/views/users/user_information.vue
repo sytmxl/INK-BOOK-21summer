@@ -1,6 +1,6 @@
 <template>
   <el-container>
-      <topFrame v-on: team="false" search="false"/> 
+      <topFrame :team="false" :search="false"/> 
       <!-- 这里效果是对的 但是不知道为什么报错 可以不用管 -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 2.5%; margin-bottom: 5.5%">
