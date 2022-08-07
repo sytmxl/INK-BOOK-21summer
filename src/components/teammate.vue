@@ -6,9 +6,18 @@
     </div>
 
     <div class="right">
-      <div id="tools">
-        <i class="el-icon-delete" @click="deleteproject(project_list[project_list.length-i].project_id)"></i>
-        <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
+      <div v-if="identity == 3" id="tools">
+        <i class="el-icon-user" @click=""></i>
+      </div>
+      <div v-else-if="identity == 2" id="tools">
+        <i class="el-icon-user" @click=""></i>
+        <i class="el-icon-minus" @click="cancelmanager()"></i>
+        <i class="el-icon-delete" @click="deletemember()"></i>
+      </div>
+      <div v-else id="tools">
+        <i class="el-icon-user" @click=""></i>
+        <i class="el-icon-plus" @click="tobemanager()"></i>
+        <i class="el-icon-delete" @click="deletemember()"></i>
       </div>
       <p class="id" v-if="identity == 3">团队创始人</p>
       <p class="id" v-else-if="identity == 2">管理员</p>
@@ -28,6 +37,128 @@ props:{
   email:{default:"",type:String},
   realname:{default:"",type:String},
 },
+methods:{
+          cancelmanager(){
+
+           this.$confirm('是否要取消该用户管理员身份, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+           this.$axios({
+        method: "post",
+        url: "change_team_member_identitys",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          user_id_to_change: this.people.user_id,
+          identitys: "member",
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            location.reload();
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消操作'
+          });          
+        });
+
+
+           
+        },
+        tobemanager(){
+
+           this.$confirm('是否将其设为管理员, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+       
+           this.$axios({
+        method: "post",
+        url: "change_team_member_identitys",
+        data: qs.stringify({
+          team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          user_id_to_change: this.people.user_id,
+          identitys: "admin",
+        }),
+      })
+        .then((res) => {
+             if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+          location.reload();
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+       
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消设置管理员'
+          });          
+        });
+
+            
+        },
+
+
+        deletemember(){
+            
+           this.$confirm('是否要从团队删除此用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+          this.$axios({
+        method: "post",
+        url: "del_team_member",
+        data: qs.stringify({
+           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          user_id_to_del: this.people.user_id,
+        }),
+      })
+        .then((res) => {
+            if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+          location.reload();
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+
+             
+        }
+    }
 }
 </script>
 
@@ -113,31 +244,31 @@ p {
   font-size: 30px;
   margin-bottom: 20px;
 }
-.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+.el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
   color: rgb(247, 239, 239);
   border-radius: 5px;
   padding: 0px;
   transition: 0.2s;
   width: 30%;
 }
-.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover{
+.el-icon-delete:hover, .el-icon-user:hover, .el-icon-minus:hover, .el-icon-plus:hover{
   color: rgb(247, 239, 239);
   border-radius: 10px;
-  width: 40%;
+  width: 33%;
 }
 .el-icon-delete:hover {
-  background-color: rgb(199, 113, 113);
+  background-color: rgb(120, 52, 52);
 }
-.el-icon-edit-outline:hover {
+.el-icon-user:hover {
   background-color: rgb(113, 142, 199);
 }
-.el-icon-document-delete:hover {
+.el-icon-minus:hover {
   background-color: rgb(199, 113, 113);
 }
-.el-icon-magic-stick:hover {
+.el-icon-plus:hover {
   background-color: rgb(113, 199, 130);
 }
-.bar:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+.bar:hover .el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
 }
