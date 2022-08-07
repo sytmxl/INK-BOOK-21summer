@@ -7,103 +7,59 @@
     <div class="kuang">
       <p>Welcome</p>
       <el-form ref="form" :model="form" class="form">
-        <el-form-item
-          prop="email"
-          :rules="[{ required: true, message: '邮箱不能为空' }]"
-        >
-          <el-input
-            v-model="form.email"
-            placeholder="请输入邮箱"
-            type="email"
-            autocomplete="off"
-            clearable
-            prefix-icon="el-icon-postcard"
-          ></el-input>
+        <el-form-item prop="email" :rules="[{ required: true, message: '邮箱不能为空' }]">
+          <el-input v-model="form.email" placeholder="请输入邮箱" type="email" autocomplete="off" clearable
+            prefix-icon="el-icon-postcard">
+          </el-input>
         </el-form-item>
-        <el-form-item
-          prop="username"
-          :rules="[{ required: true, message: '用户名不能为空' }]"
-        >
-          <el-input
-            v-model="form.username"
-            placeholder="请输入用户名"
-            type="username"
-            autocomplete="off"
-            clearable
-            prefix-icon="el-icon-user"
-          ></el-input>
+        <el-form-item prop="username" :rules="[{ required: true, message: '用户名不能为空' }]">
+          <el-input v-model="form.username" placeholder="请输入用户名" type="text" autocomplete="off" clearable
+            prefix-icon="el-icon-user" maxlength="15">
+            <el-dropdown slot="suffix" size="mini" placement="top-start">
+              <i class="el-icon-warning-outline el-input__icon">
+              </i>
+              <el-dropdown-menu slot="dropdown" >
+                <el-dropdown-item disabled>用户名仅能由中文字符、数字、下划线以及英文字母组成，长度不超过15个字符</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-input>
         </el-form-item>
-        <el-form-item
-          prop="realname"
-          :rules="[{ required: true, message: '真实姓名不能为空' }]"
-        >
-          <el-input
-            v-model="form.realname"
-            placeholder="请输入真实姓名"
-            type="realname"
-            autocomplete="off"
-            clearable
-            prefix-icon="el-icon-user"
-          ></el-input>
+        <el-form-item prop="realname" :rules="[{ required: true, message: '真实姓名不能为空' }]">
+          <el-input v-model="form.realname" placeholder="请输入真实姓名" type="realname" autocomplete="off" clearable
+            prefix-icon="el-icon-user" maxlength="15">
+            <el-dropdown slot="suffix" size="mini" placement="top-start">
+              <i class="el-icon-warning-outline el-input__icon">
+              </i>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item disabled>真实姓名仅能由中文字符或英文组成，长度不超过15个字符</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-input>
         </el-form-item>
-        <el-form-item
-          id="password1"
-          prop="password1"
-          :rules="[{ required: true, message: '密码不能为空' }]"
-        >
-          <el-input
-            prefix-icon="el-icon-lock"
-            placeholder="请输入密码"
-            show-password
-            type="password"
-            clearable
-            v-model="form.password1"
-            autocomplete="off"
-            @keyup.enter.native="register"
-          ></el-input>
+        <el-form-item id="password1" prop="password1" :rules="[{ required: true, message: '密码不能为空' }]">
+          <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" show-password type="password" clearable
+            v-model="form.password1" autocomplete="off" @keyup.enter.native="register">
+            <el-dropdown slot="suffix" size="mini" placement="top-start">
+              <i class="el-icon-warning-outline el-input__icon">
+              </i>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item disabled>密码仅能由数字、26个英文字母或者下划线组成，长度为8-16位</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-input>
         </el-form-item>
-        <el-form-item
-          id="password2"
-          prop="password2"
-          :rules="[{ required: true, message: '请再次输入密码' }]"
-        >
-          <el-input
-            prefix-icon="el-icon-lock"
-            placeholder="请确认密码"
-            show-password
-            type="password"
-            clearable
-            v-model="form.password2"
-            autocomplete="off"
-            @keyup.enter.native="register"
-          ></el-input>
+        <el-form-item id="password2" prop="password2" :rules="[{ required: true, message: '请再次输入密码' }]">
+          <el-input prefix-icon="el-icon-lock" placeholder="请确认密码" show-password type="password" clearable
+            v-model="form.password2" autocomplete="off" @keyup.enter.native="register"></el-input>
         </el-form-item>
-        <el-form-item
-          id="code"
-          prop="code"
-          :rules="[{ required: true, message: '请输入验证码' }]"
-        >
-          <el-input
-            placeholder="请输入验证码"
-            type="text"
-            clearable
-            v-model="form.code"
-            autocomplete="off"
-            prefix-icon="el-icon-s-check"
-            @keyup.enter.native="register"
-            style="width: 60%; float: left"
-          ></el-input>
-          <el-button class="send" type="primary" style="float: right" @click="submit"
-            >发送</el-button
-          >
+        <el-form-item id="code" prop="code" :rules="[{ required: true, message: '请输入验证码' }]">
+          <el-input placeholder="请输入验证码" type="text" clearable v-model="form.code" autocomplete="off"
+            prefix-icon="el-icon-s-check" @keyup.enter.native="register" style="width: 60%; float: left"></el-input>
+          <el-button class="send" type="primary" style="float: right" @click="submit">发送</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button class="btn_register" type="primary" @click="register" round
-            >注&nbsp;册</el-button
-          >
-          <el-button class="btn_reset" @click="resetForm('form')" round
-            >重&nbsp;置</el-button
-          >
+          <el-button class="btn_register" type="primary" @click="register" round>注&nbsp;册</el-button>
+          <el-button class="btn_reset" @click="resetForm('form')" round>重&nbsp;置</el-button>
         </el-form-item>
         <div class="regis" @click="toRegister">已有账号？前去登录</div>
       </el-form>
@@ -131,38 +87,52 @@ export default {
   },
   methods: {
     submit() {
+      // console.log(this.form.password1.length);
       if (
-        this.form.username === "" ||
-        this.form.password1 === "" ||
-        this.form.email === "" ||
-        this.form.password2 === ""
+        this.form.email === ""
       ) {
-        this.$message.warning("请输入相关信息！");
+        this.$message.warning("注册邮箱不能为空！");
         return;
       }
+      // if (
+      //   this.form.username === "" ||
+      //   this.form.password1 === "" ||
+      //   this.form.email === "" ||
+      //   this.form.password2 === ""||
+      //   this.form.realname === ""||
+      //   this.form.code === ""
+      // ) {
+      //   this.$message.warning("请输入注册信息！");
+      //   return;
+      // }
       if (
         !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.exec(
           this.form.email
         )
       ) {
-        this.$message.warning("请检查邮箱格式");
+        this.$message.warning("请检查您的邮箱格式！");
         return;
       }
-      if (
-        !/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.exec(this.form.username) ||
-        !/^\w+$/.exec(this.form.password1) ||
-        !/^\w+$/.exec(this.form.password2)
-      ) {
-        this.$message.warning("请检查相关信息的输入");
-        return;
-      }
-      if (this.form.password1 != this.form.password2) {
-        this.$message.warning("两次输入密码不一致，请检查");
-      }
-      if (this.validcode != null) {
-        this.$message.warning("请刷新后重新发送验证码");
-        return;
-      }
+      // if (
+      //   !/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.exec(this.form.username)
+      // ) {
+      //   this.$message.warning("用户名仅能由中文字符、数字、下划线以及英文字母组成，请检查您的用户名输入！");
+      //   return;
+      // }
+      // if (
+      //   !/^\w+$/.exec(this.form.password1) ||
+      //   !/^\w+$/.exec(this.form.password2)
+      // ) {
+      //   this.$message.warning("密码仅能由数字、26个英文字母或者下划线组成，请检查您的密码");
+      //   return;
+      // }
+      // if (this.form.password1 != this.form.password2) {
+      //   this.$message.warning("两次输入密码不一致，请检查");
+      // }
+      // if (this.validcode != null) {
+      //   this.$message.warning("请刷新后重新发送验证码");
+      //   return;
+      // }
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
         url: "send_code" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -174,12 +144,11 @@ export default {
       })
         .then((res) => {
           console.log(res.data);
-          if(res.data.errno==0)
-          {
-             this.$message.success("验证码发送成功，请查收");
+          if (res.data.errno == 0) {
+            this.$message.success("验证码发送成功，请查收");
           }
-          else{
-            this.$message.error("此邮箱已经存在！");
+          else {
+            this.$message.error("此邮箱已经被注册！");
           }
         })
         .catch((err) => {
@@ -191,9 +160,11 @@ export default {
         this.form.username === "" ||
         this.form.password1 === "" ||
         this.form.email === "" ||
-        this.form.password2 === ""
+        this.form.password2 === "" ||
+        this.form.realname === "" ||
+        this.form.code === ""
       ) {
-        this.$message.warning("请输入相关信息！");
+        this.$message.warning("注册相关信息不能为空！");
         return;
       }
       if (
@@ -201,20 +172,31 @@ export default {
           this.form.email
         )
       ) {
-        this.$message.warning("请检查邮箱格式");
+        this.$message.warning("请检查您的邮箱格式！");
         return;
       }
       if (
-        !/^\w+$/.exec(this.form.password1) ||
-        !/^\w+$/.exec(this.form.password2)
+        !/^[\u4E00-\u9FA5A-Za-z]+$/.exec(this.form.realname)
       ) {
-        this.$message.warning("请检查相关信息的输入");
+        this.$message.warning("真实姓名仅能由中文字符或英文组成，请检查您的真实姓名输入！");
+        return;
+      }
+      if (
+        !/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.exec(this.form.username)
+      ) {
+        this.$message.warning("用户名仅能由中文字符、数字、下划线以及英文字母组成，请检查您的用户名输入！");
+        return;
+      }
+      if (
+        !/^\w+$/.exec(this.form.password1) || this.form.password1.length > 16 || this.form.password1.length < 8
+      ) {
+        this.$message.warning("密码仅能由数字、26个英文字母或者下划线组成，长度为8-16位，请检查您的密码");
         return;
       }
       if (this.form.password1 != this.form.password2) {
         this.$message.warning("两次输入密码不一致，请检查");
       }
-      if (this.code =='') {
+      if (this.code == '') {
         this.$message.warning("请输入验证码");
         return;
       }
@@ -245,7 +227,7 @@ export default {
                 message: "注册成功，将自动为您登陆",
                 center: true,
                 type: "success",
-                duration:900
+                duration: 900
               });
               /* 将后端返回的 user 信息使用 vuex 存储起来 */
               // var user = {
@@ -256,7 +238,7 @@ export default {
               // var icon = { userId: res.data.user_id, picurl: "" };
               // this.$store.dispatch("saveusericon", icon);
               setTimeout(() => {
-                  this.$router.push({ path:'team_outline' });
+                this.$router.push({ path: 'team_outline' });
               }, 1000);
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
@@ -311,6 +293,7 @@ export default {
   font-family: myFont;
   src: url("../assets/Futura.ttc");
 }
+
 .logo {
   float: left;
   font-size: 40px;
@@ -318,9 +301,11 @@ export default {
   font-family: myfont;
   color: black;
   position: absolute;
-  top: 10%;  left: 50%;  
-	transform: translate(-50%,-50%);
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
 .kuang {
   width: 300px;
   height: auto;
@@ -328,11 +313,13 @@ export default {
   /* border: 1px solid grey; */
   margin: 21px auto;
   border-radius: 40px;
-  line-height: 80px; /*可以让文字往下移一点 */
+  line-height: 80px;
+  /*可以让文字往下移一点 */
 
   position: absolute;
-  top: 50%;  left: 50%;  
-	transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   transition: 0.5s;
 
@@ -341,15 +328,18 @@ export default {
 
   box-shadow: 0 0px 0px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
 }
+
 .kuang p {
   color: black;
   font-family: myfont;
   font-size: 30px;
 }
+
 .kuang:hover {
   width: 320px;
   height: auto;
 }
+
 .register {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   /* background-image: url(../assets/bg.png);
@@ -359,13 +349,16 @@ export default {
   width: 100%;
   overflow: hidden;
 }
+
 .register img {
   height: 100%;
   width: 100%;
 }
-.register >>> .el-input__inner {
+
+.register>>>.el-input__inner {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
+
 /* .btn_register {
   width: 30%;
   margin-top: 5px;
@@ -383,49 +376,55 @@ export default {
   cursor: pointer;
   transition: 0.5s;
 }
+
 .regis:hover {
   color: rgb(145, 171, 203);
   font-size: 15px;
   padding: 0px 0px 10px 0px;
 }
+
 .el-button:not(.send) {
   border: none;
   border-radius: 20px !important;
-  background-color:rgba(121, 167, 213, 0.73);
+  background-color: rgba(121, 167, 213, 0.73);
   font-size: 20px;
   width: 30%;
   transition: 0.5s !important;
 }
+
 .el-button:not(.send):hover {
   border-radius: 20px !important;
-  background-color:rgba(121, 167, 213, 0.377);
+  background-color: rgba(121, 167, 213, 0.377);
   margin: 10px 0px 10px 0px;
   font-size: 20px;
   color: rgb(255, 255, 255);
 
   width: 60%;
 }
+
 .el-button:active {
   border-radius: 20px !important;
-  background-color:rgb(82, 109, 137);
+  background-color: rgb(82, 109, 137);
   color: rgb(255, 255, 255);
 
   font-size: 20px;
 }
+
 .send {
   height: 40px !important;
   border: 2px rgba(121, 167, 213, 0.377) solid;
   border-radius: 20px !important;
-  background-color:rgba(121, 167, 213, 0); 
+  background-color: rgba(121, 167, 213, 0);
   color: rgba(121, 167, 213, 0.377);
   font-size: 20px;
   padding: 1px;
   width: 30%;
   transition: 0.5s !important;
 }
+
 .send:hover {
   border-radius: 20px !important;
-  background-color:rgb(121, 167, 213);
+  background-color: rgb(121, 167, 213);
   color: rgb(255, 255, 255);
   width: 33%;
 }
