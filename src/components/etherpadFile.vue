@@ -14,6 +14,8 @@
             <el-col :span="20">
               <el-input
                   placeholder="请输入标题"
+                  maxlength="20"
+                    show-word-limit
                   v-model="newTitle">
               </el-input>
             </el-col>
