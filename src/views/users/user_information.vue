@@ -179,6 +179,7 @@ export default {
       imageUrl: "",
       activeName: "first",
       username: "",
+      userId:"",
       realname: "",
       email: "",
       word: "",
@@ -238,6 +239,8 @@ export default {
               center: true,
               type: "success",
             });
+            var user={userId:this.userId,username: this.new_username}
+            this.$store.dispatch("saveuser", user);
           } else {
             this.$message({
               message: res.data.msg,
@@ -250,6 +253,7 @@ export default {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         })
         // this.reload();
+        
         setTimeout(() => {location.reload()}, 1000);
     },
     changeRealName() {
@@ -376,6 +380,7 @@ export default {
           console.log(res);
           if (res.data.errno == 0) {
             console.log("成功");
+            this.userId = res.data.data.user_id;
             this.username = res.data.data.user_name;
             this.realname = res.data.data.real_name;
             this.email = res.data.data.email;
