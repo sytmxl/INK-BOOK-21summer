@@ -9,9 +9,10 @@ Vue.use(VueAxios, axios)
 import 'element-ui/lib/theme-chalk/index.css'
 
 axios.defaults.baseURL = "http://43.138.67.29/app/";
+// axios.defaults.baseURL = "http://127.0.0.1:8000/app/";
 axios.interceptors.request.use(
     config => {
-        if (localStorage.getItem("savetoken")!= null) {
+        if (localStorage.getItem("savetoken") != null) {
             config.headers['Authorization'] = localStorage.getItem("savetoken").split('=')[1];
         }
         return config;
@@ -38,4 +39,3 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app')
-
