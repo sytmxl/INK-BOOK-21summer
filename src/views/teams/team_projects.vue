@@ -271,7 +271,7 @@ export default {
     text-align: left;
     padding: 0px;
     float: left;
-    border-color: rgb(206, 218, 226) 2px;
+    /* border-color: rgb(206, 218, 226) 2px; */
     transition: 0.5s;
   }
   /* .box-card:hover{

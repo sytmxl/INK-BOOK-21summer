@@ -17,7 +17,11 @@
 </template>
 
 <style scoped>
-.single-member{border-radius: 35px;width: 250px; float: left; margin: 30px 2.5%; background-color: rgb(0, 49, 83); text-align: center; position: relative;}
+.single-member{
+    border-radius: 20px;
+    width: 250px; float: left; margin: 30px 2.5%; 
+    background-color: rgba(0, 48, 83, 0.506); 
+    text-align: center; position: relative;color: white;}
 .member-image img{max-width: 100%; vertical-align: middle;height: 100%;}
 h3 {font-size: 24px; font-weight: normal; margin: 10px 0 0; text-transform: uppercase;}
 h5 {font-size: 16px; font-weight: 300; margin: 0 0 15px; line-height: 22px;}
@@ -38,7 +42,16 @@ p {font-size: 14px; font-weight: 300; line-height: 22px; padding: 0 30px; margin
 .effect-3 .member-info{transition: 0.4s;}
 .effect-3 .member-image img{width: 100%; vertical-align: bottom;}
 .effect-3 .social-touch{ float: left; left: 0; bottom: 0; overflow: hidden; padding: 5px 0; width: 100%; transition: 0.4s;}
-.effect-3:hover .member-image{border-bottom: 0; border-radius: 0 0 50px 50px; height: 81px; display: inline-block; overflow: hidden; width: 109px; transition: 0.4s;}
+.effect-3:hover .member-image{
+    border-bottom: 0; 
+    /* border-radius: 0 0 50px 50px;  */
+    height: 81px; 
+    display: inline-block; 
+    overflow: hidden; 
+    width: 109px; 
+    /* top: -100px; */
+    transition: 0.4s;
+}
 </style>
 
 <script>

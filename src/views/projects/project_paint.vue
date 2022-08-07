@@ -73,10 +73,6 @@
             <i class="el-icon-delete"></i>
             <span slot="title" >回收站</span>
           </el-menu-item>
-          <el-menu-item class="outside" index="4" @click="test">
-            <i class="el-icon-cpu"></i>
-            <span slot="title">测试</span>
-          </el-menu-item>
         </el-menu>
       </div>
       <div class="right">
