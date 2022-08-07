@@ -14,6 +14,8 @@
             <el-col :span="20">
               <el-input
                   placeholder="请输入标题"
+                  maxlength="20"
+                    show-word-limit
                   v-model="newTitle">
               </el-input>
             </el-col>
@@ -110,7 +112,7 @@ export default {
           data: qs.stringify({
             doc_id:this.$props.id
           }),
-        }).then(res=>{this.$emit('deled');});
+        }).then(res=>{this.$emit('deled');}); //?
         this.$message({
           type: 'info',
           message: '已将\"'+this.$data.title+'\"扔到回收站'

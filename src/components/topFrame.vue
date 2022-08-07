@@ -1,97 +1,70 @@
 <template>
+<el-header style="height:80px;">
   <div class="top">
-
     <div class="left">
         <div id="nav-header">
           <a class="brand" href="/"></a>
-          <span class="brandtext1" href="/">INK BOOK&nbsp;&nbsp;</span>
-          <!-- <div
-            id="Layer1"
-            style="
-              width: 2px;
-              height: 50px;
-              z-index: 1;
-              background-color: #000000;
-              layer-background-color: #000000;
-              border: 2px none #000000;
-            "
-          ></div>
-          <span class="brandtext2" href="/">&nbsp;墨书</span> -->
+          <span class="brandtext" href="/">INK BOOK</span>
         </div>
-  </div>
-
-  
-
-    <div class="team">
-               <el-dropdown trigger="click">
-                 <span class="el-dropdown-link">
-                   {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
-                 </span>
-               
-                 <el-dropdown-menu slot="dropdown">
-                   <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)" icon="el-icon-check">{{item.team_name}}</el-dropdown-item>
-                    <div class="splitline"></div>
-                  <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
-                 </el-dropdown-menu>
-               </el-dropdown>
-
-
-               <el-dialog title="创建团队" :visible.sync="dialogFormVisible">
-                <el-form :model="form">
-                    <el-form-item label="团队类型" :label-width="formLabelWidth">
-                    <el-select v-model="form.type" placeholder="请选择团队类型" >
-                           <el-option label="IT" value="IT" ></el-option>
-                           <el-option label="教育" value="教育"></el-option>
-                           <el-option label="金融" value="金融"></el-option>
-                         </el-select>
-                  </el-form-item>
-                  <el-form-item label="团队名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off" placeholder="20字以内"></el-input>
-                  </el-form-item>
-              
-                  <el-form-item label="团队介绍" :label-width="formLabelWidth">
-                    <el-input v-model="form.intro" autocomplete="off" placeholder="50字以内"></el-input>
-                  </el-form-item>
-                </el-form>
-                    <div slot="footer" class="dialog-footer">
-                      <el-button @click="dialogFormVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="newteam()">确 定</el-button>
-                    </div>
-                  </el-dialog>
-
     </div>
-    <div class="search">
-            <el-input
-              placeholder="按下回车键即可搜索"
-              prefix-icon="el-icon-search"
-              v-model="input" clearable="true" 
-              @keyup.enter.native="doSearch()">
-            </el-input>
-  </div>
-     <div class="right">
 
-       <div class="user">
-
-            
-       
-            <img src="../assets/bk3.jpg" alt=""/>
-            <div class="username">
-                <a href="user_information" title="个人中心">{{username}}</a>
-                <a href="/" title="登出" @click="logout()">登出</a>
-            </div>
-            
-            
-      </div>
+    <div class="team" v-if="team==true">
+      <el-dropdown trigger="click">
+        <span class="el-dropdown-link">
+          {{checkedteam}}<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
       
-        
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item  v-for = "item in allteams" :key="item"   @click.native="checkit(item)">{{item.team_name}} <i class="el-icon-check" v-if="item.team_id==checkedteamid"></i></el-dropdown-item>
+          <div class="splitline"></div>
+        <el-dropdown-item icon="el-icon-plus" @click.native="dialogFormVisible = true">点击创建团队</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
 
-         
-     </div>
-  <div class="clear"></div>
-          
-       
+      <el-dialog title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
+      <el-form :model="form">
+          <el-form-item label="团队类型" :label-width="formLabelWidth">
+          <el-select v-model="form.type" placeholder="请选择团队类型" >
+                  <el-option label="IT" value="IT" ></el-option>
+                  <el-option label="教育" value="教育"></el-option>
+                  <el-option label="金融" value="金融"></el-option>
+                </el-select>
+        </el-form-item>
+        <el-form-item label="团队名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off" maxlength="20" show-word-limit></el-input>
+        </el-form-item>
+    
+        <el-form-item label="团队介绍" :label-width="formLabelWidth">
+          <el-input v-model="form.intro" autocomplete="off" maxlength="50" show-word-limit></el-input>
+        </el-form-item>
+      </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="newteam()">确 定</el-button>
+          </div>
+        </el-dialog>
+    </div>
 
+    <div class="search" v-if="search==true">
+      <el-input
+        placeholder="按下回车键即可搜索"
+        prefix-icon="el-icon-search"
+        v-model="input" clearable="true" 
+        @keyup.enter.native="doSearch()">
+      </el-input>
+    </div>
+
+    <div class="right">
+      <div class="user">
+        <img src="../assets/bk3.jpg" alt=""/>
+        <div class="username">
+          <a href="user_information" title="个人中心">{{username}}</a>
+          <a href="/" title="登出" @click="logout()">登出</a>
+        </div>
+      </div> 
+    </div>
   </div>
+</el-header>
 </template>
 
 <script>
@@ -100,6 +73,7 @@ export default {
     data(){
       return{
         checkedteam:'',
+        checkedteamid:'',
         dialogFormVisible:false,
         form: {
           name: '',
@@ -111,6 +85,10 @@ export default {
         username:JSON.parse(sessionStorage.getItem('user')).username,
         input:"",
       }
+    },
+    props: {
+      search:{default:true},//根据传参判断是否显示组件
+      team:{default:true}
     },
     methods:{
       logout(){
@@ -124,7 +102,8 @@ export default {
       },
       checkit(content){
         console.log(content)
-        this.checkedteam = content.name
+        this.checkedteam = content.team_name;
+        this.checkedteamid = content.team_id;
         this.$store.dispatch("saveteam", content);
         location.reload();
       },
@@ -193,6 +172,7 @@ export default {
         }
         else{
           this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name;
+          this.checkedteamid = JSON.parse(sessionStorage.getItem('team')).team_id;
         }
 
 
@@ -205,7 +185,13 @@ export default {
 </script>
 
 <style scoped>
-.top{
+.el-header {
+  backdrop-filter: blur(25px) brightness(110%);
+  background-color: #53667713 !important;
+  z-index: 100;
+  width: 100%;
+}
+.top {
   margin-top: 10px;
   display: flex;
 }
@@ -213,17 +199,11 @@ export default {
   font-family: myFont;
   src: url("../assets/Futura.ttc");
 }
-.brandtext1 {
+.brandtext {
   font-family: myFont;
   user-select: none;
   text-decoration: none;
   color:rgb(73, 88, 100);
-}
-.brandtext2 {
-  font-family: "楷体";
-  user-select: none;
-  text-decoration: none;
-    color:black;
 }
 #nav-header {
   display: flex;
@@ -233,14 +213,16 @@ export default {
   font-size: 35px;
 }
 .left{
-  float: left;
-  position: absolute;
+  /* float: left; */
+  /* position: absolute; */
   left: 20px;
+  padding-right: 20px;
 }
 .right{
-  float: right;
+  /* float: right; */
   position: absolute;
   right:0;
+  top: 7px;
 }
 .splitline{
   height: 1px;
@@ -248,11 +230,7 @@ export default {
   margin-left: 5%;
   background-color: #e0e0e0;
 }
-.team{
-  margin-left: 250px;
-  margin-top: 15px;
-  float: right;
-}
+
 .user{
   margin-right:0px;
   float: right;
@@ -321,6 +299,7 @@ export default {
   }
   .left {
     margin-top: 7px;
+    float: left;
   }
   .left:hover {
     background: rgba(150, 169, 183, 0.164);
@@ -328,8 +307,11 @@ export default {
     margin-top: 7px;
   }
   .team {
+    /* margin-left: 250px; */
+    /* float: left; */
     padding: 10px;
     margin-top: 7px;
+    margin-left: 5px;
     border-radius: 20px;
     transition: 0.2s;
   }
@@ -350,20 +332,22 @@ export default {
   .el-dropdown-item {
     transition: 0.5s;
   }
+  /* .el-dropdown-menu__item{
+    width: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+  } */
   .el-dropdown-item:hover{
     background: rgba(150, 169, 183, 0.422) !important;
     border-radius: 10px !important;
     margin: 10px !important;
   }
-  .search{
-    margin-right: 150px;
-    margin-top: 10px;
-    float: right;
-  }
   .search {
+    margin-top: 10px;
     margin-left: 50px;
     width: 5px;
     transition: 0.5s;
+    /* float: right; */
   }
   .search:hover {
     width: 300px;

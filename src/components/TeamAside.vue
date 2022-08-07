@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  name: "CommonAside",
+  name: "TeamAside",
   data() {
     return {
       isCollapse: false,
@@ -118,6 +118,7 @@ export default {
   background-color: aliceblue;
   transition: 0.5s;
   z-index: 1;
+  text-align: left;
 }
 .el-menu-item:hover {
   backdrop-filter: blur(3px) !important;

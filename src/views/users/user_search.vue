@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header style="height: 80px; z-index: 2">
-      <top-frame2></top-frame2>
-    </el-header>
+    <!-- <el-header style="height: 80px; z-index: 2"> -->
+      <topFrame/>
+    <!-- </el-header> -->
     <el-main style="overflow: scroll">
       <el-row class="info">
         <el-col :span="14">
@@ -10,7 +10,7 @@
         </el-col>
       </el-row>
       <el-row class="nei">
-        <el-col :span="4"><img></img></el-col>
+        <el-col :span="4"><img/></el-col>
         <el-col :span="16">
           <el-tabs v-model="activeName">
             <el-tab-pane label="用户" name="first">
@@ -25,7 +25,7 @@
                 <el-row>
                   <el-col :span="8">
                     <div class="photo">
-                      <img src="../../assets/bk3.jpg"></img>
+                      <img src="../../assets/bk3.jpg"/>
                     </div>
                   </el-col>
                   <el-col :span="16">
@@ -47,7 +47,7 @@
               </el-card>
               </div>
               <div v-else style="margin-top:10%">
-                <img src="../../assets/no.png" style="width:100px;height:100px;"></img>
+                <img src="../../assets/no.png" style="width:100px;height:100px;"/>
                 <div class="txt">抱歉，没有搜到符合条件的用户，请尝试一下别的条件</div>
               </div>
             </el-tab-pane>
@@ -86,13 +86,13 @@
               </el-card>
               </div>
               <div v-else style="margin-top:10%">
-                <img src="../../assets/no.png" style="width:100px;height:100px;"></img>
+                <img src="../../assets/no.png" style="width:100px;height:100px;"/>
                 <div class="txt">抱歉，没有搜到符合条件的团队，请尝试一下别的条件</div>
               </div>
             </el-tab-pane>
           </el-tabs>
         </el-col>
-        <el-col :span="4"><img></img></el-col>
+        <el-col :span="4"><img/></el-col>
       </el-row>
     </el-main>
   </el-container>
@@ -100,11 +100,11 @@
 
 <script>
 import qs from "qs";
-import topFrame2 from "../../components/topFrame2.vue";
+import topFrame from "../../components/topFrame.vue";
 export default {
   inject: ["reload"],
   components: {
-    topFrame2,
+    topFrame
   },
   data() {
     return {

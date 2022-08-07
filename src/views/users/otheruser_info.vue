@@ -1,8 +1,8 @@
 <template>
   <el-container>
-    <el-header style="height: 80px; z-index: 1">
-      <top-frame3></top-frame3>
-    </el-header>
+    <!-- <el-header style="height: 80px; z-index: 1"> -->
+      <topFrame/>
+    <!-- </el-header> -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 2.5%; margin-bottom: 5.5%">
         <el-col span="10">
@@ -196,7 +196,7 @@
 
 <script>
 import qs from "qs";
-import topFrame3 from "../../components/topFrame3.vue";
+import topFrame from "../../components/topFrame.vue";
 export default {
   inject: ["reload"],
   data() {
@@ -226,7 +226,7 @@ export default {
     };
   },
   components: {
-    topFrame3,
+    topFrame,
   },
   methods: {
     // gototeam(){

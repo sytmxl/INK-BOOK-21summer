@@ -81,32 +81,6 @@ export default {
       dialogVisible : false,
       inRecycle : false,
       isCollapse: false,
-      menu: [
-        {
-          path: "../views/teams/team_outline.vue",
-          name: "team_outline",
-          label: "mosy",
-          icon: "setting",
-        },
-        {
-          path: "../views/teams/team_members.vue",
-          name: "team_members",
-          label: "mosyy",
-          icon: "user",
-        },
-        {
-          path: "../views/teams/team_projects.vue",
-          name: "team_projects",
-          label: "mosyyy",
-          icon: "goods",
-        },
-        {
-          path: "../views/teams/team_projects.vue",
-          name: "team_projects",
-          label: "mosyyyy",
-          icon: "goods",
-        },
-      ],
       doc_list : [],
       recycle_list : [],
       project_id : JSON.parse(sessionStorage.getItem("project")).project_id,

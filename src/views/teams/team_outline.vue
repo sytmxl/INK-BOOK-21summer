@@ -2,15 +2,31 @@
     <el-container>
      
      <div class="main" v-if="teamname">
-
+        <h1 class="label">团队信息</h1>
         <div class="content">
 
               <el-card class="box-card">
                 <div  class="text item name">
                   <span class="og">团队名称：</span>
                   {{teamname}}
-                   <i class="el-icon-edit" style="font-size:20px" @click="changename()" title="重命名团队名称"></i>
+                   <i class="el-icon-edit" style="font-size:20px" @click="dialogVisible0 = true" title="重命名团队名称"></i>
                 </div>
+                 <el-dialog
+                  title="修改团队名"
+                  :visible.sync="dialogVisible0"
+                  width="30%"
+                  :before-close="handleClose">
+                  <el-input
+                    maxlength="20"
+                    show-word-limit
+                    v-model="teamname">
+                  </el-input>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible0 = false">取 消</el-button>
+                    <el-button type="primary" @click="changename()">确 定</el-button>
+                  </span>
+                </el-dialog>
+
                 <div  class="text item type">
                   <span class="og">团队类型：</span>
                   {{teamtype}}
@@ -32,11 +48,26 @@
 
               <el-card class="box-card2">
                 <div  class="text item introduce">
-                  <span class="og">团队简介：<i class="el-icon-edit" style="font-size:20px" @click="changeintro()" title="重命名"></i></span>
-                  
+                  <span class="og">团队简介：<i class="el-icon-edit" style="font-size:20px" @click="dialogVisible = true" title="修改简介"></i></span>
                   <p style="text-indent:2em;font-weight:500">{{teamintro}}</p>
                 </div>
-                
+                <el-dialog
+                  title="修改简介"
+                  :visible.sync="dialogVisible"
+                  width="30%"
+                  :before-close="handleClose">
+                  <el-input
+                    type="textarea"
+                    :rows="6"
+                    maxlength="100"
+                    show-word-limit
+                    v-model="teamintro">
+                  </el-input>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="changeintro()">确 定</el-button>
+                  </span>
+                </el-dialog>
               </el-card>
         </div>
      </div>
@@ -54,9 +85,8 @@ export default {
       return{
         teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
         teamid:JSON.parse(sessionStorage.getItem('team')).team_id,
-        newteamname:'',
-        flag1: false,
-        flag2: false,
+        dialogVisible0:false,
+        dialogVisible:false,
         teamtype:'',
         teamsetter:'',
         teamsettime:'',
@@ -66,42 +96,36 @@ export default {
       }
     },
     methods:{
+      changeintro(){
+       this.dialogVisible = false;
+      },
       changename(){
-         this.$prompt('请输入新的团队名称', '修改团队名称', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(({ value }) => {
-          
+        this.dialogVisible0 = false;
           this.$axios({
         method: "post",
         url: "rename_team",
         data: qs.stringify({
           team_id: this.teamid,
-          team_name: value
+          team_name: this.teamname,
         }),
       })
         .then((res) => {
         
         if(res.data.errno==0){
-           var content = {team_id: this.teamid,team_name:value}
+           var content = {team_id: this.teamid,team_name:this.teamname}
         this.$store.dispatch("saveteam", content);
-         location.reload();
          this.$message({
             type: 'success',
             message: '修改成功'
-            //发包
           });
         }
        else{
         this.$message.warning(res.data.msg+'，不具备修改权限');
        }
-          
+          location.reload();
           })
         .catch((err) => {
           console.log(err); 
-        });
-        }).catch(() => {
-              
         });
       },
       init(){
@@ -151,6 +175,7 @@ export default {
 
 .main{
   width: 100%;
+  text-align: left;
 }
 .content .el-icon-edit{
   float: right;
@@ -232,5 +257,12 @@ export default {
     border-radius: 50%;
 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+  }
+  .label {
+    margin: 30px 0px 50px 30px;
+    font-size: 50px;
+    float: left;
+    width: 100%;
+    color: rgb(114, 132, 145); 
   }
 </style>

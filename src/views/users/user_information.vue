@@ -1,8 +1,7 @@
 <template>
   <el-container>
-    <el-header style="height: 80px; z-index: 1">
-      <top-frame3></top-frame3>
-    </el-header>
+      <topFrame :team="false" :search="false"/> 
+      <!-- 这里效果是对的 但是不知道为什么报错 可以不用管 -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 2.5%; margin-bottom: 5.5%">
         <el-col span="10">
@@ -200,7 +199,7 @@
 
 <script>
 import qs from "qs";
-import topFrame3 from "../../components/topFrame3.vue";
+import topFrame from "../../components/topFrame.vue";
 export default {
   inject: ["reload"],
   data() {
@@ -222,7 +221,7 @@ export default {
     };
   },
   components: {
-    topFrame3,
+    topFrame
   },
   methods: {
     gototeam(){
@@ -481,21 +480,14 @@ export default {
 </script>
 
 <style scoped>
-/* .el-tabs--left,
-.el-tabs--right {
-  overflow: hidden;
-  margin-left: 20%;
-} */
-.el-tabs--left,
+.el-tabs--left, 
 .el-tabs--right {
     overflow: hidden;
     margin-left: 5%;
     margin-top: 7%;
 }
 .el-main {
-  /* overflow:visible;  */
-  /* padding-top: 0;  */
-  position: absolute;
+  position: absolute; 
   left: 0;
   right: 0;
   top: 0;
@@ -506,9 +498,6 @@ export default {
 }
 
 .el-header {
-  /* background-color: white; */
-  backdrop-filter: blur(10px black) ;
-
   text-align: left;
   color: black;
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
