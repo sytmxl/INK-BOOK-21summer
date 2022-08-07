@@ -7,15 +7,15 @@
 
     <div class="right">
       <div v-if="identity == 3" id="tools">
-        <i class="el-icon-user" @click=""></i>
+        <i class="el-icon-user"></i>
       </div>
       <div v-else-if="identity == 2" id="tools">
-        <i class="el-icon-user" @click=""></i>
+        <i class="el-icon-user" ></i>
         <i class="el-icon-minus" @click="cancelmanager()"></i>
         <i class="el-icon-delete" @click="deletemember()"></i>
       </div>
       <div v-else id="tools">
-        <i class="el-icon-user" @click=""></i>
+        <i class="el-icon-user" ></i>
         <i class="el-icon-plus" @click="tobemanager()"></i>
         <i class="el-icon-delete" @click="deletemember()"></i>
       </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import qs from 'qs';
 export default {
 name: "teammate",
 props:{
@@ -36,6 +37,7 @@ props:{
   identity:{default:0},
   email:{default:"",type:String},
   realname:{default:"",type:String},
+  user_id:'',
 },
 methods:{
           cancelmanager(){
@@ -51,7 +53,7 @@ methods:{
         url: "change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
-          user_id_to_change: this.people.user_id,
+          user_id_to_change: this.user_id,
           identitys: "member",
         }),
       })
@@ -80,24 +82,23 @@ methods:{
            
         },
         tobemanager(){
-
-           this.$confirm('是否将其设为管理员, 是否继续?', '提示', {
+        this.$confirm('是否将其设为管理员, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-       
-           this.$axios({
+       console.log(this.user_id)
+        this.$axios({
         method: "post",
         url: "change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
-          user_id_to_change: this.people.user_id,
+          user_id_to_change: this.user_id,
           identitys: "admin",
         }),
       })
         .then((res) => {
-             if(res.data.errno==0){
+          if(res.data.errno==0){
             this.$message.success(res.data.msg);
           location.reload();
           }
@@ -133,7 +134,7 @@ methods:{
         url: "del_team_member",
         data: qs.stringify({
            team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
-          user_id_to_del: this.people.user_id,
+          user_id_to_del: this.user_id,
         }),
       })
         .then((res) => {
