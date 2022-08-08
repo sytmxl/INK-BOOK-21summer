@@ -134,8 +134,6 @@ DiagramEditor.prototype.editElement = function(elem)
 DiagramEditor.prototype.getElementData = function(elem)
 {
     var name = elem.nodeName.toLowerCase();
-    console.log(elem.getAttribute((name == 'svg') ? 'content' :
-        ((name == 'img') ? 'src' : 'data')))
     return elem.getAttribute((name == 'svg') ? 'content' :
         ((name == 'img') ? 'src' : 'data'));
 };
@@ -146,10 +144,9 @@ DiagramEditor.prototype.getElementData = function(elem)
 DiagramEditor.prototype.setElementData = function(elem, data)
 {
     var name = elem.nodeName.toLowerCase();
-    console.log(data.substring(data.indexOf(',') + 1))
     axios({
             method: "post" ,
-            url: "update_graph_data" ,
+            url: "app/update_graph_data" ,
             data:qs.stringify({
                 graph_id:this.graph_id,
                 graph_data:data
@@ -179,11 +176,13 @@ DiagramEditor.prototype.startEditing = function(data, format, title)
         this.format = (format != null) ? format : this.format;
         this.title = (title != null) ? title : this.title;
         this.data = data;
-
+        //TODO 在这里将编辑器的加载改为嵌入式
         this.frame = this.createFrame(
             this.getFrameUrl(),
             this.getFrameStyle());
-        document.body.appendChild(this.frame);
+
+        document.getElementById('graphContainer').appendChild(this.frame);
+
         this.setWaiting(true);
     }
 };
@@ -250,6 +249,7 @@ DiagramEditor.prototype.stopEditing = function()
         this.setActive(false);
         this.frame = null;
     }
+
 };
 
 /**
@@ -342,64 +342,47 @@ DiagramEditor.prototype.setStatus = function(messageKey, modified)
 /**
  * Handles the given message.
  */
-DiagramEditor.prototype.handleMessage = function(msg)
-{
-    if (msg.event == 'configure')
-    {
+DiagramEditor.prototype.handleMessage = function (msg) {
+    if (msg.event == 'configure') {
         this.configureEditor();
-    }
-    else if (msg.event == 'init')
-    {
+    } else if (msg.event == 'init') {
         this.initializeEditor();
-    }
-    else if (msg.event == 'autosave')
-    {
+    } else if (msg.event == 'autosave') {
         this.save(msg.xml, true, this.startElement);
-    }
-    else if (msg.event == 'export')
-    {
+    } else if (msg.event == 'export') {
         this.setElementData(this.startElement, msg.data);
         this.stopEditing();
         this.xml = null;
-    }
-    else if (msg.event == 'save')
-    {
+    } else if (msg.event == 'save') {
         this.save(msg.xml, false, this.startElement);
         this.xml = msg.xml;
 
-        if (msg.exit)
-        {
+        if (msg.exit) {
             msg.event = 'exit';
-        }
-        else
-        {
+        } else {
             this.setStatus('allChangesSaved', false);
         }
     }
 
-    if (msg.event == 'exit')
-    {
-        if (this.format != 'xml')
-        {
-            if (this.xml != null)
-            {
-                this.postMessage({action: 'export', format: this.format,
-                    xml: this.xml, spinKey: 'export'});
-            }
-            else
-            {
+    if (msg.event == 'exit') {
+        if (this.format != 'xml') {
+            if (this.xml != null) {
+                this.postMessage({
+                    action: 'export', format: this.format,
+                    xml: this.xml, spinKey: 'export'
+                });
+            } else {
                 this.stopEditing(msg);
             }
-        }
-        else
-        {
-            if (msg.modified == null || msg.modified)
-            {
+        } else {
+            if (msg.modified == null || msg.modified) {
                 this.save(msg.xml, false, this.startElement);
             }
 
             this.stopEditing(msg);
         }
+
+        document.getElementById('graphContainer').lastElementChild.remove();
     }
 };
 
@@ -429,6 +412,15 @@ DiagramEditor.prototype.initializeEditor = function()
  */
 DiagramEditor.prototype.save = function(data, draft, elt)
 {
+    axios({
+            method: "post" ,
+            url: "app/update_graph_data" ,
+            data:qs.stringify({
+                graph_id:this.graph_id,
+                graph_data:data
+            })
+        }
+    ).then(r => {})
     this.done(data, draft, elt);
 };
 
@@ -437,6 +429,7 @@ DiagramEditor.prototype.save = function(data, draft, elt)
  */
 DiagramEditor.prototype.done = function()
 {
+
 };
 
 /**

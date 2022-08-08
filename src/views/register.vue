@@ -7,7 +7,8 @@
     <div class="kuang">
       <p>Welcome</p>
       <el-form ref="form" :model="form" class="form">
-        <el-form-item prop="email" :rules="[{ required: true, message: '邮箱不能为空', trigger: 'blur' }, { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
+        <el-form-item prop="email"
+          :rules="[{ required: true, message: '邮箱不能为空', trigger: 'blur' }, { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
           <el-input v-model="form.email" placeholder="请输入邮箱" type="email" autocomplete="off" clearable
             prefix-icon="el-icon-postcard">
           </el-input>
@@ -18,7 +19,7 @@
             <el-dropdown slot="suffix" size="mini" placement="top-start">
               <i class="el-icon-warning-outline el-input__icon">
               </i>
-              <el-dropdown-menu slot="dropdown" >
+              <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item disabled>用户名仅能由中文字符、数字、下划线以及英文字母组成，长度不超过15个字符</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -61,6 +62,7 @@
           <el-button class="btn_register" type="primary" @click="register" round>注&nbsp;册</el-button>
           <el-button class="btn_reset" @click="resetForm('form')" round>重&nbsp;置</el-button>
         </el-form-item>
+        <div class="re" @click="toFirst">返回首页</div>
         <div class="regis" @click="toRegister">已有账号？前去登录</div>
       </el-form>
     </div>
@@ -94,17 +96,6 @@ export default {
         this.$message.warning("注册邮箱不能为空！");
         return;
       }
-      // if (
-      //   this.form.username === "" ||
-      //   this.form.password1 === "" ||
-      //   this.form.email === "" ||
-      //   this.form.password2 === ""||
-      //   this.form.realname === ""||
-      //   this.form.code === ""
-      // ) {
-      //   this.$message.warning("请输入注册信息！");
-      //   return;
-      // }
       if (
         !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.exec(
           this.form.email
@@ -113,26 +104,6 @@ export default {
         this.$message.warning("请检查您的邮箱格式！");
         return;
       }
-      // if (
-      //   !/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.exec(this.form.username)
-      // ) {
-      //   this.$message.warning("用户名仅能由中文字符、数字、下划线以及英文字母组成，请检查您的用户名输入！");
-      //   return;
-      // }
-      // if (
-      //   !/^\w+$/.exec(this.form.password1) ||
-      //   !/^\w+$/.exec(this.form.password2)
-      // ) {
-      //   this.$message.warning("密码仅能由数字、26个英文字母或者下划线组成，请检查您的密码");
-      //   return;
-      // }
-      // if (this.form.password1 != this.form.password2) {
-      //   this.$message.warning("两次输入密码不一致，请检查");
-      // }
-      // if (this.validcode != null) {
-      //   this.$message.warning("请刷新后重新发送验证码");
-      //   return;
-      // }
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
         url: "app/send_code" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -221,57 +192,76 @@ export default {
         .then((res) => {
           /* res 是 response 的缩写 */
           console.log(res.data);
-          switch (res.data.errno) {
-            case 0:
-              this.$message({
-                message: "注册成功，将自动为您登陆",
-                center: true,
-                type: "success",
-                duration: 900
-              });
-              /* 将后端返回的 user 信息使用 vuex 存储起来 */
-              // var user = {
-              //   userId: res.data.user_id,
-              //   username: res.data.username,
-              // };
-              // this.$store.dispatch("saveUserInfo", user);
-              // var icon = { userId: res.data.user_id, picurl: "app/" };
-              // this.$store.dispatch("saveusericon", icon);
-              setTimeout(() => {
-                this.$router.push({ path: 'team_outline' });
-              }, 1000);
-              /* 从 localStorage 中读取 preRoute 键对应的值 */
-              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              // setTimeout(() => {
-              //   if (history_pth == null || history_pth === "/register") {
-              //     this.$router.push("/");
-              //   } else {
-              //     this.$router.push({ path: history_pth });
-              //   }
-              // }, 1000);
-              break;
+          if (res.data.errno == 0) {
+            this.$message({
+              message: "注册成功，将自动为您登陆",
+              center: true,
+              type: "success",
+              duration: 900
+            });
+            var user = {
+              userId: res.data.data.user_id,
+              username: this.form.username,
+            };
+            this.$store.dispatch("saveuser", user);
 
-            case 2001:
-              this.$message({
-                message: res.data.msg,
-                center: true,
-                type: "error",
+            this.$axios({
+              method: "post" /* 指明请求方式，可以是 get 或 post */,
+              url: "app/login" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+              data: qs.stringify({
+                /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+                identity: this.form.username,
+                loginmethod: "user_name",
+                password: this.form.password1,
+              }),
+            })
+              .then((res) => {
+                /* res 是 response 的缩写 */
+                // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
+                // this.$store.dispatch("saveusericon", usericon);
+                console.log(res.data)
+                if (res.data.errno == 0) {
+                  this.$message.success("登录成功！");
+                  var token = {
+                    token_num: res.data.data.token
+                  }
+                  this.$store.dispatch("savetoken", token);
+                  localStorage.setItem("saveuser", qs.stringify(user));
+                  localStorage.setItem("savetoken", qs.stringify(token));
+                  console.log(user);
+                  console.log(token);
+                  console.log(this.$store.state.user);
+                  axios.interceptors.request.use(
+                    config => {
+                      config.headers['Authorization'] = token
+                      return config;
+                    },
+                    error => {
+                      return Promise.reject(error);
+                    }
+                  );
+                }
+                else {
+                  this.$message({
+                    message: res.data.msg,
+                    center: true,
+                    type: "error",
+                  });
+                }
+              })
+              .catch((err) => {
+                console.log(err); /* 若出现异常则在终端输出相关信息 */
               });
-              break;
-            case 2002:
-              this.$message({
-                message: res.data.msg,
-                center: true,
-                type: "error",
-              });
-              break;
-            case 2004:
-              this.$message({
-                message: res.data.msg,
-                center: true,
-                type: "error",
-              });
-              break;
+            setTimeout(() => {
+              this.$router.push({ path: 'team_outline' });
+            }, 1000);
+          }
+          else {
+            this.$message({
+              message: res.data.msg,
+              center: true,
+              type: "error",
+            });
           }
         })
         .catch((err) => {
@@ -280,6 +270,9 @@ export default {
     },
     toRegister() {
       this.$router.push({ path: "/login" });
+    },
+    toFirst() {
+      this.$router.push({ path: "/" });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -321,7 +314,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  transition: 0.5s;
+  transition: 0.4s;
 
   backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
@@ -374,10 +367,24 @@ export default {
   float: right;
   color: #999;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .regis:hover {
+  color: rgb(145, 171, 203);
+  font-size: 15px;
+  padding: 0px 0px 10px 0px;
+}
+
+.re {
+  font-size: 12px;
+  float: left;
+  color: #999;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.re:hover {
   color: rgb(145, 171, 203);
   font-size: 15px;
   padding: 0px 0px 10px 0px;
@@ -389,7 +396,7 @@ export default {
   background-color: rgba(121, 167, 213, 0.73);
   font-size: 20px;
   width: 30%;
-  transition: 0.5s !important;
+  transition: 0.4s !important;
 }
 
 .el-button:not(.send):hover {
@@ -415,11 +422,11 @@ export default {
   border: 2px rgba(121, 167, 213, 0.377) solid;
   border-radius: 20px !important;
   background-color: rgba(121, 167, 213, 0);
-  color: rgba(121, 167, 213, 0.377);
+  color: rgb(255, 255, 255);
   font-size: 20px;
   padding: 1px;
   width: 30%;
-  transition: 0.5s !important;
+  transition: 0.4s !important;
 }
 
 .send:hover {

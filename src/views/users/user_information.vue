@@ -1,7 +1,6 @@
 <template>
   <el-container>
     <topFrame :team="false" :search="false" />
-    <!-- 这里效果是对的 但是不知道为什么报错 可以不用管 -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 3.0%; margin-bottom: 5.5%">
         <el-col :span="10">
@@ -85,7 +84,7 @@
         <el-dialog title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" center>
           <el-form ref="password" :model="password" class="password" :hide-required-asterisk="true" :rules="rules">
-            <el-form-item prop="originPassWord" label="请输入旧密码：" >
+            <el-form-item prop="originPassWord" label="请输入旧密码：">
               <el-input prefix-icon="el-icon-lock" placeholder="在此输入旧密码" show-password type="password" clearable
                 v-model="password.originPassWord" autocomplete="off"></el-input>
             </el-form-item>
@@ -115,9 +114,9 @@
       </el-row>
       <el-divider></el-divider>
       <el-row style="margin: 1% 0.5% 0.5% 0.5%;">
-        <el-tabs v-model="activeName" tab-position="left" type="card" @tab-click="handleClick">
+        <el-tabs v-model="activeName" tab-position="left"  @tab-click="handleClick">
           <el-tab-pane label="个人所在团队" name="first">
-            <el-card class="box-card" v-for="item in teamlist">
+            <!-- <el-card class="box-card" v-for="item in teamlist">
               <div class="text item name">
                 <a href="/team_outline" class="goteam"><span class="og">团队名称：</span>
                   {{ item.teamname }}</a>
@@ -138,10 +137,37 @@
                 <span class="og">现有人数：</span>
                 {{ item.teamernum }}
               </div>
-            </el-card>
+            </el-card> -->
+            <div class="bar header" >
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  团队名称</a>
+              </div>
+              <div class="right"> 
+                <p class="default">团队类型</p> 
+                <p class="default">团队创始人</p> 
+                <p class="default long">创建时间</p> 
+                <p class="default">现有人数</p> 
+              </div>
+            </div>
+            <div class="bar" v-for="item in teamlist">
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  {{ item.teamname }}</a>
+              </div>
+              <div class="right"> 
+                <p class="default">{{ item.teamtype }}</p> 
+                <p class="default">{{ item.teamsetter }}</p> 
+                <p class="default long">{{ item.teamsettime }}</p> 
+                <p class="default">{{ item.teamernum }}</p> 
+              </div>
+            </div>
+
           </el-tab-pane>
           <el-tab-pane label="个人所在项目" name="second">
-            <el-card class="box-card" v-for="item in projectlist">
+            <!-- <el-card class="box-card" v-for="item in projectlist">
               <div class="text item name">
                 <a href="/project_outline" class="goproject">
                   <span class="og">项目名称：</span>
@@ -164,13 +190,36 @@
                 <span class="og">所属团队编号：</span>
                 {{ item.team_id }}
               </div>
-            </el-card>
+            </el-card> -->
+            <div class="bar header" >
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  项目名称</a>
+              </div>
+              <div class="right"> 
+                <p class="default">项目编号</p> 
+                <p class="default long">创建时间</p> 
+                <p class="default long">更新时间</p> 
+                <p class="default">所属团队编号</p> 
+              </div>
+            </div>
+            <div class="bar" v-for="item in projectlist">
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  {{ item.project_name }}</a>
+              </div>
+              <div class="right"> 
+                <p class="default">{{ item.project_id }}</p> 
+                <p class="default long">{{ item.create_time }}</p> 
+                <p class="default long">{{ item.update_time }}</p> 
+                <p class="default">{{ item.team_id }}</p> 
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="个人回收项目" name="third">
-            <el-card class="box-card" v-for="item in reprojectlist">
-              <!-- <div class="text tag re">
-                <span class="tag1">已回收项目！！！</span>
-              </div> -->
+            <!-- <el-card class="box-card" v-for="item in reprojectlist">
               <a href="/team_dustbin" class="goreproject">
                 <div class="text item name">
                   <span class="og">项目名称：</span>
@@ -193,7 +242,35 @@
                 <span class="og">所属团队编号：</span>
                 {{ item.team_id }}
               </div>
-            </el-card>
+            </el-card> -->
+
+            <div class="bar header" >
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  项目名称</a>
+              </div>
+              <div class="right"> 
+                <p class="default">项目编号</p> 
+                <p class="default long">创建时间</p> 
+                <p class="default long">更新时间</p> 
+                <p class="default">所属团队编号</p> 
+              </div>
+            </div>
+            <div class="bar" v-for="item in reprojectlist">
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  {{ item.project_name }}</a>
+              </div>
+              <div class="right"> 
+                <p class="default">{{ item.project_id }}</p> 
+                <p class="default long">{{ item.create_time }}</p> 
+                <p class="default long">{{ item.update_time }}</p> 
+                <p class="default">{{ item.team_id }}</p> 
+              </div>
+            </div>
+            
           </el-tab-pane>
           <!-- <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane> -->
         </el-tabs>
@@ -211,7 +288,12 @@ export default {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入新密码'));
-      } else {
+      }
+      else if(!/^\w+$/.exec(value) || value.length > 16 || value.length < 8)
+      {
+          callback(new Error('新密码格式错误'));
+      }
+      else {
         if (value === this.password.originPassWord) {
           callback(new Error('新旧密码不能相同'));
         }
@@ -257,9 +339,9 @@ export default {
       },
       rules: {
         originPassWord:
-        [
-          { required: true, message: '请输入旧密码',trigger: 'blur'  }
-        ],
+          [
+            { required: true, message: '请输入旧密码', trigger: 'blur' }
+          ],
         passwordChange: [
           { validator: validatePass, trigger: 'blur' }
         ],
@@ -273,19 +355,50 @@ export default {
     topFrame
   },
   methods: {
-     changePass(formName) {
+    changePass(formName) {
       // 检验数据的可行性
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            console.log('数据有效');
-          } else {
-            console.log('error submit!!');
-            
-            return false;
-          }
-        });
-        // resetForm('password')
-      },
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log('数据有效');
+          this.$axios({
+            method: "post" /* 指明请求方式，可以是 get 或 post */,
+            url: "app/update_password" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+            data: qs.stringify({
+              /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+              pass_word: this.password.passwordChange,
+              old_pass_word: this.password.originPassWord
+            }),
+          })
+            .then((res) => {
+              console.log(res);
+              if (res.data.errno == 0) {
+                this.$message({
+                  // message: res.data.msg,
+                  message: "成功修改密码",
+                  center: true,
+                  type: "success",
+                });
+              } else {
+                this.$message({
+                  message: res.data.msg.concat("，修改失败"),
+                  center: true,
+                  type: "warning",
+                });
+              }
+              this.resetForm('password');
+              this.PasswordChangeDialogVi = false;
+            })
+            .catch((err) => {
+              console.log(err); /* 若出现异常则在终端输出相关信息 */
+            })
+        } else {
+          this.$message.warning("请检查您的输入")
+          console.log('error submit!!');
+          return false;
+        }
+      });
+      // resetForm('password')
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
@@ -767,7 +880,7 @@ export default {
   background-color: rgb(206, 218, 226);
   border-color: rgb(206, 218, 226);
   color: black;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .el-button:hover {
@@ -813,5 +926,93 @@ export default {
 
 .CRN:hover {
   color: lightskyblue
+}
+
+.bar {
+  right: 0;
+  border:  1px solid rgba(206, 218, 226, 0.536);
+  border-radius: 15px;
+  margin: 10px 20px 10px 20px;
+  padding: 10px;
+  /* 居中 */
+  align-items: center;
+  display: flex;
+  transition: 0.4s;
+  color: black;
+  padding-left: 30px;
+  background: rgba(206, 207, 217, 0.4);
+  height: fit-content;
+}
+.bar:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+}
+
+.left {
+  /* height: max-content; */
+  /* float: left; */
+  align-items: center;
+  display: flex;
+}
+.right {
+  height: 40px;
+  /* float: right; */
+  align-items: center;
+  /* display: flex; */
+  position: absolute;
+  right: 5%;
+  overflow: hidden;
+}
+img { 
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 50%;
+}
+p {
+  display: inline;
+  margin: 10px;
+  vertical-align: center;
+}
+.default{
+  display: inline-block;
+  white-space: nowrap; 
+  width: 80px; 
+  overflow: hidden;
+  text-overflow:ellipsis;
+  /* background: rgb(240, 242, 243); */
+}
+.default {
+  width: 100px;
+  height: auto;
+  /* word-wrap: break-word; */
+}
+.long {
+  width: 200px;
+}
+.header {
+  background: rgb(164, 170, 183);
+  color: rgb(255, 255, 255);
+  /* border-radius: 5px !important; */
+}
+.bar a{
+  /* background: rgb(164, 170, 183); */
+  /* color: rgb(255, 255, 255); */
+  /* display: sticky; */
+  width: 500px;
+  text-align: left;
+}
+.header a{
+  color: rgb(255, 255, 255);
+}
+.el-tabs--left{
+  color: rgb(164, 170, 183) !important;
+  /* background: #000; */
+  border: rgba(164, 170, 183, 0.403) solid 1px;
+  border-radius: 28px;
+  background-color: #ffffff7a;
+  padding: 10px 0px;
+}
+.el-tabs-item {
+  color: rgb(164, 170, 183) !important;
 }
 </style>

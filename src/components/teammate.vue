@@ -196,7 +196,7 @@ methods:{
   /* 居中 */
   align-items: center;
   display: flex;
-  transition: 0.5s;
+  transition: 0.4s;
   color: black;
 }
 .bar:hover {
@@ -261,7 +261,7 @@ p {
 #tools {
   background-color: rgba(95, 123, 143, 0.304);
   /* color: rgb(95, 123, 143) !important; */
-  transition: 0.5s;
+  transition: 0.3s;
   height: 0px;
   padding: 0px;
   font-size: 0px;

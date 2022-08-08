@@ -191,23 +191,23 @@ export default {
       template_options: [{
         value: 0,
         label: '空白模板',
-        preview : drawio.DiagramEditor.umlDefaultProject
+        preview : drawio.DiagramEditor.umlDefaultProject0
       }, {
         value: 1,
         label: '模板1',
-        preview : drawio.DiagramEditor.umlDefaultProject
+        preview : drawio.DiagramEditor.umlDefaultProject1
       }, {
         value: 2,
         label: '模板2',
-        preview : drawio.DiagramEditor.umlDefaultProject
+        preview : drawio.DiagramEditor.umlDefaultProject2
       }, {
         value: 3,
         label: '模板3',
-        preview : drawio.DiagramEditor.umlDefaultProject
+        preview : drawio.DiagramEditor.umlDefaultProject3
       }, {
         value: 4,
         label: '模板4',
-        preview : drawio.DiagramEditor.umlDefaultProject
+        preview : drawio.DiagramEditor.umlDefaultProject4
       }],
     }
   }
@@ -243,14 +243,14 @@ export default {
 }
 
 .inside {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .inside:hover {
   margin: 15px 10px 8px 10px;
   border-radius: 15px;
 }
 .outside {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .outside:hover {
   margin: 15px 0px 15px 5px;

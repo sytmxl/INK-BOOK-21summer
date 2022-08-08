@@ -87,7 +87,7 @@
     padding: 0px;
     float: left;
     border-color: rgb(206, 218, 226) 2px;
-    transition: 0.5s;
+    transition: 0.4s;
   }
   /* .box-card:hover{
     width: 290px;
@@ -105,7 +105,7 @@
   #tools {
   background-color: rgb(157, 162, 176);
   color: rgba(0, 0, 0, 0);
-  transition: 0.5s;
+  transition: 0.4s;
   height: 0px;
   padding: 0px;
   font-size: 0px;
@@ -153,7 +153,7 @@
   width: 100%; 
   overflow: hidden;
   text-overflow:ellipsis;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .box-card:hover h5{
   white-space:unset; 

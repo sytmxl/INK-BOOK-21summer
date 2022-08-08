@@ -58,7 +58,7 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container>
+    <el-container id="graphContainer">
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
@@ -78,7 +78,10 @@
       <div class="right">
         <el-row>
           <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram :graph_id = "id" :isdel = "viewingDel" v-on:deled = "updateOnDel"/>
+            <drawio-digram :graph_id = "id" :isdel = "viewingDel"
+                           v-on:deled = "updateOnDel"
+                           v-on:startEdit = "enterEdit"
+            />
           </el-col>
         </el-row>
       </div>
@@ -97,6 +100,9 @@ export default {
     this.get_list("0");
   },
   methods:{
+    enterEdit(){
+      this.inediting = true;
+    },
     updateOnDel(){
       this.get_list(this.$data.viewingDel);
     },
@@ -188,6 +194,7 @@ export default {
       viewingDel:"0",
       PrototypeList:[],
       template: 1,
+      inediting: false,
       template_options: [{
         value: 0,
         label: '空白模板',
@@ -244,14 +251,14 @@ export default {
 }
 
 .inside {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .inside:hover {
   margin: 15px 10px 8px 10px;
   border-radius: 15px;
 }
 .outside {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .outside:hover {
   margin: 15px 0px 15px 5px;

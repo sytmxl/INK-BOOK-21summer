@@ -92,6 +92,10 @@ export default {
     methods:{
       logout(){
         sessionStorage.removeItem('team');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+        localStorage.removeItem('saveuser');
+        localStorage.removeItem('savetoken');
       },
       doSearch()
       {
@@ -231,17 +235,23 @@ export default {
   margin-right:0px;
   float: right;
 }
-
 .user img{
   width: 50px;
   height: 50px;
   margin: 10px;
   border-radius: 50%;
+  right: 40px;
+  position: absolute;
+  transition: 0.5s;
 }
 .username{
-  font-size: 0px;
+  font-size: 20px;
   transition: 0.5s;
   float: right;
+  margin: 10px 10px 10px 10px;
+  padding: 10px 0px 10px 0px;
+  filter: blur(20px);
+  opacity: 0%;
 }
 .username a{
   text-decoration:none;
@@ -260,8 +270,13 @@ export default {
   margin: 10px 10px 10px 10px;
   padding: 10px 0px 10px 0px;
   float: right;
-
+  opacity: 100%;
+  filter: blur(0px);
   /* padding: 10px 10px 10px 80px; */
+}
+.user:hover img {
+  filter: blur(20px);
+  opacity: 0%;
 }
 .el-input >>> .el-input__inner{
     border-radius:25px;
@@ -282,7 +297,7 @@ export default {
   }
   .el-dropdown-menu>>>.el-dropdown-menu__item{
       font-size: 16px;
-      color: #2878ff;
+      /* color: #2878ff; */
    
   }
 
@@ -298,7 +313,7 @@ export default {
     float: left;
   }
   .left:hover {
-    background: rgba(150, 169, 183, 0.164);
+    background: rgba(137, 149, 158, 0.164);
     border-radius: 10px;
     margin-top: 7px;
   }
@@ -312,7 +327,7 @@ export default {
     transition: 0.2s;
   }
   .team:hover {
-    background: rgba(150, 169, 183, 0.23);
+    background: rgba(142, 155, 164, 0.23);
     border-radius: 10px;
     padding: 10px;
     margin-top: 7px;
@@ -320,13 +335,14 @@ export default {
   .team:active {
     background: rgba(150, 169, 183, 0.721);
     border-radius: 10px;
-    padding: 12px;
-    margin-top: 7px;
+    /* padding: 12px; */
+    /* margin-top: 7px; */
     font-size: 19px;
     transition: 0.05s;
+    transform: scaleY(10px);
   }
   .el-dropdown-item {
-    transition: 0.5s;
+    transition: 0.4s;
   }
   /* .el-dropdown-menu__item{
     width: 150px;
@@ -342,7 +358,7 @@ export default {
     margin-top: 10px;
     margin-left: 50px;
     width: 5px;
-    transition: 0.5s;
+    transition: 0.4s;
     /* float: right; */
   }
   .search:hover {
@@ -362,7 +378,7 @@ export default {
   }
 </style>
 <style>
-    .el-message-box{
+  .el-message-box{
     border-radius: 15px;
   }
   .el-button--small{
