@@ -114,7 +114,7 @@
       </el-row>
       <el-divider></el-divider>
       <el-row style="margin: 1% 0.5% 0.5% 0.5%;">
-        <el-tabs v-model="activeName" tab-position="left" type="card" @tab-click="handleClick">
+        <el-tabs v-model="activeName" tab-position="left"  @tab-click="handleClick">
           <el-tab-pane label="个人所在团队" name="first">
             <!-- <el-card class="box-card" v-for="item in teamlist">
               <div class="text item name">
@@ -138,7 +138,7 @@
                 {{ item.teamernum }}
               </div>
             </el-card> -->
-            <div class="bar" >
+            <div class="bar header" >
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
                 <a href="/team_outline" class="goteam">
@@ -147,7 +147,7 @@
               <div class="right"> 
                 <p class="default">团队类型</p> 
                 <p class="default">团队创始人</p> 
-                <p class="default">创建时间</p> 
+                <p class="default long">创建时间</p> 
                 <p class="default">现有人数</p> 
               </div>
             </div>
@@ -160,14 +160,14 @@
               <div class="right"> 
                 <p class="default">{{ item.teamtype }}</p> 
                 <p class="default">{{ item.teamsetter }}</p> 
-                <p class="default">{{ item.teamsettime }}</p> 
+                <p class="default long">{{ item.teamsettime }}</p> 
                 <p class="default">{{ item.teamernum }}</p> 
               </div>
             </div>
 
           </el-tab-pane>
           <el-tab-pane label="个人所在项目" name="second">
-            <el-card class="box-card" v-for="item in projectlist">
+            <!-- <el-card class="box-card" v-for="item in projectlist">
               <div class="text item name">
                 <a href="/project_outline" class="goproject">
                   <span class="og">项目名称：</span>
@@ -190,13 +190,36 @@
                 <span class="og">所属团队编号：</span>
                 {{ item.team_id }}
               </div>
-            </el-card>
+            </el-card> -->
+            <div class="bar header" >
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  项目名称</a>
+              </div>
+              <div class="right"> 
+                <p class="default">项目编号</p> 
+                <p class="default long">创建时间</p> 
+                <p class="default long">更新时间</p> 
+                <p class="default">所属团队编号</p> 
+              </div>
+            </div>
+            <div class="bar" v-for="item in projectlist">
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  {{ item.project_name }}</a>
+              </div>
+              <div class="right"> 
+                <p class="default">{{ item.project_id }}</p> 
+                <p class="default long">{{ item.create_time }}</p> 
+                <p class="default long">{{ item.update_time }}</p> 
+                <p class="default">{{ item.team_id }}</p> 
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane label="个人回收项目" name="third">
-            <el-card class="box-card" v-for="item in reprojectlist">
-              <!-- <div class="text tag re">
-                <span class="tag1">已回收项目！！！</span>
-              </div> -->
+            <!-- <el-card class="box-card" v-for="item in reprojectlist">
               <a href="/team_dustbin" class="goreproject">
                 <div class="text item name">
                   <span class="og">项目名称：</span>
@@ -219,7 +242,35 @@
                 <span class="og">所属团队编号：</span>
                 {{ item.team_id }}
               </div>
-            </el-card>
+            </el-card> -->
+
+            <div class="bar header" >
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  项目名称</a>
+              </div>
+              <div class="right"> 
+                <p class="default">项目编号</p> 
+                <p class="default long">创建时间</p> 
+                <p class="default long">更新时间</p> 
+                <p class="default">所属团队编号</p> 
+              </div>
+            </div>
+            <div class="bar" v-for="item in reprojectlist">
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  {{ item.project_name }}</a>
+              </div>
+              <div class="right"> 
+                <p class="default">{{ item.project_id }}</p> 
+                <p class="default long">{{ item.create_time }}</p> 
+                <p class="default long">{{ item.update_time }}</p> 
+                <p class="default">{{ item.team_id }}</p> 
+              </div>
+            </div>
+            
           </el-tab-pane>
           <!-- <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane> -->
         </el-tabs>
@@ -881,27 +932,21 @@ export default {
   right: 0;
   border:  1px solid rgba(206, 218, 226, 0.536);
   border-radius: 15px;
-  margin: 20px;
+  margin: 10px 20px 10px 20px;
   padding: 10px;
   /* 居中 */
   align-items: center;
   display: flex;
   transition: 0.4s;
   color: black;
+  padding-left: 30px;
+  background: rgba(206, 207, 217, 0.4);
+  height: fit-content;
 }
 .bar:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
 }
-.bar1 {
-  background-color: white;
-}
-.bar2 {
-  background-color: rgba(206, 218, 226, 0.29);
-}
-.bar3 {
-  background-color: rgba(95, 123, 143, 0.184);
-  border:  1px solid rgb(85, 103, 116);
-}
+
 .left {
   /* height: max-content; */
   /* float: left; */
@@ -931,11 +976,43 @@ p {
 .default{
   display: inline-block;
   white-space: nowrap; 
-  /* width: 80px;  */
+  width: 80px; 
   overflow: hidden;
   text-overflow:ellipsis;
+  /* background: rgb(240, 242, 243); */
 }
 .default {
-  width: 120px;
+  width: 100px;
+  height: auto;
+  /* word-wrap: break-word; */
+}
+.long {
+  width: 200px;
+}
+.header {
+  background: rgb(164, 170, 183);
+  color: rgb(255, 255, 255);
+  /* border-radius: 5px !important; */
+}
+.bar a{
+  /* background: rgb(164, 170, 183); */
+  /* color: rgb(255, 255, 255); */
+  /* display: sticky; */
+  width: 500px;
+  text-align: left;
+}
+.header a{
+  color: rgb(255, 255, 255);
+}
+.el-tabs--left{
+  color: rgb(164, 170, 183) !important;
+  /* background: #000; */
+  border: rgba(164, 170, 183, 0.403) solid 1px;
+  border-radius: 28px;
+  background-color: #ffffff7a;
+  padding: 10px 0px;
+}
+.el-tabs-item {
+  color: rgb(164, 170, 183) !important;
 }
 </style>
