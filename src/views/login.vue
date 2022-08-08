@@ -36,19 +36,27 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <div class="back" @click="forgetPass()">忘记密码</div>
-        <div class="regis" @click="toRegister">没有账号？前去注册</div>
         <el-dialog title="请输入您的邮箱" :visible.sync="forgetDialogVisible" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" :append-to-body="true" center>
-          <el-input v-model="forget.forget_email" placeholder="请输入注册时所用邮箱，用于找回密码" type="email" autocomplete="off"
-            clearable prefix-icon="el-icon-postcard"></el-input>
+          <el-form ref="forget" :model="forget" class="forget" :hide-required-asterisk="true">
+            <el-form-item prop="forget_email" :rules="[
+              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+            ]">
+              <el-input v-model="forget.forget_email" placeholder="请输入注册时所用邮箱，用于找回密码" type="email" autocomplete="off"
+                clearable prefix-icon="el-icon-postcard"></el-input>
+            </el-form-item>
+          </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button class="forget" @click="forgetDialogVisible = false, this.resetForm('forget')">取 消</el-button>
-            <el-button class="forget" type="primary"
-              @click="forgetDialogVisible = false, toReset('forget.forget_email'), this.resetForm('forget')">确 定
+            <el-button @click="forgetDialogVisible = false, resetForm('forget')">取 消</el-button>
+            <el-button type="primary"
+              @click="toReset(forget.forget_email)">确 定
             </el-button>
           </span>
         </el-dialog>
+        <div class="back" @click="forgetPass()">忘记密码</div>
+        <div class="regis" @click="toRegister">没有账号？前去注册</div>
+
       </el-tabs>
 
     </div>
@@ -227,30 +235,47 @@ export default {
     forgetPass() {
       this.forgetDialogVisible = true;
     },
-    toReset(i)
-    {
+    toReset(i) {
+      if (
+        this.forget.forget_email === ""
+      ) {
+        this.$message.warning("注册邮箱不能为空！");
+        return;
+      }
+      if (
+        !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.exec(
+          this.forget.forget_email
+        )
+      ) {
+        this.$message.warning("请检查您的邮箱格式！");
+        return;
+      }
       this.$axios({
         method: "post",
         url: "app/generate_forget_link",
         data: qs.stringify({
-          email:i
+          email: i
         }),
       })
         .then((res) => {
-          if(res.data.errno == 0)
-          {
+          console.log(i);
+          console.log(res);
+          if (res.data.errno == 0) {
             this.$message.success("邮件已发送,请前往您的邮箱查看信息")
           }
-          else{
+          else {
             this.$message({
-                message: res.data.msg,
-                center: true,
-                type: "error",
-              });
+              message: res.data.msg,
+              center: true,
+              type: "error",
+            });
           }
-        })
+        },
+        this.forgetDialogVisible=false,
+        this.resetForm('forget')
+        )
         .catch((err) => {
-          console.log(err); 
+          console.log(err);
         });
     }
   },
