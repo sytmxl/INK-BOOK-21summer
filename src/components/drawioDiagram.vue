@@ -134,7 +134,7 @@ export default {
           message: this.tips[this.tipNo].content,
           dangerouslyUseHTMLString: true,
           position: 'bottom-right',
-          duration: 0,
+          duration: 5000,
           onClose: this.callNextTip,
         });
       }
