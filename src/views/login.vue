@@ -290,7 +290,7 @@ export default {
   top: 45%;  left: 50%;  
 	transform: translate(-50%,-50%);
 
-  transition: 0.5s;
+  transition: 0.4s;
 
   backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
@@ -328,7 +328,7 @@ export default {
   float: right;
   color: #999;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .regis:hover {
   color: rgb(145, 171, 203);
@@ -340,7 +340,7 @@ export default {
   float: left;
   color: #999;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .back:hover {
   color: rgb(145, 171, 203);
@@ -356,7 +356,7 @@ export default {
   background-color:rgba(121, 167, 213, 0.73);
   font-size: 20px;
   width: 100%;
-  transition: 0.5s !important;
+  transition: 0.4s !important;
 }
 .el-button:hover{
   border-radius: 20px !important;
