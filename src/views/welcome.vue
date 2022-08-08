@@ -40,14 +40,15 @@
           </li>
         </ul>
         <ul id="nav-footer">
-          <!-- <el-button type="primary" plain round size="small" @click="login"
-            >登录</el-button
+          
+          <el-button type="default" @click="register()"
+            >注&nbsp;册</el-button
           >
-          <el-button type="success" plain round size="small" @click="register()"
-            >注册</el-button
-          > -->
-          <div class="login_button" @click="login()">登录</div>
-          <div class="login_button" @click="register()">注册</div>
+          <el-button type="primary" @click="login"
+            >登&nbsp;录</el-button
+          >
+          <!-- <div class="login_button" @click="login()">登录</div> -->
+          <!-- <div class="login_button" @click="register()">注册</div> -->
         </ul>
       </div>
     </div>
@@ -447,8 +448,8 @@ export default {
 }
 
 .txt5 {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 14px;
+  /* font-weight:; */
   padding-top: 30px;
   padding-bottom: 40px;
   width: 400px;
@@ -468,5 +469,8 @@ export default {
 .login_button:hover {
   background-color: rgb(150, 169, 183);
   color: white;
+}
+.el-backtop {
+  color: #000000;
 }
 </style>

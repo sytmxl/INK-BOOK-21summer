@@ -86,6 +86,62 @@ export default {
           null,
           ['pv=0'],
           this.$props.graph_id);
+      this.$emit('startEdit');
+      if(!localStorage.getItem('noTipsOnedit')){
+        this.welcomeNotify = this.$notify({
+          iconClass: 'el-icon-guide',
+          title: '欢迎！下面有一些使用提示...',
+          message: '如果您想查看或不再显示提示，请点击这里',
+          position: 'bottom-right',
+          duration: 0,
+          onClick: this.ifNoMoreTips,
+        });
+      }
+    },
+    ifNoMoreTips(){
+      this.welcomeNotify.close();
+      this.$confirm('您是否要看看这些提示？', '', {
+        confirmButtonText: '看一看',
+        cancelButtonText: '不再显示',
+        iconClass:'el-icon-question'
+      }).then(() => {
+        this.getTips();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '在您的localstorage被清除前提示会被隐藏'
+        });
+      });
+    },
+    async getTips(){
+      if(this.tipNo>=this.tips.length){
+        await this.$confirm('您看完了。以后还看吗？', '', {
+          confirmButtonText: '下次仍显示提示',
+          cancelButtonText: '不再显示提示',
+          iconClass:'el-icon-question'
+        }).then(() => {
+        }).catch(()=>{
+          this.$message({
+            type: 'info',
+            message: '在您的localstorage被清除前提示会被隐藏'
+          });
+        });
+      }
+      else{
+        await this.$notify({
+          iconClass: this.tips[this.tipNo].icon,
+          title: this.tips[this.tipNo].title,
+          message: this.tips[this.tipNo].content,
+          position: 'bottom-right',
+          duration: 0,
+          onClose: this.callNextTip,
+        });
+      }
+    },
+    async callNextTip(){
+      this.tipNo = this.tipNo +1;
+      await setTimeout(() => console.log(''), 1000);
+      await this.getTips()
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
@@ -177,6 +233,7 @@ export default {
   },
   data() {
     return {
+      welcomeNotify:null,
       dialogVisible:false,
       newHeader:null,
       newBrief:null,
@@ -187,7 +244,17 @@ export default {
       base64src:'',
       configs: {
         "defaultLibraries": "uml;er;ios;basic;",
-      }
+      },
+      tipNo:0,
+      tips:[
+        {title:'基本导航',content:'按住鼠标滚轮来拖动画布，滚动滚轮来缩放画面',icon:'el-icon-thumb'},
+        {title:'调整画布',content:'您可以在右侧栏\'绘图\'中选择画布大小。当溢出时，画布会自动在溢出方向自动扩展并显示出虚线边界',icon:'el-icon-full-screen'},
+        {title:'快速样式',content:'您可以在右侧栏\'样式\'中快速设置选中元素的样式',icon:'el-icon-help'},
+        {title:'多选组件',content:'按住左键可以框选组件（就像在电脑桌面上框选图标一样），按住ctrl单击也可以选择复数组件',icon:'el-icon-thumb'},
+        {title:'创建自定义组件',content:'您可以选择一部分画布上的组件，将它们拖到便笺本中以备复用',icon:'el-icon-collection'},
+        {title:'保存文件',content:'您所做的更改是实时保存的，您可以按右上角的退出来离开编辑。如果您做错了什么，请在退出前按ctrl-z恢复到正确的状态',icon:'el-icon-finished'},
+        {title:'导出文件',content:'在顶栏的\'文件>导出为\'可以导出图片到本地',icon:'el-icon-download'},
+      ]
     }
   }
 }

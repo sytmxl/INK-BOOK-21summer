@@ -134,8 +134,6 @@ DiagramEditor.prototype.editElement = function(elem)
 DiagramEditor.prototype.getElementData = function(elem)
 {
     var name = elem.nodeName.toLowerCase();
-    console.log(elem.getAttribute((name == 'svg') ? 'content' :
-        ((name == 'img') ? 'src' : 'data')))
     return elem.getAttribute((name == 'svg') ? 'content' :
         ((name == 'img') ? 'src' : 'data'));
 };
@@ -146,7 +144,6 @@ DiagramEditor.prototype.getElementData = function(elem)
 DiagramEditor.prototype.setElementData = function(elem, data)
 {
     var name = elem.nodeName.toLowerCase();
-    console.log(data.substring(data.indexOf(',') + 1))
     axios({
             method: "post" ,
             url: "update_graph_data" ,
@@ -179,11 +176,18 @@ DiagramEditor.prototype.startEditing = function(data, format, title)
         this.format = (format != null) ? format : this.format;
         this.title = (title != null) ? title : this.title;
         this.data = data;
-
+        //TODO 在这里将编辑器的加载改为嵌入式
         this.frame = this.createFrame(
             this.getFrameUrl(),
             this.getFrameStyle());
-        document.body.appendChild(this.frame);
+
+
+        //let div = document.createElement("div");
+        //div.appendChild(this.frame);
+        document.getElementById('graphContainer').appendChild(this.frame);
+        //
+        console.log(document.getElementById('graphContainer'))
+
         this.setWaiting(true);
     }
 };
