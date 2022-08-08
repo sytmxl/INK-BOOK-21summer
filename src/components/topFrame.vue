@@ -104,7 +104,6 @@ export default {
         this.$store.dispatch("savesearched", info);
       },
       checkit(content){
-        console.log(content)
         this.checkedteam = content.team_name;
         this.checkedteamid = content.team_id;
         this.$store.dispatch("saveteam", content);
@@ -112,7 +111,6 @@ export default {
       },
       newteam(){
         this.dialogFormVisible = false;
-        console.log(this.form);
          this.$axios({
         method: "post",
         // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
@@ -124,9 +122,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
           var content = {teamId: res.data.data.team_id, team_name: this.form.name}; 
-          console.log(content);
            this.$store.dispatch("saveteam", content);
            this.$message.success(res.data.msg);
            location.reload();
@@ -147,8 +143,6 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res.data.data);
-          console.log(666);
           for( var i in res.data.data.team_list_owner){
             this.allteams.push(res.data.data.team_list_owner[i]);
           }
@@ -162,7 +156,6 @@ export default {
           // this.allteams.push(res.data.data.team_list_admin);
           // this.allteams.push(res.data.data.team_list_member);
           
-          console.log(this.allteams)
         })
         .catch((err) => {
           console.log(err); 
@@ -171,7 +164,6 @@ export default {
 
         if(JSON.parse(sessionStorage.getItem('team'))==null){
           this.checkedteam = '请选择你的团队';
-          console.log(this.checkedteam)
         }
         else{
           this.checkedteam = JSON.parse(sessionStorage.getItem('team')).team_name;

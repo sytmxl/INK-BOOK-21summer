@@ -66,17 +66,18 @@ export default {
           icon: "goods",
         },
         {
+        path: '/team_filecenter',
+        name: 'team_filecenter',
+        label: "文档中心",
+        icon: "folder"
+        },
+        {
           path: "../views/teams/team_dustbin.vue",
           name: "team_dustbin",
           label: "回收站",
           icon: "delete",
         },
-         {
-        path: '/team_filecenter',
-        name: 'team_filecenter',
-        label: "文档中心",
-        icon: "folder"
-        }
+         
       ],
     };
   },

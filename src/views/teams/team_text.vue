@@ -207,7 +207,7 @@ export default {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
-
+  
 
     },
      watch: {
