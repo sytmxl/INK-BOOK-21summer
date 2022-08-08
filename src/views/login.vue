@@ -420,6 +420,6 @@ export default {
   width: 40%;
 }
 .el-input {
-  width: 100% !important;
+  width: 250% !important;
 }
 </style>
