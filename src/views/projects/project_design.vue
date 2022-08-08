@@ -58,25 +58,25 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container id="graphContainer">
+    <el-container v-loading="loading" style="min-height: calc(100vh)">
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
-          <el-menu-item class="outside" index="1" @click="dialogVisible = true">
+          <el-menu-item v-if="inediting == false" class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
           </el-menu-item>
-          <el-menu-item class="outside" index="2">
+          <el-menu-item v-if="inediting == false" class="outside" index="2" >
             <i class="el-icon-edit-outline"></i>
             <span slot="title">管理</span>
           </el-menu-item>
-          <el-menu-item class="outside" index="3" @click = "viewDel">
+          <el-menu-item v-if="inediting == false" class="outside" index="3" @click = "viewDel">
             <i class="el-icon-delete"></i>
             <span slot="title" >回收站</span>
           </el-menu-item>
         </el-menu>
       </div>
-      <div class="right">
-        <el-row>
+      <div class="right" >
+        <el-row id="graphContainer">
           <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-digram :graph_id = "id" :isdel = "viewingDel"
                            v-on:deled = "updateOnDel"
@@ -99,9 +99,15 @@ export default {
   beforeMount() {
     this.get_list("0");
   },
+  mounted() {
+    window.exitEdit = this.exitEdit;
+  },
   methods:{
     enterEdit(){
       this.inediting = true;
+    },
+    exitEdit(){
+      this.inediting = false;
     },
     updateOnDel(){
       this.get_list(this.$data.viewingDel);
@@ -135,6 +141,7 @@ export default {
           //console.log(graph_list[i].graph_id)
           this.$data.PrototypeList.push(graph_list[i].graph_id);
         }
+        this.$data.loading = false;
       })
     },
     async add_graph(template) {
@@ -195,6 +202,7 @@ export default {
       PrototypeList:[],
       template: 1,
       inediting: false,
+      loading:true,
       template_options: [{
         value: 0,
         label: '空白模板',
