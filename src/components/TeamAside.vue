@@ -71,6 +71,12 @@ export default {
           label: "回收站",
           icon: "delete",
         },
+         {
+        path: '/team_filecenter',
+        name: 'team_filecenter',
+        label: "文档中心",
+        icon: "folder"
+        }
       ],
     };
   },
