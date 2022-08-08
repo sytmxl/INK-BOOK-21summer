@@ -146,7 +146,7 @@ DiagramEditor.prototype.setElementData = function(elem, data)
     var name = elem.nodeName.toLowerCase();
     axios({
             method: "post" ,
-            url: "update_graph_data" ,
+            url: "app/update_graph_data" ,
             data:qs.stringify({
                 graph_id:this.graph_id,
                 graph_data:data
@@ -414,7 +414,7 @@ DiagramEditor.prototype.save = function(data, draft, elt)
 {
     axios({
             method: "post" ,
-            url: "update_graph_data" ,
+            url: "app/update_graph_data" ,
             data:qs.stringify({
                 graph_id:this.graph_id,
                 graph_data:data
