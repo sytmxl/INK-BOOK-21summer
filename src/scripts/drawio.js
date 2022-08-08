@@ -144,15 +144,15 @@ DiagramEditor.prototype.getElementData = function(elem)
 DiagramEditor.prototype.setElementData = function(elem, data)
 {
     var name = elem.nodeName.toLowerCase();
-    // axios({
-    //         method: "post" ,
-    //         url: "app/update_graph_data" ,
-    //         data:qs.stringify({
-    //             graph_id:this.graph_id,
-    //             graph_data:data
-    //         })
-    //     }
-    // ).then(r => {})
+    axios({
+            method: "post" ,
+            url: "app/update_graph_data" ,
+            data:qs.stringify({
+                graph_id:this.graph_id,
+                graph_data:data
+            })
+        }
+    ).then(r => {})
     if (name == 'svg')
     {
         elem.outerHTML = atob(data.substring(data.indexOf(',') + 1));
@@ -412,15 +412,6 @@ DiagramEditor.prototype.initializeEditor = function()
  */
 DiagramEditor.prototype.save = function(data, draft, elt)
 {
-    axios({
-            method: "post" ,
-            url: "app/update_graph_data" ,
-            data:qs.stringify({
-                graph_id:this.graph_id,
-                graph_data:data
-            })
-        }
-    ).then(r => {})
     this.done(data, draft, elt);
 };
 
