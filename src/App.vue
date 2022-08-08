@@ -94,5 +94,9 @@ el-icon:hover, el-icon-close:hover {
   color: #35424e !important;
   font-family: 微软雅黑 !important;
 }
+.el-dropdown-menu__item:hover {
+  color: #35424e !important;
+  background: rgba(191, 202, 217, 0.495) !important;
+}
 </style>
 
