@@ -7,7 +7,7 @@
     <div class="kuang">
       <p>Welcome</p>
       <el-form ref="form" :model="form" class="form">
-        <el-form-item prop="email" :rules="[{ required: true, message: '邮箱不能为空' }]">
+        <el-form-item prop="email" :rules="[{ required: true, message: '邮箱不能为空', trigger: 'blur' }, { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }]">
           <el-input v-model="form.email" placeholder="请输入邮箱" type="email" autocomplete="off" clearable
             prefix-icon="el-icon-postcard">
           </el-input>
