@@ -48,6 +48,8 @@
         </el-menu>
       </div>
       <div class="right">
+        <h1 class="label" v-if="inRecycle == false">所有文档</h1>
+        <h1 class="label" v-else>回收站</h1>
         <el-row   v-if="inRecycle == false && doc_list.length != 0" >
           <el-col :span="7" v-for="item in doc_list">
             <EtherpadFile v-on:deled="get_doc_list" :in-recycle="false"
@@ -161,6 +163,7 @@ this.axios({
 }
 .right {
   margin-left: 80px;
+  width: 100%;
 }
 .el-col {
   margin: 22px;
@@ -205,5 +208,13 @@ this.axios({
 
 .el-submenu {
   visibility: hidden;
+}
+.label {
+  margin: 30px 0px 0px 50px;
+  font-size: 50px;
+  /* float: left; */
+  width: 100%;
+  color: rgb(114, 132, 145); 
+  text-align: left;
 }
 </style>

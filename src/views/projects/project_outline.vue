@@ -2,14 +2,13 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-card shadow="never">
-          <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%; font-size: 30px">
-            {{team_name}}/{{project_name}}
-          </h1>
-          <p style="text-align: left; margin-left: 2.5%;">
-            {{team_intro}}
-          </p>
-        </el-card>
+        <h1 class="label">
+          {{project_name}}
+          <span>{{team_name}}</span>
+        </h1>
+        <p style="text-align: left; margin-left: 2.5%;">
+          {{team_intro}}
+        </p>
       </el-col>
     </el-row>
 
@@ -20,7 +19,7 @@
         </el-col>
       </el-row>
       <el-row v-if="PrototypeList.length != 0">
-        <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
+        <el-col :span="6" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
           <drawio-digram v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
         </el-col>
       </el-row>
@@ -36,7 +35,7 @@
         </el-col>
       </el-row>
       <el-row v-if="UMLList.length != 0">
-        <el-col :span="9" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+        <el-col :span="6" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
           <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
         </el-col>
       </el-row>
@@ -53,7 +52,7 @@
       </el-row>
 
       <el-row v-if="doc_list.length != 0">
-        <el-col :span="7" v-for="item in doc_list">
+        <el-col :span="8" v-for="item in doc_list">
           <EtherpadFile v-on:deled = "get_doc_list"
                         :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"
           />
@@ -167,5 +166,16 @@ export default {
 .el-empty {
   padding: 0;
 }
-
+.label {
+  margin: 30px 0px 0px 50px;
+  font-size: 50px;
+  /* float: left; */
+  /* width: fit-content; */
+  color: rgb(114, 132, 145); 
+  text-align: left;
+}
+.label span {
+  font-size: 20px;
+  color: rgba(114, 132, 145, 0.631);
+}
 </style>
