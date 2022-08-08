@@ -95,7 +95,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "del_graph" ,
+          url: "app/del_graph" ,
           data: qs.stringify({
             project_id:this.$data.project_id,
             graph_id:this.$props.graph_id
@@ -112,7 +112,7 @@ export default {
     recover(){
       this.$axios({
         method: "post" ,
-        url: "recover_graph" ,
+        url: "app/recover_graph" ,
         data: qs.stringify({
           graph_id:this.$props.graph_id
         }),
@@ -130,7 +130,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "full_del_graph" ,
+          url: "app/full_del_graph" ,
           data: qs.stringify({
             project_id:this.$data.project_id,
             graph_id:this.$props.graph_id
@@ -146,7 +146,7 @@ export default {
     getData(){
       this.$axios({
         method: "post" ,
-        url: "get_graph" ,
+        url: "app/get_graph" ,
         data: qs.stringify({
           graph_id:this.$props.graph_id
         }),
@@ -160,7 +160,7 @@ export default {
     updateData(){
       this.$axios({
         method: "post" ,
-        url: "modify_graph" ,
+        url: "app/modify_graph" ,
         data: qs.stringify({
           graph_id:this.$props.graph_id,
           graph_name:this.$data.newHeader,

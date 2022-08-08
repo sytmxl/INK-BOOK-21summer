@@ -1,27 +1,49 @@
 <template>
-  <div class="bar">
+  <div class="bar3 bar" v-if="identity == 3">
+    <div class="left">
+      <img src="../assets/bk3.jpg" alt=""/>
+      <p class="name">{{user_name}}</p>
+    </div>
+    <div class="right">
+      <div  id="tools">
+        <i class="el-icon-user"></i>
+      </div>    
+      <p class="id">团队创始人</p> 
+      <p class="realname">真实姓名：{{realname}}</p>
+      <p class="email">邮箱：{{email}}</p>
+    </div>
+  </div>
+
+  <div class="bar2 bar" v-else-if="identity == 2">
+    <div class="left">
+      <img src="../assets/bk3.jpg" alt=""/>
+      <p class="name">{{user_name}}</p>
+    </div>
+    <div class="right">
+      <div id="tools">
+        <i class="el-icon-user" ></i>
+        <i class="el-icon-minus" @click="cancelmanager()"></i>
+        <i class="el-icon-delete" @click="deletemember()"></i>
+      </div>
+      <p class="id">管理员</p>
+      <p class="realname">真实姓名：{{realname}}</p>
+      <p class="email">邮箱：{{email}}</p>
+    </div>
+  </div>
+
+  <div class="bar1 bar" v-else>
     <div class="left">
       <img src="../assets/bk3.jpg" alt=""/>
       <p class="name">{{user_name}}</p>
     </div>
 
     <div class="right">
-      <div v-if="identity == 3" id="tools">
-        <i class="el-icon-user"></i>
-      </div>
-      <div v-else-if="identity == 2" id="tools">
-        <i class="el-icon-user" ></i>
-        <i class="el-icon-minus" @click="cancelmanager()"></i>
-        <i class="el-icon-delete" @click="deletemember()"></i>
-      </div>
-      <div v-else id="tools">
+      <div id="tools">
         <i class="el-icon-user" ></i>
         <i class="el-icon-plus" @click="tobemanager()"></i>
         <i class="el-icon-delete" @click="deletemember()"></i>
       </div>
-      <p class="id" v-if="identity == 3">团队创始人</p>
-      <p class="id" v-else-if="identity == 2">管理员</p>
-      <p class="id" v-else>成员</p>
+      <p class="id">成员</p>
       <p class="realname">真实姓名：{{realname}}</p>
       <p class="email">邮箱：{{email}}</p>
     </div>
@@ -50,7 +72,7 @@ methods:{
           
            this.$axios({
         method: "post",
-        url: "change_team_member_identitys",
+        url: "app/change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.user_id,
@@ -90,7 +112,7 @@ methods:{
        console.log(this.user_id)
         this.$axios({
         method: "post",
-        url: "change_team_member_identitys",
+        url: "app/change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.user_id,
@@ -131,7 +153,7 @@ methods:{
           
           this.$axios({
         method: "post",
-        url: "del_team_member",
+        url: "app/del_team_member",
         data: qs.stringify({
            team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_del: this.user_id,
@@ -166,11 +188,7 @@ methods:{
 <style scoped>
 
 .bar {
-  /* height: max-content; */
-  /* width: 100%; */
   right: 0;
-  
-  /* background: rgb(255, 255, 255); */
   border:  1px solid rgba(206, 218, 226, 0.536);
   border-radius: 15px;
   margin: 20px;
@@ -179,9 +197,20 @@ methods:{
   align-items: center;
   display: flex;
   transition: 0.5s;
+  color: black;
 }
 .bar:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+}
+.bar1 {
+  background-color: white;
+}
+.bar2 {
+  background-color: rgba(206, 218, 226, 0.29);
+}
+.bar3 {
+  background-color: rgba(95, 123, 143, 0.184);
+  border:  1px solid rgb(85, 103, 116);
 }
 .left {
   /* height: max-content; */
@@ -230,8 +259,8 @@ p {
 }
 
 #tools {
-  background-color: rgb(157, 162, 176);
-  color: rgba(0, 0, 0, 0);
+  background-color: rgba(95, 123, 143, 0.304);
+  /* color: rgb(95, 123, 143) !important; */
   transition: 0.5s;
   height: 0px;
   padding: 0px;
@@ -239,14 +268,17 @@ p {
   border-radius: 5px;
   text-align: center;
 }
+.bar3 #tools {
+  background-color: rgba(253, 253, 253, 0.304);
+}
 .bar:hover #tools{
   height: 40px;
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0); */
   font-size: 30px;
   margin-bottom: 20px;
 }
 .el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
-  color: rgb(247, 239, 239);
+  color: rgb(95, 123, 143);
   border-radius: 5px;
   padding: 0px;
   transition: 0.2s;
@@ -258,7 +290,7 @@ p {
   width: 33%;
 }
 .el-icon-delete:hover {
-  background-color: rgb(120, 52, 52);
+  background-color: rgb(36, 32, 32);
 }
 .el-icon-user:hover {
   background-color: rgb(113, 142, 199);

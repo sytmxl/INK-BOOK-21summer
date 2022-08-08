@@ -20,16 +20,11 @@
 </template>
 
 <script>
-import infoCard from "../../components/infocard.vue";
-import norminfoCard from "../../components/norminfocard.vue";
-import lowerinfoCard from "../../components/lowerinfocard.vue";
+
 import qs from 'qs';
 import Teammate from "@/components/teammate.vue";
 export default {
    components: {
-    infoCard,
-    norminfoCard,
-    lowerinfoCard,
     Teammate
 },
   data(){
@@ -58,7 +53,7 @@ export default {
       init(){
         this.$axios({
         method: "post",
-        url: "get_team_member_list",
+        url: "app/get_team_member_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
         }),
