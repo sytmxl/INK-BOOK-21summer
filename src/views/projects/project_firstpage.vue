@@ -16,7 +16,7 @@ export default {
 
   beforeMount() {
 
-    },
+  },
   components: {
     // topFrame,F
     ProjectAside,
