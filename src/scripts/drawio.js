@@ -249,6 +249,7 @@ DiagramEditor.prototype.stopEditing = function()
         this.setActive(false);
         this.frame = null;
     }
+
 };
 
 /**
@@ -341,64 +342,46 @@ DiagramEditor.prototype.setStatus = function(messageKey, modified)
 /**
  * Handles the given message.
  */
-DiagramEditor.prototype.handleMessage = function(msg)
-{
-    if (msg.event == 'configure')
-    {
+DiagramEditor.prototype.handleMessage = async function (msg) {
+    if (msg.event == 'configure') {
         this.configureEditor();
-    }
-    else if (msg.event == 'init')
-    {
+    } else if (msg.event == 'init') {
         this.initializeEditor();
-    }
-    else if (msg.event == 'autosave')
-    {
+    } else if (msg.event == 'autosave') {
         this.save(msg.xml, true, this.startElement);
-    }
-    else if (msg.event == 'export')
-    {
+    } else if (msg.event == 'export') {
         this.setElementData(this.startElement, msg.data);
         this.stopEditing();
         this.xml = null;
-    }
-    else if (msg.event == 'save')
-    {
+    } else if (msg.event == 'save') {
         this.save(msg.xml, false, this.startElement);
         this.xml = msg.xml;
 
-        if (msg.exit)
-        {
+        if (msg.exit) {
             msg.event = 'exit';
-        }
-        else
-        {
+        } else {
             this.setStatus('allChangesSaved', false);
         }
     }
 
-    if (msg.event == 'exit')
-    {
-        if (this.format != 'xml')
-        {
-            if (this.xml != null)
-            {
-                this.postMessage({action: 'export', format: this.format,
-                    xml: this.xml, spinKey: 'export'});
+    if (msg.event == 'exit') {
+        if (this.format != 'xml') {
+            if (this.xml != null) {
+                await this.postMessage({
+                    action: 'export', format: this.format,
+                    xml: this.xml, spinKey: 'export'
+                });
+            } else {
+                await this.stopEditing(msg);
             }
-            else
-            {
-                this.stopEditing(msg);
-            }
-        }
-        else
-        {
-            if (msg.modified == null || msg.modified)
-            {
-                this.save(msg.xml, false, this.startElement);
+        } else {
+            if (msg.modified == null || msg.modified) {
+                await this.save(msg.xml, false, this.startElement);
             }
 
-            this.stopEditing(msg);
+            await this.stopEditing(msg);
         }
+        await document.getElementById('graphContainer').lastElementChild.remove();
     }
 };
 
@@ -436,7 +419,7 @@ DiagramEditor.prototype.save = function(data, draft, elt)
  */
 DiagramEditor.prototype.done = function()
 {
-    document.getElementById('graphContainer').lastElementChild.remove();
+
 };
 
 /**
