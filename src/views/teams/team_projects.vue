@@ -102,8 +102,9 @@
       <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
-            <i class="el-icon-delete" @click="deleteproject(item.project_id)"></i>
-            <i class="el-icon-edit-outline" @click="information(item)"></i>
+            <i class="el-icon-delete" @click="deleteproject(item.project_id)" title="删除项目"></i>
+            <i class="el-icon-edit-outline" @click="information(item)" title="编辑项目"></i>
+            <i class="el-icon-document-copy" title="复制项目"></i>
           </div>
           
           <h5>{{item.project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(item.project_id)" title="重命名" ></i></h5>
@@ -534,17 +535,17 @@ export default {
   margin-bottom: 20px;
 }
 
-.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick,.el-icon-document-copy {
   color: rgb(247, 239, 239);
   border-radius: 5px;
   padding: 0px;
   transition: 0.2s;
-  width: 30%;
+  width: 25%;
 }
-.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover{
+.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover,.el-icon-document-copy:hover{
   color: rgb(247, 239, 239);
   border-radius: 10px;
-  width: 40%;
+  width: 30%;
 }
 .el-icon-delete:hover {
   background-color: rgb(199, 113, 113);
@@ -552,13 +553,16 @@ export default {
 .el-icon-edit-outline:hover {
   background-color: rgb(113, 142, 199);
 }
+.el-icon-document-copy:hover{
+  background-color: rgb(113, 199, 130);
+}
 .el-icon-document-delete:hover {
   background-color: rgb(199, 113, 113);
 }
 .el-icon-magic-stick:hover {
   background-color: rgb(113, 199, 130);
 }
-.box-card:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+.box-card:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick,.el-icon-document-copy {
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
 }
