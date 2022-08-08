@@ -408,6 +408,9 @@ DiagramEditor.prototype.initializeEditor = function()
     this.setWaiting(false);
     this.setActive(true);
     this.initialized();
+    if(window.stopLoading){
+        window.stopLoading();
+    }
 };
 
 /**

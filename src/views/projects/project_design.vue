@@ -58,7 +58,8 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container v-loading="loading" style="min-height: calc(100vh)">
+    <el-container v-loading="loading" element-loading-background="rgba(255,255,255,1)"
+                  style="min-height: calc(100vh)">
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
           <el-menu-item v-if="inediting == false" class="outside" index="1" @click="dialogVisible = true">
@@ -76,8 +77,8 @@
         </el-menu>
       </div>
       <div class="right">
-        <h1 class="label">所有原型设计</h1>
-        <el-row v-if="PrototypeList.length != 0">
+        <h1 v-if="inediting == false" class="label">所有原型设计</h1>
+        <el-row id="graphContainer" v-if="PrototypeList.length != 0">
           <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-digram :graph_id = "id" :isdel = "viewingDel"
                            v-on:deled = "updateOnDel"
@@ -105,10 +106,18 @@ export default {
   },
   mounted() {
     window.exitEdit = this.exitEdit;
+    window.stopLoading = this.stopLoading;
+    window.startLoading = this.startLoading;
   },
   methods:{
     enterEdit(){
       this.inediting = true;
+    },
+    startLoading(){
+      this.loading = true;
+    },
+    stopLoading(){
+      this.loading = false;
     },
     exitEdit(){
       this.inediting = false;

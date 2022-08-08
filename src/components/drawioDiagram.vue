@@ -79,18 +79,19 @@ export default {
     openDialog(){
       this.$data.dialogVisible = true
     },
-    edit(){
-      drawio.DiagramEditor.editElement(
+    async edit(){
+      await this.$emit('startEdit');
+      if(window.startLoading)  await window.startLoading();
+      await drawio.DiagramEditor.editElement(
           this.$refs.graph, this.$data.configs,
           "kennedy",
           null,
           ['pv=0'],
           this.$props.graph_id);
-      this.$emit('startEdit');
       if(!localStorage.getItem('noTipsOnedit')){
         this.welcomeNotify = this.$notify({
           iconClass: 'el-icon-guide',
-          title: '欢迎！下面有一些使用提示...',
+          title: '欢迎！这里一些使用提示...',
           message: '如果您想查看或不再显示提示，请点击这里',
           position: 'bottom-right',
           duration: 5000,
