@@ -173,7 +173,7 @@ export default {
           this.$message.warning("密码不能为空！");
           return;
         }
-        this.$axios({
+        await this.$axios({
           method: "post" /* 指明请求方式，可以是 get 或 post */,
           url: "app/login" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
           data: qs.stringify({
@@ -183,7 +183,7 @@ export default {
             password: this.form.password,
           }),
         })
-          .then((res) => {
+          .then(async (res) => {
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
@@ -197,8 +197,8 @@ export default {
               var token = {
                 token_num: res.data.data.token
               }
-              this.$store.dispatch("saveuser", user);
-              this.$store.dispatch("savetoken", token);
+              await this.$store.dispatch("saveuser", user);
+              await this.$store.dispatch("savetoken", token);
               localStorage.setItem("saveuser", qs.stringify(user));
               localStorage.setItem("savetoken", qs.stringify(token));
               console.log(user);
@@ -215,9 +215,18 @@ export default {
               //     this.$router.push({ path: history_pth });
               //   }
               // }, 1000);
+              axios.interceptors.request.use(
+                config => {
+                  config.headers['Authorization'] = token
+                  return config;
+                },
+                error => {
+                  return Promise.reject(error);
+                }
+              );
             }
             else {
-              this.$message({
+              await this.$message({
                 message: res.data.msg,
                 center: true,
                 type: "error",
