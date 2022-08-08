@@ -93,7 +93,7 @@ export default {
           title: '欢迎！下面有一些使用提示...',
           message: '如果您想查看或不再显示提示，请点击这里',
           position: 'bottom-right',
-          duration: 0,
+          duration: 5000,
           onClick: this.ifNoMoreTips,
         });
       }
@@ -134,7 +134,7 @@ export default {
           message: this.tips[this.tipNo].content,
           dangerouslyUseHTMLString: true,
           position: 'bottom-right',
-          duration: 5000,
+          duration: 0,
           onClose: this.callNextTip,
         });
       }
