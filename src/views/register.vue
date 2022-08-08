@@ -61,6 +61,7 @@
           <el-button class="btn_register" type="primary" @click="register" round>注&nbsp;册</el-button>
           <el-button class="btn_reset" @click="resetForm('form')" round>重&nbsp;置</el-button>
         </el-form-item>
+        <div class="re" @click="toFirst">返回首页</div>
         <div class="regis" @click="toRegister">已有账号？前去登录</div>
       </el-form>
     </div>
@@ -281,6 +282,9 @@ export default {
     toRegister() {
       this.$router.push({ path: "/login" });
     },
+    toFirst() {
+      this.$router.push({ path: "/" });
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
@@ -378,6 +382,20 @@ export default {
 }
 
 .regis:hover {
+  color: rgb(145, 171, 203);
+  font-size: 15px;
+  padding: 0px 0px 10px 0px;
+}
+
+.re {
+  font-size: 12px;
+  float: left;
+  color: #999;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.re:hover {
   color: rgb(145, 171, 203);
   font-size: 15px;
   padding: 0px 0px 10px 0px;

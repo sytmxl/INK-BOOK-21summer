@@ -85,7 +85,7 @@
         <el-dialog title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" center>
           <el-form ref="password" :model="password" class="password" :hide-required-asterisk="true" :rules="rules">
-            <el-form-item prop="originPassWord" label="请输入旧密码：" >
+            <el-form-item prop="originPassWord" label="请输入旧密码：">
               <el-input prefix-icon="el-icon-lock" placeholder="在此输入旧密码" show-password type="password" clearable
                 v-model="password.originPassWord" autocomplete="off"></el-input>
             </el-form-item>
@@ -211,7 +211,12 @@ export default {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入新密码'));
-      } else {
+      }
+      else if(!/^\w+$/.exec(value) || value.length > 16 || value.length < 8)
+      {
+          callback(new Error('新密码格式错误'));
+      }
+      else {
         if (value === this.password.originPassWord) {
           callback(new Error('新旧密码不能相同'));
         }
@@ -257,9 +262,9 @@ export default {
       },
       rules: {
         originPassWord:
-        [
-          { required: true, message: '请输入旧密码',trigger: 'blur'  }
-        ],
+          [
+            { required: true, message: '请输入旧密码', trigger: 'blur' }
+          ],
         passwordChange: [
           { validator: validatePass, trigger: 'blur' }
         ],
@@ -273,19 +278,50 @@ export default {
     topFrame
   },
   methods: {
-     changePass(formName) {
+    changePass(formName) {
       // 检验数据的可行性
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            console.log('数据有效');
-          } else {
-            console.log('error submit!!');
-            
-            return false;
-          }
-        });
-        // resetForm('password')
-      },
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          console.log('数据有效');
+          this.$axios({
+            method: "post" /* 指明请求方式，可以是 get 或 post */,
+            url: "app/update_password" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+            data: qs.stringify({
+              /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+              pass_word: this.password.passwordChange,
+              old_pass_word: this.password.originPassWord
+            }),
+          })
+            .then((res) => {
+              console.log(res);
+              if (res.data.errno == 0) {
+                this.$message({
+                  // message: res.data.msg,
+                  message: "成功修改密码",
+                  center: true,
+                  type: "success",
+                });
+              } else {
+                this.$message({
+                  message: res.data.msg.concat("，修改失败"),
+                  center: true,
+                  type: "warning",
+                });
+              }
+              this.resetForm('password');
+              this.PasswordChangeDialogVi = false;
+            })
+            .catch((err) => {
+              console.log(err); /* 若出现异常则在终端输出相关信息 */
+            })
+        } else {
+          this.$message.warning("请检查您的输入")
+          console.log('error submit!!');
+          return false;
+        }
+      });
+      // resetForm('password')
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },

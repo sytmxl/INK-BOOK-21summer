@@ -92,6 +92,10 @@ export default {
     methods:{
       logout(){
         sessionStorage.removeItem('team');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('token');
+        localStorage.removeItem('saveuser');
+        localStorage.removeItem('savetoken');
       },
       doSearch()
       {
