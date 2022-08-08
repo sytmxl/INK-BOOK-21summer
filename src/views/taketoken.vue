@@ -1,25 +1,25 @@
 <template>
-    <h1>HELLO!</h1>
+  <h1>HELLO!</h1>
 </template>
 
 <style scoped>
-  .h1{
-    font-size:18px;
-  }
+.h1 {
+  font-size: 18px;
+}
 </style>
 
 <script>
 import qs from 'qs';
 export default {
-  data(){
-    return{
-       str: this.$route.params.id
+  data() {
+    return {
+      str: this.$route.params.id
     }
-  
+
   },
-    methods:{
-        init(){
-        this.$axios({
+  methods: {
+    init() {
+      this.$axios({
         method: "post",
         url: "app/join_team_by_token",
         data: qs.stringify({
@@ -30,27 +30,27 @@ export default {
         .then((res) => {
           console.log(this.str);
           console.log(this.str.length);
-          if(res.data.errno==0){
+          if (res.data.errno == 0) {
             this.$message.success("加入成功");
-            window.location.href="http://43.138.67.29/";
+            window.location.href = "http://43.138.67.29/";
           }
-          else if(res.data.errno==1001){
+          else if (res.data.errno == 1001) {
             this.$message.warning("请登录后重试");
-            window.location.href="http://43.138.67.29/";
+            window.location.href = "http://43.138.67.29/";
           }
-          else if(res.data.errno==2006){
+          else if (res.data.errno == 2006) {
             this.$message.success("你已经加入团队了，无须重复加入");
-            window.location.href="http://43.138.67.29/";
+            window.location.href = "http://43.138.67.29/";
           }
-          
+
         })
         .catch((err) => {
-          console.log(err); 
+          console.log(err);
         });
-        }
-    },
-    mounted(){
-        this.init();
     }
+  },
+  mounted() {
+    this.init();
+  }
 }
 </script>

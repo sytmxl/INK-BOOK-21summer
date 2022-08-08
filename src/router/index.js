@@ -107,7 +107,7 @@ const routes = [{
     component: () =>
         import ('../views/taketoken.vue')
 }, {
-    path: '/forget',
+    path: '/forget/:id',
     name: 'forget',
     component: () =>
         import ('../views/forget.vue')
