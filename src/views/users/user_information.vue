@@ -6,8 +6,16 @@
         <el-col :span="10">
           <img v-if="!imageUrl" class="pic" src="../../assets/bk3.jpg" alt="" />
           <img v-else class="pic" :src="imageUrl" alt="" />
+          <el-upload ref="upload" class="avatar-uploader" accept="JPG, .PNG, .JPEG,.jpg, .png, .jpeg"
+            list-type="picture" :headers="headers" :action="url" :multiple="false" :show-file-list="false"
+            :on-change="handleChange" :http-request="uploadImg" :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <el-button class="left_b" size="mini" type="text" round>修改头像</el-button>
+            <div slot="tip" class="el-upload__tip">
+              （只能上传jpg/png文件,且不超过2MB）
+            </div>
+          </el-upload>
         </el-col>
-
         <el-col :span="11" style="margin-top: -0.5%">
           <el-descriptions :column="3" size="medium" border direction="vertical" title="个人信息">
             <template slot="extra">
@@ -114,7 +122,7 @@
       </el-row>
       <el-divider></el-divider>
       <el-row style="margin: 1% 0.5% 0.5% 0.5%;">
-        <el-tabs v-model="activeName" tab-position="left"  @tab-click="handleClick">
+        <el-tabs v-model="activeName" tab-position="left" @tab-click="handleClick">
           <el-tab-pane label="个人所在团队" name="first">
             <!-- <el-card class="box-card" v-for="item in teamlist">
               <div class="text item name">
@@ -138,17 +146,17 @@
                 {{ item.teamernum }}
               </div>
             </el-card> -->
-            <div class="bar header" >
+            <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
                 <a href="/team_outline" class="goteam">
                   团队名称</a>
               </div>
-              <div class="right"> 
-                <p class="default">团队类型</p> 
-                <p class="default">团队创始人</p> 
-                <p class="default long">创建时间</p> 
-                <p class="default">现有人数</p> 
+              <div class="right">
+                <p class="default">团队类型</p>
+                <p class="default">团队创始人</p>
+                <p class="default long">创建时间</p>
+                <p class="default">现有人数</p>
               </div>
             </div>
             <div class="bar" v-for="item in teamlist">
@@ -157,11 +165,11 @@
                 <a href="/team_outline" class="goteam">
                   {{ item.teamname }}</a>
               </div>
-              <div class="right"> 
-                <p class="default">{{ item.teamtype }}</p> 
-                <p class="default">{{ item.teamsetter }}</p> 
-                <p class="default long">{{ item.teamsettime }}</p> 
-                <p class="default">{{ item.teamernum }}</p> 
+              <div class="right">
+                <p class="default">{{ item.teamtype }}</p>
+                <p class="default">{{ item.teamsetter }}</p>
+                <p class="default long">{{ item.teamsettime }}</p>
+                <p class="default">{{ item.teamernum }}</p>
               </div>
             </div>
 
@@ -191,17 +199,17 @@
                 {{ item.team_id }}
               </div>
             </el-card> -->
-            <div class="bar header" >
+            <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
                 <a href="/team_outline" class="goteam">
                   项目名称</a>
               </div>
-              <div class="right"> 
-                <p class="default">项目编号</p> 
-                <p class="default long">创建时间</p> 
-                <p class="default long">更新时间</p> 
-                <p class="default">所属团队编号</p> 
+              <div class="right">
+                <p class="default">项目编号</p>
+                <p class="default long">创建时间</p>
+                <p class="default long">更新时间</p>
+                <p class="default">所属团队编号</p>
               </div>
             </div>
             <div class="bar" v-for="item in projectlist">
@@ -210,11 +218,11 @@
                 <a href="/team_outline" class="goteam">
                   {{ item.project_name }}</a>
               </div>
-              <div class="right"> 
-                <p class="default">{{ item.project_id }}</p> 
-                <p class="default long">{{ item.create_time }}</p> 
-                <p class="default long">{{ item.update_time }}</p> 
-                <p class="default">{{ item.team_id }}</p> 
+              <div class="right">
+                <p class="default">{{ item.project_id }}</p>
+                <p class="default long">{{ item.create_time }}</p>
+                <p class="default long">{{ item.update_time }}</p>
+                <p class="default">{{ item.team_id }}</p>
               </div>
             </div>
           </el-tab-pane>
@@ -244,17 +252,17 @@
               </div>
             </el-card> -->
 
-            <div class="bar header" >
+            <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
                 <a href="/team_outline" class="goteam">
                   项目名称</a>
               </div>
-              <div class="right"> 
-                <p class="default">项目编号</p> 
-                <p class="default long">创建时间</p> 
-                <p class="default long">更新时间</p> 
-                <p class="default">所属团队编号</p> 
+              <div class="right">
+                <p class="default">项目编号</p>
+                <p class="default long">创建时间</p>
+                <p class="default long">更新时间</p>
+                <p class="default">所属团队编号</p>
               </div>
             </div>
             <div class="bar" v-for="item in reprojectlist">
@@ -263,14 +271,14 @@
                 <a href="/team_outline" class="goteam">
                   {{ item.project_name }}</a>
               </div>
-              <div class="right"> 
-                <p class="default">{{ item.project_id }}</p> 
-                <p class="default long">{{ item.create_time }}</p> 
-                <p class="default long">{{ item.update_time }}</p> 
-                <p class="default">{{ item.team_id }}</p> 
+              <div class="right">
+                <p class="default">{{ item.project_id }}</p>
+                <p class="default long">{{ item.create_time }}</p>
+                <p class="default long">{{ item.update_time }}</p>
+                <p class="default">{{ item.team_id }}</p>
               </div>
             </div>
-            
+
           </el-tab-pane>
           <!-- <el-tab-pane label="已经完成项目" name="third">角色管理</el-tab-pane> -->
         </el-tabs>
@@ -289,9 +297,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入新密码'));
       }
-      else if(!/^\w+$/.exec(value) || value.length > 16 || value.length < 8)
-      {
-          callback(new Error('新密码格式错误'));
+      else if (!/^\w+$/.exec(value) || value.length > 16 || value.length < 8) {
+        callback(new Error('新密码格式错误'));
       }
       else {
         if (value === this.password.originPassWord) {
@@ -930,7 +937,7 @@ export default {
 
 .bar {
   right: 0;
-  border:  1px solid rgba(206, 218, 226, 0.536);
+  border: 1px solid rgba(206, 218, 226, 0.536);
   border-radius: 15px;
   margin: 10px 20px 10px 20px;
   padding: 10px;
@@ -943,6 +950,7 @@ export default {
   background: rgba(206, 207, 217, 0.4);
   height: fit-content;
 }
+
 .bar:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
 }
@@ -953,6 +961,7 @@ export default {
   align-items: center;
   display: flex;
 }
+
 .right {
   height: 40px;
   /* float: right; */
@@ -962,49 +971,58 @@ export default {
   right: 5%;
   overflow: hidden;
 }
-img { 
+
+img {
   width: 50px;
   height: 50px;
   margin: 10px;
   border-radius: 50%;
 }
+
 p {
   display: inline;
   margin: 10px;
   vertical-align: center;
 }
-.default{
+
+.default {
   display: inline-block;
-  white-space: nowrap; 
-  width: 80px; 
+  white-space: nowrap;
+  width: 80px;
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   /* background: rgb(240, 242, 243); */
 }
+
 .default {
   width: 100px;
   height: auto;
   /* word-wrap: break-word; */
 }
+
 .long {
   width: 200px;
 }
+
 .header {
   background: rgb(164, 170, 183);
   color: rgb(255, 255, 255);
   /* border-radius: 5px !important; */
 }
-.bar a{
+
+.bar a {
   /* background: rgb(164, 170, 183); */
   /* color: rgb(255, 255, 255); */
   /* display: sticky; */
   width: 500px;
   text-align: left;
 }
-.header a{
+
+.header a {
   color: rgb(255, 255, 255);
 }
-.el-tabs--left{
+
+.el-tabs--left {
   color: rgb(164, 170, 183) !important;
   /* background: #000; */
   border: rgba(164, 170, 183, 0.403) solid 1px;
@@ -1012,18 +1030,22 @@ p {
   background-color: #ffffff7a;
   padding: 10px 0px;
 }
+
 /* 这里的样式应该只能用/deep/改 */
 /deep/ .el-tabs__item.is-active {
   color: rgb(2, 2, 2);
 }
+
 /deep/ .el-tabs__item:hover {
   color: #75889c;
 }
+
 /deep/ .el-tabs__item {
   color: #909399;
   font-size: 14px;
   font-weight: 500;
 }
+
 /deep/ .el-tabs__active-bar {
   height: 4px;
   border-radius: 2px;
