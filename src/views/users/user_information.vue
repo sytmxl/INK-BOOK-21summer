@@ -24,10 +24,11 @@
                 {{ username }}
                 <div class="CUN" style="font-size:15px"><i class="el-icon-edit" @click="changeUserName()"></i></div>
               </div>
-              <div class="user_name" v-else >
-                    <el-input v-model="new_username" placeholder="请输入新用户名" id="new_user_name" size="mini">
-                    <div class="SUN" slot="suffix" style="font-size:15px"><i  class="el-icon-check  el-input__icon" @click="saveUserName()"></i></div>
-                    </el-input>
+              <div class="user_name" v-else>
+                <el-input v-model="new_username" placeholder="请输入新用户名" id="new_user_name" size="mini">
+                  <div class="SUN" slot="suffix" style="font-size:15px"><i class="el-icon-check  el-input__icon"
+                      @click="saveUserName()"></i></div>
+                </el-input>
               </div>
             </el-descriptions-item>
             <el-descriptions-item>
@@ -42,7 +43,8 @@
               </div>
               <div class="new_real_name" v-else>
                 <el-input v-model="new_real_name" placeholder="请输入新真实姓名" id="new_real_name" size="mini">
-                <div class="SRN" slot="suffix" style="font-size:15px"><i  class="el-icon-check  el-input__icon" @click="saveRealName()"></i></div>
+                  <div class="SRN" slot="suffix" style="font-size:15px"><i class="el-icon-check  el-input__icon"
+                      @click="saveRealName()"></i></div>
                 </el-input>
               </div>
             </el-descriptions-item>
@@ -73,12 +75,43 @@
               </div>
               <div class="new_email" v-else>
                 <el-input v-model="new_word" placeholder="请输入新个性签名" id="new_email" size="mini" maxlength="100">
-                <div slot="suffix" class="SW" style="font-size:15px"><i  class="el-icon-check  el-input__icon" @click="saveWord()"></i></div>
+                  <div slot="suffix" class="SW" style="font-size:15px"><i class="el-icon-check  el-input__icon"
+                      @click="saveWord()"></i></div>
                 </el-input>
               </div>
             </el-descriptions-item>
           </el-descriptions>
         </el-col>
+        <el-dialog title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
+          :close-on-press-escape="false" center>
+          <el-form ref="password" :model="password" class="password" :hide-required-asterisk="true" :rules="rules">
+            <el-form-item prop="originPassWord" label="请输入旧密码：" >
+              <el-input prefix-icon="el-icon-lock" placeholder="在此输入旧密码" show-password type="password" clearable
+                v-model="password.originPassWord" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item prop="passwordChange" label="请输入新密码：">
+              <el-input prefix-icon="el-icon-lock" placeholder="在此输入新密码" show-password type="password" clearable
+                v-model="password.passwordChange" autocomplete="off">
+                <el-dropdown slot="suffix" size="mini" placement="top-start">
+                  <i class="el-icon-warning-outline el-input__icon">
+                  </i>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item disabled>密码仅能由数字、26个英文字母或者下划线组成，长度为8-16位</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="checkpasswordChange" label="请再输入一遍新密码：">
+              <el-input prefix-icon="el-icon-lock" placeholder="再此输入新密码" show-password type="password" clearable
+                v-model="password.checkpasswordChange" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="(PasswordChangeDialogVi = false), resetForm('password')">取消更改</el-button>
+            <el-button type="primary" @click="changePass('password')">确认更改</el-button>
+          </span>
+        </el-dialog>
+
       </el-row>
       <el-divider></el-divider>
       <el-row style="margin: 1% 0.5% 0.5% 0.5%;">
@@ -175,11 +208,33 @@ import topFrame from "../../components/topFrame.vue";
 export default {
   inject: ['reload'],
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入新密码'));
+      } else {
+        if (value === this.password.originPassWord) {
+          callback(new Error('新旧密码不能相同'));
+        }
+        if (this.password.checkpasswordChange !== '') {
+          this.$refs.password.validateField('checkpasswordChange');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入新密码'));
+      } else if (value !== this.password.passwordChange) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
       imageUrl: "",
       activeName: "first",
       username: "",
-      userId:"",
+      userId: "",
       realname: "",
       email: "",
       word: "",
@@ -191,15 +246,49 @@ export default {
       noteditRealName: true,
       noteditUserName: true,
       noteditWord: true,
+      PasswordChangeDialogVi: false,
       teamlist: [],
       projectlist: [],
       reprojectlist: [],
+      password: {
+        originPassWord: "",
+        passwordChange: "",
+        checkpasswordChange: "",
+      },
+      rules: {
+        originPassWord:
+        [
+          { required: true, message: '请输入旧密码',trigger: 'blur'  }
+        ],
+        passwordChange: [
+          { validator: validatePass, trigger: 'blur' }
+        ],
+        checkpasswordChange: [
+          { validator: validatePass2, trigger: 'blur' }
+        ],
+      }
     };
   },
   components: {
     topFrame
   },
   methods: {
+     changePass(formName) {
+      // 检验数据的可行性
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log('数据有效');
+          } else {
+            console.log('error submit!!');
+            
+            return false;
+          }
+        });
+        // resetForm('password')
+      },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     gototeam() {
       this.$message({
         message: "正在跳转团队详细页面",
@@ -212,12 +301,12 @@ export default {
       }, 1000);
     },
     edit() {
-      this.notedit = false;
+      this.PasswordChangeDialogVi = true;
     },
     changeUserName() {
       this.noteditUserName = false;
     },
-    saveUserName(){
+    saveUserName() {
       this.noteditUserName = true;
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
@@ -233,13 +322,13 @@ export default {
         .then((res) => {
           console.log(res);
           if (res.data.errno == 0) {
-              this.$message({
+            this.$message({
               // message: res.data.msg,
               message: "成功修改用户名",
               center: true,
               type: "success",
             });
-            var user={userId:this.userId,username: this.new_username}
+            var user = { userId: this.userId, username: this.new_username }
             this.$store.dispatch("saveuser", user);
           } else {
             this.$message({
@@ -252,14 +341,14 @@ export default {
         .catch((err) => {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         })
-        // this.reload();
-        
-        setTimeout(() => {location.reload()}, 1000);
+      // this.reload();
+
+      setTimeout(() => { location.reload() }, 1000);
     },
     changeRealName() {
       this.noteditRealName = false;
     },
-    saveRealName(){
+    saveRealName() {
       this.noteditRealName = true;
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
@@ -292,12 +381,12 @@ export default {
         .catch((err) => {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
-      setTimeout(() => {location.reload()}, 1000);
+      setTimeout(() => { location.reload() }, 1000);
     },
     changeWord() {
       this.noteditWord = false;
     },
-    saveWord(){
+    saveWord() {
       this.noteditWord = true;
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
@@ -330,7 +419,7 @@ export default {
         .catch((err) => {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
-      setTimeout(() => {location.reload()}, 1000);
+      setTimeout(() => { location.reload() }, 1000);
     },
     // save() {
     //   this.notedit = true;
@@ -702,28 +791,27 @@ export default {
   color: black;
 }
 
-.CUN:hover
-{
-    color:lightskyblue
+.CUN:hover {
+  color: lightskyblue
 }
-.SUN:hover
-{
-    color:lightskyblue
+
+.SUN:hover {
+  color: lightskyblue
 }
-.SW:hover
-{
-    color:lightskyblue
+
+.SW:hover {
+  color: lightskyblue
 }
-.CW:hover
-{
-    color:lightskyblue
+
+.CW:hover {
+  color: lightskyblue
 }
-.SRN:hover
-{
-    color:lightskyblue
+
+.SRN:hover {
+  color: lightskyblue
 }
-.CRN:hover
-{
-    color:lightskyblue
+
+.CRN:hover {
+  color: lightskyblue
 }
 </style>
