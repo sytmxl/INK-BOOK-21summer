@@ -433,7 +433,7 @@ export default {
   border: 2px rgba(121, 167, 213, 0.377) solid;
   border-radius: 20px !important;
   background-color: rgba(121, 167, 213, 0);
-  color: rgba(121, 167, 213, 0.377);
+  color: rgb(255, 255, 255);
   font-size: 20px;
   padding: 1px;
   width: 30%;

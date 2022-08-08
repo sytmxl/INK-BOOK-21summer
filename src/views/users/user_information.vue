@@ -1,7 +1,6 @@
 <template>
   <el-container>
     <topFrame :team="false" :search="false" />
-    <!-- 这里效果是对的 但是不知道为什么报错 可以不用管 -->
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 3.0%; margin-bottom: 5.5%">
         <el-col :span="10">
@@ -117,7 +116,7 @@
       <el-row style="margin: 1% 0.5% 0.5% 0.5%;">
         <el-tabs v-model="activeName" tab-position="left" type="card" @tab-click="handleClick">
           <el-tab-pane label="个人所在团队" name="first">
-            <el-card class="box-card" v-for="item in teamlist">
+            <!-- <el-card class="box-card" v-for="item in teamlist">
               <div class="text item name">
                 <a href="/team_outline" class="goteam"><span class="og">团队名称：</span>
                   {{ item.teamname }}</a>
@@ -138,7 +137,34 @@
                 <span class="og">现有人数：</span>
                 {{ item.teamernum }}
               </div>
-            </el-card>
+            </el-card> -->
+            <div class="bar" >
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  团队名称</a>
+              </div>
+              <div class="right"> 
+                <p class="default">团队类型</p> 
+                <p class="default">团队创始人</p> 
+                <p class="default">创建时间</p> 
+                <p class="default">现有人数</p> 
+              </div>
+            </div>
+            <div class="bar" v-for="item in teamlist">
+              <div class="left">
+                <!-- <img src="../assets/bk3.jpg" alt=""/> -->
+                <a href="/team_outline" class="goteam">
+                  {{ item.teamname }}</a>
+              </div>
+              <div class="right"> 
+                <p class="default">{{ item.teamtype }}</p> 
+                <p class="default">{{ item.teamsetter }}</p> 
+                <p class="default">{{ item.teamsettime }}</p> 
+                <p class="default">{{ item.teamernum }}</p> 
+              </div>
+            </div>
+
           </el-tab-pane>
           <el-tab-pane label="个人所在项目" name="second">
             <el-card class="box-card" v-for="item in projectlist">
@@ -849,5 +875,67 @@ export default {
 
 .CRN:hover {
   color: lightskyblue
+}
+
+.bar {
+  right: 0;
+  border:  1px solid rgba(206, 218, 226, 0.536);
+  border-radius: 15px;
+  margin: 20px;
+  padding: 10px;
+  /* 居中 */
+  align-items: center;
+  display: flex;
+  transition: 0.4s;
+  color: black;
+}
+.bar:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+}
+.bar1 {
+  background-color: white;
+}
+.bar2 {
+  background-color: rgba(206, 218, 226, 0.29);
+}
+.bar3 {
+  background-color: rgba(95, 123, 143, 0.184);
+  border:  1px solid rgb(85, 103, 116);
+}
+.left {
+  /* height: max-content; */
+  /* float: left; */
+  align-items: center;
+  display: flex;
+}
+.right {
+  height: 40px;
+  /* float: right; */
+  align-items: center;
+  /* display: flex; */
+  position: absolute;
+  right: 5%;
+  overflow: hidden;
+}
+img { 
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 50%;
+}
+p {
+  display: inline;
+  margin: 10px;
+  vertical-align: center;
+}
+.default{
+  display: inline-block;
+  white-space: nowrap; 
+  /* width: 80px;  */
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+.default {
+  width: 120px;
 }
 </style>

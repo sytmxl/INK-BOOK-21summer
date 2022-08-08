@@ -48,8 +48,8 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="forgetDialogVisible = false, resetForm('forget')">取 消</el-button>
-            <el-button type="primary"
+            <el-button class="forget" @click="forgetDialogVisible = false, resetForm('forget')">取 消</el-button>
+            <el-button class="forget" type="primary"
               @click="toReset(forget.forget_email)">确 定
             </el-button>
           </span>
@@ -409,5 +409,8 @@ export default {
 }
 .forget {
   width: 40%;
+}
+.el-input {
+  width: 100% !important;
 }
 </style>
