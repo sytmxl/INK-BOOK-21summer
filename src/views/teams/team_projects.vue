@@ -163,7 +163,7 @@ export default {
           console.log(value);
           this.$axios({
         method: "post",
-        url: "rename_project",
+        url: "app/rename_project",
         data: qs.stringify({
           project_id: id,
           project_name: value
@@ -192,7 +192,7 @@ export default {
          
         this.$axios({
         method: "post",
-        url: "create_project",
+        url: "app/create_project",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           project_name: value
@@ -223,7 +223,7 @@ export default {
         
           this.$axios({
         method: "post",
-        url: "del_project",
+        url: "app/del_project",
         data: qs.stringify({
           project_id: id,
         }),
@@ -259,7 +259,7 @@ export default {
       init(){
          this.$axios({
         method: "post",
-        url: "get_project_list",
+        url: "app/get_project_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
         }),

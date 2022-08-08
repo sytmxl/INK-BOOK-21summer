@@ -112,7 +112,7 @@ export default {
          this.$axios({
         method: "post",
         // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
-        url: "create_team",
+        url: "app/create_team",
         data: qs.stringify({
           team_name: this.form.name,
           team_type:this.form.type,
@@ -138,7 +138,7 @@ export default {
       init(){
          this.$axios({
         method: "get",
-        url: "get_team_list",
+        url: "app/get_team_list",
         data: qs.stringify({
         }),
       })

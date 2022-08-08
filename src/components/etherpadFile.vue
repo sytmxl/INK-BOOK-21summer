@@ -92,7 +92,7 @@ export default {
       /*
       this.$axios({
         method: "post" ,
-        url: "update_doc_edit_time" ,
+        url: "app/update_doc_edit_time" ,
         data: qs.stringify({
           doc_id:this.$props.id,
           doc_name:this.$props.title
@@ -108,7 +108,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "del_doc" ,
+          url: "app/del_doc" ,
           data: qs.stringify({
             doc_id:this.$props.id
           }),
@@ -122,7 +122,7 @@ export default {
     modify(){
       this.$axios({
         method: "post" ,
-        url: "rename_doc" ,
+        url: "app/rename_doc" ,
         data: qs.stringify({
           doc_id:this.$props.id,
           doc_name:this.$data.newTitle
@@ -144,7 +144,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: "post" ,
-          url: "permanent_del_doc" ,
+          url: "app/permanent_del_doc" ,
           data: qs.stringify({
             doc_id:this.$props.id
           }),
@@ -160,7 +160,7 @@ export default {
     recover() {
       this.$axios({
         method: "post" ,
-        url: "recycle_doc" ,
+        url: "app/recycle_doc" ,
         data: qs.stringify({
           doc_id:this.$props.id
         }),

@@ -50,7 +50,7 @@ methods:{
           
            this.$axios({
         method: "post",
-        url: "change_team_member_identitys",
+        url: "app/change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.user_id,
@@ -90,7 +90,7 @@ methods:{
        console.log(this.user_id)
         this.$axios({
         method: "post",
-        url: "change_team_member_identitys",
+        url: "app/change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.user_id,
@@ -131,7 +131,7 @@ methods:{
           
           this.$axios({
         method: "post",
-        url: "del_team_member",
+        url: "app/del_team_member",
         data: qs.stringify({
            team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_del: this.user_id,
@@ -173,6 +173,7 @@ methods:{
   /* background: rgb(255, 255, 255); */
   border:  1px solid rgba(206, 218, 226, 0.536);
   border-radius: 15px;
+  
   margin: 20px;
   padding: 10px;
   /* 居中 */
@@ -258,7 +259,7 @@ p {
   width: 33%;
 }
 .el-icon-delete:hover {
-  background-color: rgb(120, 52, 52);
+  background-color: rgb(36, 32, 32);
 }
 .el-icon-user:hover {
   background-color: rgb(113, 142, 199);

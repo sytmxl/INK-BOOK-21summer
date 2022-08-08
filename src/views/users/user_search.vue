@@ -119,7 +119,7 @@ export default {
     invite(user_name){
       this.$axios({
         method: "post",
-        url: "generate_invite_link",
+        url: "app/generate_invite_link",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           invite_method: 'email',
@@ -136,7 +136,7 @@ export default {
     init() {
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
-        url: "search_user_by_username" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "app/search_user_by_username" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
         // headers:{
         //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
         // }
@@ -179,7 +179,7 @@ export default {
 
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
-        url: "search_team_by_teamname" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
+        url: "app/search_team_by_teamname" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
         // headers:{
         //   'authorization':JSON.parse(sessionStorage.getItem("token")).token_num
         // }

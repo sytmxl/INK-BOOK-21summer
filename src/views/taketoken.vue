@@ -21,7 +21,7 @@ export default {
         init(){
         this.$axios({
         method: "post",
-        url: "join_team_by_token",
+        url: "app/join_team_by_token",
         data: qs.stringify({
           // token: this.str.toString().split('localhost/')[1]
           token: this.str

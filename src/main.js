@@ -8,7 +8,7 @@ import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios)
 import 'element-ui/lib/theme-chalk/index.css'
 
-axios.defaults.baseURL = "http://43.138.67.29/app/";
+axios.defaults.baseURL = "http://43.138.67.29/";
 // axios.defaults.baseURL = "http://127.0.0.1:8000/app/";
 axios.interceptors.request.use(
     config => {
