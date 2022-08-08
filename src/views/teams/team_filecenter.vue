@@ -27,19 +27,7 @@
                   :allow-drop="allowDrop"
                   :allow-drag="allowDrag">
                 <span class="custom-tree-node" slot-scope="{ node, data }">
-                  <span>{{ node.label }}</span>
-                  <span>
-                    <el-button v-if="data.depth>=3"
-                      type="text"
-                      @click="() => append(data)">
-                      <i class='el-icon-circle-plus-outline'></i>
-                    </el-button>
-                    <el-button v-if="data.depth>=3"
-                      type="text"
-                      @click="() => remove(node, data)">
-                      <i class='el-icon-remove-outline'></i>
-                    </el-button>
-                  </span>
+                  <span @contextmenu.prevent="show($event,data,node)">{{ node.label }}</span>
                 </span>
             </el-tree>
         </div>
@@ -150,7 +138,11 @@ section{
 </style>
 
 <script>
+import Vue from 'vue';
+import Contextmenu from "vue-contextmenujs";
+Vue.use(Contextmenu);
 export default {
+
     data(){
         return{
               filterText:'',
@@ -208,7 +200,36 @@ export default {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
+      show(event,data,node){
+         this.$contextmenu({
+        items: [
+          {
+            label: "新建",
+            divided: true,
+            minWidth: 0,
+            children: [{ label: "新建子文件夹",onClick:() =>this.append(data)}, { label: "新建子文件",onClick:() =>this.append(data)}]
+          },
+          { label: "打开", disabled: true },
+          { label: "另存为(A)..." },
+          
+          
+          { label: "复制" },
+          { label: "重命名" },
+          {
+            label: "删除",
+            minWidth: 0,
+            onClick:() => this.remove(node, data)
+          },
+        ],
+        event, // 鼠标事件信息
+        customClass: "custom-class", // 自定义菜单 class
+        zIndex: 3, // 菜单样式 z-index
+        minWidth: 230 // 主菜单最小宽度
+      });
+      return false;
+    }
 
+         
 
     },
      watch: {
