@@ -342,7 +342,7 @@ DiagramEditor.prototype.setStatus = function(messageKey, modified)
 /**
  * Handles the given message.
  */
-DiagramEditor.prototype.handleMessage = async function (msg) {
+DiagramEditor.prototype.handleMessage = function (msg) {
     if (msg.event == 'configure') {
         this.configureEditor();
     } else if (msg.event == 'init') {
@@ -367,21 +367,22 @@ DiagramEditor.prototype.handleMessage = async function (msg) {
     if (msg.event == 'exit') {
         if (this.format != 'xml') {
             if (this.xml != null) {
-                await this.postMessage({
+                this.postMessage({
                     action: 'export', format: this.format,
                     xml: this.xml, spinKey: 'export'
                 });
             } else {
-                await this.stopEditing(msg);
+                this.stopEditing(msg);
             }
         } else {
             if (msg.modified == null || msg.modified) {
-                await this.save(msg.xml, false, this.startElement);
+                this.save(msg.xml, false, this.startElement);
             }
 
-            await this.stopEditing(msg);
+            this.stopEditing(msg);
         }
-        await document.getElementById('graphContainer').lastElementChild.remove();
+
+        document.getElementById('graphContainer').lastElementChild.remove();
     }
 };
 
@@ -411,6 +412,15 @@ DiagramEditor.prototype.initializeEditor = function()
  */
 DiagramEditor.prototype.save = function(data, draft, elt)
 {
+    axios({
+            method: "post" ,
+            url: "update_graph_data" ,
+            data:qs.stringify({
+                graph_id:this.graph_id,
+                graph_data:data
+            })
+        }
+    ).then(r => {})
     this.done(data, draft, elt);
 };
 
