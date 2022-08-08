@@ -179,11 +179,11 @@ DiagramEditor.prototype.startEditing = function(data, format, title)
         this.format = (format != null) ? format : this.format;
         this.title = (title != null) ? title : this.title;
         this.data = data;
-
+        //TODO 在这里将编辑器的加载改为嵌入式
         this.frame = this.createFrame(
             this.getFrameUrl(),
             this.getFrameStyle());
-        document.body.appendChild(this.frame);
+        document.getElementById('graph').body.appendChild(this.frame);
         this.setWaiting(true);
     }
 };

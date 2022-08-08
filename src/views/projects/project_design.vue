@@ -58,7 +58,7 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container>
+    <el-container v-if="inediting == false">
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
@@ -83,6 +83,7 @@
         </el-row>
       </div>
     </el-container>
+    <el-container id="graph" v-if="inediting == true"/>
   </div>
 </template>
 
@@ -188,6 +189,7 @@ export default {
       viewingDel:"0",
       PrototypeList:[],
       template: 1,
+      inediting: false,
       template_options: [{
         value: 0,
         label: '空白模板',
