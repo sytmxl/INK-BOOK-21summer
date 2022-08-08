@@ -50,7 +50,7 @@ methods:{
           
            this.$axios({
         method: "post",
-        url: "change_team_member_identitys",
+        url: "app/change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.user_id,
@@ -90,7 +90,7 @@ methods:{
        console.log(this.user_id)
         this.$axios({
         method: "post",
-        url: "change_team_member_identitys",
+        url: "app/change_team_member_identitys",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_change: this.user_id,
@@ -131,7 +131,7 @@ methods:{
           
           this.$axios({
         method: "post",
-        url: "del_team_member",
+        url: "app/del_team_member",
         data: qs.stringify({
            team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           user_id_to_del: this.user_id,

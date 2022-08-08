@@ -176,7 +176,7 @@ export default {
          this.$axios({
         method: "post",
         // headers: { "authorization": JSON.parse(sessionStorage.getItem('token')) },
-        url: "get_project_list",
+        url: "app/get_project_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
         }),
@@ -198,7 +198,7 @@ export default {
           
           this.$axios({
         method: "post",
-        url: "recycle_project",
+        url: "app/recycle_project",
         data: qs.stringify({
           project_id: id,
         }),
@@ -234,7 +234,7 @@ export default {
           
           this.$axios({
              method: "post",
-             url: "permanent_del_project",
+             url: "app/permanent_del_project",
              data: qs.stringify({
                project_id: id,
              }),

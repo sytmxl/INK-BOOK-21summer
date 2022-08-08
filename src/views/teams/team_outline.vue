@@ -101,7 +101,7 @@ export default {
 
        this.$axios({
         method: "post",
-        url: "update_team_info",
+        url: "app/update_team_info",
         data: qs.stringify({
           team_id: this.teamid,
           team_info: this.teamintro,
@@ -132,7 +132,7 @@ export default {
         this.dialogVisible0 = false;
           this.$axios({
         method: "post",
-        url: "rename_team",
+        url: "app/rename_team",
         data: qs.stringify({
           team_id: this.teamid,
           team_name: this.teamname,
@@ -160,7 +160,7 @@ export default {
       init(){
         this.$axios({
         method: "get",
-        url: "get_team_list",
+        url: "app/get_team_list",
         data: qs.stringify({
         }),
       })

@@ -104,12 +104,12 @@ export default {
       
 this.axios({
   method:"get",
-  url:"1/getReadOnlyID?apikey=0abad2e8c7dfc59da85f7ee7b716d839f312f484dd2ddac790907f7364f31639",
+  url: "api/1/getReadOnlyID?apikey=0abad2e8c7dfc59da85f7ee7b716d839f312f484dd2ddac790907f7364f31639",
   data:{}
 })
       this.$axios({
         method: "post" ,
-        url: "get_doc_list" ,
+        url: "app/get_doc_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
         }),
@@ -130,7 +130,7 @@ this.axios({
       }
       await this.$axios({
         method: "post" ,
-        url: "create_doc" ,
+        url: "app/create_doc" ,
         data: qs.stringify({
           doc_name : this.$data.newDocName,
           project_id : this.$data.project_id,

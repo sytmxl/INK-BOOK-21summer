@@ -114,7 +114,7 @@ export default {
     get_list(del){
       this.$axios({
         method: "post" ,
-        url: "get_graph_list" ,
+        url: "app/get_graph_list" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
           type:1,
@@ -143,7 +143,7 @@ export default {
       this.closeDialog();
       await this.$axios({
         method: "post" ,
-        url: "new_graph" ,
+        url: "app/new_graph" ,
         data: qs.stringify({
           project_id:this.$data.project_id,
           graph_type:1,
@@ -153,7 +153,7 @@ export default {
         newid = res.data.data.graph_id
         await this.$axios({
           method: "post",
-          url: "modify_graph",
+          url: "app/modify_graph",
           data: qs.stringify({
             graph_id: newid,
             graph_name: this.$data.newHeader,
@@ -162,7 +162,7 @@ export default {
         })
         await this.$axios({
           method: "post",
-          url: "update_graph_data",
+          url: "app/update_graph_data",
           data: qs.stringify({
             graph_id: newid,
             graph_data: this.$data.template_options[this.$data.template].preview

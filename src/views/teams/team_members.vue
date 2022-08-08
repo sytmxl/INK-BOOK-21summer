@@ -58,7 +58,7 @@ export default {
       init(){
         this.$axios({
         method: "post",
-        url: "get_team_member_list",
+        url: "app/get_team_member_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
         }),
