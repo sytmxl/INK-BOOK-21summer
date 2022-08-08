@@ -6,7 +6,7 @@
       <i class="el-icon-plus" style="font-size:20px" @click="addmember()" title="添加新成员"></i>
     </div>
     <Teammate v-for="item in team_member_list" 
-      :key="item"  :identity="item.identitys" :user_name="item.user_name"
+      :key="item"  :identity="item.identitys" :user_name="item.user_name" :user_id="item.user_id"
       :realname="item.real_name" :email="item.email"/>
   </div>
  <div class="chooseteam" v-else>
