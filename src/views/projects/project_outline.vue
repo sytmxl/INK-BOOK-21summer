@@ -12,42 +12,55 @@
         </el-card>
       </el-col>
     </el-row>
+
     <el-card shadow="never">
       <el-row>
         <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期原型图</h1>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="PrototypeList.length != 0">
         <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
           <drawio-digram v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
         </el-col>
       </el-row>
+      <el-row v-else>
+        <el-empty :image-size="100"></el-empty>
+      </el-row>
     </el-card>
+
     <el-card shadow="never">
       <el-row>
         <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
         </el-col>
-        <el-row>
-          <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
-          </el-col>
-        </el-row>
+      </el-row>
+      <el-row v-if="UMLList.length != 0">
+        <el-col :span="9" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+          <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
+        </el-col>
+      </el-row>
+      <el-row v-else>
+        <el-empty :image-size="100"></el-empty>
       </el-row>
     </el-card>
+
     <el-card shadow="never">
       <el-row>
         <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期文档</h1>
         </el-col>
       </el-row>
-      <el-row >
+
+      <el-row v-if="doc_list.length != 0">
         <el-col :span="7" v-for="item in doc_list">
           <EtherpadFile v-on:deled = "get_doc_list"
                         :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"
           />
         </el-col>
+      </el-row>
+      <el-row v-else>
+        <el-empty :image-size="100"></el-empty>
       </el-row>
     </el-card>
   </div>
@@ -150,6 +163,9 @@ export default {
   margin-left: 2.5%;
   margin-right: 2.5%;
   margin-top: 1%;
+}
+.el-empty {
+  padding: 0;
 }
 
 </style>

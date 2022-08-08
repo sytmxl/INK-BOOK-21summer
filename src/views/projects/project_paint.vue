@@ -76,10 +76,13 @@
         </el-menu>
       </div>
       <div class="right">
-        <el-row>
+        <el-row v-if="UMLList.length != 0">
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-digram :graph_id = "id" :isdel = "viewingDel" v-on:deled = "updateOnDel"/>
           </el-col>
+        </el-row>
+        <el-row v-else>
+          <el-empty :image-size="200"></el-empty>
         </el-row>
       </div>
     </el-container>
@@ -229,6 +232,7 @@ export default {
 }
 .right {
   margin-left: 80px;
+  width: 100%;
 }
 .el-menu-vertical-demo {
   float: top;
