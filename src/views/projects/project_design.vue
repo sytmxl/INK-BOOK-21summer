@@ -58,7 +58,7 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container v-if="inediting == false">
+    <el-container id="graphContainer">
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
@@ -78,12 +78,14 @@
       <div class="right">
         <el-row>
           <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram :graph_id = "id" :isdel = "viewingDel" v-on:deled = "updateOnDel"/>
+            <drawio-digram :graph_id = "id" :isdel = "viewingDel"
+                           v-on:deled = "updateOnDel"
+                           v-on:startEdit = "enterEdit"
+            />
           </el-col>
         </el-row>
       </div>
     </el-container>
-    <el-container id="graph" v-if="inediting == true"/>
   </div>
 </template>
 
@@ -98,6 +100,9 @@ export default {
     this.get_list("0");
   },
   methods:{
+    enterEdit(){
+      this.inediting = true;
+    },
     updateOnDel(){
       this.get_list(this.$data.viewingDel);
     },

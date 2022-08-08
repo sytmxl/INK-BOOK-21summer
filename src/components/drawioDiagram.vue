@@ -86,6 +86,42 @@ export default {
           null,
           ['pv=0'],
           this.$props.graph_id);
+      this.$emit('startEdit');
+      if(!localStorage.getItem('noTipsOnedit')){
+        this.$notify({
+          iconClass: 'el-icon-guide',
+          title: '欢迎！下面有一些使用提示...',
+          message: '如果您想查看或不再显示提示，请点击这里',
+          position: 'bottom-right',
+          duration: 0,
+          onClick: this.ifNoMoreTips,
+        });
+      }
+    },
+    ifNoMoreTips(){
+      this.$confirm('您是否要看看这些提示？', '', {
+        confirmButtonText: '看一看',
+        cancelButtonText: '不再显示',
+        iconClass:'el-icon-question'
+      }).then(() => {
+        this.getTips();
+      }).catch(()=>{
+        this.$message({
+          type: 'info',
+          message: '在您的localstorage被清除前提示会被隐藏'
+        });
+      });
+    },
+    getTips(){
+      this.$notify({
+        iconClass: 'el-icon-guide',
+        title: '基本的导航',
+        message: '按住鼠标中键来拖动画布，使用滚轮缩放画布',
+        position: 'bottom-right',
+        duration: 0,
+        onClose: this.ifNoMoreTips,
+        onClick: this.getTips,
+      });
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
