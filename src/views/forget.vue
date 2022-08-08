@@ -97,7 +97,9 @@ export default {
               console.log(this.str.length);
               if (res.data.errno == 0) {
                 this.$message.success("成功重设您的密码，将跳转至登录页面");
-                this.$router.push({ path: 'login' });
+                setTimeout(() => {
+                  this.$router.push({ name: 'login' });
+              }, 2000);
               }
               else {
                 this.$message({
