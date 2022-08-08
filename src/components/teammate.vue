@@ -172,6 +172,7 @@ methods:{
   /* background: rgb(255, 255, 255); */
   border:  1px solid rgba(206, 218, 226, 0.536);
   border-radius: 15px;
+  
   margin: 20px;
   padding: 10px;
   /* 居中 */
@@ -257,7 +258,7 @@ p {
   width: 33%;
 }
 .el-icon-delete:hover {
-  background-color: rgb(120, 52, 52);
+  background-color: rgb(36, 32, 32);
 }
 .el-icon-user:hover {
   background-color: rgb(113, 142, 199);
