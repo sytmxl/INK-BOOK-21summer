@@ -76,10 +76,14 @@
         </el-menu>
       </div>
       <div class="right">
-        <el-row>
+        <h1 class="label">所有UML图</h1>
+        <el-row v-if="UMLList.length != 0">
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-digram :graph_id = "id" :isdel = "viewingDel" v-on:deled = "updateOnDel"/>
           </el-col>
+        </el-row>
+        <el-row v-else>
+          <el-empty :image-size="200"></el-empty>
         </el-row>
       </div>
     </el-container>
@@ -229,6 +233,7 @@ export default {
 }
 .right {
   margin-left: 80px;
+  width: 100%;
 }
 .el-menu-vertical-demo {
   float: top;
@@ -257,5 +262,13 @@ export default {
   border: 5px;
   border-radius: 90px;
   background-color: rgba(150, 169, 183, 0.422) !important;
+}
+.label {
+  margin: 30px 0px 0px 50px;
+  font-size: 50px;
+  /* float: left; */
+  width: 100%;
+  color: rgb(114, 132, 145); 
+  text-align: left;
 }
 </style>
