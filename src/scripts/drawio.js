@@ -144,6 +144,8 @@ DiagramEditor.prototype.getElementData = function(elem)
 DiagramEditor.prototype.setElementData = function(elem, data)
 {
     var name = elem.nodeName.toLowerCase();
+    console.log("!")
+    console.log(data)
     axios({
             method: "post" ,
             url: "app/update_graph_data" ,
@@ -152,7 +154,8 @@ DiagramEditor.prototype.setElementData = function(elem, data)
                 graph_data:data
             })
         }
-    ).then(r => {})
+    ).then(r => {});
+
     if (name == 'svg')
     {
         elem.outerHTML = atob(data.substring(data.indexOf(',') + 1));
@@ -245,11 +248,10 @@ DiagramEditor.prototype.stopEditing = function()
     if (this.frame != null)
     {
         window.removeEventListener('message', this.handleMessageEvent);
-        document.body.removeChild(this.frame);
+        document.getElementById('graphContainer').removeChild(this.frame);
         this.setActive(false);
         this.frame = null;
     }
-
 };
 
 /**
@@ -382,7 +384,6 @@ DiagramEditor.prototype.handleMessage = function (msg) {
             this.stopEditing(msg);
         }
 
-        document.getElementById('graphContainer').lastElementChild.remove();
     }
 };
 
