@@ -5,7 +5,7 @@
       INK BOOK
     </div>
     <div class="kuang">
-      <p>找回您的密码</p>
+      <p>重设您的密码</p>
       <el-form ref="form" :model="form" class="form" :rules="rules">
         <el-form-item id="password1" prop="password1">
           <el-input prefix-icon="el-icon-lock" placeholder="请输入新密码" show-password type="password" clearable
@@ -21,10 +21,10 @@
         </el-form-item>
         <el-form-item id="password2" prop="password2">
           <el-input prefix-icon="el-icon-lock" placeholder="请确认新密码" show-password type="password" clearable
-            v-model="form.password2" autocomplete="off" ></el-input>
+            v-model="form.password2" autocomplete="off"></el-input>
         </el-form-item>
         <div class="regis">
-          <el-button class="btn_login" type="primary" @click="findPass()" round>找回</el-button>
+          <el-button class="btn_login" type="primary" @click="findPass('form')" round>保存</el-button>
         </div>
       </el-form>
     </div>
@@ -63,6 +63,7 @@ export default {
       }
     };
     return {
+      str: this.$route.params.id,
       form: {
         password1: "",
         password2: "",
@@ -78,14 +79,41 @@ export default {
     };
   },
   methods: {
-    submitForm(formName) {
+    findPass(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           console.log("忘记成功");
-
+          this.$axios({
+            method: "post",
+            url: "app/forget_by_token",
+            data: qs.stringify({
+              // token: this.str.toString().split('localhost/')[1]
+              token: this.str,
+              pass_word:this.form.password1
+            }),
+          })
+            .then((res) => {
+              console.log(this.str);
+              console.log(this.str.length);
+              if (res.data.errno == 0) {
+                this.$message.success("成功重设您的密码，将跳转至登录页面");
+                this.$router.push({ path: 'login' });
+              }
+              else {
+                this.$message({
+                message: res.data.msg,
+                center: true,
+                type: "error",
+              });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
         else {
           console.log("error submit!!");
+          this.$message.warning("请检查您的输入")
           return false;
         }
       });
@@ -232,5 +260,4 @@ export default {
 
   font-size: 20px;
 }
-
 </style>
