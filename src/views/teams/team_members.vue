@@ -20,16 +20,11 @@
 </template>
 
 <script>
-import infoCard from "../../components/infocard.vue";
-import norminfoCard from "../../components/norminfocard.vue";
-import lowerinfoCard from "../../components/lowerinfocard.vue";
+
 import qs from 'qs';
 import Teammate from "@/components/teammate.vue";
 export default {
    components: {
-    infoCard,
-    norminfoCard,
-    lowerinfoCard,
     Teammate
 },
   data(){

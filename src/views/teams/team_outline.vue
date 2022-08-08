@@ -49,7 +49,7 @@
               <el-card class="box-card2">
                 <div  class="text item introduce">
                   <span class="og">团队简介：<i class="el-icon-edit" style="font-size:20px" @click="dialogVisible = true" title="修改简介"></i></span>
-                  <p style="text-indent:2em;font-weight:500">{{teamintro}}</p>
+                  <p style="margin-top: 10px;word-wrap: break-word;font-weight: 400;">{{teamintro}}</p>
                 </div>
                 <el-dialog
                   title="修改简介"
@@ -201,7 +201,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .main{
   width: 100%;
   text-align: left;
@@ -209,89 +208,92 @@ export default {
 .content .el-icon-edit{
   float: right;
 }
-  .teamname{
-    height: 150px;
-    width: 100%;
-    background: linear-gradient(270.6deg, #e3f6fd -8.4%, #f6faff 100%);
-    font-size: 36px;
-    color: black;
-    text-align: left;
-    line-height: 60px;
-    border-radius: 10px;
-  }
-  .teamname h1{
-    margin-left: 50px;
-    margin-top: 20px;
-  }
-  .chooseteam{
-    position: absolute;
-    left: 0;
-    right: 0;
-  }
-  .el-icon-edit:hover{
-    cursor: pointer;
-  }
+.teamname{
+  height: 150px;
+  width: 100%;
+  background: linear-gradient(270.6deg, #e3f6fd -8.4%, #f6faff 100%);
+  font-size: 36px;
+  color: black;
+  text-align: left;
+  line-height: 60px;
+  border-radius: 10px;
+}
+.teamname h1{
+  margin-left: 50px;
+  margin-top: 20px;
+}
+.chooseteam{
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.el-icon-edit:hover{
+  cursor: pointer;
+}
 
-  .content{
-    margin-top: 100px;
-  }
-   .text {
-    font-size: 20px;
-  }
+.content{
+  margin-top: 100px;
+}
+  .text {
+  font-size: 20px;
+}
 
-  .item {
-    padding: 18px 0;
-  }
+.item {
+  padding: 18px 0;
+}
 
-  .box-card {
-    width: 550px;
-    height: 350px;
-    float: left;
-    margin-left: 50px;
-    border-radius: 15px;
-    text-align: left;
-    
-  }
-  .box-card .og{
-    font-weight: bold;
-  }
-    .box-card2 {
-    width: 550px;
-    height: 350px;
-    float: right;
-    margin-right: 50px;
-    border-radius: 15px;
-    text-align: left;
-    font-weight: bold;
-  }
-  .box-card2 .og{
-    font-weight: bold;
-  }
-  .el-icon-edit{
-    height: 30px;
-    width:38px;
-    border-radius: 10px;
-    
-    /* background: linear-gradient(270.6deg, #cbcddb06 -8.4%, rgba(150, 169, 183, 0.422) 100%); */
-    background-color: rgb(206, 218, 226);
-    
-    color: black;
-    text-align: center;
-    
-    overflow: hidden;
-    transition: 0.2s;
-    padding-top: 8px;
-  }
-  .el-icon-edit:hover {
-    border-radius: 50%;
-
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
-  }
-  .label {
-    margin: 30px 0px 50px 30px;
-    font-size: 50px;
-    float: left;
-    width: 100%;
-    color: rgb(114, 132, 145); 
-  }
+.box-card {
+  width: 550px;
+  height: 350px;
+  float: left;
+  margin-left: 50px;
+  border-radius: 15px;
+  text-align: left;
+  
+}
+.box-card .og{
+  font-weight: bold;
+}
+  .box-card2 {
+  width: 550px;
+  height: 350px;
+  float: right;
+  margin-right: 50px;
+  border-radius: 15px;
+  text-align: left;
+  font-weight: bold;
+}
+.box-card2 .og{
+  font-weight: bold;
+}
+.el-icon-edit{
+  height: 30px;
+  width:38px;
+  border-radius: 10px;
+  
+  /* background: linear-gradient(270.6deg, #cbcddb06 -8.4%, rgba(150, 169, 183, 0.422) 100%); */
+  background-color: rgb(206, 218, 226);
+  
+  color: black;
+  text-align: center;
+  
+  overflow: hidden;
+  transition: 0.2s;
+  padding-top: 8px;
+  /* position: absolute; */
+}
+.el-icon-edit:hover {
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+}
+.label {
+  margin: 30px 0px 50px 30px;
+  font-size: 50px;
+  float: left;
+  width: 100%;
+  color: rgb(114, 132, 145); 
+}
+</style>
+<style>
+  
 </style>

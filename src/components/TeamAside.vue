@@ -71,6 +71,12 @@ export default {
           label: "回收站",
           icon: "delete",
         },
+         {
+        path: '/team_filecenter',
+        name: 'team_filecenter',
+        label: "文档中心",
+        icon: "folder"
+        }
       ],
     };
   },
@@ -116,7 +122,7 @@ export default {
   height: min-content;
   width: 184px;
   background-color: aliceblue;
-  transition: 0.5s;
+  transition: 0.4s;
   z-index: 1;
   text-align: left;
 }
@@ -137,7 +143,7 @@ export default {
 }
 .el-menu-item:focus {
   background-color: rgb(150, 169, 183) !important;
-  transition: 0.5s;
+  transition: 0.4s;
   color: rgb(255, 255, 255) !important;
   z-index: 1;
 }

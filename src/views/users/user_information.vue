@@ -803,7 +803,7 @@ export default {
   background-color: rgb(206, 218, 226);
   border-color: rgb(206, 218, 226);
   color: black;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .el-button:hover {

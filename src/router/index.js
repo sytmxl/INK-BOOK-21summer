@@ -44,6 +44,16 @@ const routes = [{
         name: 'team_dustbin',
         component: () =>
             import ('../views/teams/team_dustbin.vue'),
+    }, {
+        path: '/team_filecenter',
+        name: 'team_filecenter',
+        component: () =>
+            import ('../views/teams/team_filecenter.vue'),
+    }, {
+        path: '/team_text',
+        name: 'team_text',
+        component: () =>
+            import ('../views/teams/team_text.vue'),
     }]
 }, {
     path: '/project_firstpage',

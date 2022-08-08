@@ -325,7 +325,7 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  transition: 0.5s;
+  transition: 0.4s;
 
   backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
@@ -378,7 +378,7 @@ export default {
   float: right;
   color: #999;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.4s;
 }
 
 .regis:hover {
@@ -407,7 +407,7 @@ export default {
   background-color: rgba(121, 167, 213, 0.73);
   font-size: 20px;
   width: 30%;
-  transition: 0.5s !important;
+  transition: 0.4s !important;
 }
 
 .el-button:not(.send):hover {
@@ -437,7 +437,7 @@ export default {
   font-size: 20px;
   padding: 1px;
   width: 30%;
-  transition: 0.5s !important;
+  transition: 0.4s !important;
 }
 
 .send:hover {
