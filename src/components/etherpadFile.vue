@@ -229,7 +229,7 @@ export default {
 #toolsRecycle {
   background-color: rgb(157, 162, 176);
   color: rgba(0, 0, 0, 0);
-  transition: 0.5s;
+  transition: 0.4s;
   height: 0px;
   padding: 0px;
   font-size: 0px;
@@ -238,7 +238,7 @@ export default {
 #tools {
   background-color: rgb(157, 162, 176);
   color: rgba(0, 0, 0, 0);
-  transition: 0.5s;
+  transition: 0.4s;
   height: 0px;
   padding: 0px;
   font-size: 0px;

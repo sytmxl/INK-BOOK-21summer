@@ -180,14 +180,14 @@ this.axios({
   margin-top: 0%;
 }
 .inside {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .inside:hover {
   margin: 15px 10px 8px 10px;
   border-radius: 15px;
 }
 .outside {
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .outside:hover {
   margin: 15px 0px 15px 5px;

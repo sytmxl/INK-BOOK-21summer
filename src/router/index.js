@@ -101,11 +101,16 @@ const routes = [{
     name: 'test',
     component: () =>
         import ('../views/testpage.vue')
-},{
+}, {
     path: '/taketoken/:id',
     name: 'taketoken',
     component: () =>
         import ('../views/taketoken.vue')
+}, {
+    path: '/forget',
+    name: 'forget',
+    component: () =>
+        import ('../views/forget.vue')
 }]
 
 const router = new VueRouter({

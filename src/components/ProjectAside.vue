@@ -113,7 +113,7 @@ export default {
   height: min-content;
   width: 184px;
   /* background-color: rgb(247, 250, 252) !important; */
-  transition: 0.5s;
+  transition: 0.4s;
   text-align: left;
   z-index: 0;
 }
@@ -128,7 +128,7 @@ export default {
 }
 .el-menu-item:focus {
   background-color: rgb(150, 169, 183) !important;
-  transition: 0.5s;
+  transition: 0.4s;
   color: rgb(255, 255, 255) !important;
   z-index: 1;
 }
@@ -155,7 +155,7 @@ export default {
   margin: 20px 0px 0px 30px;
   color: rgb(45, 52, 57);
   /* colorgb(5, 5, 6)55); */
-  transition: 0.5s;
+  transition: 0.4s;
 }
 .title:hover {
   font-size: 50px;
@@ -173,7 +173,7 @@ export default {
 }
 .back {
   font-size: 0px;
-  transition: 0.5s;
+  transition: 0.4s;
   float: left;
 }
 .title:hover .back{

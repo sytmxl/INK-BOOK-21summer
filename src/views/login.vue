@@ -8,84 +8,49 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="邮箱登录" name="first">
           <el-form ref="form" :model="form" class="form">
-            <el-form-item
-              prop="email"
-              :rules="[{ required: true, message: '邮箱不能为空' }]"
-            >
-              <el-input
-                v-model="form.email"
-                placeholder="请输入您的邮箱"
-                type="email"
-                autocomplete="off"
-                clearable
-                prefix-icon="el-icon-postcard"
-              ></el-input>
+            <el-form-item prop="email" :rules="[{ required: true, message: '邮箱不能为空' }]">
+              <el-input v-model="form.email" placeholder="请输入您的邮箱" type="email" autocomplete="off" clearable
+                prefix-icon="el-icon-postcard"></el-input>
             </el-form-item>
-            <el-form-item
-              id="password"
-              prop="password"
-              :rules="[{ required: true, message: '密码不能为空' }]"
-            >
-              <el-input
-                prefix-icon="el-icon-lock"
-                placeholder="请输入您的密码"
-                show-password
-                type="password"
-                clearable
-                v-model="form.password"
-                autocomplete="off"
-                @keyup.enter.native="login"
-              ></el-input>
+            <el-form-item id="password" prop="password" :rules="[{ required: true, message: '密码不能为空' }]">
+              <el-input prefix-icon="el-icon-lock" placeholder="请输入您的密码" show-password type="password" clearable
+                v-model="form.password" autocomplete="off" @keyup.enter.native="login"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button class="btn_login" type="primary" @click="login" round
-                >登&nbsp;&nbsp;录</el-button
-              >
+              <el-button class="btn_login" type="primary" @click="login" round>登&nbsp;&nbsp;录</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
         <el-tab-pane label="用户名登录" name="second">
           <el-form ref="form" :model="form" class="form">
-            <el-form-item
-              prop="username"
-              :rules="[{ required: true, message: '用户名不能为空' }]"
-            >
-              <el-input
-                v-model="form.username"
-                placeholder="请输入您的用户名"
-                type="username"
-                autocomplete="off"
-                clearable
-                prefix-icon="el-icon-postcard"
-              ></el-input>
+            <el-form-item prop="username" :rules="[{ required: true, message: '用户名不能为空' }]">
+              <el-input v-model="form.username" placeholder="请输入您的用户名" type="username" autocomplete="off" clearable
+                prefix-icon="el-icon-postcard"></el-input>
             </el-form-item>
-            <el-form-item
-              id="password"
-              prop="password"
-              :rules="[{ required: true, message: '密码不能为空' }]"
-            >
-              <el-input
-                prefix-icon="el-icon-lock"
-                placeholder="请输入您的密码"
-                show-password
-                type="password"
-                clearable
-                v-model="form.password"
-                autocomplete="off"
-                @keyup.enter.native="login"
-              ></el-input>
+            <el-form-item id="password" prop="password" :rules="[{ required: true, message: '密码不能为空' }]">
+              <el-input prefix-icon="el-icon-lock" placeholder="请输入您的密码" show-password type="password" clearable
+                v-model="form.password" autocomplete="off" @keyup.enter.native="login"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button class="btn_login" type="primary" @click="login" round
-                >登&nbsp;&nbsp;录</el-button
-              >
+              <el-button class="btn_login" type="primary" @click="login" round>登&nbsp;&nbsp;录</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <div class="back" @click="findPa()">找回密码</div>
+        <div class="back" @click="forgetPass()">忘记密码</div>
         <div class="regis" @click="toRegister">没有账号？前去注册</div>
+        <el-dialog title="请输入您的邮箱" :visible.sync="forgetDialogVisible" width="30%" :close-on-click-modal="false"
+          :close-on-press-escape="false" :append-to-body="true" center>
+          <el-input v-model="forget.forget_email" placeholder="请输入注册时所用邮箱，用于找回密码" type="email" autocomplete="off"
+            clearable prefix-icon="el-icon-postcard"></el-input>
+          <span slot="footer" class="dialog-footer">
+            <el-button class="forget" @click="forgetDialogVisible = false, this.resetForm('forget')">取 消</el-button>
+            <el-button class="forget" type="primary"
+              @click="forgetDialogVisible = false, toReset('forget.forget_email'), this.resetForm('forget')">确 定
+            </el-button>
+          </span>
+        </el-dialog>
       </el-tabs>
-      
+
     </div>
   </div>
 </template>
@@ -103,14 +68,17 @@ export default {
         username: "",
         password: "",
       },
+      forget: {
+        forget_email: "",
+      },
       loginmethod: "",
       activeName: "first",
+      forgetDialogVisible: false,
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-      console.log(this.activeName);
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
     async login() {
       if (this.activeName == "first") {
@@ -159,21 +127,21 @@ export default {
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               // const history_pth = localStorage.getItem("FirstPage");
               /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-              setTimeout(() => {
-                if (history_pth == null || history_pth === "/register") {
-                  this.$router.push("/");
-                } else {
-                  this.$router.push({path: history_pth});
-                }
-              }, 1000);
+              // setTimeout(() => {
+              //   if (history_pth == null || history_pth === "/register") {
+              //     this.$router.push("/");
+              //   } else {
+              //     this.$router.push({path: history_pth});
+              //   }
+              // }, 1000);
               axios.interceptors.request.use(
-                  config => {
-                    config.headers['Authorization'] = token
-                    return config;
-                  },
-                  error => {
-                    return Promise.reject(error);
-                  }
+                config => {
+                  config.headers['Authorization'] = token
+                  return config;
+                },
+                error => {
+                  return Promise.reject(error);
+                }
               );
             } else {
               await this.$message({
@@ -212,41 +180,40 @@ export default {
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
             console.log(res.data)
-            if(res.data.errno==0)
-            {
+            if (res.data.errno == 0) {
               this.$message.success("登录成功！");
-                var user = {
-                  userId: res.data.data.user_id,
-                  username: res.data.data.user_name,
-                };
-                var token={
-                  token_num:res.data.data.token
-                }
-                this.$store.dispatch("saveuser", user);
-                this.$store.dispatch("savetoken", token);
-                localStorage.setItem("saveuser", qs.stringify(user));
+              var user = {
+                userId: res.data.data.user_id,
+                username: res.data.data.user_name,
+              };
+              var token = {
+                token_num: res.data.data.token
+              }
+              this.$store.dispatch("saveuser", user);
+              this.$store.dispatch("savetoken", token);
+              localStorage.setItem("saveuser", qs.stringify(user));
               localStorage.setItem("savetoken", qs.stringify(token));
-                console.log(user);
-                console.log(token);
-                console.log(this.$store.state.user);
-                window.location.href = "team_outline";
-                /* 从 localStorage 中读取 preRoute 键对应的值 */
-                // const history_pth = localStorage.getItem("FirstPage");
-                /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
-                // setTimeout(() => {
-                //   if (history_pth == null || history_pth === "/register") {
-                //     this.$router.push("/");
-                //   } else {
-                //     this.$router.push({ path: history_pth });
-                //   }
-                // }, 1000);
+              console.log(user);
+              console.log(token);
+              console.log(this.$store.state.user);
+              window.location.href = "team_outline";
+              /* 从 localStorage 中读取 preRoute 键对应的值 */
+              // const history_pth = localStorage.getItem("FirstPage");
+              /* 若保存的路由为空或为注册路由，则跳转首页；否则跳转前路由（setTimeout表示1000ms后执行） */
+              // setTimeout(() => {
+              //   if (history_pth == null || history_pth === "/register") {
+              //     this.$router.push("/");
+              //   } else {
+              //     this.$router.push({ path: history_pth });
+              //   }
+              // }, 1000);
             }
-            else{
+            else {
               this.$message({
-                  message: res.msg,
-                  center: true,
-                  type: "error",
-                });
+                message: res.data.msg,
+                center: true,
+                type: "error",
+              });
             }
           })
           .catch((err) => {
@@ -257,6 +224,35 @@ export default {
     toRegister() {
       this.$router.push("/register");
     },
+    forgetPass() {
+      this.forgetDialogVisible = true;
+    },
+    toReset(i)
+    {
+      this.$axios({
+        method: "post",
+        url: "app/generate_forget_link",
+        data: qs.stringify({
+          email:i
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno == 0)
+          {
+            this.$message.success("邮件已发送,请前往您的邮箱查看信息")
+          }
+          else{
+            this.$message({
+                message: res.data.msg,
+                center: true,
+                type: "error",
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err); 
+        });
+    }
   },
 };
 </script>
@@ -274,9 +270,11 @@ export default {
   font-family: myfont;
   color: black;
   position: absolute;
-  top: 15%;  left: 50%;  
-	transform: translate(-50%,-50%);
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
 .kuang {
   width: 300px;
   height: auto;
@@ -284,19 +282,22 @@ export default {
   /* border: 1px solid grey; */
   margin: 21px auto;
   border-radius: 40px;
-  line-height: 80px; /*可以让文字往下移一点 */
+  line-height: 80px;
+  /*可以让文字往下移一点 */
 
   position: absolute;
-  top: 45%;  left: 50%;  
-	transform: translate(-50%,-50%);
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-  transition: 0.5s;
+  transition: 0.4s;
 
   backdrop-filter: blur(2px);
   background-color: rgba(255, 255, 255, 0.5);
 
   box-shadow: 0 0px 0px rgb(0 0 0 / 10%), 0 12px 20px rgb(38 38 38 / 12%);
 }
+
 .kuang:hover {
   width: 320px;
   height: auto;
@@ -313,61 +314,75 @@ export default {
   overflow: hidden;
   overflow-y: hidden;
 }
+
 .login img {
   height: 100%;
   width: 100%;
 }
-.login >>> .el-input__inner {
+
+.login>>>.el-input__inner {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
+
 .el-tabs {
   margin-top: 30px;
 }
+
 .regis {
   font-size: 12px;
   float: right;
   color: #999;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.4s;
 }
+
 .regis:hover {
   color: rgb(145, 171, 203);
   font-size: 15px;
   padding: 0px 0px 10px 0px;
 }
+
 .back {
   font-size: 12px;
   float: left;
   color: #999;
   cursor: pointer;
-  transition: 0.5s;
+  transition: 0.4s;
 }
+
 .back:hover {
   color: rgb(145, 171, 203);
   font-size: 15px;
   padding: 0px 0px 10px 0px;
 }
-.el-form{
+
+.el-form {
   border-radius: 25px !important;
 }
-.el-button{
+
+.el-button:not(.forget) {
   border: none;
   border-radius: 20px !important;
-  background-color:rgba(121, 167, 213, 0.73);
+  background-color: rgba(121, 167, 213, 0.73);
   font-size: 20px;
   width: 100%;
-  transition: 0.5s !important;
+  transition: 0.4s !important;
 }
-.el-button:hover{
+
+.el-button:hover:not(.forget:hover) {
   border-radius: 20px !important;
-  background-color:rgba(121, 167, 213, 0.377);
+  background-color: rgba(121, 167, 213, 0.377);
   margin: 10px 0px 10px 0px;
   font-size: 20px;
 }
-.el-button:active{
+
+.el-button:active:not(.forget:active) {
   border-radius: 20px !important;
-  background-color:rgb(82, 109, 137);
+  background-color: rgb(82, 109, 137);
 
   font-size: 20px;
+}
+.forget {
+  width: 40%;
 }
 </style>
