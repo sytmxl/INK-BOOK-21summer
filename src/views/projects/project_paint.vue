@@ -149,7 +149,7 @@ export default {
         data: qs.stringify({
           project_id:this.$data.project_id,
           graph_type:0,
-          template:this.$data.template
+          template:0
         }),
       }).then(async res => {
         newid = res.data.data.graph_id

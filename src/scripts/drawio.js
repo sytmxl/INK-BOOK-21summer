@@ -412,15 +412,6 @@ DiagramEditor.prototype.initializeEditor = function()
  */
 DiagramEditor.prototype.save = function(data, draft, elt)
 {
-    axios({
-            method: "post" ,
-            url: "app/update_graph_data" ,
-            data:qs.stringify({
-                graph_id:this.graph_id,
-                graph_data:data
-            })
-        }
-    ).then(r => {})
     this.done(data, draft, elt);
 };
 
