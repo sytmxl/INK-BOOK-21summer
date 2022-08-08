@@ -11,7 +11,7 @@
     </div>
 
 
-    <div class="filefolder" v-if="isopen" id="draggable">
+    <div class="filefolder" v-if="isopen">
       <el-input prefix-icon="el-icon-search"
           v-model="filterText">
       </el-input>
@@ -50,19 +50,18 @@
     </el-tree>
     </div>
 
-
-    <div class="recent" v-if="project_list.length!=0">
+    <!-- <div class="recent" v-if="recent_list.length!=0">
       <h1 class="label label_top">近期项目</h1>
       <div class="content">
         <div v-for="i in 4" :key="i">
-          <el-card class="box-card" shadow="hover" v-if="project_list[project_list.length-i]">
+          <el-card class="box-card" shadow="hover" v-if="recent_list[recent_list.length-i]">
             <div id="tools">
-              <i class="el-icon-delete" @click="deleteproject(project_list[project_list.length-i].project_id)"></i>
-              <i class="el-icon-edit-outline" @click="information(project_list[project_list.length-i])"></i>
+              <i class="el-icon-delete" @click="deleteproject(recent_list[recent_list.length-i].project_id)"></i>
+              <i class="el-icon-edit-outline" @click="information(recent_list[recent_list.length-i])"></i>
             </div>
-              <h5>{{project_list[project_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(project_list[project_list.length-i].project_id)" title="重命名" ></i></h5>
-              <p>创建时间：<br/>{{project_list[project_list.length-i].create_time}}</p>
-              <p>最近修改时间：<br/>{{project_list[project_list.length-i].update_time}}</p>
+              <h5>{{recent_list[recent_list.length-i].project_name}}<i class="el-icon-edit" style="font-size:20px" @click="changename(recent_list[recent_list.length-i].project_id)" title="重命名" ></i></h5>
+              <p>创建时间：<br/>{{recent_list[recent_list.length-i].create_time}}</p>
+              <p>最近修改时间：<br/>{{recent_list[recent_list.length-i].update_time}}</p>
           </el-card>   
         </div>
       </div>
@@ -74,10 +73,32 @@
         <el-empty description="你尚无项目，快去新建一个吧" :image-size="200">
         </el-empty>
       </div>
-    </div>
+    </div> -->
 
     <div class="all" v-if="project_list.length!=0">
-      <h1 class="label">全部项目</h1>
+      <div class="all_head">
+        <h1 class="label">全部项目
+           <el-dropdown>
+          <span class="el-dropdown-link">
+            {{sorttype}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="sort(1)">按创建时间升序<i class="el-icon-check" v-if="sorttype=='按创建时间升序'"></i></el-dropdown-item>
+            <el-dropdown-item @click.native="sort(2)">按创建时间降序<i class="el-icon-check" v-if="sorttype=='按创建时间降序'"></i></el-dropdown-item>
+            <el-dropdown-item @click.native="sort(3)">按修改时间升序<i class="el-icon-check" v-if="sorttype=='按修改时间升序'"></i></el-dropdown-item>
+            <el-dropdown-item @click.native="sort(4)">按修改时间降序<i class="el-icon-check" v-if="sorttype=='按修改时间降序'"></i></el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+         <el-input prefix-icon="el-icon-search"
+                    v-model="search">
+                </el-input>
+        </h1>
+
+        
+      </div>
+     
+      
       <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
@@ -107,8 +128,11 @@ export default {
     return{
       teamname:JSON.parse(sessionStorage.getItem('team')).team_name,
       project_list:[],
+      recent_list:[],
       isopen:false,
       filterText:'',
+      sorttype:'',
+      search:'',
       data: [{
           id: 1,
           label: '文档中心',
@@ -159,8 +183,6 @@ export default {
             type: 'success',
             message: '修改成功'
           });
-          console.log(888);
-          console.log(value);
           this.$axios({
         method: "post",
         url: "app/rename_project",
@@ -265,14 +287,33 @@ export default {
         }),
       })
         .then((res) => {
-          
-          console.log(666)
-         this.project_list = res.data.data.project_normal_list;
-         console.log(this.project_list)
+        let type = JSON.parse(sessionStorage.getItem('sorttype'));
+        this.project_list = res.data.data.project_normal_list;
+         this.recent_list = res.data.data.project_normal_list;
+   
+        if(type==1){
+          this.project_list.sort((a,b)=>{return a.create_time > b.create_time ? 1:-1});
+          this.sorttype = '按创建时间升序';
+        }
+        else if(type==2){
+          this.project_list.sort((a,b)=>{return b.create_time > a.create_time ? 1:-1});
+          this.sorttype = '按创建时间降序';
+        }
+        else if(type==3){
+          this.project_list.sort((a,b)=>{return a.update_time > b.update_time ? 1:-1});
+          this.sorttype = '按修改时间升序';
+        }
+        else if(type==4){
+          this.project_list.sort((a,b)=>{return b.update_time > a.update_time ? 1:-1});
+          this.sorttype = '按修改时间降序';
+        }
+  
         })
         .catch((err) => {
           console.log(err); 
         });
+
+        
       },
       append(data) {
         const newChild = { id: data.id+1, label: 'testtest', children: [] ,depth: data.depth+1};
@@ -292,8 +333,11 @@ export default {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
-
-
+      sort(sorttype){
+        this.$store.dispatch("savesorttype", sorttype);
+        this.reload();
+      },
+     
    },
     mounted(){
       this.init();
@@ -301,8 +345,12 @@ export default {
      watch: {
       filterText(val) {
         this.$refs.tree.filter(val);
-      }
-    },
+      },
+     },
+  destroyed(){
+    console.log(666);//离开页面触发
+  }
+    
 }
 </script>
 
@@ -318,7 +366,8 @@ export default {
   top: 100px;
 }
 .el-input{
-    width: 80%;
+    width: 200px;
+    margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
@@ -346,7 +395,7 @@ export default {
     width: 100%;
     text-align: left;
     font-size: 36px;
-    /* height: 800px; */
+    height: 300px;
   }
   .all{
     width: 100%;
@@ -355,6 +404,18 @@ export default {
   }
   .all h1{
     margin-top: 20px;
+  }
+  .all_head{
+    width: 100%;
+    height: 80px;
+  }
+  .el-dropdown-menu {
+      border-radius: 15px;
+  }
+  .el-dropdown-menu>>>.el-dropdown-menu__item{
+      font-size: 16px;
+      color: #2878ff;
+   
   }
   .content{
     margin-top: 20px;
