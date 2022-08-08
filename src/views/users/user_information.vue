@@ -1012,7 +1012,21 @@ p {
   background-color: #ffffff7a;
   padding: 10px 0px;
 }
-.el-tabs-item {
-  color: rgb(164, 170, 183) !important;
+/* 这里的样式应该只能用/deep/改 */
+/deep/ .el-tabs__item.is-active {
+  color: rgb(2, 2, 2);
+}
+/deep/ .el-tabs__item:hover {
+  color: #75889c;
+}
+/deep/ .el-tabs__item {
+  color: #909399;
+  font-size: 14px;
+  font-weight: 500;
+}
+/deep/ .el-tabs__active-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: #75889c;
 }
 </style>

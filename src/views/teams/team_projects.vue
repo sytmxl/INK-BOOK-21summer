@@ -6,7 +6,7 @@
       <i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="添加新成员"></i>
     </div>
 
-     <div class="folder" @click="isopen = !isopen">
+    <div class="folder" @click="isopen = !isopen">
       <i class="el-icon-folder" style="font-size:20px"  title="文档中心"></i>
     </div>
 
@@ -77,28 +77,25 @@
 
     <div class="all" v-if="project_list.length!=0">
       <div class="all_head">
-        <h1 class="label">全部项目
-           <el-dropdown>
-          <span class="el-dropdown-link">
-            {{sorttype}}<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="sort(1)">按创建时间升序<i class="el-icon-check" v-if="sorttype=='按创建时间升序'"></i></el-dropdown-item>
-            <el-dropdown-item @click.native="sort(2)">按创建时间降序<i class="el-icon-check" v-if="sorttype=='按创建时间降序'"></i></el-dropdown-item>
-            <el-dropdown-item @click.native="sort(3)">按修改时间升序<i class="el-icon-check" v-if="sorttype=='按修改时间升序'"></i></el-dropdown-item>
-            <el-dropdown-item @click.native="sort(4)">按修改时间降序<i class="el-icon-check" v-if="sorttype=='按修改时间降序'"></i></el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <h1 class="label">全部项目&nbsp;
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              {{sorttype}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="sort(1)">按创建时间升序<i class="el-icon-check" v-if="sorttype=='按创建时间升序'"></i></el-dropdown-item>
+              <el-dropdown-item @click.native="sort(2)">按创建时间降序<i class="el-icon-check" v-if="sorttype=='按创建时间降序'"></i></el-dropdown-item>
+              <el-dropdown-item @click.native="sort(3)">按修改时间升序<i class="el-icon-check" v-if="sorttype=='按修改时间升序'"></i></el-dropdown-item>
+              <el-dropdown-item @click.native="sort(4)">按修改时间降序<i class="el-icon-check" v-if="sorttype=='按修改时间降序'"></i></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
 
-         <el-input prefix-icon="el-icon-search"
-                    v-model="search">
-                </el-input>
+          <el-input prefix-icon="el-icon-search"
+            v-model="search">
+          </el-input>
         </h1>
-
-        
       </div>
-     
-      
+    
       <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
@@ -438,7 +435,7 @@ export default {
     border-radius: 20px;
     margin-left: 85px;
   }
-  .add{
+  .add, .folder{
     width: 62px;
     border-radius: 20px;
     
@@ -457,36 +454,12 @@ export default {
     z-index: 1;
     top: 100px;
   }
-  .add:hover {
+  .add:hover, .folder:hover {
     width: 62px;
     border-radius: 50%;
 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
   }
-
-    .folder{
-    width: 62px;
-    border-radius: 20px;
-    background-color: rgb(206, 218, 226);
-    font-size: 36px;
-    color: black;
-    text-align: center;
-
-    overflow: hidden;
-    transition: 0.2s;
-    padding-bottom: 10px;
-    float: right;
-    left: 93%;
-    position: fixed;
-    z-index: 1;
-    top: 160px;
-  }
-  .folder:hover {
-    width: 62px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
-  }
-
 
   .box-card{
     width: 280px;
@@ -506,11 +479,13 @@ export default {
   } */
   /* 这个悬浮效果会有一点显示bug 暂且放着吧 */
   .label {
-    margin: 30px 0px 0px 30px;
+    margin: 30px 0px 0px 30px !important;
     font-size: 50px;
     float: left;
     width: 100%;
     color: rgb(114, 132, 145); 
+    align-items: center;
+    display: flex;
   }
   .label_top{
     margin: 10px 0px 0px 30px !important;
@@ -578,5 +553,17 @@ export default {
   white-space:unset; 
   text-overflow: unset;
   font-size: 25px;
+}
+.el-dropdown-link {
+  background: rgba(186, 194, 209, 0.42);
+  padding: 5px;
+  border-radius: 4px;
+  transition: 0.4s;
+}
+.el-dropdown-link:hover {
+  background: rgba(186, 194, 209, 0.777);
+}
+.folder {
+  margin-top: 80px;
 }
 </style>

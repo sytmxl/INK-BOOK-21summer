@@ -43,7 +43,7 @@
               { required: true, message: '请输入邮箱地址', trigger: 'blur' },
               { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
             ]">
-              <el-input v-model="forget.forget_email" placeholder="请输入注册时所用邮箱，用于找回密码" type="email" autocomplete="off"
+              <el-input id='forget' v-model="forget.forget_email" placeholder="请输入注册时所用邮箱，用于找回密码" type="email" autocomplete="off"
                 clearable prefix-icon="el-icon-postcard"></el-input>
             </el-form-item>
           </el-form>
@@ -419,7 +419,7 @@ export default {
 .forget {
   width: 40%;
 }
-.el-input {
-  width: 100% !important;
+/deep/ #forget {
+  width: 250% !important;
 }
 </style>
