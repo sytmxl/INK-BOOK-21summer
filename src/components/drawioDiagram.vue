@@ -252,7 +252,7 @@ export default {
         {title:'快速样式',content:'您可以在右侧栏\'样式\'中快速设置选中元素的样式',icon:'el-icon-help'},
         {title:'多选组件',content:'按住左键可以框选组件（就像在电脑桌面上框选图标一样），按住ctrl单击也可以选择复数组件',icon:'el-icon-thumb'},
         {title:'创建自定义组件',content:'您可以选择一部分画布上的组件，将它们拖到便笺本中以备复用',icon:'el-icon-collection'},
-        {title:'保存文件',content:'您所做的更改是实时保存的。您可以按退出按钮或使用快捷键\'ctrl+s\'来保存并退出',icon:'el-icon-finished'},
+        {title:'保存文件',content:'您所做的更改是实时保存的，您可以按右上角的退出来离开编辑。如果您做错了什么，请在退出前按ctrl-z恢复到正确的状态',icon:'el-icon-finished'},
         {title:'导出文件',content:'在顶栏的\'文件>导出为\'可以导出图片到本地',icon:'el-icon-download'},
       ]
     }
