@@ -73,6 +73,7 @@
 }
 .el-tree{
     position: absolute;
+    width: 100%;
   background-color: rgb(242, 244, 245);
   overflow: hidden;
   z-index: -1;

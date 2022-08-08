@@ -112,6 +112,9 @@
         </el-card>
       </div>
     </div>
+    <div class="all" v-else>
+      <el-empty description="你尚无项目，快去新建一个吧" :image-size="200"></el-empty>
+    </div>
   </div>
   <div class="chooseteam" v-else>
     <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
@@ -374,7 +377,6 @@ export default {
 .el-input >>> .el-input__inner{
     border-radius:25px;
     font-size:15px;
-
 }
 .el-tree{
   background-color: rgb(242, 244, 245);
