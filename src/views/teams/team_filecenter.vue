@@ -73,6 +73,7 @@
 }
 .el-tree{
     position: absolute;
+    width: 100%;
   background-color: rgb(242, 244, 245);
   overflow: hidden;
   z-index: -1;
@@ -106,7 +107,7 @@ section{
    background-color: rgb(242, 244, 245);
 }
 .resize{
-    width: 200px;
+    width: 220px;
     height: 16px;
     transform: scaleY(100);
     overflow: scroll;
