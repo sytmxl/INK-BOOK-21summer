@@ -4,6 +4,7 @@
  */
 const axios = require("axios");
 const qs = require("qs");
+const project_design = require("@/views/projects/project_design");
 module.exports = {
     DiagramEditor
 }
@@ -251,6 +252,7 @@ DiagramEditor.prototype.stopEditing = function()
         document.getElementById('graphContainer').removeChild(this.frame);
         this.setActive(false);
         this.frame = null;
+        window.exitEdit();
     }
 };
 
