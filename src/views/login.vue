@@ -385,7 +385,7 @@ export default {
   border-radius: 25px !important;
 }
 
-.el-button {
+.el-button:not(.forget) {
   border: none;
   border-radius: 20px !important;
   background-color: rgba(121, 167, 213, 0.73);
@@ -394,17 +394,20 @@ export default {
   transition: 0.4s !important;
 }
 
-.el-button:hover {
+.el-button:hover:not(.forget:hover) {
   border-radius: 20px !important;
   background-color: rgba(121, 167, 213, 0.377);
   margin: 10px 0px 10px 0px;
   font-size: 20px;
 }
 
-.el-button:active {
+.el-button:active:not(.forget:active) {
   border-radius: 20px !important;
   background-color: rgb(82, 109, 137);
 
   font-size: 20px;
+}
+.forget {
+  width: 40%;
 }
 </style>

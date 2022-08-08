@@ -64,7 +64,8 @@ el-icon:hover, el-icon-close:hover {
   /* backdrop-filter: blur(25px) brightness(110%); */
   background-color: #f4f5f6 !important; 
   /* transition: 1s !important; */
-  -n-bezier-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  /* -n-bezier-ease-out: cubic-bezier(0, 0, 0.2, 1); */
+  font-family: 微软雅黑;
 }
 .el-dialog__wrapper, .el-message-box__wrapper {
   backdrop-filter: blur(15px) brightness(150%) !important;
