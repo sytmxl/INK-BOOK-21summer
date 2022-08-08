@@ -254,7 +254,7 @@ export default {
         {title:'快速样式',content:'您可以在右侧栏\'样式\'中快速设置选中元素的样式',icon:'el-icon-help'},
         {title:'元素层级',content:'在顶部工具栏中可以将元素置于顶层/底层<img style="vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAhCAYAAACV1IbrAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAIcSURBVGhD7Zg9iwJBDIZzfjQK1mqhCBZiZWcvKNj4FwQbQQRbKwsrW0EEG8G/YCMoWFtaiWAhImivYOPH3WWICOrt5vZmR07mgbCbMMXLu5nMsB/H4/ETNIY46KkxQJvEQJvEQJvEQJvEQJvEQJvEQJvEgH2ZXK/XsFgsKHvE6/VCMpmkzH5U6mGbNB6PYTAYQCgUosqN/X4Pp9MJarUaVexHpZ5fmTSbzaBcLlPlBtZHoxFUKhWq2I+Rnul0Cv1+X5pJUmZSLBaDUqlE2fthuZN6vR5st1vxbkQgEIB8Pk+ZPMw6qdvtQjAYpMoNK3osdxIatFqtTINjpB18f3xpevQVgMGvTNrtdqLFL5cLVV4L6sGtdR/L5ZJWyIFtksfjEccqnmLn85mqr+OqB08xDJxBnU5HxHA4pFVysPxnstFoiD1uRjgchmq1Spl92KlHyUzCIdpsNqFer8NkMqHqa9hsNkLHNTh6lJjkdDohnU6Dy+WCw+FAVXVkMhkoFosiCoUC5HI5EVw9SkxyOBwQj8fB5/NRRS2RSAQSicRDcPUoMem/Y9kkv98vhqBZ4DoV/KTH7XbTCutYPt1+Aoc0ziDcYve0Wi2x7VKpFFXsB4czzh/cXvdw9Ujfbu12G+bzOWXvgfROwi+Hp8azoYj3mGw2q7yT/qpHukl47zA6VqPR6NMfZXYhQ490k94RfQVgoE1ioE1ioE0yBeALHLQ7vesjJP8AAAAASUVORK5CYII=">，在元素的右键菜单中调整'
           ,icon:'el-icon-copy-document'},
-        {title:'多选组件',content:'按住左键可以框选组件（就像在电脑桌面上框选图标一样），按住ctrl单击也可以选择复数组件',icon:'el-icon-thumb'},
+        {title:'多选组件',content:'按住左键可以框选组件（就像在电脑桌面上框选图标一样），按住ctrl单击也可以选择复数组件',icon:'el-icon-menu'},
         {title:'创建自定义组件',content:'您可以选择一部分画布上的组件，将它们拖到便笺本中以备复用',icon:'el-icon-collection'},
         {title:'保存文件',content:'您可以按右上角的\'保存并退出\'或者用ctrl-s来离开编辑。如果点击\'退出\'将舍弃更改',icon:'el-icon-finished'},
         {title:'导出文件',content:'在顶栏的\'文件>导出为\'可以导出图片到本地',icon:'el-icon-download'},
