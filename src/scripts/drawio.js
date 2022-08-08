@@ -181,12 +181,7 @@ DiagramEditor.prototype.startEditing = function(data, format, title)
             this.getFrameUrl(),
             this.getFrameStyle());
 
-
-        //let div = document.createElement("div");
-        //div.appendChild(this.frame);
         document.getElementById('graphContainer').appendChild(this.frame);
-        //
-        console.log(document.getElementById('graphContainer'))
 
         this.setWaiting(true);
     }
@@ -441,6 +436,7 @@ DiagramEditor.prototype.save = function(data, draft, elt)
  */
 DiagramEditor.prototype.done = function()
 {
+    document.getElementById('graphContainer').lastElementChild.remove();
 };
 
 /**

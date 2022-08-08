@@ -132,6 +132,7 @@ export default {
           iconClass: this.tips[this.tipNo].icon,
           title: this.tips[this.tipNo].title,
           message: this.tips[this.tipNo].content,
+          dangerouslyUseHTMLString: true,
           position: 'bottom-right',
           duration: 0,
           onClose: this.callNextTip,
@@ -248,11 +249,14 @@ export default {
       tipNo:0,
       tips:[
         {title:'基本导航',content:'按住鼠标滚轮来拖动画布，滚动滚轮来缩放画面',icon:'el-icon-thumb'},
+        {title:'撤销与重做',content:'在顶部工具栏中你可以进行撤销与重做，当然ctrl-z与ctrl-y也可以使用',icon:'el-icon-refresh-left\n'},
         {title:'调整画布',content:'您可以在右侧栏\'绘图\'中选择画布大小。当溢出时，画布会自动在溢出方向自动扩展并显示出虚线边界',icon:'el-icon-full-screen'},
         {title:'快速样式',content:'您可以在右侧栏\'样式\'中快速设置选中元素的样式',icon:'el-icon-help'},
+        {title:'元素层级',content:'在顶部工具栏中可以将元素置于顶层/底层<img style="vertical-align:middle;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEkAAAAhCAYAAACV1IbrAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAIcSURBVGhD7Zg9iwJBDIZzfjQK1mqhCBZiZWcvKNj4FwQbQQRbKwsrW0EEG8G/YCMoWFtaiWAhImivYOPH3WWICOrt5vZmR07mgbCbMMXLu5nMsB/H4/ETNIY46KkxQJvEQJvEQJvEQJvEQJvEQJvEQJvEgH2ZXK/XsFgsKHvE6/VCMpmkzH5U6mGbNB6PYTAYQCgUosqN/X4Pp9MJarUaVexHpZ5fmTSbzaBcLlPlBtZHoxFUKhWq2I+Rnul0Cv1+X5pJUmZSLBaDUqlE2fthuZN6vR5st1vxbkQgEIB8Pk+ZPMw6qdvtQjAYpMoNK3osdxIatFqtTINjpB18f3xpevQVgMGvTNrtdqLFL5cLVV4L6sGtdR/L5ZJWyIFtksfjEccqnmLn85mqr+OqB08xDJxBnU5HxHA4pFVysPxnstFoiD1uRjgchmq1Spl92KlHyUzCIdpsNqFer8NkMqHqa9hsNkLHNTh6lJjkdDohnU6Dy+WCw+FAVXVkMhkoFosiCoUC5HI5EVw9SkxyOBwQj8fB5/NRRS2RSAQSicRDcPUoMem/Y9kkv98vhqBZ4DoV/KTH7XbTCutYPt1+Aoc0ziDcYve0Wi2x7VKpFFXsB4czzh/cXvdw9Ujfbu12G+bzOWXvgfROwi+Hp8azoYj3mGw2q7yT/qpHukl47zA6VqPR6NMfZXYhQ490k94RfQVgoE1ioE1ioE0yBeALHLQ7vesjJP8AAAAASUVORK5CYII=">，在元素的右键菜单中调整'
+          ,icon:'el-icon-copy-document'},
         {title:'多选组件',content:'按住左键可以框选组件（就像在电脑桌面上框选图标一样），按住ctrl单击也可以选择复数组件',icon:'el-icon-thumb'},
         {title:'创建自定义组件',content:'您可以选择一部分画布上的组件，将它们拖到便笺本中以备复用',icon:'el-icon-collection'},
-        {title:'保存文件',content:'您所做的更改是实时保存的，您可以按右上角的退出来离开编辑。如果您做错了什么，请在退出前按ctrl-z恢复到正确的状态',icon:'el-icon-finished'},
+        {title:'保存文件',content:'您可以按右上角的\'保存并退出\'或者用ctrl-s来离开编辑。如果点击\'退出\'将舍弃更改',icon:'el-icon-finished'},
         {title:'导出文件',content:'在顶栏的\'文件>导出为\'可以导出图片到本地',icon:'el-icon-download'},
       ]
     }
