@@ -17,15 +17,11 @@
                 :data="data"
                 node-key="id"
                 default-expand-all
-                :expand-on-click-node="false"
-                :filter-node-method="filterNode"
-                class="filter-tree"
-                ref="tree"
-                @node-click="getNode"
-                >
-                <span class="custom-tree-node" slot-scope="{ node, data }">
-                  <span @contextmenu.prevent="show($event,data,node)">{{ node.label }}</span>
-                </span>
+                :expand-on-click-node="false">
+              <div style="width: 100%; text-align: left" class="custom-tree-node" slot-scope="{ node, data }" @contextmenu.prevent="show($event,data,node)" >
+                <i :class="data.node_icon"/>
+                <span >{{ node.label }}</span>
+              </div>
             </el-tree>
           </div>
         </section>
@@ -192,8 +188,8 @@ export default {
       root_folder:null,
     }
   },
-  mounted() {
-    this.$axios({
+  async mounted() {
+    await this.$axios({
       method: "post",
       url: "/app/get_team_root_fileid",
       data: qs.stringify({
@@ -202,9 +198,47 @@ export default {
     }).then(res=>{
       this.$data.root_folder = res.data.data.file_id;
     })
-    this.getNode(this.$data.root_folder);
+    await this.$axios({
+      method: "post",
+      url: "/app/get_file_content",
+      data: qs.stringify({
+        file_id: this.$data.root_folder,
+      }),
+    }).then(res=>{
+      let i;
+      for(i in res.data.data){
+        let retData = res.data.data[i];
+        let node_name;
+        let node_icon;
+        let node_id = retData.file_id
+        // 是项目根文件夹
+        if(retData.file_type == 3){
+          node_name = retData.detail.project_name;
+          node_icon = 'el-icon-data-analysis'
+        } else if(retData.file_type == 2){
+          node_name = retData.detail.doc_name;
+          node_icon = 'el-icon-document'
+        }else{
+          node_name = retData.folder_name;
+          node_icon = 'el-icon-folder'
+        }
+        console.log("name");
+        console.log(node_name)
+        this.$data.data.push({
+          id: node_id,
+          label: node_name,
+          node_icon : node_icon,
+          children: [],
+        });
+      }
+      console.log(this.$data.data)
+    })
   },
   methods: {
+    test(node,data){
+      alert(node);
+      alert(data);
+    },
     async getNode(node_data,node,elm) {
       await this.$axios({
         method: "post",
@@ -213,10 +247,28 @@ export default {
           file_id: node_data.file_id,
         }),
       }).then(res=>{
-        let retData = res.data.data
         let i;
-        for(i in retData){
-          node_data.append(retData[i]);s
+        for(i in res.data.data){
+          let retData = res.data.data[i];
+          let node_name;
+          let node_icon;
+          // 是项目根文件夹
+          if(retData.file_type == 3){
+            node_name = retData.detail.project_name;
+            node_icon = 'el-icon-data-analysis'
+          } else if(retData.file_type == 2){
+            node_name = retData.detail.doc_name;
+            node_icon = 'el-icon-document'
+          }else{
+            node_name = retData.folder_name;
+            node_icon = 'el-icon-folder'
+          }
+
+          node_data.push({
+            id: retData.file_id,
+            label: node_name,
+            children: [],
+          });
         }
       })
     },
