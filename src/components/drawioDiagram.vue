@@ -149,7 +149,7 @@ export default {
     },
     async callNextTip() {
       this.tipNo = this.tipNo + 1;
-      await setTimeout(() => 
+      setTimeout(() => console.log(''), 1000);
       await this.getTips()
     },
     del() {
