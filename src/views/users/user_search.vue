@@ -59,9 +59,9 @@
                     <p class="name">{{item.user_name}}</p>
                   </div>
                   <div class="right">
-                    <!-- <div id="tools">
-                      <i class="el-icon-minus" @click="cancelmanager()"></i>
-                    </div> -->
+                    <div id="tools">
+                      <i class="el-icon-s-promotion" @click="invite(item.user_name)">邀请</i>
+                    </div>
                     <p class="email">{{item.email}}</p>
                     <p class="long">{{item.user_info}}</p>
                   </div>
@@ -450,7 +450,7 @@ export default {
   align-items: center;
   /* display: flex; */
   position: absolute;
-  right: 5%;
+  right: 3%;
   overflow: hidden;
 }
 img { 
@@ -499,9 +499,10 @@ p {
   transition: 0.3s;
   height: 0px;
   padding: 0px;
-  font-size: 0px;
-  border-radius: 5px;
+  /* font-size: 0px; */
+  border-radius: 500px;
   text-align: center;
+  color: rgb(255, 255, 255);
 }
 .bar3 #tools {
   background-color: rgba(253, 253, 253, 0.304);
@@ -509,35 +510,36 @@ p {
 .bar:hover #tools{
   height: 40px;
   /* color: rgb(0, 0, 0); */
-  font-size: 30px;
-  margin-bottom: 20px;
+  /* font-size: 20px; */
+  margin-bottom: 10px;
 }
-.el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
-  color: rgb(95, 123, 143);
+.el-icon-s-promotion {
+  color: rgb(70, 87, 122);
   border-radius: 5px;
-  padding: 0px;
+  margin-top: 5px;
   transition: 0.2s;
-  width: 30%;
+  width: 100%;
+
+  filter: blur(20px);
+  opacity: 0%;
 }
-.el-icon-delete:hover, .el-icon-user:hover, .el-icon-minus:hover, .el-icon-plus:hover{
-  color: rgb(247, 239, 239);
-  border-radius: 10px;
-  width: 33%;
+.el-icon-s-promotion:hover {
+  /* color: rgb(0, 0, 0); */
+  /* background-color: rgb(255, 255, 255); */
+  /* margin: 5px; */
+  height: 100%;
+  cursor: pointer;
 }
-.el-icon-delete:hover {
-  background-color: rgb(36, 32, 32);
+.el-icon-s-promotion:hover #tools{
+  color: rgb(0, 0, 0);
+  background-color: rgb(217, 221, 231) ;
+  padding: 5px;
 }
-.el-icon-user:hover {
-  background-color: rgb(113, 142, 199);
-}
-.el-icon-minus:hover {
-  background-color: rgb(199, 113, 113);
-}
-.el-icon-plus:hover {
-  background-color: rgb(113, 199, 130);
-}
-.bar:hover .el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
+
+.bar:hover .el-icon-s-promotion{
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
+  filter: blur(0px);
+  opacity: 100%;
 }
 </style>

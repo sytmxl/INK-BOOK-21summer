@@ -44,7 +44,15 @@
           </section>
         </aside>
         <main>
-          MAIN
+          <el-row style="width: 100%">
+            <el-col :span="5" v-for="(id, index) in cur_node"
+                    :key="id" :offset="index > 0 ? 2 : 0">
+              <el-card>
+
+              </el-card>
+            </el-col>
+          </el-row>
+
         </main>
       </div>
     </el-container>
@@ -174,12 +182,14 @@ section {
 import Vue from 'vue';
 import Contextmenu from "vue-contextmenujs";
 import qs from "qs";
-import axios from "axios";
-
+import {apikey} from "@/scripts/apikey";
+import EtherpadFile from "@/components/etherpadFile";
+import ProjectAside from "@/components/ProjectAside";
+import EditAside from "@/components/EditAside";
 Vue.use(Contextmenu);
 export default {
-
-
+  components: {EtherpadFile,ProjectAside,EditAside},
+  name: "project_docedit",
   /**
    * TEAM_ROOT = 0
    * FOLDER = 1
@@ -204,6 +214,10 @@ export default {
    */
   data() {
     return {
+      content:'n/a',
+      input:'',
+      docUrl:'',
+      cur_node_data:null,
       new_node_parent:null,
       new_node_name:'',
       filterText: '',
@@ -254,8 +268,12 @@ export default {
         });
       }
     })
+    this.$data.cur_node=this.$data.data[0];
   },
   methods: {
+    get_node_content_list(node_data){
+
+    },
     async getNode(node_data) {
       await this.$axios({
         method: "post",
@@ -367,6 +385,52 @@ export default {
         minWidth: 230 // 主菜单最小宽度
       });
       return false;
+    },
+    newPad(){
+      this.axios({
+        method:"post",
+        url:"api/1.2.1/createPad",
+        params:{
+          apikey:apikey,
+          padID:this.$data.input,
+          text:'test'
+        }
+      });
+      this.axios({
+        method:"post",
+        url:"api/1/setText",
+        params:{
+          apikey:apikey,
+          padID:this.$data.input,
+          text:'test'
+        }
+      });
+    },
+    getText(){
+      this.axios({
+        method:"post",
+        url:"api/1/getText",
+        params:{
+          apikey:apikey,
+          padID:this.$data.input,
+        }
+      }).then(res=>{
+        this.$data.content = res.data;
+      })
+    },
+    getPadList(){
+      this.axios({
+        method:"post",
+        url:"api/1.2.1/listAllPads",
+        params:{
+          apikey:apikey,
+        }
+      }).then(res=>{
+        this.$data.content = res.data;
+      })
+    },
+    setPadUrl(){
+      this.$data.docUrl = 'http://43.138.67.29:9001/p/' + this.$data.input;
     }
   },
   watch: {
@@ -374,5 +438,6 @@ export default {
       this.$refs.tree.filter(val);
     }
   },
+
 }
 </script>
