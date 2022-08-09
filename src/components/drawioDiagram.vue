@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog
+    <el-dialog :modal="false"
         title="修改图表信息"
         :visible.sync="dialogVisible"
         width="40%"

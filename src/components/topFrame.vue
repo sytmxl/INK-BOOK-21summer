@@ -20,7 +20,7 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-dialog title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
+      <el-dialog :modal="false" title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
       <el-form :model="form">
           <el-form-item label="团队类型" :label-width="formLabelWidth">
           <el-select v-model="form.type" placeholder="请选择团队类型" >
