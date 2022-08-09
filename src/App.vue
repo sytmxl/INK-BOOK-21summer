@@ -44,6 +44,9 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  animation-name: enter_blur;
+  animation-iteration-count: 1;
+  animation-duration: 0.2s;
 }
 
 el-icon:hover, el-icon-close:hover {
@@ -97,6 +100,44 @@ el-icon:hover, el-icon-close:hover {
 .el-dropdown-menu__item:hover {
   color: #35424e !important;
   background: rgba(191, 202, 217, 0.495) !important;
+}
+
+
+
+/* 动画库 */
+@keyframes enter_label {
+  0% {
+    margin-left: 0px;
+    filter: blur(20px);
+    opacity: 0%;
+  }
+  100% {
+    margin-left: 50px;
+    filter: blur(0px);
+    opacity: 100%;
+  }
+}
+@keyframes enter_aside {
+  0% {
+    left:-80px;
+    filter: blur(20px);
+    opacity: 0%;
+  }
+  100% {
+    left:0px;
+    filter: blur(0px);
+    opacity: 100%;
+  }
+}
+@keyframes enter_blur {
+  0% {
+    filter: blur(20px);
+    opacity: 0%;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 100%;
+  }
 }
 </style>
 

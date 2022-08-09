@@ -310,6 +310,11 @@ export default {
   width: 100%;
   color: rgb(114, 132, 145);
   text-align: left;
+  transition: 1s;
+  /* transform: translateX(90px) 1s; */
+  animation-name: enter_label;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 .el-empty {
   margin-bottom: 600px;

@@ -69,12 +69,9 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
-  /* background-color: rgb(240, 242, 245) !important; */
-}
-.el-menu {
   padding: 0;
   height: 100%;
-  /* background-color: rgb(240, 242, 245) !important; */
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .el-menu-item {
   float: left;
