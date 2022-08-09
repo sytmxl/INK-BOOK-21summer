@@ -86,9 +86,9 @@ export default {
           padID:this.$data.id,
         }
       }).then(res=>{
-        this.$data.preview = res.data.date.text;
-        if(this.$data.preview.length > 50){}
-        this.$data.preview = this.$data.preview.substring(0, 50) +"..."
+        this.$data.preview = res.data.data.text;
+        if(this.$data.preview.length > 50){this.$data.preview = this.$data.preview.substring(0, 50) +"..."}
+
       })
     },
     closeDialog(){
