@@ -1,6 +1,6 @@
 <template>
   <div>
-    <etherpad-file/>
+    <etherpad-file id="test123test123"/>
     <el-input v-model="input" placeholder="console"></el-input>
     <el-button @click="newPad">新建测试</el-button>
     <el-button @click="getText">获取内容</el-button>

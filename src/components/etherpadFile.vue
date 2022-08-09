@@ -40,10 +40,7 @@
         </div>
         <div id="incard" @click="edit">
 
-          <div class="pattern"></div>
-          <div class="pattern"></div>
-          <div class="pattern"></div>
-          <div class="pattern"></div>
+          <p>{{preview}}</p>
 
         </div>
       </el-card>
@@ -60,6 +57,7 @@
 
 <script>
 import qs from "qs";
+import {apikey} from "@/scripts/apikey";
 
 export default {
   name: "etherpadFile",
@@ -80,6 +78,18 @@ export default {
     },
     getProps(){
       //TODO 加载预览
+      this.axios({
+        method:"post",
+        url:"api/1/getText",
+        params:{
+          apikey:apikey,
+          padID:this.$data.id,
+        }
+      }).then(res=>{
+        this.$data.preview = res.data;
+        if(this.$data.preview.length > 50){}
+        this.$data.preview = this.$data.preview.substring(0, 50) +"..."
+      })
     },
     closeDialog(){
       this.$data.dialogVisible = false;
@@ -180,6 +190,7 @@ export default {
   },
 	data() {
     return {
+      id:'',
       title:this.$props.title,
       dialogVisible:false,
       newTitle:'',
