@@ -39,7 +39,7 @@ const routes = [{
         name: 'team_projects',
         component: () =>
             import ('../views/teams/team_projects.vue'),
-    },{
+    }, {
         path: '/team_filecenter',
         name: 'team_filecenter',
         component: () =>
@@ -55,32 +55,31 @@ const routes = [{
     name: 'project_firstpage',
     component: () =>
         import ('../views/projects/project_firstpage.vue'),
-    children: [{
-        path: '/project_outline',
-        name: 'project_outline',
-        component: () =>
-            import ('../views/projects/project_outline.vue'),
-    }, {
-        path: '/project_design',
-        name: 'project_design',
-        component: () =>
-            import ('../views/projects/project_design.vue'),
-    }, {
-        path: '/project_paint',
-        name: 'project_paint',
-        component: () =>
-            import ('../views/projects/project_paint.vue'),
-    }, {
-        path: '/project_word',
-        name: 'project_word',
-        component: () =>
-            import ('../views/projects/project_word.vue'),
-    }, {
-        path: '/project_docedit',
-        name: 'project_docedit',
-        component: () =>
-            import ('../views/projects/project_docedit.vue'),
-    }]
+}, {
+    path: '/project_outline',
+    name: 'project_outline',
+    component: () =>
+        import ('../views/projects/project_outline.vue'),
+}, {
+    path: '/project_design',
+    name: 'project_design',
+    component: () =>
+        import ('../views/projects/project_design.vue'),
+}, {
+    path: '/project_paint',
+    name: 'project_paint',
+    component: () =>
+        import ('../views/projects/project_paint.vue'),
+}, {
+    path: '/project_word',
+    name: 'project_word',
+    component: () =>
+        import ('../views/projects/project_word.vue'),
+}, {
+    path: '/project_docedit',
+    name: 'project_docedit',
+    component: () =>
+        import ('../views/projects/project_docedit.vue'),
 }, {
     path: '/user_search',
     name: 'user_search',
@@ -101,7 +100,7 @@ const routes = [{
     name: 'test',
     component: () =>
         import ('../views/testpage.vue')
-},{
+}, {
     path: '/taketoken/:id',
     name: 'taketoken',
     component: () =>

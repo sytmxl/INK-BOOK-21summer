@@ -23,15 +23,21 @@ export default new Vuex.Store({
         },
 
         project: JSON.parse(sessionStorage.getItem("project")) || {
-            project_id:'',
-            project_name:'',
+            project_id: '',
+            project_name: '',
         },
 
         sorttype: JSON.parse(sessionStorage.getItem("sorttype")) || {
             sorttype: 1
         },
+
         projectsearch: JSON.parse(sessionStorage.getItem("projectsearch")) || {
             content: '',
+        },
+
+        usericon: JSON.parse(sessionStorage.getItem("usericon")) || {
+            userId: '',
+            picurl: '',
         },
     },
     mutations: {
@@ -106,6 +112,7 @@ export default new Vuex.Store({
             state.sorttype = null
         },
 
+
         $_setprojectsearch(state, value) {
 
             sessionStorage.setItem('projectsearch', JSON.stringify(value))
@@ -115,6 +122,14 @@ export default new Vuex.Store({
 
             sessionStorage.removeItem('projectsearch', JSON.stringify(value))
             state.projectsearch = null
+        },
+        $_setusericon(state, value) {
+            sessionStorage.setItem('usericon', JSON.stringify(value))
+            state.usericon = value
+        },
+        $_removeusericon(state) {
+            sessionStorage.removeItem('usericon')
+            state.usericon = null
         },
     },
     actions: {
@@ -166,12 +181,20 @@ export default new Vuex.Store({
         clearsorttype({ commit }) {
             commit('$_removesorttype');
         },
+
         saveprojectsearch({ commit }, data) {
             commit('$_setprojectsearch', data)
         },
 
         clearprojectsearch({ commit }) {
             commit('$_removeprojectsearch');
+        },
+        saveusericon({ commit }, data) {
+            commit('$_setusericon', data)
+        },
+        clearusericon({ commit }) {
+            commit('$_removeusericon')
+
         },
     },
 })
