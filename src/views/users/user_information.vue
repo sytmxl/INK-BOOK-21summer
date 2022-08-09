@@ -1,8 +1,6 @@
 <template>
   <el-container>
     <topFrame :team="false" :search="false" />
-
-
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 3.0%; margin-bottom: 5.5%">
         <el-col :span="10">
@@ -92,7 +90,7 @@
             </el-descriptions-item>
           </el-descriptions>
         </el-col>
-        <el-dialog title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
+        <el-dialog :modal="false" title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" center>
           <el-form ref="password" :model="password" class="password" :hide-required-asterisk="true" :rules="rules">
             <el-form-item prop="originPassWord" label="请输入旧密码：">
@@ -379,7 +377,7 @@ export default {
       // 检验数据的可行性
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log('数据有效');
+          
           this.$axios({
             method: "post" /* 指明请求方式，可以是 get 或 post */,
             url: "app/update_password" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -390,7 +388,7 @@ export default {
             }),
           })
             .then((res) => {
-              console.log(res);
+              
               if (res.data.errno == 0) {
                 this.$message({
                   // message: res.data.msg,
@@ -413,7 +411,7 @@ export default {
             })
         } else {
           this.$message.warning("请检查您的输入")
-          console.log('error submit!!');
+          
           return false;
         }
       });
@@ -485,7 +483,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -527,7 +525,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -565,7 +563,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -601,7 +599,7 @@ export default {
     //     }),
     //   })
     //     .then((res) => {
-    //       console.log(res);
+    //       
     //       if (res.data.errno == 0) {
     //         this.$message({
     //           message: res.data.msg,
@@ -617,12 +615,12 @@ export default {
     //       }
     //     })
     //     .catch((err) => {
-    //       console.log(err); /* 若出现异常则在终端输出相关信息 */
+    //       
     //     });
     //   this.reload();
     // },
     init() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -631,9 +629,9 @@ export default {
         // }
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("成功");
+            
             this.userId = res.data.data.user_id;
             this.username = res.data.data.user_name;
             this.realname = res.data.data.real_name;
@@ -661,11 +659,11 @@ export default {
         url: "app/get_team_list" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取队伍成功");
-            console.log(res);
-            console.log(res.data.data.team_list_owner);
+            
+            
+            
             res.data.data.team_list_owner.forEach((item) => {
               var tmp = {
                 teamId: "",
@@ -681,9 +679,9 @@ export default {
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
             res.data.data.team_list_admin.forEach((item) => {
               var tmp = {
@@ -700,9 +698,9 @@ export default {
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
             res.data.data.team_list_member.forEach((item) => {
               var tmp = {
@@ -719,9 +717,9 @@ export default {
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
           } else {
             this.$message({
@@ -732,22 +730,22 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     getProject() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取项目成功");
-            console.log(res.data.data.project_normal_list);
+            
+            
             res.data.data.project_normal_list.forEach((item) => {
-              console.log("获");
+              
               var tmp = {
                 project_id: "",
                 project_name: "",
@@ -764,7 +762,7 @@ export default {
               tmp.team_name = item.team_name;
               console.log(tmp);
               this.projectlist.push(tmp);
-              console.log(this.projectlist);
+              
             });
           } else {
             this.$message({
@@ -779,18 +777,18 @@ export default {
         });
     },
     getreProject() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取项目成功");
-            console.log(res.data.data.project_normal_list);
+            
+            
             res.data.data.project_recycle_list.forEach((item) => {
-              console.log("获");
+              
               var tmp = {
                 project_id: "",
                 project_name: "",
@@ -807,7 +805,7 @@ export default {
               tmp.team_name = item.team_name;
               console.log(tmp);
               this.reprojectlist.push(tmp);
-              console.log(this.reprojectlist);
+              
             });
           } else {
             this.$message({
@@ -851,9 +849,9 @@ export default {
       // 这里传入的应该是组件中携带的文件信息
       var base64Str = await this.getBase64(file.file);
       this.img_base64 = base64Str;
-      console.log(base64Str);
+      
       this.imgString = base64Str.split(',');
-      console.log(this.imgString);
+      
       this.$axios({
         method: "post",
         url: "app/upload_profile",
@@ -862,9 +860,9 @@ export default {
         }),
       })
         .then((res) => {
-          console.log("更换头像")
-          console.log(res)
-          console.log(this.img_base64)
+          
+          
+          
           if (res.data.errno == 0) {
             this.$message.success("修改头像成功");
             var usericon = { userId: this.userId, picurl: this.img_base64 };

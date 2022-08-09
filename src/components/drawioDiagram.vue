@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog
+    <el-dialog :modal="false"
         title="修改图表信息"
         :visible.sync="dialogVisible"
         width="40%"
@@ -149,7 +149,7 @@ export default {
     },
     async callNextTip() {
       this.tipNo = this.tipNo + 1;
-      await setTimeout(() => console.log(''), 1000);
+      setTimeout(() => console.log(''), 1000);
       await this.getTips()
     },
     del() {

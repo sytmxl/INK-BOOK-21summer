@@ -11,11 +11,12 @@
                   {{teamname}}
                    <i class="el-icon-edit" style="font-size:20px" @click="dialogVisible0 = true" title="重命名团队名称"></i>
                 </div>
-                 <el-dialog
+                 <el-dialog :modal="false"
                   title="修改团队名"
                   :visible.sync="dialogVisible0"
                   width="30%"
-                  :before-close="handleClose">
+                  :before-close="handleClose"
+                  v-if="dialogVisible0">
                   <el-input
                     maxlength="20"
                     show-word-limit
@@ -51,11 +52,11 @@
                   <span class="og">团队简介：<i class="el-icon-edit" style="font-size:20px" @click="dialogVisible = true" title="修改简介"></i></span>
                   <p style="margin-top: 10px;word-wrap: break-word;font-weight: 400;">{{teamintro}}</p>
                 </div>
-                <el-dialog
+                <el-dialog :modal="false"
                   title="修改简介"
                   :visible.sync="dialogVisible"
                   width="30%"
-                  :before-close="handleClose">
+                  :before-close="handleClose" v-if="dialogVisible">
                   <el-input
                     type="textarea"
                     :rows="6"
@@ -124,7 +125,7 @@ export default {
           location.reload();
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
       },
@@ -154,7 +155,7 @@ export default {
           location.reload();
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
       },
       init(){
@@ -165,7 +166,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if(res.data.data.team_list_owner.length>0)
           for( var i in res.data.data.team_list_owner){
             this.allteams.push(res.data.data.team_list_owner[i]);
@@ -178,7 +179,7 @@ export default {
           for( var i in res.data.data.team_list_member){
             this.allteams.push(res.data.data.team_list_member[i]);
           }
-          console.log(this.allteams)
+          
           for (var i = 0; i < this.allteams.length; i++) { 
                  if(this.allteams[i].team_id == this.teamid){
                     this.teamtype = this.allteams[i].team_type;
@@ -191,7 +192,7 @@ export default {
               }
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
       }
     },
@@ -201,6 +202,9 @@ export default {
 }
 </script>
 <style scoped>
+body {
+  padding-right:0 !important ;
+}
 .main{
   width: 100%;
   text-align: left;

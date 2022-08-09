@@ -104,7 +104,7 @@ export default {
         this.$data.PrototypeList = [];
         let i;
         for(i in graph_list){
-          //console.log(graph_list[i].graph_id)
+          //
           this.$data.PrototypeList.push(graph_list[i].graph_id);
         }
         this.$data.PrototypeList = this.$data.PrototypeList.slice(0,3);
@@ -126,7 +126,7 @@ export default {
         this.$data.UMLList = [];
         let i;
         for(i in graph_list){
-          //console.log(graph_list[i].graph_id)
+          //
           this.$data.UMLList.push(graph_list[i].graph_id);
         }
         this.$data.UMLList =this.$data.UMLList.slice(0,3);
@@ -140,10 +140,10 @@ export default {
           project_id:this.$data.project_id,
         }),
       }).then(res=>{
-        console.log(res.data.data)
+        
         let resData = res.data.data;
         this.$data.doc_list = resData.doc_normal_list.slice(0,3);
-        console.log(this.$data.doc_list)
+        
       })
     },
   },

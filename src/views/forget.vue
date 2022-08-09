@@ -82,7 +82,7 @@ export default {
     findPass(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log("忘记成功");
+          
           this.$axios({
             method: "post",
             url: "app/forget_by_token",
@@ -93,8 +93,8 @@ export default {
             }),
           })
             .then((res) => {
-              console.log(this.str);
-              console.log(this.str.length);
+              
+              
               if (res.data.errno == 0) {
                 this.$message.success("成功重设您的密码，将跳转至登录页面");
                 setTimeout(() => {
@@ -110,11 +110,11 @@ export default {
               }
             })
             .catch((err) => {
-              console.log(err);
+              
             });
         }
         else {
-          console.log("error submit!!");
+          
           this.$message.warning("请检查您的输入")
           return false;
         }

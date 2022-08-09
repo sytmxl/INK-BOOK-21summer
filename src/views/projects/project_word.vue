@@ -1,6 +1,6 @@
 <template>
   <div id="init">
-    <el-dialog
+    <el-dialog :modal="false"
         title="新建一个共享文档"
         :visible.sync="dialogVisible"
         width="50%"
@@ -123,7 +123,6 @@ this.axios({
           project_id:this.$data.project_id,
         }),
       }).then(res=>{
-        console.log(res.data.data)
         let resData = res.data.data;
         this.$data.doc_list = resData.doc_normal_list;
         this.$data.recycle_list = resData.doc_recycle_list;
