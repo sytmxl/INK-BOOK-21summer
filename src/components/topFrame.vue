@@ -240,11 +240,11 @@ export default {
   float: right;
 }
 .user img{
-  width: 50px;
-  height: 50px;
-  margin: 4px;
+  width: 40px;
+  height: 40px;
+  margin: 10px;
   border-radius: 50%;
-  right: 40px;
+  right: 20px;
   position: absolute;
   transition: 0.5s;
 }
