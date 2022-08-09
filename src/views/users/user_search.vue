@@ -54,8 +54,8 @@
                 </div>
                 <div class="bar bar2" v-for="item in userlist">
                   <div class="left">
-                    <img v-if="!imgurl" src="../../assets/bk3.jpg" alt=""/>
-                    <img v-else :src="imgurl" alt=""/>
+                    <img v-if="!item.profile" src="../../assets/bk3.jpg" alt=""/>
+                    <img v-else :src="item.profile" alt=""/>
                     <p class="name">{{item.user_name}}</p>
                   </div>
                   <div class="right">
@@ -213,14 +213,15 @@ export default {
                 user_name: "",
                 email: "",
                 user_info: "",
+                profile:"",
               };
               tmp.user_id = item.user_id;
               tmp.user_name = item.user_name;
               tmp.email = item.email;
               tmp.user_info = item.user_info;
-              
+              tmp.profile = item.profile;
               this.userlist.push(tmp);
-              
+              console.log(this.userlist)
             });
           } else {
             this.$message({
@@ -270,6 +271,7 @@ export default {
               this.teamlist.push(tmp);
               
             });
+            console.log(this.teamlist)
           } else {
             this.$message({
               message: res.data.msg,
