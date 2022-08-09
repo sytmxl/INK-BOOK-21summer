@@ -79,22 +79,28 @@
           </el-menu-item>
         </el-menu>
       </div>
-      <div v-loading="loading" element-loading-background="rgba(255,255,255,1)" class="right">
-        <h1 v-if="inediting == false" class="label">所有原型设计</h1>
-        <el-row id="graphContainer" v-if="PrototypeList.length != 0">
-          <el-col :span="5" v-for="(id, index) in PrototypeList"
-                  :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram :graph_id="id" :isdel="viewingDel"
-                           ref="diagrams"
-                           v-on:deled="updateOnDel"
-                           v-on:startEdit="enterEdit"
+      <div class="right">
+<!--        <div v-if="loading == true" v-loading="loading == true"-->
+<!--             element-loading-background="rgba(255,255,255,1)"-->
+<!--        style="height: calc(100vh)"/>-->
+        <div>
+          <h1 v-if="inediting == false" class="label">所有原型设计</h1>
+          <el-row id="graphContainer" v-if="PrototypeList.length != 0">
+            <el-col :span="5" v-for="(id, index) in PrototypeList"
+                    :key="id" :offset="index > 0 ? 2 : 0">
+              <drawio-digram :graph_id="id" :isdel="viewingDel"
+                             ref="diagrams"
+                             v-on:deled="updateOnDel"
+                             v-on:startEdit="enterEdit(index)"
 
-            />
-          </el-col>
-        </el-row>
-        <el-row v-else>
-          <el-empty :image-size="200"></el-empty>
-        </el-row>
+              />
+            </el-col>
+          </el-row>
+          <el-row v-else>
+            <el-empty :image-size="200"></el-empty>
+          </el-row>
+        </div>
+
       </div>
     </el-container>
   </div>
@@ -116,11 +122,20 @@ export default {
     window.startLoading = this.startLoading;
   },
   methods: {
-    sideEdit(index) {
+
+    async sideEdit(index) {
+
+      if(this.inediting != null){
+        this.startLoading();
+        console.log(this.nowediting)
+        await this.$refs.diagrams[this.nowediting].exitEdit();
+      }
       this.$refs.diagrams[index].edit();
+      this.stopLoading();
     },
-    enterEdit() {
+    enterEdit(index) {
       this.inediting = true;
+      this.nowediting = index;
     },
     startLoading() {
       this.loading = true;
@@ -129,6 +144,7 @@ export default {
       this.loading = false;
     },
     exitEdit() {
+      this.nowediting = null;
       this.inediting = false;
     },
     updateOnDel() {
@@ -219,6 +235,7 @@ export default {
   },
   data() {
     return {
+      nowediting:null,
       project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
       newHeader: null,
       newBrief: null,

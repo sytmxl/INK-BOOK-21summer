@@ -3,7 +3,7 @@
   <div class="top">
     <div class="left">
         <div id="nav-header">
-          <span class="brandtext" ><a href="/">INK BOOK</a></span>
+          <span class="brandtext" ><a href="/team_outline">INK BOOK</a></span>
         </div>
     </div>
 
@@ -134,7 +134,7 @@ export default {
             
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
       },
@@ -161,7 +161,7 @@ export default {
           
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         this.profile=JSON.parse(sessionStorage.getItem('usericon')).picurl

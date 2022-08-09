@@ -125,7 +125,7 @@ export default {
           location.reload();
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
       },
@@ -155,7 +155,7 @@ export default {
           location.reload();
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
       },
       init(){
@@ -166,7 +166,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if(res.data.data.team_list_owner.length>0)
           for( var i in res.data.data.team_list_owner){
             this.allteams.push(res.data.data.team_list_owner[i]);
@@ -179,7 +179,7 @@ export default {
           for( var i in res.data.data.team_list_member){
             this.allteams.push(res.data.data.team_list_member[i]);
           }
-          console.log(this.allteams)
+          
           for (var i = 0; i < this.allteams.length; i++) { 
                  if(this.allteams[i].team_id == this.teamid){
                     this.teamtype = this.allteams[i].team_type;
@@ -192,7 +192,7 @@ export default {
               }
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
       }
     },
