@@ -123,7 +123,9 @@ export default {
               };
               var token = {
                 token_num: res.data.data.token
-              }
+              };
+              var usericon = {userId: res.data.data.user_id,picurl: res.data.data.profile};
+              await this.$store.dispatch("saveusericon", usericon);
               await this.$store.dispatch("saveuser", user);
               await this.$store.dispatch("savetoken", token);
               localStorage.setItem("saveuser", qs.stringify(user));
