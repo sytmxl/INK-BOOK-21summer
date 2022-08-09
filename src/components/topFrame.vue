@@ -104,6 +104,7 @@ export default {
         var info = {content: this.input};
         this.$router.push({path:'/user_search'});
         this.$store.dispatch("savesearched", info);
+        location.href="user_search"
       },
       checkit(content){
         this.checkedteam = content.team_name;

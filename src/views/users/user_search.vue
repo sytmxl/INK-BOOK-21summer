@@ -15,7 +15,7 @@
           <el-tabs v-model="activeName">
             <el-tab-pane label="用户" name="first">
               <div v-if="userlist.length!=0">
-              <el-card class="box-card" v-for="item in userlist">
+              <el-card class="box-card" v-for="item in userlist" :key="item">
                 <div slot="header" class="clearfix">
                   <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name
                   }}</span>
@@ -53,7 +53,7 @@
             </el-tab-pane>
             <el-tab-pane label="团队" name="second">
               <div v-if="teamlist.length!=0">
-              <el-card class="box-card1" v-for="item in teamlist">
+              <el-card class="box-card1" v-for="item in teamlist" :key="item">
                   <div slot="header" class="clearfix">
                     <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.team_name
                     }}</span>
@@ -123,11 +123,19 @@ export default {
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
           invite_method: 'email',
-          invite_user_name: user_name
+          invite_user_name: user_name,
+          targeted: 'true'
         }),
       })
         .then((res) => {
-          this.$message.success("邀请信息已发送")
+          if(res.data.errno==0){
+            this.$message.success("邀请信息已发送");
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+
+          
         })
         .catch((err) => {
           console.log(err); 

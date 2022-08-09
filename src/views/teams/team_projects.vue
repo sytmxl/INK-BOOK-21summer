@@ -6,12 +6,12 @@
       <i class="el-icon-plus" style="font-size:20px" @click="addproject()" title="添加新成员"></i>
     </div>
 
-    <div class="folder" @click="isopen = !isopen">
+    <!-- <div class="folder" @click="isopen = !isopen">
       <i class="el-icon-folder" style="font-size:20px"  title="文档中心"></i>
-    </div>
+    </div> -->
 
 
-    <div class="filefolder" v-if="isopen">
+    <!-- <div class="filefolder" v-if="isopen">
       <el-input prefix-icon="el-icon-search"
           v-model="filterText">
       </el-input>
@@ -48,7 +48,7 @@
         </span>
       </span>
     </el-tree>
-    </div>
+    </div> -->
 
     <!-- <div class="recent" v-if="recent_list.length!=0">
       <h1 class="label label_top">近期项目</h1>
@@ -91,7 +91,7 @@
           </el-dropdown>
 
           <el-input prefix-icon="el-icon-search"
-            v-model="search">
+            v-model="search"  @keyup.enter.native="projectsearch()">
           </el-input>
         </h1>
       </div>
@@ -111,7 +111,29 @@
       </div>
     </div>
     <div class="all" v-else>
-      <el-empty description="你尚无项目，快去新建一个吧" :image-size="200"></el-empty>
+      <div class="all_head">
+        <h1 class="label">全部项目&nbsp;
+          <el-dropdown>
+            <span class="el-dropdown-link">
+              {{sorttype}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="sort(1)">按创建时间升序<i class="el-icon-check" v-if="sorttype=='按创建时间升序'"></i></el-dropdown-item>
+              <el-dropdown-item @click.native="sort(2)">按创建时间降序<i class="el-icon-check" v-if="sorttype=='按创建时间降序'"></i></el-dropdown-item>
+              <el-dropdown-item @click.native="sort(3)">按修改时间升序<i class="el-icon-check" v-if="sorttype=='按修改时间升序'"></i></el-dropdown-item>
+              <el-dropdown-item @click.native="sort(4)">按修改时间降序<i class="el-icon-check" v-if="sorttype=='按修改时间降序'"></i></el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+
+          <el-input prefix-icon="el-icon-search"
+            v-model="search"  @keyup.enter.native="projectsearch()">
+          </el-input>
+        </h1>
+      </div>
+      <div class="empty">
+          <el-empty description="这里没有找到你的项目" :image-size="200"></el-empty>
+      </div>
+  
     </div>
   </div>
   <div class="chooseteam" v-else>
@@ -133,7 +155,7 @@ export default {
       isopen:false,
       filterText:'',
       sorttype:'',
-      search:'',
+      search:JSON.parse(sessionStorage.getItem('projectsearch')),
       data: [{
           id: 1,
           label: '文档中心',
@@ -285,9 +307,11 @@ export default {
         url: "app/get_project_list",
         data: qs.stringify({
           team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+          project_name: JSON.parse(sessionStorage.getItem('projectsearch')),
         }),
       })
         .then((res) => {
+          
         let type = JSON.parse(sessionStorage.getItem('sorttype'));
         this.project_list = res.data.data.project_normal_list;
          this.recent_list = res.data.data.project_normal_list;
@@ -334,10 +358,14 @@ export default {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
       },
-      sort(sorttype){
+      async sort(sorttype){
         this.$store.dispatch("savesorttype", sorttype);
-        this.reload();
+        await this.init();
       },
+      async projectsearch(){
+        this.$store.dispatch("saveprojectsearch", this.search);
+        await this.init();
+      }
      
    },
     mounted(){
@@ -349,7 +377,7 @@ export default {
       },
      },
   destroyed(){
-    console.log(666);//离开页面触发
+    sessionStorage.removeItem('projectsearch');
   }
     
 }
