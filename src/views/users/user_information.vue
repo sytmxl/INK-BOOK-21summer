@@ -927,7 +927,7 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
-  padding-top: 62px;
+  padding-top: 40px;
   overflow-y: hidden;
   background-color: rgba(234, 239, 242, 0.425);
 }
