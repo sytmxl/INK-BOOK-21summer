@@ -122,7 +122,7 @@ export default {
         }),
       })
         .then((res) => {
-          var content = {teamId: res.data.data.team_id, team_name: this.form.name}; 
+          var content = {team_id: res.data.data.team_id, team_name: this.form.name}; 
            this.$store.dispatch("saveteam", content);
            this.$message.success(res.data.msg);
            location.reload();
