@@ -1,9 +1,13 @@
 <template>
   <el-container>
     <topFrame :team="false" :search="false" />
+
+
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 3.0%; margin-bottom: 5.5%">
         <el-col :span="10">
+          <el-page-header @back="goBack" content="个人信息">
+          </el-page-header>
           <img v-if="!profile" class="pic" src="../../assets/bk3.jpg" alt="" />
           <img v-else class="pic" :src="profile" alt="" />
           <el-upload ref="upload" class="avatar-uploader" accept="JPG, .PNG, .JPEG,.jpg, .png, .jpeg" :headers="headers"
@@ -15,7 +19,7 @@
             </div>
           </el-upload>
         </el-col>
-        <el-col :span="11" style="margin-top: -0.5%">
+        <el-col :span="11" style="margin-top: 1.5%">
           <el-descriptions :column="3" size="medium" border direction="vertical" title="个人信息">
             <template slot="extra">
               <el-button id="edit" type="primary" size="small" @click="edit()">修改密码</el-button>
@@ -148,7 +152,7 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="" class="goteam">
+                <a class="goteam">
                   团队名称</a>
               </div>
               <div class="right">
@@ -161,7 +165,7 @@
             <div class="bar" v-for="item in teamlist">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="#" class="goteam" @click="gotoTeam(item)">
                   {{ item.teamname }}</a>
               </div>
               <div class="right">
@@ -201,27 +205,27 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a class="goteam">
                   项目名称</a>
               </div>
               <div class="right">
                 <p class="default">项目编号</p>
                 <p class="default long">创建时间</p>
                 <p class="default long">更新时间</p>
-                <p class="default">所属团队编号</p>
+                <p class="default long">所属团队名称</p>
               </div>
             </div>
             <div class="bar" v-for="item in projectlist">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="#" class="goteam" @click="goproject(item)">
                   {{ item.project_name }}</a>
               </div>
               <div class="right">
                 <p class="default">{{ item.project_id }}</p>
                 <p class="default long">{{ item.create_time }}</p>
                 <p class="default long">{{ item.update_time }}</p>
-                <p class="default">{{ item.team_id }}</p>
+                <p class="default long">{{ item.team_name }}</p>
               </div>
             </div>
           </el-tab-pane>
@@ -254,27 +258,27 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a class="goteam">
                   项目名称</a>
               </div>
               <div class="right">
                 <p class="default">项目编号</p>
                 <p class="default long">创建时间</p>
                 <p class="default long">更新时间</p>
-                <p class="default">所属团队编号</p>
+                <p class="default long">所属团队名称</p>
               </div>
             </div>
             <div class="bar" v-for="item in reprojectlist">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="#" class="goreproject" @click="goreproject(item)">
                   {{ item.project_name }}</a>
               </div>
               <div class="right">
                 <p class="default">{{ item.project_id }}</p>
                 <p class="default long">{{ item.create_time }}</p>
                 <p class="default long">{{ item.update_time }}</p>
-                <p class="default">{{ item.team_id }}</p>
+                <p class="default long">{{ item.team_name }}</p>
               </div>
             </div>
 
@@ -368,6 +372,9 @@ export default {
     topFrame
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     changePass(formName) {
       // 检验数据的可行性
       this.$refs[formName].validate((valid) => {
@@ -415,15 +422,47 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    gototeam() {
+    gotoTeam(val) {
+      var content = { team_id: val.teamId, team_name: val.teamname };
+      this.$store.dispatch("saveteam", content);
       this.$message({
-        message: "正在跳转团队详细页面",
+        message: "正在跳转至团队详细页面",
         center: true,
         type: "success",
-        duration: 1500
+        duration: 1000
       });
       setTimeout(() => {
         this.$router.push({ path: 'team_outline' });
+      }, 1000);
+    },
+    goproject(val) {
+      var content = { team_id: val.team_id, team_name: val.team_name };
+      var content2 = { project_id: val.project_id, project_name: val.project_name };
+      this.$store.dispatch("saveteam", content);
+      this.$store.dispatch("saveproject", content2);
+      this.$message({
+        message: "正在跳转至项目详细页面",
+        center: true,
+        type: "success",
+        duration: 1000
+      });
+      setTimeout(() => {
+        this.$router.push({ path: 'project_outline' });
+      }, 1000);
+    },
+    goreproject(val) {
+      var content = { team_id: val.team_id, team_name: val.team_name };
+      var content2 = { project_id: val.project_id, project_name: val.project_name };
+      this.$store.dispatch("saveteam", content);
+      this.$store.dispatch("saveproject", content2);
+      this.$message({
+        message: "正在跳转至回收站",
+        center: true,
+        type: "success",
+        duration: 1000
+      });
+      setTimeout(() => {
+        this.$router.push({ path: 'team_dustbin' });
       }, 1000);
     },
     edit() {
@@ -629,12 +668,14 @@ export default {
             console.log(res.data.data.team_list_owner);
             res.data.data.team_list_owner.forEach((item) => {
               var tmp = {
+                teamId: "",
                 teamname: "",
                 teamtype: "",
                 teamsetter: "",
                 teamsettime: "",
                 teamernum: "",
               };
+              tmp.teamId = item.team_id;
               tmp.teamname = item.team_name;
               tmp.teamtype = item.team_type;
               tmp.teamsetter = item.team_owner_user_name;
@@ -646,12 +687,14 @@ export default {
             });
             res.data.data.team_list_admin.forEach((item) => {
               var tmp = {
+                teamId: "",
                 teamname: "",
                 teamtype: "",
                 teamsetter: "",
                 teamsettime: "",
                 teamernum: "",
               };
+              tmp.teamId = item.team_id;
               tmp.teamname = item.team_name;
               tmp.teamtype = item.team_type;
               tmp.teamsetter = item.team_owner_user_name;
@@ -663,12 +706,14 @@ export default {
             });
             res.data.data.team_list_member.forEach((item) => {
               var tmp = {
+                teamId: "",
                 teamname: "",
                 teamtype: "",
                 teamsetter: "",
                 teamsettime: "",
                 teamernum: "",
               };
+              tmp.teamId = item.team_id;
               tmp.teamname = item.team_name;
               tmp.teamtype = item.team_type;
               tmp.teamsetter = item.team_owner_user_name;
@@ -709,12 +754,14 @@ export default {
                 create_time: "",
                 update_time: "",
                 team_id: "",
+                team_name: ""
               };
               tmp.project_id = item.project_id;
               tmp.project_name = item.project_name;
               tmp.create_time = item.create_time;
               tmp.update_time = item.update_time;
               tmp.team_id = item.team_id;
+              tmp.team_name = item.team_name;
               console.log(tmp);
               this.projectlist.push(tmp);
               console.log(this.projectlist);
@@ -750,12 +797,14 @@ export default {
                 create_time: "",
                 update_time: "",
                 team_id: "",
+                team_name: ""
               };
               tmp.project_id = item.project_id;
               tmp.project_name = item.project_name;
               tmp.create_time = item.create_time;
               tmp.update_time = item.update_time;
               tmp.team_id = item.team_id;
+              tmp.team_name = item.team_name;
               console.log(tmp);
               this.reprojectlist.push(tmp);
               console.log(this.reprojectlist);
@@ -833,10 +882,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-        // setTimeout(() => {
-        //       window.location.reload();
-        //     }, 1000);
-     },
+      // setTimeout(() => {
+      //       window.location.reload();
+      //     }, 1000);
+    },
     // 获取图片转base64，这里用的是Promise，所以调用方法时必须转换成同步（async，await）
     // 否则上传数据时好时坏，能不能上传成功全看运气 ^_^
     getBase64(file) {
