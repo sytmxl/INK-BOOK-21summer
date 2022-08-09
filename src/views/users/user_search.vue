@@ -57,7 +57,7 @@
                   <div slot="header" class="clearfix">
                     <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.team_name
                     }}</span>
-                    <el-button style="float: right; margin-top:-19px" type="text">申请加入团队</el-button>
+                    <el-button style="float: right; margin-top:-19px" type="text"></el-button>
                   </div>
                   <div class="text item name">
                     <span class="og">团队编号：</span>

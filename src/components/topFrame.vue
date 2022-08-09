@@ -96,6 +96,7 @@ export default {
         sessionStorage.removeItem('team');
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('usericon');
         localStorage.removeItem('saveuser');
         localStorage.removeItem('savetoken');
       },
