@@ -1,7 +1,6 @@
 <template>
   <el-menu
     background-color="rgb(240, 242, 245)"
-    text-color="black"
     active-text-color="rgb(134, 143, 150)"
     default-active="1"
     class="el-menu-vertical-demo"
@@ -14,20 +13,18 @@
       <div class="back">
         &lt;&nbsp;
       </div>
-      项目
+      <!-- {{ this.$props.header }} -->
+      文件
     </div>
     <el-divider></el-divider>
 
     <div class="menu_base">
       <el-menu-item
-      v-for="item in noChildren"
-      :index="item.path"
-      :key="item.path"
-      :route="item.path"
-      @click="clickMenu(item)"
+      v-for="(item,index) in this.$props.target_list"
+      :key="item.id"
+      @click="clickMenu(index)"
       >
-        <i :class="'el-icon-' + item.icon"></i>
-        <span slot="title">{{ item.label }}</span>
+        <span slot="title">{{ item.title }}</span>
       </el-menu-item>
     </div>
   </el-menu>
@@ -35,53 +32,26 @@
 
 <script>
 export default {
-  name: "drawAside",
+  name: "EditAside",
+  props:{
+    header: {default:'',type:String},
+    target_list: [],
+  },
   data() {
     return {
       isCollapse: false,
-      menu: [
-        {
-          path: "../views/projects/project_outline.vue",
-          name: "project_outline",
-          label: "项目介绍",
-          icon: "notebook-1",
-        },
-        {
-          path: "../views/projects/project_design.vue",
-          name: "project_design",
-          label: "原型设计",
-          icon: "bank-card",
-        },
-        {
-          path: "../views/projects/project_paint.vue",
-          name: "project_paint",
-          label: "UML绘制",
-          icon: "postcard",
-        },
-        {
-          path: "../views/projects/project_word.vue",
-          name: "project_word",
-          label: "共享文档",
-          icon: "document",
-        },
-      ],
     };
   },
   methods: {
-    goBack(){window.location.href = "/team_projects"},
+    goBack(){window.location.href = "/project_design"},
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    clickMenu(item) {
-      console.log(this.$router.currentRoute.name);
-     
-      this.$router.push({
-        name: item.name,
-      }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
-
+    clickMenu(index) {
+      this.$emit('sideclick',index);
     },
   },
   computed: {
@@ -99,11 +69,9 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
-}
-.el-menu {
   padding: 0;
   height: 100%;
-  background-color: rgb(73, 105, 160);
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .el-menu-item {
   float: left;
@@ -112,10 +80,11 @@ export default {
   margin: 8px;
   height: min-content;
   width: 184px;
-  /* background-color: rgb(247, 250, 252) !important; */
+  background-color: rgb(247, 250, 252) !important;
   transition: 0.4s;
   text-align: left;
   z-index: 0;
+  font-weight: 400 !important;
 }
 .el-menu-item:hover {
   backdrop-filter: blur(3px) !important;

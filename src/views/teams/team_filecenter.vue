@@ -5,6 +5,10 @@
                 <div class="resize"></div>
                 <div class="line"></div>
                 <section>
+                  
+                  <div class="foldertitle">
+                    <h1>文档管理器</h1>
+                  </div>
                      <div class="filefolder">
                 <el-input prefix-icon="el-icon-search"
                     v-model="filterText">
@@ -43,17 +47,24 @@
 </template>
 
 <style scoped>
+.foldertitle{
+  width: 100%;
+  text-align: left;
+}
 .filefolder{
-  height: 670px;
+  height: 96%;
   position: absolute;
   overflow: hidden;
+  overflow-y:scroll;
   width: 100%;
-  z-index: -1;
+  border-top: 3px solid grey;
+  border-bottom: 3px solid grey;
 }
 .el-input{
     width: 180px;
     position: absolute;
     left: 10px;
+    top: 10px;
 }
 .el-input >>> .el-input__inner{
     border-radius:25px;
@@ -64,12 +75,11 @@
     width: 100%;
   background-color: rgb(242, 244, 245);
   overflow: hidden;
-  z-index: -1;
-  top: 80px;
+  top: 50px;
 }
 .el-container{
     /* display: flex; */
-    height: 100%;
+    /* height: 100%; */
     flex-direction: column;
     top: 80px;
 }
@@ -90,7 +100,7 @@ main{
 }
 section{
     position: absolute;
-    inset: 40px 5px 0 0;
+    inset: 0px 5px 0 0;
     backdrop-filter: blur(25px) brightness(110%);
    background-color: rgb(242, 244, 245);
 }
@@ -98,7 +108,7 @@ section{
     width: 220px;
     height: 16px;
     transform: scaleY(100);
-    overflow: scroll;
+    overflow: hidden;
     resize: horizontal;
     opacity: 0;
     max-width: 800px;

@@ -58,53 +58,49 @@
         <el-button type="primary" @click="add_graph">新建</el-button>
       </span>
     </el-dialog>
-    <el-container v-loading="loading" element-loading-background="rgba(255,255,255,1)"
-                  style="min-height: calc(100vh)">
+    <el-container style="min-height: calc(100vh)">
+      <el-aside width="200px">
+        <project-aside v-if="inediting == false"/>
+        <edit-aside v-else header="原型设计" :target_list="sideList" v-on:sideclick="sideEdit($event)"/>
+      </el-aside>
       <div>
-        <el-menu  default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
-          <el-menu-item  class="outside" index="1" @click="dialogVisible = true">
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse=true>
+          <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
           </el-menu-item>
-          <el-menu-item  class="outside" index="2" >
+          <el-menu-item class="outside" index="2">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">管理</span>
           </el-menu-item>
-          <el-menu-item  class="outside" index="3" @click = "viewDel">
+          <el-menu-item class="outside" index="3" @click="viewDel">
             <i class="el-icon-delete"></i>
-            <span slot="title" >回收站</span>
+            <span slot="title">回收站</span>
           </el-menu-item>
-<!--          <el-table-->
-<!--              :data="this.$refs.diagrams"-->
-<!--              height="calc(100vh)">-->
-<!--            <el-table-column label="原型图"-->
-<!--                             prop="title"-->
-<!--            />-->
-<!--            <template slot-scope="scope">-->
-<!--              <el-button-->
-<!--                  size="mini"-->
-<!--                  type="danger"-->
-<!--                  @click="handleOpenDiagram(scope.$index, scope.row)">Delete</el-button>-->
-<!--            </template>-->
-<!--          </el-table>-->
         </el-menu>
       </div>
       <div class="right">
-        <h1 v-if="inediting == false" class="label">所有原型设计</h1>
-        <el-row id="graphContainer" v-if="PrototypeList.length != 0">
-          <el-col :span="5" v-for="(id, index) in PrototypeList"
-                  :key="id" :offset="index > 0 ? 2 : 0" >
-            <drawio-digram :graph_id = "id" :isdel = "viewingDel"
-                           ref="diagrams"
-                           v-on:deled = "updateOnDel"
-                           v-on:startEdit = "enterEdit"
+<!--        <div v-if="loading == true" v-loading="loading == true"-->
+<!--             element-loading-background="rgba(255,255,255,1)"-->
+<!--        style="height: calc(100vh)"/>-->
+        <div>
+          <h1 v-if="inediting == false" class="label">所有原型设计</h1>
+          <el-row id="graphContainer" v-if="PrototypeList.length != 0">
+            <el-col :span="5" v-for="(id, index) in PrototypeList"
+                    :key="id" :offset="index > 0 ? 2 : 0">
+              <drawio-digram :graph_id="id" :isdel="viewingDel"
+                             ref="diagrams"
+                             v-on:deled="updateOnDel"
+                             v-on:startEdit="enterEdit(index)"
 
-            />
-          </el-col>
-        </el-row>
-        <el-row v-else>
-          <el-empty :image-size="200"></el-empty>
-        </el-row>
+              />
+            </el-col>
+          </el-row>
+          <el-row v-else>
+            <el-empty :image-size="200"></el-empty>
+          </el-row>
+        </div>
+
       </div>
     </el-container>
   </div>
@@ -114,74 +110,84 @@
 import drawioDigram from "@/components/drawioDiagram";
 import qs from "qs";
 import drawio from "@/scripts/drawio";
+import ProjectAside from "../../components/ProjectAside";
+import EditAside from "@/components/EditAside";
 export default {
   inject: ["reload"],
-  components: {drawioDigram},
+  components: {drawioDigram,ProjectAside,EditAside},
   mounted() {
     this.get_list("0");
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
-
   },
-  methods:{
-    test(){
-      this.$refs.diagrams[0].edit();
+  methods: {
+
+    async sideEdit(index) {
+
+      if(this.inediting != null){
+        this.startLoading();
+        console.log(this.nowediting)
+        await this.$refs.diagrams[this.nowediting].exitEdit();
+      }
+      this.$refs.diagrams[index].edit();
+      this.stopLoading();
     },
-    handleOpenDiagram(index, row){
-      alert(index);
-      alert(row);
-    },
-    enterEdit(){
+    enterEdit(index) {
       this.inediting = true;
+      this.nowediting = index;
     },
-    startLoading(){
+    startLoading() {
       this.loading = true;
     },
-    stopLoading(){
+    stopLoading() {
       this.loading = false;
     },
-    exitEdit(){
+    exitEdit() {
+      this.nowediting = null;
       this.inediting = false;
     },
-    updateOnDel(){
+    updateOnDel() {
       this.get_list(this.$data.viewingDel);
     },
-    viewDel(){
-      if(this.viewingDel == "1"){
+    viewDel() {
+      if (this.viewingDel == "1") {
         this.viewingDel = "0";
-      }else {
+      } else {
         this.viewingDel = "1";
       };
       this.get_list(this.viewingDel);
     },
-    closeDialog(){
+    closeDialog() {
       this.$data.dialogVisible = false
     },
-    get_list(del){
+    get_list(del) {
       this.$axios({
-        method: "post" ,
-        url: "app/get_graph_list" ,
+        method: "post",
+        url: "app/get_graph_list",
         data: qs.stringify({
-          project_id:this.$data.project_id,
-          type:1,
-          isdeleted:del
+          project_id: this.$data.project_id,
+          type: 1,
+          isdeleted: del
         }),
       }).then(res => {
         let graph_list = res.data.data.graph_list
 
         this.$data.PrototypeList = [];
+        this.$data.sideList = [];
         let i;
-        for(i in graph_list){
+        for (i in graph_list) {
           //console.log(graph_list[i].graph_id)
+          console.log(graph_list[i])
           this.$data.PrototypeList.push(graph_list[i].graph_id);
+          this.$data.sideList.push({id:graph_list[i].graph_id,title:graph_list[i].graph_name})
         }
         this.$data.loading = false;
       })
     },
     async add_graph(template) {
       let newid = null;
-      if(this.$data.newHeader == null || this.$data.newHeader == '' ){
+      if (this.$data.newHeader == null || this.$data.newHeader == '') {
         this.$message({
           message: '原型设计图的标题不得为空',
           type: 'warning'
@@ -190,12 +196,12 @@ export default {
       }
       this.closeDialog();
       await this.$axios({
-        method: "post" ,
-        url: "app/new_graph" ,
+        method: "post",
+        url: "app/new_graph",
         data: qs.stringify({
-          project_id:this.$data.project_id,
-          graph_type:1,
-          template:0
+          project_id: this.$data.project_id,
+          graph_type: 1,
+          template: 0
         }),
       }).then(async res => {
         newid = res.data.data.graph_id
@@ -221,7 +227,7 @@ export default {
 
 
       this.$message({
-        message: '成功新建了\"'+this.$data.newHeader+'\"',
+        message: '成功新建了\"' + this.$data.newHeader + '\"',
         type: 'success'
       });
       this.$data.newHeader = this.$data.newBrief = null;
@@ -229,35 +235,37 @@ export default {
   },
   data() {
     return {
-      project_id : JSON.parse(sessionStorage.getItem("project")).project_id,
-      newHeader:null,
-      newBrief:null,
-      dialogVisible:false,
-      viewingDel:"0",
-      PrototypeList:[],
+      nowediting:null,
+      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
+      newHeader: null,
+      newBrief: null,
+      dialogVisible: false,
+      viewingDel: "0",
+      sideList:[],
+      PrototypeList: [],
       template: 1,
       inediting: false,
-      loading:true,
+      loading: true,
       template_options: [{
         value: 0,
         label: '空白模板',
-        preview : drawio.DiagramEditor.prototypeDefaultProject0
+        preview: drawio.DiagramEditor.prototypeDefaultProject0
       }, {
         value: 1,
         label: '模板1',
-        preview : drawio.DiagramEditor.prototypeDefaultProject1
+        preview: drawio.DiagramEditor.prototypeDefaultProject1
       }, {
         value: 2,
         label: '模板2',
-        preview : drawio.DiagramEditor.prototypeDefaultProject2
+        preview: drawio.DiagramEditor.prototypeDefaultProject2
       }, {
         value: 3,
         label: '模板3',
-        preview : drawio.DiagramEditor.prototypeDefaultProject3
+        preview: drawio.DiagramEditor.prototypeDefaultProject3
       }, {
         value: 4,
         label: '模板4',
-        preview : drawio.DiagramEditor.prototypeDefaultProject4
+        preview: drawio.DiagramEditor.prototypeDefaultProject4
       }],
     }
   }
@@ -265,31 +273,28 @@ export default {
 </script>
 
 <style scoped>
-#init{
-  margin:0px auto;
-  color:blueviolet;
-  font-size: large;
-  font-weight: bold;
-}
 .el-col {
   margin: 22px;
   width: 360px;
   /* background-color: beige; */
   z-index: 0;
 }
+
 .right {
   margin-left: 80px;
   width: 100%;
   /* height: 100%; */
 }
-.el-menu-vertical-demo {
+
+.second {
   /* margin-left: 1px; */
   float: top;
   background-color: rgb(255, 255, 255) !important;
   position: fixed;
   height: 1000px;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+
+.second:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 
@@ -298,19 +303,23 @@ export default {
 .inside {
   transition: 0.4s;
 }
+
 .inside:hover {
   margin: 15px 10px 8px 10px;
   border-radius: 15px;
 }
+
 .outside {
   transition: 0.4s;
 }
+
 .outside:hover {
   margin: 15px 0px 15px 5px;
   border: 5px;
   border-radius: 90px;
   background-color: rgba(150, 169, 183, 0.422) !important;
 }
+
 .label {
   margin: 30px 0px 0px 50px;
   font-size: 50px;
@@ -318,5 +327,16 @@ export default {
   width: 100%;
   color: rgb(114, 132, 145);
   text-align: left;
+  transition: 1s;
+  /* transform: translateX(90px) 1s; */
+  animation-name: enter_label;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
+}
+.el-empty {
+  margin-bottom: 600px;
+}
+iframe {
+  height: 100%;
 }
 </style>

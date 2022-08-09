@@ -59,8 +59,11 @@
       </span>
     </el-dialog>
     <el-container>
+      <el-aside width="200px">
+        <project-aside/>
+      </el-aside>
       <div>
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
@@ -94,10 +97,11 @@
 import drawioDigram from "@/components/drawioDiagram";
 import qs from "qs";
 import drawio from "@/scripts/drawio";
+import ProjectAside from "../../components/ProjectAside";
 export default {
   inject: ["reload"],
 
-  components: {drawioDigram},
+  components: {drawioDigram,ProjectAside},
   beforeMount() {
     this.get_list("0");
   },
@@ -219,12 +223,7 @@ export default {
 </script>
 
 <style scoped>
-#init{
-    margin:0px auto;
-    color:blueviolet;
-    font-size: large;
-    font-weight: bold;
-}
+
 .el-col {
   margin: 22px;
   width: 360px;
@@ -235,13 +234,13 @@ export default {
   margin-left: 80px;
   width: 100%;
 }
-.el-menu-vertical-demo {
+.second {
   float: top;
   background-color: rgb(255, 255, 255) !important;
   position: fixed;
   height: 1000px;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.second:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 
@@ -270,5 +269,11 @@ export default {
   width: 100%;
   color: rgb(114, 132, 145); 
   text-align: left;
+  animation-name: enter_label;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
+}
+.el-empty {
+  margin-bottom: 600px;
 }
 </style>

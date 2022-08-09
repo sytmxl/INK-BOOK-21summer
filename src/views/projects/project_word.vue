@@ -24,8 +24,11 @@
       </span>
     </el-dialog>
     <el-container>
+      <el-aside width="200px">
+        <project-aside/>
+      </el-aside>
       <div>
-        <el-menu width=65px default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse="true" >
 
           <el-menu-item class="outside" index="2">
             <i class="el-icon-plus" @click="dialogVisible = true"></i>
@@ -74,10 +77,11 @@
 <script>
 import EtherpadFile from "../../components/etherpadFile.vue";
 import qs from "qs";
+import ProjectAside from "../../components/ProjectAside";
 export default {
   inject: ["reload"],
 
-  components: { EtherpadFile },
+  components: { EtherpadFile ,ProjectAside},
   beforeMount() {
     this.get_doc_list();
   },
@@ -155,12 +159,7 @@ this.axios({
 
 
 <style scoped>
-#init{
-    margin:0px auto;
-    color:blueviolet;
-    font-size: large;
-    font-weight: bold;
-}
+
 .right {
   margin-left: 80px;
   width: 100%;
@@ -169,14 +168,14 @@ this.axios({
   margin: 22px;
   width: 360px;
 }
-.el-menu--collapse{
+.second{
   float: top;
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
   position: fixed;
   height: 1000px;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.second:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
   
@@ -216,5 +215,11 @@ this.axios({
   width: 100%;
   color: rgb(114, 132, 145); 
   text-align: left;
+  animation-name: enter_label;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
+}
+.el-empty {
+  margin-bottom: 600px;
 }
 </style>
