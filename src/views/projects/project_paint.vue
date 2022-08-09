@@ -59,6 +59,9 @@
       </span>
     </el-dialog>
     <el-container>
+      <el-aside width="200px">
+        <project-aside/>
+      </el-aside>
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
@@ -94,10 +97,11 @@
 import drawioDigram from "@/components/drawioDiagram";
 import qs from "qs";
 import drawio from "@/scripts/drawio";
+import ProjectAside from "../../components/ProjectAside";
 export default {
   inject: ["reload"],
 
-  components: {drawioDigram},
+  components: {drawioDigram,ProjectAside},
   beforeMount() {
     this.get_list("0");
   },
