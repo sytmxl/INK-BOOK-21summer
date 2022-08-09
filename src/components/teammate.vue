@@ -6,9 +6,9 @@
       <p class="name">{{user_name}}</p>
     </div>
     <div class="right">
-      <div  id="tools">
+      <!-- <div  id="tools">
         <i class="el-icon-user"></i>
-      </div>    
+      </div>     -->
       <p class="id">团队创始人</p> 
       <p class="realname">真实姓名：{{realname}}</p>
       <p class="email">邮箱：{{email}}</p>
@@ -23,7 +23,7 @@
     </div>
     <div class="right">
       <div id="tools">
-        <i class="el-icon-user" ></i>
+        <!-- <i class="el-icon-user" ></i> -->
         <i class="el-icon-minus" @click="cancelmanager()"></i>
         <i class="el-icon-delete" @click="deletemember()"></i>
       </div>
@@ -42,7 +42,7 @@
 
     <div class="right">
       <div id="tools">
-        <i class="el-icon-user" ></i>
+        <!-- <i class="el-icon-user" ></i> -->
         <i class="el-icon-plus" @click="tobemanager()"></i>
         <i class="el-icon-delete" @click="deletemember()"></i>
       </div>

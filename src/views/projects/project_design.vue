@@ -1,16 +1,14 @@
 <template>
   <div id="init">
-    <el-dialog :modal="false"
-        title="新建一个原型设计图"
+    <el-dialog :modal="false" v-if="dialogVisible"
+        title="新建原型设计图"
         :visible.sync="dialogVisible"
-        width="50%"
+        width="30%"
         :before-close="closeDialog">
       <span>
         <span>
           <el-row>
-            <el-col :span="4">
-              原型设计标题：
-            </el-col>
+            
             <el-col :span="20">
               <el-input
                   placeholder="请输入标题"
@@ -19,9 +17,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="4">
-              原型设计图注：
-            </el-col>
+            
             <el-col :span="20">
               <el-input
                   placeholder="请输入图注"
@@ -32,9 +28,7 @@
         </span>
         <span>
           <el-row>
-            <el-col :span="4">
-              原型设计模板：
-            </el-col>
+            
             <el-col :span="4">
               <el-select v-model="template" placeholder="请选择">
                 <el-option
@@ -67,7 +61,7 @@
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse=true>
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
-            <span slot="title">新建表</span>
+            <span slot="title">新建</span>
           </el-menu-item>
           <el-menu-item class="outside" index="2">
             <i class="el-icon-edit-outline"></i>

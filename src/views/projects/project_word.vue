@@ -1,22 +1,15 @@
 <template>
   <div id="init">
-    <el-dialog :modal="false"
+    <el-dialog :modal="false" v-if="dialogVisible"
         title="新建一个共享文档"
+        width="30%"
         :visible.sync="dialogVisible"
-        width="50%"
         :before-close="closeDialog">
       <span>
-          <el-row>
-            <el-col :span="4">
-              文档标题：
-            </el-col>
-            <el-col :span="20">
-              <el-input
-                  placeholder="请输入标题"
-                  v-model="newDocName">
-              </el-input>
-            </el-col>
-          </el-row>
+        <el-input
+            placeholder="请输入标题"
+            v-model="newDocName">
+        </el-input>
       </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
@@ -29,7 +22,7 @@
 
           <el-menu-item class="outside" index="2">
             <i class="el-icon-plus" @click="dialogVisible = true"></i>
-            <span slot="title">新建表</span>
+            <span slot="title">新建</span>
           </el-menu-item>
           <el-menu-item class="outside" index="2">
             <i class="el-icon-edit-outline"></i>
@@ -162,7 +155,7 @@ export default {
 }
 .el-col {
   margin: 22px;
-  width: 360px;
+  /* width: 360px; */
 }
 .second{
   float: top;
@@ -218,4 +211,5 @@ export default {
 .el-empty {
   margin-bottom: 600px;
 }
+
 </style>
