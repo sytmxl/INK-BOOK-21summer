@@ -44,6 +44,9 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  animation-name: enter_blur;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 
 el-icon:hover, el-icon-close:hover {
@@ -97,6 +100,73 @@ el-icon:hover, el-icon-close:hover {
 .el-dropdown-menu__item:hover {
   color: #35424e !important;
   background: rgba(191, 202, 217, 0.495) !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  width: 6px;
+  background: rgba(#101F1C, 0.1);
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144,147,153,.5);
+  background-clip: padding-box;
+  min-height: 28px;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+  transition: background-color .3s;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144,147,153,.3);
+}
+
+
+
+/* 动画库 */
+@keyframes enter_label {
+  0% {
+    margin-left: 0px;
+    filter: blur(20px);
+    opacity: 0%;
+  }
+  100% {
+    margin-left: 50px;
+    filter: blur(0px);
+    opacity: 100%;
+  }
+}
+@keyframes enter_aside {
+  0% {
+    left:-80px;
+    filter: blur(20px);
+    opacity: 0%;
+  }
+  100% {
+    left:0px;
+    filter: blur(0px);
+    opacity: 100%;
+  }
+}
+@keyframes enter_blur {
+  0% {
+    filter: blur(20px);
+    opacity: 0%;
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 100%;
+  }
+
 }
 </style>
 

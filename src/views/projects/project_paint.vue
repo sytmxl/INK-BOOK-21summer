@@ -269,6 +269,9 @@ export default {
   width: 100%;
   color: rgb(114, 132, 145); 
   text-align: left;
+  animation-name: enter_label;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 .el-empty {
   margin-bottom: 600px;
