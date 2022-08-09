@@ -4,6 +4,7 @@
             
       <div class="all">
       <h1 class="label">回收站</h1>
+
       <div v-for="item in project_list" :key="item">
         <el-card class="box-card" shadow="hover">
           <div id="tools">
@@ -14,9 +15,12 @@
           <p>创建时间：<br/>{{item.create_time}}</p>
           <p>删除时间：<br/>{{item.update_time}}</p>
 
-      </el-card>
+
+          </el-card>
+        </div>
       </div>
-    </div>
+  
+      
         </div>
          <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>
@@ -185,7 +189,7 @@ export default {
          this.project_list = res.data.data.project_recycle_list;
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
       },
       restore(id){
@@ -208,7 +212,7 @@ export default {
          location.reload();
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         }).catch(() => {
@@ -244,7 +248,7 @@ export default {
              location.reload();
             })
             .catch((err) => {
-              console.log(err); 
+              
         });
 
         }).catch(() => {

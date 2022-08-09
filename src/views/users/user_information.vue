@@ -4,6 +4,8 @@
     <el-main style="overflow: scroll">
       <el-row style="margin-top: 3.0%; margin-bottom: 5.5%">
         <el-col :span="10">
+          <el-page-header @back="goBack" content="个人信息">
+          </el-page-header>
           <img v-if="!profile" class="pic" src="../../assets/bk3.jpg" alt="" />
           <img v-else class="pic" :src="profile" alt="" />
           <el-upload ref="upload" class="avatar-uploader" accept="JPG, .PNG, .JPEG,.jpg, .png, .jpeg" :headers="headers"
@@ -15,7 +17,7 @@
             </div>
           </el-upload>
         </el-col>
-        <el-col :span="11" style="margin-top: -0.5%">
+        <el-col :span="11" style="margin-top: 1.5%">
           <el-descriptions :column="3" size="medium" border direction="vertical" title="个人信息">
             <template slot="extra">
               <el-button id="edit" type="primary" size="small" @click="edit()">修改密码</el-button>
@@ -88,7 +90,7 @@
             </el-descriptions-item>
           </el-descriptions>
         </el-col>
-        <el-dialog title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
+        <el-dialog :modal="false" title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" center>
           <el-form ref="password" :model="password" class="password" :hide-required-asterisk="true" :rules="rules">
             <el-form-item prop="originPassWord" label="请输入旧密码：">
@@ -148,7 +150,7 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="" class="goteam">
+                <a class="goteam">
                   团队名称</a>
               </div>
               <div class="right">
@@ -161,7 +163,7 @@
             <div class="bar" v-for="item in teamlist">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="#" class="goteam" @click="gotoTeam(item)">
                   {{ item.teamname }}</a>
               </div>
               <div class="right">
@@ -201,27 +203,27 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a class="goteam">
                   项目名称</a>
               </div>
               <div class="right">
                 <p class="default">项目编号</p>
                 <p class="default long">创建时间</p>
                 <p class="default long">更新时间</p>
-                <p class="default">所属团队编号</p>
+                <p class="default long">所属团队名称</p>
               </div>
             </div>
             <div class="bar" v-for="item in projectlist">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="#" class="goteam" @click="goproject(item)">
                   {{ item.project_name }}</a>
               </div>
               <div class="right">
                 <p class="default">{{ item.project_id }}</p>
                 <p class="default long">{{ item.create_time }}</p>
                 <p class="default long">{{ item.update_time }}</p>
-                <p class="default">{{ item.team_id }}</p>
+                <p class="default long">{{ item.team_name }}</p>
               </div>
             </div>
           </el-tab-pane>
@@ -254,27 +256,27 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a class="goteam">
                   项目名称</a>
               </div>
               <div class="right">
                 <p class="default">项目编号</p>
                 <p class="default long">创建时间</p>
                 <p class="default long">更新时间</p>
-                <p class="default">所属团队编号</p>
+                <p class="default long">所属团队名称</p>
               </div>
             </div>
             <div class="bar" v-for="item in reprojectlist">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="#" class="goreproject" @click="goreproject(item)">
                   {{ item.project_name }}</a>
               </div>
               <div class="right">
                 <p class="default">{{ item.project_id }}</p>
                 <p class="default long">{{ item.create_time }}</p>
                 <p class="default long">{{ item.update_time }}</p>
-                <p class="default">{{ item.team_id }}</p>
+                <p class="default long">{{ item.team_name }}</p>
               </div>
             </div>
 
@@ -368,11 +370,14 @@ export default {
     topFrame
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     changePass(formName) {
       // 检验数据的可行性
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log('数据有效');
+          
           this.$axios({
             method: "post" /* 指明请求方式，可以是 get 或 post */,
             url: "app/update_password" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -383,7 +388,7 @@ export default {
             }),
           })
             .then((res) => {
-              console.log(res);
+              
               if (res.data.errno == 0) {
                 this.$message({
                   // message: res.data.msg,
@@ -406,7 +411,7 @@ export default {
             })
         } else {
           this.$message.warning("请检查您的输入")
-          console.log('error submit!!');
+          
           return false;
         }
       });
@@ -415,15 +420,47 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    gototeam() {
+    gotoTeam(val) {
+      var content = { team_id: val.teamId, team_name: val.teamname };
+      this.$store.dispatch("saveteam", content);
       this.$message({
-        message: "正在跳转团队详细页面",
+        message: "正在跳转至团队详细页面",
         center: true,
         type: "success",
-        duration: 1500
+        duration: 1000
       });
       setTimeout(() => {
         this.$router.push({ path: 'team_outline' });
+      }, 1000);
+    },
+    goproject(val) {
+      var content = { team_id: val.team_id, team_name: val.team_name };
+      var content2 = { project_id: val.project_id, project_name: val.project_name };
+      this.$store.dispatch("saveteam", content);
+      this.$store.dispatch("saveproject", content2);
+      this.$message({
+        message: "正在跳转至项目详细页面",
+        center: true,
+        type: "success",
+        duration: 1000
+      });
+      setTimeout(() => {
+        this.$router.push({ path: 'project_outline' });
+      }, 1000);
+    },
+    goreproject(val) {
+      var content = { team_id: val.team_id, team_name: val.team_name };
+      var content2 = { project_id: val.project_id, project_name: val.project_name };
+      this.$store.dispatch("saveteam", content);
+      this.$store.dispatch("saveproject", content2);
+      this.$message({
+        message: "正在跳转至回收站",
+        center: true,
+        type: "success",
+        duration: 1000
+      });
+      setTimeout(() => {
+        this.$router.push({ path: 'team_dustbin' });
       }, 1000);
     },
     edit() {
@@ -446,7 +483,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -488,7 +525,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -526,7 +563,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -562,7 +599,7 @@ export default {
     //     }),
     //   })
     //     .then((res) => {
-    //       console.log(res);
+    //       
     //       if (res.data.errno == 0) {
     //         this.$message({
     //           message: res.data.msg,
@@ -578,12 +615,12 @@ export default {
     //       }
     //     })
     //     .catch((err) => {
-    //       console.log(err); /* 若出现异常则在终端输出相关信息 */
+    //       
     //     });
     //   this.reload();
     // },
     init() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -592,9 +629,9 @@ export default {
         // }
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("成功");
+            
             this.userId = res.data.data.user_id;
             this.username = res.data.data.user_name;
             this.realname = res.data.data.real_name;
@@ -622,61 +659,67 @@ export default {
         url: "app/get_team_list" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取队伍成功");
-            console.log(res);
-            console.log(res.data.data.team_list_owner);
+            
+            
+            
             res.data.data.team_list_owner.forEach((item) => {
               var tmp = {
+                teamId: "",
                 teamname: "",
                 teamtype: "",
                 teamsetter: "",
                 teamsettime: "",
                 teamernum: "",
               };
+              tmp.teamId = item.team_id;
               tmp.teamname = item.team_name;
               tmp.teamtype = item.team_type;
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
             res.data.data.team_list_admin.forEach((item) => {
               var tmp = {
+                teamId: "",
                 teamname: "",
                 teamtype: "",
                 teamsetter: "",
                 teamsettime: "",
                 teamernum: "",
               };
+              tmp.teamId = item.team_id;
               tmp.teamname = item.team_name;
               tmp.teamtype = item.team_type;
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
             res.data.data.team_list_member.forEach((item) => {
               var tmp = {
+                teamId: "",
                 teamname: "",
                 teamtype: "",
                 teamsetter: "",
                 teamsettime: "",
                 teamernum: "",
               };
+              tmp.teamId = item.team_id;
               tmp.teamname = item.team_name;
               tmp.teamtype = item.team_type;
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
           } else {
             this.$message({
@@ -687,37 +730,39 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     getProject() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取项目成功");
-            console.log(res.data.data.project_normal_list);
+            
+            
             res.data.data.project_normal_list.forEach((item) => {
-              console.log("获");
+              
               var tmp = {
                 project_id: "",
                 project_name: "",
                 create_time: "",
                 update_time: "",
                 team_id: "",
+                team_name: ""
               };
               tmp.project_id = item.project_id;
               tmp.project_name = item.project_name;
               tmp.create_time = item.create_time;
               tmp.update_time = item.update_time;
               tmp.team_id = item.team_id;
+              tmp.team_name = item.team_name;
               console.log(tmp);
               this.projectlist.push(tmp);
-              console.log(this.projectlist);
+              
             });
           } else {
             this.$message({
@@ -732,33 +777,35 @@ export default {
         });
     },
     getreProject() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取项目成功");
-            console.log(res.data.data.project_normal_list);
+            
+            
             res.data.data.project_recycle_list.forEach((item) => {
-              console.log("获");
+              
               var tmp = {
                 project_id: "",
                 project_name: "",
                 create_time: "",
                 update_time: "",
                 team_id: "",
+                team_name: ""
               };
               tmp.project_id = item.project_id;
               tmp.project_name = item.project_name;
               tmp.create_time = item.create_time;
               tmp.update_time = item.update_time;
               tmp.team_id = item.team_id;
+              tmp.team_name = item.team_name;
               console.log(tmp);
               this.reprojectlist.push(tmp);
-              console.log(this.reprojectlist);
+              
             });
           } else {
             this.$message({
@@ -802,9 +849,9 @@ export default {
       // 这里传入的应该是组件中携带的文件信息
       var base64Str = await this.getBase64(file.file);
       this.img_base64 = base64Str;
-      console.log(base64Str);
+      
       this.imgString = base64Str.split(',');
-      console.log(this.imgString);
+      
       this.$axios({
         method: "post",
         url: "app/upload_profile",
@@ -813,9 +860,9 @@ export default {
         }),
       })
         .then((res) => {
-          console.log("更换头像")
-          console.log(res)
-          console.log(this.img_base64)
+          
+          
+          
           if (res.data.errno == 0) {
             this.$message.success("修改头像成功");
             var usericon = { userId: this.userId, picurl: this.img_base64 };
@@ -833,10 +880,10 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-        // setTimeout(() => {
-        //       window.location.reload();
-        //     }, 1000);
-     },
+      // setTimeout(() => {
+      //       window.location.reload();
+      //     }, 1000);
+    },
     // 获取图片转base64，这里用的是Promise，所以调用方法时必须转换成同步（async，await）
     // 否则上传数据时好时坏，能不能上传成功全看运气 ^_^
     getBase64(file) {

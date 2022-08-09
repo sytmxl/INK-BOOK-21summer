@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     submit() {
-      // console.log(this.form.password1.length);
+      // 
       if (
         this.form.email === ""
       ) {
@@ -114,7 +114,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res.data);
+          
           if (res.data.errno == 0) {
             this.$message.success("验证码发送成功，请查收");
           }
@@ -123,7 +123,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     register() {
@@ -175,7 +175,7 @@ export default {
       //   this.$message.warning("验证码错误！");
       //   return;
       // }
-      // console.log(this.form.email)
+      // 
       // window.alert("用户名是："+this.username +" 密码是：" +this.password);
       this.$axios({
         method: "post" /* 指明请求方式，可以是 get 或 post */,
@@ -191,7 +191,7 @@ export default {
       })
         .then((res) => {
           /* res 是 response 的缩写 */
-          console.log(res.data);
+          
           if (res.data.errno == 0) {
             this.$message({
               message: "注册成功，将自动为您登陆",
@@ -219,7 +219,7 @@ export default {
                 /* res 是 response 的缩写 */
                 // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
                 // this.$store.dispatch("saveusericon", usericon);
-                console.log(res.data)
+                
                 if (res.data.errno == 0) {
                   this.$message.success("登录成功！");
                   var token = {
@@ -228,9 +228,9 @@ export default {
                   this.$store.dispatch("savetoken", token);
                   localStorage.setItem("saveuser", qs.stringify(user));
                   localStorage.setItem("savetoken", qs.stringify(token));
-                  console.log(user);
-                  console.log(token);
-                  console.log(this.$store.state.user);
+                  
+                  
+                  
                   axios.interceptors.request.use(
                     config => {
                       config.headers['Authorization'] = token
@@ -250,7 +250,7 @@ export default {
                 }
               })
               .catch((err) => {
-                console.log(err); /* 若出现异常则在终端输出相关信息 */
+                
               });
             setTimeout(() => {
               this.$router.push({ path: 'team_outline' });
@@ -265,7 +265,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     toRegister() {

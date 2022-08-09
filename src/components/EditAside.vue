@@ -45,10 +45,10 @@ export default {
   methods: {
     goBack(){window.location.href = "/project_design"},
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     clickMenu(index) {
       this.$emit('sideclick',index);

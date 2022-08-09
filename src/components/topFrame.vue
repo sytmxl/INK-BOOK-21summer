@@ -3,7 +3,7 @@
   <div class="top">
     <div class="left">
         <div id="nav-header">
-          <span class="brandtext" ><a href="/">INK BOOK</a></span>
+          <span class="brandtext" ><a href="/team_outline">INK BOOK</a></span>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
         </el-dropdown-menu>
       </el-dropdown>
 
-      <el-dialog title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
+      <el-dialog :modal="false" title="创建团队" :visible.sync="dialogFormVisible" :append-to-body="true">
       <el-form :model="form">
           <el-form-item label="团队类型" :label-width="formLabelWidth">
           <el-select v-model="form.type" placeholder="请选择团队类型" >
@@ -96,6 +96,7 @@ export default {
         sessionStorage.removeItem('team');
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('usericon');
         localStorage.removeItem('saveuser');
         localStorage.removeItem('savetoken');
       },
@@ -134,7 +135,7 @@ export default {
             
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
       },
@@ -161,7 +162,7 @@ export default {
           
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         this.profile=JSON.parse(sessionStorage.getItem('usericon')).picurl

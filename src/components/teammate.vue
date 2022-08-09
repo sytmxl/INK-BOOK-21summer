@@ -89,7 +89,7 @@ methods:{
           }
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
 
@@ -109,7 +109,7 @@ methods:{
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-       console.log(this.user_id)
+       
         this.$axios({
         method: "post",
         url: "app/change_team_member_identitys",
@@ -129,7 +129,7 @@ methods:{
           }
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
        
         }).catch(() => {
@@ -169,7 +169,7 @@ methods:{
           }
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         }).catch(() => {

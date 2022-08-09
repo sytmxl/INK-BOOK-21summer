@@ -145,8 +145,8 @@ DiagramEditor.prototype.getElementData = function(elem)
 DiagramEditor.prototype.setElementData = function(elem, data)
 {
     var name = elem.nodeName.toLowerCase();
-    console.log("!")
-    console.log(data)
+    
+    
     axios({
             method: "post" ,
             url: "app/update_graph_data" ,
@@ -408,9 +408,7 @@ DiagramEditor.prototype.initializeEditor = function()
     this.setWaiting(false);
     this.setActive(true);
     this.initialized();
-    if(window.stopLoading){
-        window.stopLoading();
-    }
+    window.stopLoading();
 };
 
 /**

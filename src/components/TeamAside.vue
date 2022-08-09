@@ -85,26 +85,26 @@ export default {
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     clickMenu(item) {
       this.$router.push({
         name: item.name,
       }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
       var items = document.getElementsByClassName("el-menu-item");
-      console.log(items);
+      
       for (var i = 0; i < items.length; i++) {
         // items[i].style.backgroundColor="rgba(150, 169, 183, 1)";
 
       }
       var id = item.name;
       var click = document.getElementById(id);
-      console.log(click);
+      
       click.style.backgroundColor="rgba(150, 169, 183, 1)";
-      // console.log(item.name);
+      // 
     },
   },
   computed: {

@@ -28,8 +28,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(this.str);
-          console.log(this.str.length);
+
           if (res.data.errno == 0) {
             this.$message.success("加入成功");
             window.location.href = "http://43.138.67.29/";
@@ -45,7 +44,7 @@ export default {
 
         })
         .catch((err) => {
-          console.log(err);
+          
         });
     }
   },

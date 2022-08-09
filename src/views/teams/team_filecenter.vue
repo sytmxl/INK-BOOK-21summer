@@ -1,139 +1,154 @@
 <template>
   <el-container>
-     <div class="top">
-            <aside>
-                <div class="resize"></div>
-                <div class="line"></div>
-                <section>
-                  
-                  <div class="foldertitle">
-                    <h1>文档管理器</h1>
-                  </div>
-                     <div class="filefolder">
-                <el-input prefix-icon="el-icon-search"
-                    v-model="filterText">
-                </el-input>
-                <el-tree
+    <div class="top">
+      <aside>
+        <div class="resize"></div>
+        <div class="line"></div>
+        <section>
+
+          <div class="foldertitle">
+            <h1>文档管理器</h1>
+          </div>
+          <div class="filefolder">
+            <el-input prefix-icon="el-icon-search"
+                      v-model="filterText">
+            </el-input>
+            <el-tree
                 :data="data"
                 node-key="id"
                 default-expand-all
-                :expand-on-click-node="false"
-                :filter-node-method="filterNode"
-                  :props="defaultProps"
-                  class="filter-tree"
-                  ref="tree">
-                <span class="custom-tree-node" slot-scope="{ node, data }">
-                  <span @contextmenu.prevent="show($event,data,node)">{{ node.label }}</span>
-                </span>
+                :expand-on-click-node="false">
+              <div style="width: 100%; text-align: left"
+                   class="custom-tree-node" slot-scope="{ node, data }"
+                   @contextmenu.prevent="show($event,data,node)"
+                   @click="getNode(data)"
+              >
+                <i :class="data.node_icon"/>
+                <span >{{ node.label }}</span>
+              </div>
             </el-tree>
-        </div>
-                </section>
-            </aside>
-            <main>
-                MAIN
-            </main>
+          </div>
+        </section>
+      </aside>
+      <main>
+        MAIN
+      </main>
     </div>
   </el-container>
-       
+
 
 </template>
 
 <style scoped>
-.foldertitle{
+.foldertitle {
   width: 100%;
   text-align: left;
 }
-.filefolder{
+
+.filefolder {
   height: 96%;
   position: absolute;
   overflow: hidden;
-  overflow-y:scroll;
+  overflow-y: scroll;
   width: 100%;
   border-top: 3px solid grey;
   border-bottom: 3px solid grey;
 }
-.el-input{
-    width: 180px;
-    position: absolute;
-    left: 10px;
-    top: 10px;
+
+.el-input {
+  width: 180px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
-.el-input >>> .el-input__inner{
-    border-radius:25px;
-    font-size:15px;
+
+.el-input >>> .el-input__inner {
+  border-radius: 25px;
+  font-size: 15px;
 }
-.el-tree{
-    position: absolute;
-    width: 100%;
+
+.el-tree {
+  position: absolute;
+  width: 100%;
   background-color: rgb(242, 244, 245);
   overflow: hidden;
   top: 50px;
 }
-.el-container{
-    /* display: flex; */
-    /* height: 100%; */
-    flex-direction: column;
-    top: 80px;
-}
-.top{
-    display: flex;
-    flex: 1;
-}
-aside{
-    position: relative;
-    align-self: stretch;
-    overflow: hidden;
+
+.el-container {
+  /* display: flex; */
+  /* height: 100%; */
+  flex-direction: column;
+  top: 80px;
 }
 
-main{
-    flex: 1;
-    align-self: stretch;
-    background-color:#e3f2fd;
-}
-section{
-    position: absolute;
-    inset: 0px 5px 0 0;
-    backdrop-filter: blur(25px) brightness(110%);
-   background-color: rgb(242, 244, 245);
-}
-.resize{
-    width: 220px;
-    height: 16px;
-    transform: scaleY(100);
-    overflow: hidden;
-    resize: horizontal;
-    opacity: 0;
-    max-width: 800px;
-    min-width: 200px;
-}
-.resize-left{
-    transform: scale(-1, 100);
-}
-.line{
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 1px;
-    bottom: 0;
-    background-color: royalblue;
-    opacity: 0;
-    transition: .3s;
-    pointer-events: none;
+.top {
+  display: flex;
+  flex: 1;
 }
 
-.resize:hover+.line,
-.resize:active+.line{
-    opacity: 1;
+aside {
+  position: relative;
+  align-self: stretch;
+  overflow: hidden;
 }
-.resize-left{
-    transform: scale(-1, 100);
+
+main {
+  flex: 1;
+  align-self: stretch;
+  background-color: #e3f2fd;
 }
-.resize-left+.line{
-    left: 0;
-    right: auto;
+
+section {
+  position: absolute;
+  inset: 0px 5px 0 0;
+  backdrop-filter: blur(25px) brightness(110%);
+  background-color: rgb(242, 244, 245);
 }
-.resize-left~section{
-    inset: 0 0 0 4px;
+
+.resize {
+  width: 220px;
+  height: 16px;
+  transform: scaleY(100);
+  overflow: hidden;
+  resize: horizontal;
+  opacity: 0;
+  max-width: 800px;
+  min-width: 200px;
+}
+
+.resize-left {
+  transform: scale(-1, 100);
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  bottom: 0;
+  background-color: royalblue;
+  opacity: 0;
+  transition: .3s;
+  pointer-events: none;
+}
+
+.resize:hover + .line,
+.resize:active + .line {
+  opacity: 1;
+}
+
+.resize-left {
+  transform: scale(-1, 100);
+}
+
+.resize-left + .line {
+  left: 0;
+  right: auto;
+}
+
+.resize-left ~ section {
+  inset: 0 0 0 4px;
 }
 
 
@@ -142,85 +157,159 @@ section{
 <script>
 import Vue from 'vue';
 import Contextmenu from "vue-contextmenujs";
+import qs from "qs";
+
 Vue.use(Contextmenu);
 export default {
 
-    data(){
-        return{
-              filterText:'',
-      data: [{
-          id: 1,
-          label: '文档中心',
-          depth: 1,
-          children: [{
-            id: 2,
-            label: '项目文档区',
-            depth: 2,
-            children: [{
-              id: 4,
-              label: '三级 3-1-1',
-              depth: 3,
-            }, {
-              id: 5,
-              label: '三级 3-1-2',
-              depth: 3,
-            }]
-          }, {
-            id: 3,
-            label: '团队文件区',
-            depth: 2,
-            children: [{
-              id: 6,
-              label: '三级 3-2-1',
-              depth: 3,
-            }, {
-              id: 7,
-              label: '三级 3-2-2',
-              depth: 3,
-            }]
-          }]
-        }],
-        }
-    },
-  
-         methods:{
-              append(data) {
-        const newChild = { id: data.id+1, label: 'testtest', children: [] ,depth: data.depth+1};
-        if (!data.children) {
-          this.$set(data, 'children', []);
-        }
-        data.children.push(newChild);
-      },
 
-      remove(node, data) {
-        const parent = node.parent;
-        const children = parent.data.children || parent.data;
-        const index = children.findIndex(d => d.id === data.id);
-        children.splice(index, 1);
-      },
-      filterNode(value, data) {
-        if (!value) return true;
-        return data.label.indexOf(value) !== -1;
-      },
-      show(event,data,node){
-         this.$contextmenu({
+  /**
+   * TEAM_ROOT = 0
+   * FOLDER = 1
+   * DOCUMENT = 2
+   * PROJECT = 3
+   *
+   * 0-exist
+   * 1-recover
+   * 2-die
+   *
+   * {
+   *  file_id:3,
+   *  parent_id:2,
+   *  folder_name:NULL,
+   *  folder_status:NULL,
+   *  file_type:3,
+   *  content_i:31,
+   *  team_id:36,
+   *  detail:{}
+   *  children:[{rec}]
+   * }
+   */
+  data() {
+    return {
+      filterText: '',
+      data: [],
+      root_folder:null,
+    }
+  },
+  async mounted() {
+    await this.$axios({
+      method: "post",
+      url: "/app/get_team_root_fileid",
+      data: qs.stringify({
+        team_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+      }),
+    }).then(res=>{
+      this.$data.root_folder = res.data.data.file_id;
+    })
+    await this.$axios({
+      method: "post",
+      url: "/app/get_file_content",
+      data: qs.stringify({
+        file_id: this.$data.root_folder,
+      }),
+    }).then(res=>{
+      let i;
+      for(i in res.data.data){
+        let retData = res.data.data[i];
+        let node_name;
+        let node_icon;
+        let node_id = retData.file_id
+        // 是项目根文件夹
+        if(retData.file_type == 3){
+          node_name = retData.detail.project_name;
+          node_icon = 'el-icon-data-analysis'
+        } else if(retData.file_type == 2){
+          node_name = retData.detail.doc_name;
+          node_icon = 'el-icon-document'
+        }else{
+          node_name = retData.folder_name;
+          node_icon = 'el-icon-folder'
+        }
+        this.$data.data.push({
+          id: node_id,
+          label: node_name,
+          node_icon : node_icon,
+          children: [],
+        });
+      }
+    })
+  },
+  methods: {
+    async getNode(node_data,node,elm) {
+      await this.$axios({
+        method: "post",
+        url: "/app/get_file_content",
+        data: qs.stringify({
+          file_id: node_data.file_id,
+        }),
+      }).then(res=>{
+        let i;
+        for(i in res.data.data){
+          let retData = res.data.data[i];
+          let node_name;
+          let node_icon;
+          // 是项目根文件夹
+          if(retData.file_type == 3){
+            node_name = retData.detail.project_name;
+            node_icon = 'el-icon-data-analysis'
+          } else if(retData.file_type == 2){
+            node_name = retData.detail.doc_name;
+            node_icon = 'el-icon-document'
+          }else{
+            node_name = retData.folder_name;
+            node_icon = 'el-icon-folder'
+          }
+
+          node_data.push({
+            id: retData.file_id,
+            label: node_name,
+            node_icon : node_icon,
+            children: [],
+          });
+        }
+      })
+    },
+    append(data) {
+      const newChild = {id: data.id + 1, label: 'testtest', children: [], depth: data.depth + 1};
+      if (!data.children) {
+        this.$set(data, 'children', []);
+      }
+      data.children.push(newChild);
+    },
+
+    remove(node, data) {
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex(d => d.id === data.id);
+      children.splice(index, 1);
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
+    },
+    show(event, data, node) {
+      this.$contextmenu({
         items: [
           {
             label: "新建",
             divided: true,
             minWidth: 0,
-            children: [{ label: "新建子文件夹",onClick:() =>this.append(data)}, { label: "新建子文件",onClick:() =>this.append(data)}]
+            children: [{label: "新建子文件夹", onClick: () => this.append(data)}, {
+              label: "新建子文件",
+              onClick: () => this.append(data)
+            }]
           },
-          { label: "打开", disabled: true },
-          { label: "另存为(A)..." },
-          
-          
-          { label: "复制" },
-          { label: "重命名" },
+          {label: "打开", disabled: true},
+          {label: "另存为(A)..."},
+
+
+          {label: "复制"},
+          {label: "重命名"},
           {
             label: "删除",
             minWidth: 0,
-            onClick:() => this.remove(node, data)
+            onClick: () => this.remove(node, data)
           },
         ],
         event, // 鼠标事件信息
@@ -231,13 +320,12 @@ export default {
       return false;
     }
 
-         
 
-    },
-     watch: {
-      filterText(val) {
-        this.$refs.tree.filter(val);
-      }
-    },
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val);
+    }
+  },
 }
 </script>
