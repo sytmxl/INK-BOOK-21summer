@@ -46,7 +46,7 @@ export default {
   padding: 0;
   animation-name: enter_blur;
   animation-iteration-count: 1;
-  animation-duration: 0.2s;
+  animation-duration: 0.4s;
 }
 
 el-icon:hover, el-icon-close:hover {
