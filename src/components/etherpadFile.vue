@@ -69,7 +69,7 @@ export default {
     description:{default: "无简介", type:String},
     last_edit_time:{default: "2022-08-01",type:String},
   },
-  beforeMount() {
+  mounted() {
     this.getProps();
   },
   methods:{
@@ -86,7 +86,7 @@ export default {
           padID:this.$data.id,
         }
       }).then(res=>{
-        this.$data.preview = res.data;
+        this.$data.preview = res.data.date.text;
         if(this.$data.preview.length > 50){}
         this.$data.preview = this.$data.preview.substring(0, 50) +"..."
       })
