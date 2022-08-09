@@ -106,7 +106,7 @@ export default {
 .el-menu {
   padding: 0;
   height: 100%;
-  background-color: rgb(73, 105, 160);
+  background-color: rgb(240, 242, 245) !important;
 }
 
 .el-menu-item {

@@ -122,6 +122,9 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+  animation-name: enter_aside;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 .el-menu {
   padding: 0;

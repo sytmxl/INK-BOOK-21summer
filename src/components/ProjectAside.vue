@@ -96,14 +96,14 @@ export default {
 </script>
 
 <style scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.el-menu-vertical-demo{
   width: 200px;
   min-height: 400px;
-}
-.el-menu {
   padding: 0;
   height: 100%;
-  background-color: rgb(73, 105, 160);
+  animation-name: enter_aside;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 .el-menu-item {
   float: left;
