@@ -1,6 +1,6 @@
 <template>
   <div id="init">
-    <el-dialog
+    <el-dialog :modal="false"
         title="新建一个原型设计图"
         :visible.sync="dialogVisible"
         width="50%"

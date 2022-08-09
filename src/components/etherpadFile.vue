@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog
+    <el-dialog :modal="false"
         title="重命名文档"
         :visible.sync="dialogVisible"
         width="50%"
