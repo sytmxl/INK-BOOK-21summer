@@ -33,12 +33,9 @@
                     <span >{{ node.label }}</span>
                   </div>
                   <span v-else style="width: 100%;text-align: left">
-                    <el-input v-model="new_node_name" style="height: 100%;width: 100%"
-                              placeholder="请输入名称">
-                      <el-button slot="append" style="width: 20%" @click="create_new_node(data)" type="primary">新建</el-button>
-                      <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
-                    </el-input>
-
+                    <el-input v-model="new_node_name" placeholder="请输入名称"></el-input>
+                    <el-button slot="append" style="width: 20%" @click="create_new_node(data)" type="primary">新建</el-button>
+                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
                   </span>
                 </div>
 
@@ -166,6 +163,10 @@ section {
   inset: 0 0 0 4px;
 }
 
+.el-input {
+  height: 100px;
+  width: 100%;
+}
 
 </style>
 

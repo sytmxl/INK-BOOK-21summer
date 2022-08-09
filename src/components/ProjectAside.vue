@@ -105,8 +105,9 @@ export default {
   animation-name: enter_aside;
   animation-iteration-count: 1;
   animation-duration: 0.4s;
-  
+
   position: fixed;
+  z-index: 1;
 }
 .el-menu-item {
   float: left;
