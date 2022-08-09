@@ -43,7 +43,16 @@
                   </el-col>
                 </el-row>
               </el-card> -->
-                <div class="bar bar1" v-for="item in userlist">
+                <div class="bar bar1">
+                  <div class="left">
+                    <p class="name" style="margin-left: 60px">用户名</p>
+                  </div>
+                  <div class="right">
+                    <p class="email" style="width: 300px">邮箱</p>
+                    <p class="long" style="width: 350px">个性签名</p>
+                  </div>
+                </div>
+                <div class="bar bar2" v-for="item in userlist">
                   <div class="left">
                     <img v-if="!imgurl" src="../../assets/bk3.jpg" alt=""/>
                     <img v-else :src="imgurl" alt=""/>
@@ -53,8 +62,8 @@
                     <!-- <div id="tools">
                       <i class="el-icon-minus" @click="cancelmanager()"></i>
                     </div> -->
-                    <p class="email">邮箱：{{item.email}}</p>
-                    <p class="long">个性签名：{{item.user_info}}</p>
+                    <p class="email">{{item.email}}</p>
+                    <p class="long">{{item.user_info}}</p>
                   </div>
                 </div>
               </div>
@@ -65,7 +74,7 @@
             </el-tab-pane>
             <el-tab-pane label="团队" name="second">
               <div v-if="teamlist.length!=0">
-              <el-card class="box-card1" v-for="item in teamlist" :key="item">
+              <!-- <el-card class="box-card1" v-for="item in teamlist" :key="item">
                   <div slot="header" class="clearfix">
                     <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.team_name
                     }}</span>
@@ -95,7 +104,35 @@
                     <span class="og">团队简介：</span>
                     {{ item.team_owner_user_info }}
                   </div>
-              </el-card>
+              </el-card> -->
+              <div class="bar bar1">
+                <div class="left">
+                  <p class="id">团队名称</p>
+                </div>
+                <div class="right">
+                  <p class="short">类型</p>
+                  <p class="short">人数</p>
+                  <p class="id">队长姓名</p>
+                  <p class="email">队长邮箱</p>
+                  <p class="email">团队简介</p>
+                </div>
+              </div>
+              <div class="bar bar2" v-for="item in teamlist">
+                <div class="left">
+                  <p class="id">{{item.team_name}}</p>
+                </div>
+                <div class="right">
+                  <!-- <div id="tools">
+                    <i class="el-icon-minus" @click="cancelmanager()"></i>
+                  </div> -->
+                  <p class="short">{{item.team_type}}</p>
+                  <p class="short">{{item.team_member_num}}</p>
+                  <p class="id">{{item.team_owner_user_name}}</p>
+                  <p class="email">{{item.team_owner_user_email}}</p>
+                  <p class="email">{{item.team_owner_user_info}}</p>
+                </div>
+              </div>
+
               </div>
               <div v-else style="margin-top:10%">
                 <img src="../../assets/no.png" style="width:100px;height:100px;"/>
@@ -377,7 +414,7 @@ export default {
   border:  1px solid rgba(206, 218, 226, 0.536);
   border-radius: 45px;
   margin: 20px;
-  padding: 10px;
+  /* padding: 10px; */
   /* 居中 */
   align-items: center;
   display: flex;
@@ -414,9 +451,9 @@ export default {
   overflow: hidden;
 }
 img { 
-  width: 50px;
-  height: 50px;
-  margin: 10px;
+  width: 40px;
+  height: 40px;
+  margin: 8px;
   border-radius: 50%;
 }
 p {
@@ -424,7 +461,7 @@ p {
   margin: 10px;
   vertical-align: center;
 }
-.name, .id, .realname, .email, .long{
+.name, .id, .realname, .email, .long, .short{
   display: inline-block;
   white-space: nowrap; 
   /* width: 80px;  */
@@ -432,7 +469,9 @@ p {
   text-overflow:ellipsis;
 }
 .name {
-  width: 80px;
+  width: 170px;
+  text-align: left;
+  padding-left: 5px;
 }
 .id {
   width: 120px;
@@ -441,10 +480,14 @@ p {
   width: 200px;
 }
 .email {
-  width: 250px;
+  width: 200px;
+}
+.short {
+  width: 50px;
 }
 .long {
   width: 400px;
+  text-align: left;
 }
 
 #tools {
