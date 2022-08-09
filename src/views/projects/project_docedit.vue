@@ -1,90 +1,589 @@
 <template>
-  <el-container>
-    <el-aside width="200px">
-      <project-aside v-if="1+1==3"/>
-      <edit-aside header="文档"/>
-    </el-aside>
-    <el-main>
+  <div id="init">
+    <el-dialog :modal="false"
+               title="新建一个共享文档"
+               :visible.sync="dialogVisible"
+               width="50%"
+               :before-close="closeDialog">
+      <span>
+          <el-row>
+            <el-col :span="4">
+              文档标题：
+            </el-col>
+            <el-col :span="20">
+              <el-input
+                  placeholder="请输入标题"
+                  v-model="newDocName">
+              </el-input>
+            </el-col>
+          </el-row>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取消</el-button>
+        <el-button type="primary" @click="add_doc">新建</el-button>
+      </span>
+    </el-dialog>
+    <el-container >
+      <div  class="top">
+        <aside>
+          <div class="resize"></div>
+          <div class="line"></div>
+          <section>
 
-      <etherpad-file id="test123test123"/>
-      <el-input v-model="input" placeholder="console"></el-input>
-      <el-button @click="newPad">新建测试</el-button>
-      <el-button @click="getText">获取内容</el-button>
-      <el-button @click="getPadList">获取pad列表</el-button>
-      <el-button @click="setPadUrl">iframe</el-button>
-      <iframe :src="docUrl" width=600 height=400></iframe>
-      <p>{{content}}</p>
+            <div class="filefolder">
+              <!--            <el-input prefix-icon="el-icon-search"-->
+              <!--                      size="mini"-->
+              <!--                      style="width: 100%"-->
+              <!--                      v-model="filterText">-->
+              <!--            </el-input>-->
+              <div @click="exit_edit">返回</div>
+              <el-tree
+                  :data="data"
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false">
+                <div style="width: 100%; text-align: left"
+                     class="custom-tree-node" slot-scope="{ node, data }"
+                     @contextmenu.prevent="show($event,data,node)"
+                     @click="onNodeClicked(data)"
+                >
+                  <div v-if="data.new_node == false"
+                       style="width: 100%;text-align: left"
+                       @contextmenu.prevent="show($event,data,node)"
+                       @click="onNodeClicked(data)"
+                  >
+                    <i :class="data.node_icon"/>
+                    <span>{{ node.label }}</span>
+                  </div>
+                  <span v-else style="width: 100%;text-align: left">
+                    <el-input v-model="new_node_name" placeholder="请输入名称"></el-input>
+                    <el-button slot="append" style="width: 20%" @click="create_new_node(data)"
+                               type="primary">新建</el-button>
+                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
+                  </span>
+                </div>
 
-    </el-main>
-  </el-container>
+              </el-tree>
+            </div>
+          </section>
+        </aside>
+        <main v-if="in_editing == true">
+          <iframe :src="docUrl" width=100% height=100%></iframe>
+        </main>
+        <main v-else>
+        <div class="right">
+          <h1 class="label" v-if="inRecycle == false">{{cur_node_data.folder_name}}</h1>
+          <h1 class="label" v-else>回收站</h1>
+          <el-row v-if="inRecycle == false && doc_list.length != 0">
+            <el-col :span="7" v-for="item in doc_list">
+              <EtherpadFile :in-recycle="false"
+                            v-on:start_edit="enter_edit"
+                            :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
+                            :token="item.doc_token"/>
+            </el-col>
+          </el-row>
+          <el-row v-else-if="inRecycle == true && recycle_list != 0">
+            <el-col :span="7" v-for="item in recycle_list">
+              <EtherpadFile :in-recycle="true"
+                            :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
+                            :token="item.doc_token"/>
+            </el-col>
+          </el-row>
+          <el-row v-else>
+            <el-empty :image-size="200"></el-empty>
+          </el-row>
+        </div>
+      </main>
+      </div>
+
+    </el-container>
+  </div>
+
 </template>
-
 <script>
-import EtherpadFile from "@/components/etherpadFile";
+import Vue from 'vue';
+import Contextmenu from "vue-contextmenujs";
+import qs from "qs";
 import {apikey} from "@/scripts/apikey";
-import ProjectAside from "../../components/ProjectAside";
+import EtherpadFile from "@/components/etherpadFile";
+import ProjectAside from "@/components/ProjectAside";
 import EditAside from "@/components/EditAside";
+
+Vue.use(Contextmenu);
 export default {
+  components: {EtherpadFile, ProjectAside, EditAside},
   name: "project_docedit",
-  components: {EtherpadFile,ProjectAside,EditAside},
-  methods:{
-    newPad(){
-      this.axios({
-        method:"post",
-        url:"api/1.2.1/createPad",
-        params:{
-          apikey:apikey,
-          padID:this.$data.input,
-          text:'test'
-        }
-      });
-      this.axios({
-        method:"post",
-        url:"api/1/setText",
-        params:{
-          apikey:apikey,
-          padID:this.$data.input,
-          text:'test'
-        }
-      });
-    },
-    getText(){
-      this.axios({
-        method:"post",
-        url:"api/1/getText",
-        params:{
-          apikey:apikey,
-          padID:this.$data.input,
-        }
-      }).then(res=>{
-        this.$data.content = res.data;
-      })
-    },
-    getPadList(){
-      this.axios({
-        method:"post",
-        url:"api/1.2.1/listAllPads",
-        params:{
-          apikey:apikey,
-        }
-      }).then(res=>{
-        this.$data.content = res.data;
-      })
-    },
-    setPadUrl(){
-      this.$data.docUrl = 'http://43.138.67.29:9001/p/' + this.$data.input;
-    }
-  },
+  /**
+   * TEAM_ROOT = 0
+   * FOLDER = 1
+   * DOCUMENT = 2
+   * PROJECT = 3
+   *
+   * 0-exist
+   * 1-recover
+   * 2-die
+   *
+   * {
+   *  file_id:3,
+   *  parent_id:2,
+   *  folder_name:NULL,
+   *  folder_status:NULL,
+   *  file_type:3,
+   *  content_i:31,
+   *  team_id:36,
+   *  detail:{}
+   *  children:[{rec}]
+   * }
+   */
   data() {
     return {
-      content:'n/a',
-      input:'',
-      docUrl:''
+      dialogVisible: false,
+      inRecycle: false,
+      isCollapse: false,
+      doc_list: [],
+      recycle_list: [],
+      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
+      newDocName: '',
+      in_editing: true,
+      content: 'n/a',
+      input: '',
+      docUrl: '',
+      cur_node_data: null,
+      new_node_parent: null,
+      new_node_name: '',
+      filterText: '',
+      data:[{
+        id: this.$data.root_folder,
+        label:JSON.parse(sessionStorage.getItem("project")).project_name,
+        node_icon:'el-icon-data-analysis',
+        new_node:false,
+        children:[]
+      }],
+      root_folder: null,
     }
-  }
+  },
+  async mounted() {
+    await this.$axios({
+      method: "post",
+      url: "/app/get_project_fileid",
+      data: qs.stringify({
+        project_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+      }),
+    }).then(res => {
+      this.$data.root_folder = res.data.data.file_id;
+    })
+    await this.$axios({
+      method: "post",
+      url: "/app/get_file_content",
+      data: qs.stringify({
+        file_id: node_data.file_id,
+      }),
+    }).then(res => {
+      let i;
+      for (i in res.data.data) {
+        let retData = res.data.data[i];
+        let node_name;
+        let node_icon;
+        this.$data.doc_list = [];
+        // 是项目根文件夹
+        if (retData.file_type == 3) {
+          node_name = retData.detail.project_name;
+          node_icon = 'el-icon-data-analysis'
+        } else if (retData.file_type == 2) {
+          this.$data.doc_list.push(retData.detail);
+          node_name = retData.detail.doc_name;
+          node_icon = 'el-icon-document'
+        } else {
+          node_name = retData.folder_name;
+          node_icon = 'el-icon-folder'
+        }
+        this.$data.data[0].push({
+          id: retData.file_id,
+          label: node_name,
+          node_icon: node_icon,
+          new_node: false,
+          children: [],
+        });
+      }
+    })
+    this.$data.cur_node_data = this.$data.data[0];
+  },
+  methods: {
+    exit_edit(){
+      this.$data.in_editing = false;
+    },
+    enter_edit(token) {
+      this.$data.docUrl = 'http://43.138.67.29:9001/p/' + token;
+      this.$data.in_editing = true;
+    },
+    async onNodeClicked(node_data) {
+      if(node_data.file_type == 2){
+        this.enter_edit(node_data.detail.doc_token);
+      } else {
+        node_data.children = [];
+        await this.$axios({
+          method: "post",
+          url: "/app/get_file_content",
+          data: qs.stringify({
+            file_id: node_data.file_id,
+          }),
+        }).then(res => {
+          let i;
+          for (i in res.data.data) {
+            let retData = res.data.data[i];
+            let node_name;
+            let node_icon;
+            this.$data.doc_list = [];
+            // 是项目根文件夹
+            if (retData.file_type == 3) {
+              node_name = retData.detail.project_name;
+              node_icon = 'el-icon-data-analysis'
+            } else if (retData.file_type == 2) {
+              this.$data.doc_list.push(retData.detail);
+              node_name = retData.detail.doc_name;
+              node_icon = 'el-icon-document'
+            } else {
+              node_name = retData.folder_name;
+              node_icon = 'el-icon-folder'
+            }
+            node_data.children.push({
+              id: retData.file_id,
+              label: node_name,
+              node_icon: node_icon,
+              new_node: false,
+              children: [],
+            });
+          }
+        })
+      }
+
+    },
+    async append_new_node(node_data) {
+      this.$data.new_node_parent = node_data;
+      const newChild = {id: 233333, label: '', children: [], new_node: true};
+      if (!node_data.children) {
+        this.$set(data, 'children', []);
+      }
+      node_data.children.push(newChild);
+    },
+    async cancel_new_node() {
+      this.$data.new_node_parent.children.pop();
+      this.$data.new_node_parent = null;
+    },
+    async create_new_node(node) {
+      await this.$axios({
+        method: "post",
+        url: "/app/create_folder",
+        data: qs.stringify({
+          folder_id: this.$data.new_node_parent.id,
+          new_folder_name: this.$data.new_node_name
+        }),
+      }).then(res => {
+        if (res.data.errno == 0) {
+          this.$message({
+            message: '新建\'' + this.$data.new_node_name + '\'成功',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      });
+      await this.onNodeClicked(this.$data.new_node_parent);
+      this.$data.new_node_parent = null;
+    },
+    remove(node, data) {
+      const parent = node.parent;
+      const children = parent.data.children || parent.data;
+      const index = children.findIndex(d => d.id === data.id);
+      children.splice(index, 1);
+    },
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.label.indexOf(value) !== -1;
+    },
+    show(event, data, node) {
+      this.$contextmenu({
+        items: [
+          {
+            label: "新建",
+            divided: true,
+            minWidth: 0,
+            children: [{label: "新建子文件夹", onClick: () => this.append_new_node(data)}, {
+              label: "新建子文件",
+              onClick: () => this.append_new_node(data)
+            }]
+          },
+          {label: "打开", disabled: true},
+          {label: "另存为(A)..."},
+
+
+          {label: "复制"},
+          {label: "重命名"},
+          {
+            label: "删除",
+            minWidth: 0,
+            onClick: () => this.remove(node, data)
+          },
+        ],
+        event, // 鼠标事件信息
+        customClass: "custom-class", // 自定义菜单 class
+        zIndex: 3, // 菜单样式 z-index
+        minWidth: 230 // 主菜单最小宽度
+      });
+      return false;
+    },
+    newPad() {
+      this.axios({
+        method: "post",
+        url: "api/1.2.1/createPad",
+        params: {
+          apikey: apikey,
+          padID: this.$data.input,
+          text: 'test'
+        }
+      });
+      this.axios({
+        method: "post",
+        url: "api/1/setText",
+        params: {
+          apikey: apikey,
+          padID: this.$data.input,
+          text: 'test'
+        }
+      });
+    },
+    enter_exit_Recycle() {
+      this.$data.inRecycle = !this.$data.inRecycle
+    },
+    openDialog() {
+      this.$data.dialogVisible = false
+    },
+    closeDialog() {
+      this.$data.dialogVisible = false
+    },
+    async add_doc() {
+      if (this.$data.newDocName == null || this.$data.newDocName == '') {
+        this.$message({
+          message: '文档标题不能为空',
+          type: 'warning'
+        });
+        return;
+      }
+      await this.$axios({
+        method: "post",
+        url: "app/create_doc",
+        data: qs.stringify({
+          doc_name: this.$data.newDocName,
+          project_id: this.$data.project_id,
+        }),
+      })
+      this.$data.dialogVisible = false;
+      this.$message({
+        message: '文档\"' + this.$data.newDocName + '\"新建成功',
+        type: 'success'
+      });
+      await this.get_doc_list();
+    },
+  },
+  watch: {
+    filterText(val) {
+      this.$refs.tree.filter(val);
+    }
+  },
+
 }
 </script>
 
 <style scoped>
+.foldertitle {
+  width: 100%;
+  text-align: left;
+}
 
+.filefolder {
+  height: 96%;
+  position: absolute;
+  overflow: hidden;
+  overflow-y: scroll;
+  width: 100%;
+  border-top: 3px solid grey;
+  border-bottom: 3px solid grey;
+}
+
+.el-input {
+  width: 180px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.el-input >>> .el-input__inner {
+  border-radius: 25px;
+  font-size: 15px;
+}
+
+.el-tree {
+  position: absolute;
+  width: 100%;
+  background-color: rgb(242, 244, 245);
+  overflow: hidden;
+  top: 50px;
+}
+
+.el-container {
+  /* display: flex; */
+  /* height: 100%; */
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex: 1;
+}
+
+aside {
+  position: relative;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+main {
+  flex: 1;
+  align-self: stretch;
+  background-color: #ffffff;
+}
+
+section {
+  left: 200px;
+  position: absolute;
+  inset: 0px 5px 0 0;
+  backdrop-filter: blur(25px) brightness(110%);
+  background-color: rgb(242, 244, 245);
+}
+
+.resize {
+  width: 220px;
+  height: 16px;
+  transform: scaleY(100);
+  overflow: hidden;
+  resize: horizontal;
+  opacity: 0;
+  max-width: 800px;
+  min-width: 200px;
+}
+
+.resize-left {
+  transform: scale(-1, 100);
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  bottom: 0;
+  background-color: royalblue;
+  opacity: 0;
+  transition: .3s;
+  pointer-events: none;
+}
+
+.resize:hover + .line,
+.resize:active + .line {
+  opacity: 1;
+}
+
+.resize-left {
+  transform: scale(-1, 100);
+}
+
+.resize-left + .line {
+  left: 0;
+  right: auto;
+}
+
+.resize-left ~ section {
+  inset: 0 0 0 4px;
+}
+
+.el-input {
+  height: 100px;
+  width: 100%;
+}
+
+.right {
+  margin-left: 80px;
+  width: 100%;
+}
+
+.el-col {
+  margin: 22px;
+  width: 360px;
+}
+
+.second {
+  float: top;
+  background-color: rgb(255, 255, 255) !important;
+  width: 65px !important;
+  position: fixed;
+  height: 10000px;
+}
+
+.second:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+
+}
+
+.el-container {
+  padding-top: 0%;
+  margin-top: 0%;
+}
+
+.inside {
+  transition: 0.4s;
+}
+
+.inside:hover {
+  margin: 15px 10px 8px 10px;
+  border-radius: 15px;
+}
+
+.outside {
+  transition: 0.4s;
+}
+
+.outside:hover {
+  margin: 15px 0px 15px 5px;
+  border: 5px;
+  border-radius: 90px;
+  background-color: rgba(150, 169, 183, 0.422) !important;
+}
+
+.el-row {
+  margin-left: 20px;
+}
+
+.el-submenu {
+  visibility: hidden;
+}
+
+.label {
+  margin: 30px 0px 0px 50px;
+  font-size: 50px;
+  /* float: left; */
+  width: 100%;
+  color: rgb(114, 132, 145);
+  text-align: left;
+  animation-name: enter_label;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
+}
+
+.el-empty {
+  margin-bottom: 600px;
+}
 </style>
