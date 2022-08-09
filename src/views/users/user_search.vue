@@ -448,7 +448,7 @@ export default {
   align-items: center;
   /* display: flex; */
   position: absolute;
-  right: 5%;
+  right: 3%;
   overflow: hidden;
 }
 img { 
@@ -498,7 +498,7 @@ p {
   height: 0px;
   padding: 0px;
   /* font-size: 0px; */
-  border-radius: 5px;
+  border-radius: 500px;
   text-align: center;
   color: rgb(255, 255, 255);
 }
