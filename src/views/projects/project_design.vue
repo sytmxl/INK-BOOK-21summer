@@ -61,28 +61,44 @@
     <el-container v-loading="loading" element-loading-background="rgba(255,255,255,1)"
                   style="min-height: calc(100vh)">
       <div>
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
-          <el-menu-item v-if="inediting == false" class="outside" index="1" @click="dialogVisible = true">
+        <el-menu  default-active="1-4-1" class="el-menu-vertical-demo" collapse="true">
+          <el-menu-item  class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
             <span slot="title">新建表</span>
           </el-menu-item>
-          <el-menu-item v-if="inediting == false" class="outside" index="2" >
+          <el-menu-item  class="outside" index="2" >
             <i class="el-icon-edit-outline"></i>
             <span slot="title">管理</span>
           </el-menu-item>
-          <el-menu-item v-if="inediting == false" class="outside" index="3" @click = "viewDel">
+          <el-menu-item  class="outside" index="3" @click = "viewDel">
             <i class="el-icon-delete"></i>
             <span slot="title" >回收站</span>
           </el-menu-item>
+<!--          <el-table-->
+<!--              :data="this.$refs.diagrams"-->
+<!--              height="calc(100vh)">-->
+<!--            <el-table-column label="原型图"-->
+<!--                             prop="title"-->
+<!--            />-->
+<!--            <template slot-scope="scope">-->
+<!--              <el-button-->
+<!--                  size="mini"-->
+<!--                  type="danger"-->
+<!--                  @click="handleOpenDiagram(scope.$index, scope.row)">Delete</el-button>-->
+<!--            </template>-->
+<!--          </el-table>-->
         </el-menu>
       </div>
       <div class="right">
         <h1 v-if="inediting == false" class="label">所有原型设计</h1>
         <el-row id="graphContainer" v-if="PrototypeList.length != 0">
-          <el-col :span="5" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
+          <el-col :span="5" v-for="(id, index) in PrototypeList"
+                  :key="id" :offset="index > 0 ? 2 : 0" >
             <drawio-digram :graph_id = "id" :isdel = "viewingDel"
+                           ref="diagrams"
                            v-on:deled = "updateOnDel"
                            v-on:startEdit = "enterEdit"
+
             />
           </el-col>
         </el-row>
@@ -108,8 +124,16 @@ export default {
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
+
   },
   methods:{
+    test(){
+      this.$refs.diagrams[0].edit();
+    },
+    handleOpenDiagram(index, row){
+      alert(index);
+      alert(row);
+    },
     enterEdit(){
       this.inediting = true;
     },
@@ -136,8 +160,8 @@ export default {
     closeDialog(){
       this.$data.dialogVisible = false
     },
-    get_list(del){
-      this.$axios({
+    async get_list(del){
+      await this.$axios({
         method: "post" ,
         url: "app/get_graph_list" ,
         data: qs.stringify({

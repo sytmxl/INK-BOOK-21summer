@@ -72,7 +72,15 @@ export default {
   beforeMount() {
     this.getData();
   },
+  mounted() {
+    this.$nextTick(function() {
+      this.$on('test', function() {
+        alert(this.$props.graph_id)
+      });
+    });
+  },
   methods:{
+    test(){alert(this.$props.graph_id)},
     closeDialog(){
       this.$data.dialogVisible = false
     },

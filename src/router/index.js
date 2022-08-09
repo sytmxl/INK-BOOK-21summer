@@ -39,21 +39,16 @@ const routes = [{
         name: 'team_projects',
         component: () =>
             import ('../views/teams/team_projects.vue'),
-    }, {
-        path: '/team_dustbin',
-        name: 'team_dustbin',
-        component: () =>
-            import ('../views/teams/team_dustbin.vue'),
-    }, {
+    },{
         path: '/team_filecenter',
         name: 'team_filecenter',
         component: () =>
             import ('../views/teams/team_filecenter.vue'),
     }, {
-        path: '/team_text',
-        name: 'team_text',
+        path: '/team_dustbin',
+        name: 'team_dustbin',
         component: () =>
-            import ('../views/teams/team_text.vue'),
+            import ('../views/teams/team_dustbin.vue'),
     }]
 }, {
     path: '/project_firstpage',
@@ -80,6 +75,11 @@ const routes = [{
         name: 'project_word',
         component: () =>
             import ('../views/projects/project_word.vue'),
+    }, {
+        path: '/project_docedit',
+        name: 'project_docedit',
+        component: () =>
+            import ('../views/projects/project_docedit.vue'),
     }]
 }, {
     path: '/user_search',
@@ -101,16 +101,11 @@ const routes = [{
     name: 'test',
     component: () =>
         import ('../views/testpage.vue')
-}, {
+},{
     path: '/taketoken/:id',
     name: 'taketoken',
     component: () =>
         import ('../views/taketoken.vue')
-}, {
-    path: '/forget/:id',
-    name: 'forget',
-    component: () =>
-        import ('../views/forget.vue')
 }]
 
 const router = new VueRouter({
