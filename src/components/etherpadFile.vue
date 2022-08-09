@@ -190,7 +190,7 @@ export default {
   },
 	data() {
     return {
-      id:'',
+      id:this.$props.id,
       title:this.$props.title,
       dialogVisible:false,
       newTitle:'',
