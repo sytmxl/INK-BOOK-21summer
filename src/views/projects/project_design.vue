@@ -117,10 +117,8 @@ import drawio from "@/scripts/drawio";
 export default {
   inject: ["reload"],
   components: {drawioDigram},
-  beforeMount() {
-    this.get_list("0");
-  },
   mounted() {
+    this.get_list("0");
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
@@ -160,8 +158,8 @@ export default {
     closeDialog(){
       this.$data.dialogVisible = false
     },
-    async get_list(del){
-      await this.$axios({
+    get_list(del){
+      this.$axios({
         method: "post" ,
         url: "app/get_graph_list" ,
         data: qs.stringify({
