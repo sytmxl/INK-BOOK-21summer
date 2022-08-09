@@ -3,7 +3,7 @@
   <div class="top">
     <div class="left">
         <div id="nav-header">
-          <span class="brandtext" ><a href="/">INK BOOK</a></span>
+          <span class="brandtext" ><a href="/team_outline">INK BOOK</a></span>
         </div>
     </div>
 
