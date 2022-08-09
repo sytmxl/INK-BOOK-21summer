@@ -55,7 +55,8 @@
 
     <div class="right">
       <div class="user">
-        <img src="../assets/bk3.jpg" alt=""/>
+        <img v-if="!profile" src="../assets/bk3.jpg" alt=""/>
+        <img v-else :src="profile" alt=""/>
         <div class="username">
           <a href="user_information" title="个人中心">{{username}}</a>
           <a href="/" title="登出" @click="logout()">登出</a>
@@ -82,6 +83,7 @@ export default {
         formLabelWidth: '120px',
         allteams:[],
         username:JSON.parse(sessionStorage.getItem('user')).username,
+        profile:"",
         input:"",
       }
     },
@@ -161,7 +163,7 @@ export default {
           console.log(err); 
         });
 
-
+        this.profile=JSON.parse(sessionStorage.getItem('usericon')).picurl
         if(JSON.parse(sessionStorage.getItem('team'))==null){
           this.checkedteam = '请选择你的团队';
         }
