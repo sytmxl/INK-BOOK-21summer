@@ -1,42 +1,57 @@
 <template>
-  <el-container>
-    <div class="top">
-      <aside>
-        <div class="resize"></div>
-        <div class="line"></div>
-        <section>
+  <div>
+    <el-container>
+      <div class="top">
+        <aside>
+          <div class="resize"></div>
+          <div class="line"></div>
+          <section>
 
-          <div class="foldertitle">
-            <h1>文档管理器</h1>
-          </div>
-          <div class="filefolder">
-            <el-input prefix-icon="el-icon-search"
-                      v-model="filterText">
-            </el-input>
-            <el-tree
-                :data="data"
-                node-key="id"
-                default-expand-all
-                :expand-on-click-node="false">
-              <div style="width: 100%; text-align: left"
-                   class="custom-tree-node" slot-scope="{ node, data }"
-                   @contextmenu.prevent="show($event,data,node)"
-                   @click="getNode(data)"
-              >
-                <i :class="data.node_icon"/>
-                <span >{{ node.label }}</span>
-              </div>
-            </el-tree>
-          </div>
-        </section>
-      </aside>
-      <main>
-        MAIN
-      </main>
-    </div>
-  </el-container>
+            <div class="foldertitle">
+              <h1>文档管理器</h1>
+            </div>
+            <div class="filefolder">
+              <el-input prefix-icon="el-icon-search"
+                        v-model="filterText">
+              </el-input>
+              <el-tree
+                  :data="data"
+                  node-key="id"
+                  default-expand-all
+                  :expand-on-click-node="false">
+                <div  style="width: 100%; text-align: left"
+                     class="custom-tree-node" slot-scope="{ node, data }"
+                     @contextmenu.prevent="show($event,data,node)"
+                     @click="getNode(data)"
+                >
+                  <div v-if="data.new_node == false"
+                      style="width: 100%;text-align: left"
+                      @contextmenu.prevent="show($event,data,node)"
+                      @click="getNode(data)"
+                  >
+                    <i :class="data.node_icon"/>
+                    <span >{{ node.label }}</span>
+                  </div>
+                  <span v-else style="width: 100%;text-align: left">
+                    <el-input v-model="new_node_name" style="height: 100%;width: 100%"
+                              placeholder="请输入名称">
+                      <el-button slot="append" style="width: 20%" @click="create_new_node(data)" type="primary">新建</el-button>
+                      <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
+                    </el-input>
 
+                  </span>
+                </div>
 
+              </el-tree>
+            </div>
+          </section>
+        </aside>
+        <main>
+          MAIN
+        </main>
+      </div>
+    </el-container>
+  </div>
 </template>
 
 <style scoped>
@@ -158,6 +173,7 @@ section {
 import Vue from 'vue';
 import Contextmenu from "vue-contextmenujs";
 import qs from "qs";
+import axios from "axios";
 
 Vue.use(Contextmenu);
 export default {
@@ -187,6 +203,8 @@ export default {
    */
   data() {
     return {
+      new_node_parent:null,
+      new_node_name:'',
       filterText: '',
       data: [],
       root_folder:null,
@@ -230,13 +248,14 @@ export default {
           id: node_id,
           label: node_name,
           node_icon : node_icon,
+          new_node : false,
           children: [],
         });
       }
     })
   },
   methods: {
-    async getNode(node_data,node,elm) {
+    async getNode(node_data) {
       await this.$axios({
         method: "post",
         url: "/app/get_file_content",
@@ -265,19 +284,26 @@ export default {
             id: retData.file_id,
             label: node_name,
             node_icon : node_icon,
+            new_node : false,
             children: [],
           });
         }
       })
     },
-    append(data) {
-      const newChild = {id: data.id + 1, label: 'testtest', children: [], depth: data.depth + 1};
-      if (!data.children) {
+    async append_new_node(node_data) {
+      this.$data.new_node_parent = node_data;
+      const newChild = { id: 233333, label: '', children: [] ,new_node:true};
+      if (!node_data.children) {
         this.$set(data, 'children', []);
       }
-      data.children.push(newChild);
+      node_data.children.push(newChild);
     },
+    async cancel_new_node(){
+      this.$data.new_node_parent.children.pop();
+    },
+    async create_new_node(){
 
+    },
     remove(node, data) {
       const parent = node.parent;
       const children = parent.data.children || parent.data;
@@ -295,9 +321,9 @@ export default {
             label: "新建",
             divided: true,
             minWidth: 0,
-            children: [{label: "新建子文件夹", onClick: () => this.append(data)}, {
+            children: [{label: "新建子文件夹", onClick: () => this.append_new_node(data)}, {
               label: "新建子文件",
-              onClick: () => this.append(data)
+              onClick: () => this.append_new_node(data)
             }]
           },
           {label: "打开", disabled: true},
