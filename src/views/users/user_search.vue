@@ -258,6 +258,7 @@ export default {
                 team_member_num: "",
                 team_owner_user_name: "",
                 team_owner_user_email: "",
+                team_info:"",
               };
               tmp.team_id = item.team_id;
               tmp.team_name = item.team_name;
@@ -265,7 +266,7 @@ export default {
               tmp.team_member_num = item.team_member_num;
               tmp.team_owner_user_name = item.team_owner_user_name;
               tmp.team_owner_user_email = item.team_owner_user_email;
-              
+              tmp.team_info=item.team_info;
               this.teamlist.push(tmp);
               
             });
