@@ -1,10 +1,22 @@
 <template>
   <div>
     <template>
-      <el-backtop :right="40" :bottom="100" :visibility-height='400'>
-        <div>
-          <i class="el-icon-top"></i>
+      <el-backtop :right="40" :bottom="60" :visibility-height='400'>
+        <div style="{
+        height: 100%;
+        width: 100%;
+        background-color: #f2f5f6;
+        box-shadow: 0 0 6px rgba(0,0,0, .12);
+        text-align: center;
+        line-height: 40px;
+        color: #1989fa;
+        border-radius:50%;
+      }">
+          UP
         </div>
+        <!-- <div>
+          <i class="el-icon-top"></i>
+        </div> -->
       </el-backtop>
     </template>
     <div style="overflow: hidden">
@@ -40,13 +52,9 @@
           </li>
         </ul>
         <ul id="nav-footer">
-          
-          <el-button type="default" @click="register()"
-            >注&nbsp;册</el-button
-          >
-          <el-button type="primary" @click="login"
-            >登&nbsp;录</el-button
-          >
+
+          <el-button type="default" @click="register()">注&nbsp;册</el-button>
+          <el-button type="primary" @click="login">登&nbsp;录</el-button>
           <!-- <div class="login_button" @click="login()">登录</div> -->
           <!-- <div class="login_button" @click="register()">注册</div> -->
         </ul>
@@ -56,10 +64,10 @@
       <div class="space"></div>
       <div class="space1">
         <div class="txt1">
-          <div class="txt1-1 wow fadeInLeft" data-wow-delay="0.2s">
+          <div class="txt1-1 wow fadeInLeft" data-wow-delay="0.35s">
             助力每个团队的工作
           </div>
-          <div class="txt1-2 wow fadeInLeft " data-wow-delay="0.2s">
+          <div class="txt1-2 wow fadeInLeft " data-wow-delay="0.35s">
             墨书在线协作平台，旨在帮助每个人更好的完成自己的工作，为中小团队的项目协作开发提供管理服务。
           </div>
         </div>
@@ -74,14 +82,14 @@
     <div class="dis2" id="part2">
       <div class="space2"></div>
       <div class="space2-1">
-        <div class="pic1 wow animate__fadeInUp" data-wow-delay="0.2s">
+        <div class="pic1 wow animate__fadeInUp" data-wow-delay="0.35s">
           <img src="../assets/student2.png" class="pic1-1">
         </div>
         <div class="txt2">
-          <div class="txt2-1 wow animate__fadeInUp" data-wow-delay="0.2s">
+          <div class="txt2-1 wow animate__fadeInUp" data-wow-delay="0.35s">
             使团队高效率协作成为可能
           </div>
-          <div class="txt2-2 wow animate__fadeInUp" data-wow-delay="0.2s">
+          <div class="txt2-2 wow animate__fadeInUp" data-wow-delay="0.35s">
             墨书在线协作平台，为您提供丰富的功能，从产品的诞生到完善，让团队高效率完成协作，为企业创造更大的价值
           </div>
         </div>
@@ -92,14 +100,14 @@
       <div class="space"></div>
       <div class="space1">
         <div class="txt3">
-          <div class="txt3-1 wow animate__slideInUp" data-wow-delay="0.2s">
+          <div class="txt3-1 wow animate__slideInUp" data-wow-delay="0.35s">
             内置多款画图工具，随时灵活绘图
           </div>
-          <div class="txt3-2 wow animate__slideInUp" data-wow-delay="0.2s">
+          <div class="txt3-2 wow animate__slideInUp" data-wow-delay="0.35s">
             墨书在线协作平台，提供了原型设计，UML 图绘制等多样的绘图功能，助力您实现各种绘图需求
           </div>
         </div>
-        <div class="pic2 wow animate__slideInUp" data-wow-delay="0.2s">
+        <div class="pic2 wow animate__slideInUp" data-wow-delay="0.35s">
           <img src="../assets/uml.png" class="pic2-1">
         </div>
       </div>
@@ -107,14 +115,14 @@
     <div class="dis2" id="part4">
       <div class="space2"></div>
       <div class="space2-1">
-        <div class="picx wow animate__fadeInUp" data-wow-delay="0.2s">
+        <div class="picx wow animate__fadeInUp" data-wow-delay="0.35s">
           <img src="../assets/word.png" class="picx-1">
         </div>
         <div class="txt2">
-          <div class="txt2-1 wow animate__fadeInUp" data-wow-delay="0.2s">
+          <div class="txt2-1 wow animate__fadeInUp" data-wow-delay="0.35s">
             多人在线编辑，让灵感共同迸发
           </div>
-          <div class="txt2-2 wow animate__fadeInUp" data-wow-delay="0.2s">
+          <div class="txt2-2 wow animate__fadeInUp" data-wow-delay="0.35s">
             墨书在线协作平台，让您无论身处何地，一键发起协作，即可和团队成员共同编辑文稿，添加批注讨论，让所有操作有迹可循，你的办公模式从此刻升级
           </div>
         </div>
@@ -122,13 +130,20 @@
 
     </div>
     <div class="dis3" id="part3">
-      <div class="txt4 wow fadeInLeft" data-wow-delay="0.2s">
+      <div class="txt4 wow fadeInLeft" data-wow-delay="0.35s">
         墨书
       </div>
-      <div class="txt5 wow fadeInLeft" data-wow-delay="0.2s">
-        一款软工团队协作与管理平台，为中小团队的项目协作开发提供管理服务，站在用户的角度，注重用户的隐私性、操作方便性，方便您随时随地管理团队、执行项目
+      <div class="txt7 wow fadeInLeft" data-wow-delay="0.35s">
+        ·
       </div>
-      <el-button type="primary" @click="register()" class="wow fadeInLeft" data-wow-delay="0.2s">立即注册</el-button>
+      <div class="txt6 wow fadeInLeft" data-wow-delay="0.35s">
+        让产品设计更简单
+      </div>
+      <div class="txt5 wow fadeInLeft" data-wow-delay="0.35s">
+        一款软工团队协作与管理平台，为中小团队的项目协作开发提供管理服务，站在用户的角度，注重用户的隐私性与操作方便性，方便您随时随地管理团队、执行项目
+      </div>
+
+      <el-button type="primary" @click="register()" class="wow fadeInLeft" data-wow-delay="0.35s">立即注册</el-button>
     </div>
   </div>
 </template>
@@ -379,7 +394,7 @@ export default {
 
 .pic2-1 {
   margin-top: 90px;
-  margin-left: 169px;
+  margin-left: 145px;
   position: relative;
   width: 678px;
   height: 358px;
@@ -442,16 +457,38 @@ export default {
 
 .txt4 {
   font-family: "楷体";
-  font-size: 80px;
+  font-size: 60px;
   font-weight: bold;
   padding-top: 50px;
 }
 
 .txt5 {
-  font-size: 14px;
+  font-size: 16px;
+  /* font-weight: bold; */
   /* font-weight:; */
-  padding-top: 30px;
-  padding-bottom: 40px;
+  color: #2e3a59;
+  padding-top: 25px;
+  padding-bottom: 20px;
+  width: 400px;
+  margin: 0 auto;
+  line-height: 25px;
+}
+
+.txt6 {
+  font-size: 40px;
+  font-family: "楷体";
+  /* font-weight:; */
+  /* padding-top: 30px;
+  padding-bottom: 40px; */
+  font-weight: bold;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.txt7 {
+  font-size: 40px;
+  font-weight: bold;
+  font-family: "楷体";
   width: 400px;
   margin: 0 auto;
 }
@@ -470,6 +507,7 @@ export default {
   background-color: rgb(150, 169, 183);
   color: white;
 }
+
 .el-backtop {
   color: #000000;
 }
