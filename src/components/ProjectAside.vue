@@ -59,8 +59,8 @@ export default {
           icon: "postcard",
         },
         {
-          path: "../views/projects/project_word.vue",
-          name: "project_word",
+          path: "../views/projects/project_docedit.vue",
+          name: "project_docedit",
           label: "共享文档",
           icon: "document",
         },

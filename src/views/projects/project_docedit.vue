@@ -31,14 +31,9 @@
           <section>
 
             <div class="filefolder">
-              <!--            <el-input prefix-icon="el-icon-search"-->
-              <!--                      size="mini"-->
-              <!--                      style="width: 100%"-->
-              <!--                      v-model="filterText">-->
-              <!--            </el-input>-->
               <div @click="exit_edit">返回</div>
               <el-tree
-                  :data="data"
+                  :data="node_data_list"
                   node-key="id"
                   default-expand-all
                   :expand-on-click-node="false">
@@ -68,31 +63,33 @@
           </section>
         </aside>
         <main v-if="in_editing == true">
+          <h1>cur_node_data{{this.$data.cur_node_data}}</h1>
           <iframe :src="docUrl" width=100% height=100%></iframe>
         </main>
         <main v-else>
-        <div class="right">
-          <h1 class="label" v-if="inRecycle == false">{{cur_node_data.folder_name}}</h1>
-          <h1 class="label" v-else>回收站</h1>
-          <el-row v-if="inRecycle == false && doc_list.length != 0">
-            <el-col :span="7" v-for="item in doc_list">
-              <EtherpadFile :in-recycle="false"
-                            v-on:start_edit="enter_edit"
-                            :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
-                            :token="item.doc_token"/>
-            </el-col>
-          </el-row>
-          <el-row v-else-if="inRecycle == true && recycle_list != 0">
-            <el-col :span="7" v-for="item in recycle_list">
-              <EtherpadFile :in-recycle="true"
-                            :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
-                            :token="item.doc_token"/>
-            </el-col>
-          </el-row>
-          <el-row v-else>
-            <el-empty :image-size="200"></el-empty>
-          </el-row>
-        </div>
+          <h1>cur_node_data{{this.$data.cur_node_data}}</h1>
+          <div class="right">
+            <h1 class="label" v-if="inRecycle == false">{{this.$data.cur_node_data}}</h1>
+            <h1 class="label" v-else>回收站</h1>
+            <el-row v-if="inRecycle == false && doc_list.length != 0">
+              <el-col :span="7" v-for="item in doc_list">
+                <EtherpadFile :in-recycle="false"
+                              v-on:start_edit="enter_edit"
+                              :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
+                              :token="item.doc_token"/>
+              </el-col>
+            </el-row>
+            <el-row v-else-if="inRecycle == true && recycle_list != 0">
+              <el-col :span="7" v-for="item in recycle_list">
+                <EtherpadFile :in-recycle="true"
+                              :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
+                              :token="item.doc_token"/>
+              </el-col>
+            </el-row>
+            <el-row v-else>
+              <el-empty :image-size="200"></el-empty>
+            </el-row>
+          </div>
       </main>
       </div>
 
@@ -135,34 +132,9 @@ export default {
    *  children:[{rec}]
    * }
    */
-  data() {
-    return {
-      dialogVisible: false,
-      inRecycle: false,
-      isCollapse: false,
-      doc_list: [],
-      recycle_list: [],
-      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
-      newDocName: '',
-      in_editing: true,
-      content: 'n/a',
-      input: '',
-      docUrl: '',
-      cur_node_data: null,
-      new_node_parent: null,
-      new_node_name: '',
-      filterText: '',
-      data:[{
-        id: this.$data.root_folder,
-        label:JSON.parse(sessionStorage.getItem("project")).project_name,
-        node_icon:'el-icon-data-analysis',
-        new_node:false,
-        children:[]
-      }],
-      root_folder: null,
-    }
-  },
   async mounted() {
+    console.log("c!")
+    console.log(this.$data.in_editing)
     await this.$axios({
       method: "post",
       url: "/app/get_project_fileid",
@@ -172,11 +144,12 @@ export default {
     }).then(res => {
       this.$data.root_folder = res.data.data.file_id;
     })
+    this.$data.node_data_list.id = this.$data.root_folder
     await this.$axios({
       method: "post",
       url: "/app/get_file_content",
       data: qs.stringify({
-        file_id: node_data.file_id,
+        file_id: this.$data.root_folder,
       }),
     }).then(res => {
       let i;
@@ -186,10 +159,10 @@ export default {
         let node_icon;
         this.$data.doc_list = [];
         // 是项目根文件夹
-        if (retData.file_type == 3) {
+        if (retData.file_type === 3) {
           node_name = retData.detail.project_name;
           node_icon = 'el-icon-data-analysis'
-        } else if (retData.file_type == 2) {
+        } else if (retData.file_type === 2) {
           this.$data.doc_list.push(retData.detail);
           node_name = retData.detail.doc_name;
           node_icon = 'el-icon-document'
@@ -197,7 +170,8 @@ export default {
           node_name = retData.folder_name;
           node_icon = 'el-icon-folder'
         }
-        this.$data.data[0].push({
+        console.log(retData)
+        this.$data.node_data_list[0].push({
           id: retData.file_id,
           label: node_name,
           node_icon: node_icon,
@@ -205,8 +179,9 @@ export default {
           children: [],
         });
       }
+      this.$data.cur_node_data = this.$data.node_data_list[0];
+      console.log(this.$data.cur_node_data)
     })
-    this.$data.cur_node_data = this.$data.data[0];
   },
   methods: {
     exit_edit(){
@@ -355,9 +330,6 @@ export default {
         }
       });
     },
-    enter_exit_Recycle() {
-      this.$data.inRecycle = !this.$data.inRecycle
-    },
     openDialog() {
       this.$data.dialogVisible = false
     },
@@ -393,7 +365,33 @@ export default {
       this.$refs.tree.filter(val);
     }
   },
-
+  data() {
+    return {
+      dialogVisible: false,
+      inRecycle: false,
+      isCollapse: false,
+      doc_list: [],
+      recycle_list: [],
+      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
+      newDocName: '',
+      in_editing: true,
+      content: 'n/a',
+      input: '',
+      docUrl: '',
+      cur_node_data: null,
+      new_node_parent: null,
+      new_node_name: '',
+      filterText: '',
+      node_data_list:[{
+        id: null,
+        label:JSON.parse(sessionStorage.getItem("project")).project_name,
+        node_icon:'el-icon-data-analysis',
+        new_node:false,
+        children:[]
+      }],
+      root_folder: null,
+    }
+  },
 }
 </script>
 

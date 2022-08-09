@@ -54,7 +54,7 @@
     </el-dialog>
     <el-container style="min-height: calc(100vh)">
       <el-aside width="200px">
-        <project-aside v-if="inediting == false"/>
+        <project-aside v-if="!inediting || inediting == false"/>
         <edit-aside v-else header="原型设计" :target_list="sideList" v-on:sideclick="sideEdit($event)"/>
       </el-aside>
       <div>
@@ -79,7 +79,7 @@
 <!--        style="height: calc(100vh)"/>-->
         <div>
           <h1 v-if="inediting == false" class="label">所有原型设计</h1>
-          <el-row id="graphContainer" v-if="PrototypeList.length != 0">
+          <el-row id="graphContainer" v-if="PrototypeList != []">
             <el-col :span="5" v-for="(id, index) in PrototypeList"
                     :key="id" :offset="index > 0 ? 2 : 0">
               <drawio-digram :graph_id="id" :isdel="viewingDel"
@@ -107,16 +107,17 @@ import drawio from "@/scripts/drawio";
 import ProjectAside from "../../components/ProjectAside";
 import EditAside from "@/components/EditAside";
 export default {
-  inject: ["reload"],
   components: {drawioDigram,ProjectAside,EditAside},
-  mounted() {
-    this.get_list("0");
+  async mounted() {
+    console.log(this.$data.project_id)
+    this.$data.project_id=await JSON.parse(sessionStorage.getItem('project')).project_id
+    console.log(this.$data.project_id)
+    await this.get_list("0");
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
   },
   methods: {
-
     async sideEdit(index) {
 
       if(this.inediting != null){
@@ -229,7 +230,7 @@ export default {
   data() {
     return {
       nowediting:null,
-      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
+      project_id: null,
       newHeader: null,
       newBrief: null,
       dialogVisible: false,
