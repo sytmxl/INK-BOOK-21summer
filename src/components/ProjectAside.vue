@@ -100,10 +100,13 @@ export default {
   width: 200px;
   min-height: 400px;
   padding: 0;
-  height: 100%;
+  height: 10000px;
+
   animation-name: enter_aside;
   animation-iteration-count: 1;
   animation-duration: 0.4s;
+  
+  position: fixed;
 }
 .el-menu-item {
   float: left;

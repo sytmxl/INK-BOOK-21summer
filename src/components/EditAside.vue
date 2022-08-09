@@ -72,6 +72,10 @@ export default {
   padding: 0;
   height: 100%;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  animation-name: enter_aside;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 .el-menu-item {
   float: left;
