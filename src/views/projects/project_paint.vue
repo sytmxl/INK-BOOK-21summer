@@ -238,7 +238,7 @@ export default {
   float: top;
   background-color: rgb(255, 255, 255) !important;
   position: fixed;
-  height: 1000px;
+  height: 10000px;
 }
 .second:not(.el-menu--collapse) {
   width: 200px;

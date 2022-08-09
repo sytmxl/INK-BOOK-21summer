@@ -1,7 +1,8 @@
 <template>
   <div class="bar3 bar" v-if="identity == 3">
     <div class="left">
-      <img src="../assets/bk3.jpg" alt=""/>
+      <img v-if="!imgurl" src="../assets/bk3.jpg" alt=""/>
+      <img v-else :src="imgurl" alt=""/>
       <p class="name">{{user_name}}</p>
     </div>
     <div class="right">
@@ -16,7 +17,8 @@
 
   <div class="bar2 bar" v-else-if="identity == 2">
     <div class="left">
-      <img src="../assets/bk3.jpg" alt=""/>
+      <img v-if="!imgurl" src="../assets/bk3.jpg" alt=""/>
+      <img v-else :src="imgurl" alt=""/>
       <p class="name">{{user_name}}</p>
     </div>
     <div class="right">
@@ -33,7 +35,8 @@
 
   <div class="bar1 bar" v-else>
     <div class="left">
-      <img src="../assets/bk3.jpg" alt=""/>
+      <img v-if="!imgurl" src="../assets/bk3.jpg" alt=""/>
+      <img v-else :src="imgurl" alt=""/>
       <p class="name">{{user_name}}</p>
     </div>
 
@@ -60,6 +63,7 @@ props:{
   email:{default:"",type:String},
   realname:{default:"",type:String},
   user_id:'',
+  imgurl:{default:"",type:String},
 },
 methods:{
           cancelmanager(){

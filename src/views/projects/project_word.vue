@@ -172,7 +172,7 @@ this.axios({
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
   position: fixed;
-  height: 1000px;
+  height: 10000px;
 }
 .second:not(.el-menu--collapse) {
   width: 200px;
