@@ -76,8 +76,10 @@ export default {
   },
 
   methods: {
-    test() {
-      alert(this.$props.graph_id)
+    exitEdit(){
+      if(this.$data.diagramEditor){
+        this.$data.diagramEditor.stopEditing();
+      }
     },
     closeDialog() {
       this.$data.dialogVisible = false
@@ -86,14 +88,14 @@ export default {
       this.$data.dialogVisible = true
     },
     async edit() {
-      await this.$emit('startEdit');
-      if (window.startLoading) await window.startLoading();
-      await drawio.DiagramEditor.editElement(
+      window.stopLoading();
+      this.$data.diagramEditor = await drawio.DiagramEditor.editElement(
           this.$refs.graph, this.$data.configs,
           "kennedy",
           null,
           ['pv=0'],
           this.$props.graph_id);
+      await this.$emit('startEdit');
       if (!localStorage.getItem('noTipsOnedit')) {
         this.welcomeNotify = this.$notify({
           iconClass: 'el-icon-guide',
@@ -248,6 +250,7 @@ export default {
   },
   data() {
     return {
+      diagramEditor:null,
       welcomeNotify: null,
       dialogVisible: false,
       newHeader: null,
