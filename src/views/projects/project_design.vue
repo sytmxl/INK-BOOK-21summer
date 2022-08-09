@@ -45,8 +45,6 @@
           </el-row>
         </span>
       </span>
-
-
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
         <el-button type="primary" @click="add_graph">新建</el-button>
@@ -59,7 +57,7 @@
       </el-aside>
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse=true>
-          <el-menu-item class="outside" index="1" @click="dialogVisible = true">
+          <el-menu-item class="outside" index="1" @click="openDialog">
             <i class="el-icon-plus"></i>
             <span slot="title">新建</span>
           </el-menu-item>
@@ -79,7 +77,7 @@
 <!--        style="height: calc(100vh)"/>-->
         <div>
           <h1 v-if="inediting == false" class="label">所有原型设计</h1>
-          <el-row id="graphContainer" v-if="PrototypeList != []">
+          <el-row id="graphContainer" v-if="PrototypeList != []" style="height: calc(100vh)">
             <el-col :span="5" v-for="(id, index) in PrototypeList"
                     :key="id" :offset="index > 0 ? 2 : 0">
               <drawio-digram :graph_id="id" :isdel="viewingDel"
@@ -152,6 +150,9 @@ export default {
         this.viewingDel = "1";
       };
       this.get_list(this.viewingDel);
+    },
+    openDialog(){
+      this.$data.dialogVisible = true
     },
     closeDialog() {
       this.$data.dialogVisible = false
