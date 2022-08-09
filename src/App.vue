@@ -134,7 +134,7 @@ el-icon:hover, el-icon-close:hover {
 }
 .el-button {
   border-radius: 10px !important;
-  transition: 0.4s !important;
+  transition: 0.4s !important;  
 }
 .el-button--primary {
   background-color: #9aadbd !important;

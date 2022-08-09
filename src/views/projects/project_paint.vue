@@ -1,30 +1,26 @@
 <template>
   <div id="init">
-    <el-dialog :modal="false"
-        title="新建一个UML图"
+    <el-dialog :modal="false" v-if="dialogVisible"
+        title="新建UML图"
         :visible.sync="dialogVisible"
-        width="50%"
+        width="30%"
         :before-close="closeDialog">
       <span>
         <span>
           <el-row>
-            <el-col :span="4">
-              UML标题：
-            </el-col>
-            <el-col :span="20">
+            
+            <el-col >
               <el-input
-                  placeholder="请输入标题"
+                  placeholder="请输入UML标题"
                   v-model="newHeader">
               </el-input>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="4">
-              UML图注：
-            </el-col>
-            <el-col :span="20">
+            
+            <el-col >
               <el-input
-                  placeholder="请输入图注"
+                  placeholder="请输入UML图注"
                   v-model="newBrief">
               </el-input>
             </el-col>
@@ -32,10 +28,8 @@
         </span>
         <span>
           <el-row>
-            <el-col :span="4">
-              UML模板：
-            </el-col>
-            <el-col :span="4">
+            
+            <el-col >
               <el-select v-model="template" placeholder="请选择">
                 <el-option
                     v-for="item in template_options"
@@ -45,7 +39,7 @@
                 </el-option>
               </el-select>
             </el-col>
-            <el-col span="16">
+            <el-col >
               <img :src="template_options[template].preview">
             </el-col>
           </el-row>
@@ -66,7 +60,7 @@
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse="true">
           <el-menu-item class="outside" index="1" @click="dialogVisible = true">
             <i class="el-icon-plus"></i>
-            <span slot="title">新建表</span>
+            <span slot="title">新建</span>
           </el-menu-item>
           <el-menu-item class="outside" index="2">
             <i class="el-icon-edit-outline"></i>
