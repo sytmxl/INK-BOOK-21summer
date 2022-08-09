@@ -1,77 +1,82 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :span="24">
-        <h1 class="label">
-          {{project_name}}
-          <span>{{team_name}}</span>
-        </h1>
-        <p style="text-align: left; margin-left: 2.5%;">
-          {{team_intro}}
-        </p>
-      </el-col>
-    </el-row>
-
-    <el-card shadow="never">
+  <el-container>
+    <el-aside width="200px">
+      <project-aside/>
+    </el-aside>
+    <el-main>
       <el-row>
         <el-col :span="24">
+          <h1 class="label">
+            {{project_name}}
+            <span>{{team_name}}</span>
+          </h1>
+          <p style="text-align: left; margin-left: 2.5%;">
+            {{team_intro}}
+          </p>
+        </el-col>
+      </el-row>
+
+      <el-card shadow="never">
+        <el-row>
+          <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期原型图</h1>
-        </el-col>
-      </el-row>
-      <el-row v-if="PrototypeList.length != 0">
-        <el-col :span="6" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
-          <drawio-digram v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
-        </el-col>
-      </el-row>
-      <el-row v-else>
-        <el-empty :image-size="100"></el-empty>
-      </el-row>
-    </el-card>
+          </el-col>
+        </el-row>
+        <el-row v-if="PrototypeList.length != 0">
+          <el-col :span="6" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
+            <drawio-digram v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+          </el-col>
+        </el-row>
+        <el-row v-else>
+          <el-empty :image-size="100"></el-empty>
+        </el-row>
+      </el-card>
 
-    <el-card shadow="never">
-      <el-row>
-        <el-col :span="24">
+      <el-card shadow="never">
+        <el-row>
+          <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
-        </el-col>
-      </el-row>
-      <el-row v-if="UMLList.length != 0">
-        <el-col :span="6" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-          <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
-        </el-col>
-      </el-row>
-      <el-row v-else>
-        <el-empty :image-size="100"></el-empty>
-      </el-row>
-    </el-card>
+          </el-col>
+        </el-row>
+        <el-row v-if="UMLList.length != 0">
+          <el-col :span="6" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+            <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
+          </el-col>
+        </el-row>
+        <el-row v-else>
+          <el-empty :image-size="100"></el-empty>
+        </el-row>
+      </el-card>
 
-    <el-card shadow="never">
-      <el-row>
-        <el-col :span="24">
+      <el-card shadow="never">
+        <el-row>
+          <el-col :span="24">
             <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期文档</h1>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
 
-      <el-row v-if="doc_list.length != 0">
-        <el-col :span="8" v-for="item in doc_list">
-          <EtherpadFile v-on:deled = "get_doc_list"
-                        :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"
-          />
-        </el-col>
-      </el-row>
-      <el-row v-else>
-        <el-empty :image-size="100"></el-empty>
-      </el-row>
-    </el-card>
-  </div>
+        <el-row v-if="doc_list.length != 0">
+          <el-col :span="8" v-for="item in doc_list">
+            <EtherpadFile v-on:deled = "get_doc_list"
+                          :id = "item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time" :url="item.doc_url"
+            />
+          </el-col>
+        </el-row>
+        <el-row v-else>
+          <el-empty :image-size="100"></el-empty>
+        </el-row>
+      </el-card>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 import qs from "qs";
 import drawioDigram from "@/components/drawioDiagram";
 import EtherpadFile from "@/components/etherpadFile";
-
+import ProjectAside from "../../components/ProjectAside";
 export default {
-  components: {drawioDigram,EtherpadFile},
+  components: {drawioDigram,EtherpadFile,ProjectAside},
   name: "project_outline",
   beforeMount() {
     sessionStorage.setItem("project_id","1");
