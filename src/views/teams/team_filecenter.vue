@@ -21,15 +21,7 @@
                 :filter-node-method="filterNode"
                   :props="defaultProps"
                   class="filter-tree"
-                  ref="tree"
-                  @node-drag-start="handleDragStart"
-                  @node-drag-enter="handleDragEnter"
-                  @node-drag-leave="handleDragLeave"
-                  @node-drag-over="handleDragOver"
-                  @node-drag-end="handleDragEnd"
-                  @node-drop="handleDrop"
-                  :allow-drop="allowDrop"
-                  :allow-drag="allowDrag">
+                  ref="tree">
                 <span class="custom-tree-node" slot-scope="{ node, data }">
                   <span @contextmenu.prevent="show($event,data,node)">{{ node.label }}</span>
                 </span>

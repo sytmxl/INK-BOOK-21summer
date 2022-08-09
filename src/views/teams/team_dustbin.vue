@@ -8,7 +8,7 @@
         <el-card class="box-card" shadow="hover">
           <div id="tools">
           <i class="el-icon-document-delete" @click="deleteforever(item.project_id)"></i>
-          <i class="el-icon-magic-stick" @click="restore(item)"></i>
+          <i class="el-icon-magic-stick" @click="restore(item.project_id)"></i>
           </div>
           <h5>{{item.project_name}}</h5>
           <p>创建时间：<br/>{{item.create_time}}</p>
