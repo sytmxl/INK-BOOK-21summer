@@ -372,7 +372,7 @@ export default {
       // 检验数据的可行性
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          console.log('数据有效');
+          
           this.$axios({
             method: "post" /* 指明请求方式，可以是 get 或 post */,
             url: "app/update_password" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -383,7 +383,7 @@ export default {
             }),
           })
             .then((res) => {
-              console.log(res);
+              
               if (res.data.errno == 0) {
                 this.$message({
                   // message: res.data.msg,
@@ -402,11 +402,11 @@ export default {
               this.PasswordChangeDialogVi = false;
             })
             .catch((err) => {
-              console.log(err); /* 若出现异常则在终端输出相关信息 */
+              
             })
         } else {
           this.$message.warning("请检查您的输入")
-          console.log('error submit!!');
+          
           return false;
         }
       });
@@ -446,7 +446,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -465,7 +465,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         })
       // this.reload();
 
@@ -488,7 +488,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -505,7 +505,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
       setTimeout(() => { location.reload() }, 1000);
     },
@@ -526,7 +526,7 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
             this.$message({
               // message: res.data.msg,
@@ -543,7 +543,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
       setTimeout(() => { location.reload() }, 1000);
     },
@@ -562,7 +562,7 @@ export default {
     //     }),
     //   })
     //     .then((res) => {
-    //       console.log(res);
+    //       
     //       if (res.data.errno == 0) {
     //         this.$message({
     //           message: res.data.msg,
@@ -578,12 +578,12 @@ export default {
     //       }
     //     })
     //     .catch((err) => {
-    //       console.log(err); /* 若出现异常则在终端输出相关信息 */
+    //       
     //     });
     //   this.reload();
     // },
     init() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_logined_userinfo" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
@@ -592,9 +592,9 @@ export default {
         // }
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("成功");
+            
             this.userId = res.data.data.user_id;
             this.username = res.data.data.user_name;
             this.realname = res.data.data.real_name;
@@ -613,7 +613,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     getTeam() {
@@ -622,11 +622,11 @@ export default {
         url: "app/get_team_list" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取队伍成功");
-            console.log(res);
-            console.log(res.data.data.team_list_owner);
+            
+            
+            
             res.data.data.team_list_owner.forEach((item) => {
               var tmp = {
                 teamname: "",
@@ -640,9 +640,9 @@ export default {
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
             res.data.data.team_list_admin.forEach((item) => {
               var tmp = {
@@ -657,9 +657,9 @@ export default {
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
             res.data.data.team_list_member.forEach((item) => {
               var tmp = {
@@ -674,9 +674,9 @@ export default {
               tmp.teamsetter = item.team_owner_user_name;
               tmp.teamsettime = item.team_time;
               tmp.teamernum = item.team_member_num;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
           } else {
             this.$message({
@@ -687,22 +687,22 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     getProject() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取项目成功");
-            console.log(res.data.data.project_normal_list);
+            
+            
             res.data.data.project_normal_list.forEach((item) => {
-              console.log("获");
+              
               var tmp = {
                 project_id: "",
                 project_name: "",
@@ -715,9 +715,9 @@ export default {
               tmp.create_time = item.create_time;
               tmp.update_time = item.update_time;
               tmp.team_id = item.team_id;
-              console.log(tmp);
+              
               this.projectlist.push(tmp);
-              console.log(this.projectlist);
+              
             });
           } else {
             this.$message({
@@ -728,22 +728,22 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     getreProject() {
-      console.log(JSON.parse(sessionStorage.getItem("token")));
+      
       this.$axios({
         method: "get" /* 指明请求方式，可以是 get 或 post */,
         url: "app/get_user_projects" /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */,
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("获取项目成功");
-            console.log(res.data.data.project_normal_list);
+            
+            
             res.data.data.project_recycle_list.forEach((item) => {
-              console.log("获");
+              
               var tmp = {
                 project_id: "",
                 project_name: "",
@@ -756,9 +756,9 @@ export default {
               tmp.create_time = item.create_time;
               tmp.update_time = item.update_time;
               tmp.team_id = item.team_id;
-              console.log(tmp);
+              
               this.reprojectlist.push(tmp);
-              console.log(this.reprojectlist);
+              
             });
           } else {
             this.$message({
@@ -769,7 +769,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     // 修改头像部分
@@ -802,9 +802,9 @@ export default {
       // 这里传入的应该是组件中携带的文件信息
       var base64Str = await this.getBase64(file.file);
       this.img_base64 = base64Str;
-      console.log(base64Str);
+      
       this.imgString = base64Str.split(',');
-      console.log(this.imgString);
+      
       this.$axios({
         method: "post",
         url: "app/upload_profile",
@@ -813,9 +813,9 @@ export default {
         }),
       })
         .then((res) => {
-          console.log("更换头像")
-          console.log(res)
-          console.log(this.img_base64)
+          
+          
+          
           if (res.data.errno == 0) {
             this.$message.success("修改头像成功");
             var usericon = { userId: this.userId, picurl: this.img_base64 };
@@ -831,7 +831,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
+          
         });
         // setTimeout(() => {
         //       window.location.reload();

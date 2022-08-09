@@ -70,13 +70,13 @@ export default {
   methods: {
     goBack(){window.location.href = "/team_projects"},
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     clickMenu(item) {
-      console.log(this.$router.currentRoute.name);
+      
      
       this.$router.push({
         name: item.name,

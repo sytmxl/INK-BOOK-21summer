@@ -138,7 +138,7 @@ export default {
           
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
     },
     init() {
@@ -155,9 +155,9 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("成功搜索用户");
+            
             res.data.data.user_list.forEach((item) => {
               var tmp = {
                 user_id: "",
@@ -169,9 +169,9 @@ export default {
               tmp.user_name = item.user_name;
               tmp.email = item.email;
               tmp.user_info = item.user_info;
-              console.log(tmp);
+              
               this.userlist.push(tmp);
-              console.log(this.userlist);
+              
             });
           } else {
             this.$message({
@@ -182,7 +182,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
 
       this.$axios({
@@ -198,9 +198,9 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(res);
+          
           if (res.data.errno == 0) {
-            console.log("成功搜索团队");
+            
             res.data.data.team_fuzzy_list.forEach((item) => {
               var tmp = {
                 team_name: "",
@@ -216,9 +216,9 @@ export default {
               tmp.team_member_num = item.team_member_num;
               tmp.team_owner_user_name = item.team_owner_user_name;
               tmp.team_owner_user_email = item.team_owner_user_email;
-              console.log(tmp);
+              
               this.teamlist.push(tmp);
-              console.log(this.teamlist);
+              
             });
           } else {
             this.$message({
@@ -229,7 +229,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err); /* 若出现异常则在终端输出相关信息 */
+          
         });
     },
     lookinfo(val) {
@@ -237,7 +237,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.path);
+    
     this.init();
   },
 };

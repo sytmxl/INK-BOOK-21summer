@@ -60,7 +60,7 @@ export default {
       })
         .then((res) => {
           this.team_member_list = res.data.data.team_member_list;
-          console.log(this.team_member_list);
+          
           var count1 = 0;
           var count2 = 0;
           var count3 = 0;
@@ -75,10 +75,10 @@ export default {
               this.member_list[count3++] = this.team_member_list[i];
             }
           }   
-          console.log(this.boss_list);
+          
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
       }

@@ -185,7 +185,7 @@ export default {
          this.project_list = res.data.data.project_recycle_list;
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
       },
       restore(id){
@@ -208,7 +208,7 @@ export default {
          location.reload();
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         }).catch(() => {
@@ -244,7 +244,7 @@ export default {
              location.reload();
             })
             .catch((err) => {
-              console.log(err); 
+              
         });
 
         }).catch(() => {

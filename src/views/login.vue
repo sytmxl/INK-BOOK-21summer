@@ -111,7 +111,7 @@ export default {
           }),
         })
           .then(async (res) => {
-            console.log(res)
+            
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
@@ -130,9 +130,9 @@ export default {
               await this.$store.dispatch("savetoken", token);
               localStorage.setItem("saveuser", qs.stringify(user));
               localStorage.setItem("savetoken", qs.stringify(token));
-              console.log(user);
-              console.log(token);
-              console.log(this.$store.state.user);
+              
+              
+              
               window.location.href = "team_outline";
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               // const history_pth = localStorage.getItem("FirstPage");
@@ -162,7 +162,7 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err); /* 若出现异常则在终端输出相关信息 */
+            
           });
       } else {
         if (this.form.username === "" && this.form.password === "") {
@@ -189,7 +189,7 @@ export default {
             /* res 是 response 的缩写 */
             // var usericon = {userId:  res.data.User_id,picurl:res.data.avatar_url};
             // this.$store.dispatch("saveusericon", usericon);
-            console.log(res.data)
+            
             if (res.data.errno == 0) {
               this.$message.success("登录成功！");
               var user = {
@@ -203,9 +203,9 @@ export default {
               await this.$store.dispatch("savetoken", token);
               localStorage.setItem("saveuser", qs.stringify(user));
               localStorage.setItem("savetoken", qs.stringify(token));
-              console.log(user);
-              console.log(token);
-              console.log(this.$store.state.user);
+              
+              
+              
               window.location.href = "team_outline";
               /* 从 localStorage 中读取 preRoute 键对应的值 */
               // const history_pth = localStorage.getItem("FirstPage");
@@ -236,7 +236,7 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err); /* 若出现异常则在终端输出相关信息 */
+            
           });
       }
     },
@@ -269,8 +269,8 @@ export default {
         }),
       })
         .then((res) => {
-          console.log(i);
-          console.log(res);
+          
+          
           if (res.data.errno == 0) {
             this.$message.success("邮件已发送,请前往您的邮箱查看信息")
           }
@@ -286,7 +286,7 @@ export default {
         this.resetForm('forget')
         )
         .catch((err) => {
-          console.log(err);
+          
         });
     }
   },

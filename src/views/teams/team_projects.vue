@@ -220,7 +220,7 @@ export default {
           
           })
         .catch((err) => {
-          console.log(err); 
+          
         });
         }).catch(() => {
               
@@ -250,7 +250,7 @@ export default {
          location.href = "/project_outline"
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
           
      
@@ -284,7 +284,7 @@ export default {
        
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         }).catch(() => {
@@ -335,7 +335,7 @@ export default {
   
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         

@@ -134,7 +134,7 @@ export default {
             
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
       },
@@ -161,7 +161,7 @@ export default {
           
         })
         .catch((err) => {
-          console.log(err); 
+          
         });
 
         this.profile=JSON.parse(sessionStorage.getItem('usericon')).picurl
