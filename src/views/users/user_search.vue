@@ -15,12 +15,11 @@
           <el-tabs v-model="activeName">
             <el-tab-pane label="用户" name="first">
               <div v-if="userlist.length!=0">
-              <el-card class="box-card" v-for="item in userlist" :key="item">
+              <!-- <el-card class="box-card" v-for="item in userlist" :key="item">
                 <div slot="header" class="clearfix">
                   <span style="float: left; margin-top:-11px;font-weight:bold;font-size:20px;">{{ item.user_name
                   }}</span>
                   <el-button style="float: right; margin-top:-19px" type="text" @click="invite(item.user_name)">发送邀请</el-button>
-                  <!-- <el-button style="float: right; margin-top:-19px; padding-right: 10px;" type="text" @click="lookinfo()">查看信息</el-button> -->
                 </div>
                 <el-row>
                   <el-col :span="8">
@@ -42,9 +41,22 @@
                       {{ item.user_info }}
                     </div>
                   </el-col>
-
                 </el-row>
-              </el-card>
+              </el-card> -->
+                <div class="bar bar1" v-for="item in userlist">
+                  <div class="left">
+                    <img v-if="!imgurl" src="../../assets/bk3.jpg" alt=""/>
+                    <img v-else :src="imgurl" alt=""/>
+                    <p class="name">{{item.user_name}}</p>
+                  </div>
+                  <div class="right">
+                    <!-- <div id="tools">
+                      <i class="el-icon-minus" @click="cancelmanager()"></i>
+                    </div> -->
+                    <p class="email">邮箱：{{item.email}}</p>
+                    <p class="long">个性签名：{{item.user_info}}</p>
+                  </div>
+                </div>
               </div>
               <div v-else style="margin-top:10%">
                 <img src="../../assets/no.png" style="width:100px;height:100px;"/>
@@ -337,5 +349,149 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+}
+
+/* 这里的样式应该只能用/deep/改 */
+/deep/ .el-tabs__item.is-active {
+  color: rgb(2, 2, 2);
+}
+
+/deep/ .el-tabs__item:hover {
+  color: #75889c;
+}
+
+/deep/ .el-tabs__item {
+  color: #909399;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/deep/ .el-tabs__active-bar {
+  height: 4px;
+  border-radius: 2px;
+  background: #75889c;
+}
+
+.bar {
+  right: 0;
+  border:  1px solid rgba(206, 218, 226, 0.536);
+  border-radius: 45px;
+  margin: 20px;
+  padding: 10px;
+  /* 居中 */
+  align-items: center;
+  display: flex;
+  transition: 0.4s;
+  color: black;
+}
+.bar:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
+}
+.bar1 {
+  background-color: rgba(95, 123, 143, 0.184);
+  border:  1px solid rgba(85, 103, 116, 0.517);
+}
+.bar2 {
+  background-color: rgba(206, 218, 226, 0.29);
+}
+.bar3 {
+  background-color: rgba(95, 123, 143, 0.184);
+  border:  1px solid rgb(85, 103, 116);
+}
+.left {
+  /* height: max-content; */
+  /* float: left; */
+  align-items: center;
+  display: flex;
+}
+.right {
+  height: 40px;
+  /* float: right; */
+  align-items: center;
+  /* display: flex; */
+  position: absolute;
+  right: 5%;
+  overflow: hidden;
+}
+img { 
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 50%;
+}
+p {
+  display: inline;
+  margin: 10px;
+  vertical-align: center;
+}
+.name, .id, .realname, .email, .long{
+  display: inline-block;
+  white-space: nowrap; 
+  /* width: 80px;  */
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
+.name {
+  width: 80px;
+}
+.id {
+  width: 120px;
+}
+.realname {
+  width: 200px;
+}
+.email {
+  width: 250px;
+}
+.long {
+  width: 400px;
+}
+
+#tools {
+  background-color: rgba(95, 123, 143, 0.304);
+  /* color: rgb(95, 123, 143) !important; */
+  transition: 0.3s;
+  height: 0px;
+  padding: 0px;
+  font-size: 0px;
+  border-radius: 5px;
+  text-align: center;
+}
+.bar3 #tools {
+  background-color: rgba(253, 253, 253, 0.304);
+}
+.bar:hover #tools{
+  height: 40px;
+  /* color: rgb(0, 0, 0); */
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
+  color: rgb(95, 123, 143);
+  border-radius: 5px;
+  padding: 0px;
+  transition: 0.2s;
+  width: 30%;
+}
+.el-icon-delete:hover, .el-icon-user:hover, .el-icon-minus:hover, .el-icon-plus:hover{
+  color: rgb(247, 239, 239);
+  border-radius: 10px;
+  width: 33%;
+}
+.el-icon-delete:hover {
+  background-color: rgb(36, 32, 32);
+}
+.el-icon-user:hover {
+  background-color: rgb(113, 142, 199);
+}
+.el-icon-minus:hover {
+  background-color: rgb(199, 113, 113);
+}
+.el-icon-plus:hover {
+  background-color: rgb(113, 199, 130);
+}
+.bar:hover .el-icon-delete, .el-icon-user, .el-icon-minus, .el-icon-plus {
+  /* background-color: rgb(199, 113, 113); */
+  padding: 5px;
 }
 </style>
