@@ -30,6 +30,9 @@ export default new Vuex.Store({
         sorttype: JSON.parse(sessionStorage.getItem("sorttype")) || {
             sorttype: 1
         },
+        projectsearch: JSON.parse(sessionStorage.getItem("projectsearch")) || {
+            content: '',
+        },
     },
     mutations: {
         enterEditing() {
@@ -102,6 +105,17 @@ export default new Vuex.Store({
             sessionStorage.removeItem('sorttype', JSON.stringify(value))
             state.sorttype = null
         },
+
+        $_setprojectsearch(state, value) {
+
+            sessionStorage.setItem('projectsearch', JSON.stringify(value))
+            state.projectsearch = value
+        },
+        $_removeprojectsearch(state, value) {
+
+            sessionStorage.removeItem('projectsearch', JSON.stringify(value))
+            state.projectsearch = null
+        },
     },
     actions: {
 
@@ -151,6 +165,13 @@ export default new Vuex.Store({
 
         clearsorttype({ commit }) {
             commit('$_removesorttype');
+        },
+        saveprojectsearch({ commit }, data) {
+            commit('$_setprojectsearch', data)
+        },
+
+        clearprojectsearch({ commit }) {
+            commit('$_removeprojectsearch');
         },
     },
 })
