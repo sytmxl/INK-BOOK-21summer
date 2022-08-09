@@ -18,7 +18,11 @@
                 node-key="id"
                 default-expand-all
                 :expand-on-click-node="false">
-              <div style="width: 100%; text-align: left" class="custom-tree-node" slot-scope="{ node, data }" @contextmenu.prevent="show($event,data,node)" >
+              <div style="width: 100%; text-align: left"
+                   class="custom-tree-node" slot-scope="{ node, data }"
+                   @contextmenu.prevent="show($event,data,node)"
+                   @click="getNode(data)"
+              >
                 <i :class="data.node_icon"/>
                 <span >{{ node.label }}</span>
               </div>
@@ -222,8 +226,6 @@ export default {
           node_name = retData.folder_name;
           node_icon = 'el-icon-folder'
         }
-        console.log("name");
-        console.log(node_name)
         this.$data.data.push({
           id: node_id,
           label: node_name,
@@ -231,14 +233,9 @@ export default {
           children: [],
         });
       }
-      console.log(this.$data.data)
     })
   },
   methods: {
-    test(node,data){
-      alert(node);
-      alert(data);
-    },
     async getNode(node_data,node,elm) {
       await this.$axios({
         method: "post",
@@ -267,6 +264,7 @@ export default {
           node_data.push({
             id: retData.file_id,
             label: node_name,
+            node_icon : node_icon,
             children: [],
           });
         }
