@@ -7,7 +7,7 @@
     </div>
     <Teammate v-for="item in team_member_list" 
       :key="item"  :identity="item.identitys" :user_name="item.user_name" :user_id="item.user_id"
-      :realname="item.real_name" :email="item.email"/>
+      :realname="item.real_name" :email="item.email" :imgurl="item.profile"/>
   </div>
  <div class="chooseteam" v-else>
             <el-empty description="你还有没选择你的团队，快去选择一个吧" :image-size="200"></el-empty>

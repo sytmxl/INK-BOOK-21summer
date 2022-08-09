@@ -177,10 +177,9 @@ export default {
         this.$data.sideList = [];
         let i;
         for (i in graph_list) {
-          //console.log(graph_list[i].graph_id)
-          console.log(graph_list[i])
           this.$data.PrototypeList.push(graph_list[i].graph_id);
           this.$data.sideList.push({id:graph_list[i].graph_id,title:graph_list[i].graph_name})
+          console.log(graph_list[i])
         }
         this.$data.loading = false;
       })

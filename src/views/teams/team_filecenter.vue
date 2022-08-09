@@ -301,9 +301,31 @@ export default {
     },
     async cancel_new_node(){
       this.$data.new_node_parent.children.pop();
+      this.$data.new_node_parent = null;
     },
-    async create_new_node(){
-
+    async create_new_node(node){
+      await this.$axios({
+        method: "post",
+        url: "/app/create_folder",
+        data: qs.stringify({
+          folder_id: this.$data.new_node_parent.id,
+          new_folder_name : this.$data.new_node_name
+        }),
+      }).then(res=>{
+        if(res.data.errno == 0) {
+          this.$message({
+            message: '新建\'' + this.$data.new_node_name + '\'成功',
+            type: 'success'
+          });
+        }else{
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      });
+      await this.getNode(this.$data.new_node_parent);
+      this.$data.new_node_parent = null;
     },
     remove(node, data) {
       const parent = node.parent;
@@ -346,8 +368,6 @@ export default {
       });
       return false;
     }
-
-
   },
   watch: {
     filterText(val) {
