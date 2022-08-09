@@ -7,12 +7,11 @@
           <img v-if="!imageUrl" class="pic" src="../../assets/bk3.jpg" alt="" />
           <img v-else class="pic" :src="imageUrl" alt="" />
           <el-upload ref="upload" class="avatar-uploader" accept="JPG, .PNG, .JPEG,.jpg, .png, .jpeg"
-            list-type="picture" :headers="headers" :action="url" :multiple="false" :show-file-list="false"
-            :on-change="handleChange" :http-request="uploadImg" :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload">
-            <el-button class="left_b" size="mini" type="text" round>修改头像</el-button>
+           :headers="headers" action="" :multiple="false" :show-file-list="false"
+            :http-request="uploadImg" :before-upload="beforeAvatarUpload" :on-change="handleChange">
+            <el-button class="left_b" size="mini" type="text" @click="submitImg()"  round>修改头像</el-button>
             <div slot="tip" class="el-upload__tip">
-              （只能上传jpg/png文件,且不超过2MB）
+              只能上传jpg/png文件,且不超过1MB
             </div>
           </el-upload>
         </el-col>
@@ -149,7 +148,7 @@
             <div class="bar header">
               <div class="left">
                 <!-- <img src="../assets/bk3.jpg" alt=""/> -->
-                <a href="/team_outline" class="goteam">
+                <a href="" class="goteam">
                   团队名称</a>
               </div>
               <div class="right">
@@ -289,6 +288,8 @@
 
 <script>
 import qs from "qs";
+import axios from "axios";
+import async from "async";
 import topFrame from "../../components/topFrame.vue";
 export default {
   inject: ['reload'],
@@ -320,7 +321,8 @@ export default {
       }
     };
     return {
-      imageurl: "app/",
+      imageurl:"",
+      img_base64:"",
       activeName: "first",
       username: "",
       userId: "",
@@ -355,7 +357,10 @@ export default {
         checkpasswordChange: [
           { validator: validatePass2, trigger: 'blur' }
         ],
-      }
+      },
+      headers: {
+					authorization: JSON.parse(sessionStorage.getItem('token')).token_num
+				},
     };
   },
   components: {
@@ -765,6 +770,85 @@ export default {
           console.log(err); /* 若出现异常则在终端输出相关信息 */
         });
     },
+    // 修改头像部分
+    beforeAvatarUpload(file) {
+      const isJPG = file.type == 'image/jpeg' || file.type == 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 1;
+      if (!isJPG) {
+        this.$message.error("上传头像图片格式错误!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 1MB!");
+      }
+      return isJPG && isLt2M;
+    },
+     beforeAvatarUpload1(file) {
+      const isJPG = file.type == 'image/jpeg' || file.type == 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 1;
+      return isJPG && isLt2M;
+    },
+    handleChange(file){
+        var a= this.beforeAvatarUpload1(file)
+        if(!a)
+        {
+            return;
+        }
+    },
+    // 转换base64方法时Promise对象，必须换成同步
+      // 网上还有其它办法，但是尝试过后，这个方法出错的概率最低
+			async uploadImg(file) {
+        // 这里不一定是file.file，如果使用的方法不一样，有的是file.raw
+        // 这里传入的应该是组件中携带的文件信息
+				let base64Str = await this.getBase64(file.file);
+        this.img_base64=base64Str;
+        console.log(base64Str);
+				this.imgString = base64Str.split(',');
+        console.log(this.imgString);
+			},
+			// 获取图片转base64，这里用的是Promise，所以调用方法时必须转换成同步（async，await）
+      // 否则上传数据时好时坏，能不能上传成功全看运气 ^_^
+			getBase64(file) {
+				return new Promise(function (resolve, reject) {
+					const reader = new FileReader();
+					let imgResult = '';
+					reader.readAsDataURL(file)
+					reader.onload = function () {
+						imgResult = reader.result;
+					}
+					reader.onerror = function (error) {
+						reject(error);
+					}
+					reader.onloadend = function () {
+						resolve(imgResult);
+					}
+				})
+			},
+      // 上传图片到服务器
+			submitImg() {
+        // 此处调用后台上传接口
+        this.$axios({
+            method: "post",
+            url: "app/upload_profile",
+            data: qs.stringify({
+              profile: this.img_base64
+            }),
+          })
+            .then((res) => {
+              if (res.data.errno == 0) {
+                this.$message.success("修改头像成功");
+              }
+              else {
+                this.$message({
+                message: res.data.msg,
+                center: true,
+                type: "error",
+              });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+			},
   },
   mounted() {
     this.init();
