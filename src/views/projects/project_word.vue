@@ -28,7 +28,7 @@
         <project-aside/>
       </el-aside>
       <div>
-        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" collapse="true" >
+        <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse="true" >
 
           <el-menu-item class="outside" index="2">
             <i class="el-icon-plus" @click="dialogVisible = true"></i>
@@ -159,12 +159,7 @@ this.axios({
 
 
 <style scoped>
-#init{
-    margin:0px auto;
-    color:blueviolet;
-    font-size: large;
-    font-weight: bold;
-}
+
 .right {
   margin-left: 80px;
   width: 100%;
@@ -173,14 +168,14 @@ this.axios({
   margin: 22px;
   width: 360px;
 }
-.el-menu--collapse{
+.second{
   float: top;
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
   position: fixed;
   height: 1000px;
 }
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.second:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
   
@@ -220,5 +215,8 @@ this.axios({
   width: 100%;
   color: rgb(114, 132, 145); 
   text-align: left;
+}
+.el-empty {
+  margin-bottom: 600px;
 }
 </style>

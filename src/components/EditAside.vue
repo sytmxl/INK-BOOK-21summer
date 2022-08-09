@@ -1,7 +1,6 @@
 <template>
   <el-menu
     background-color="rgb(240, 242, 245)"
-    text-color="black"
     active-text-color="rgb(134, 143, 150)"
     default-active="1"
     class="el-menu-vertical-demo"
@@ -14,7 +13,8 @@
       <div class="back">
         &lt;&nbsp;
       </div>
-      {{ this.$props.header }}
+      <!-- {{ this.$props.header }} -->
+      文件
     </div>
     <el-divider></el-divider>
 
@@ -43,7 +43,7 @@ export default {
     };
   },
   methods: {
-    goBack(){window.location.href = "/team_projects"},
+    goBack(){window.location.href = "/project_design"},
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -69,11 +69,12 @@ export default {
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
+  /* background-color: rgb(240, 242, 245) !important; */
 }
 .el-menu {
   padding: 0;
   height: 100%;
-  background-color: rgb(73, 105, 160);
+  /* background-color: rgb(240, 242, 245) !important; */
 }
 .el-menu-item {
   float: left;
@@ -82,10 +83,11 @@ export default {
   margin: 8px;
   height: min-content;
   width: 184px;
-  /* background-color: rgb(247, 250, 252) !important; */
+  background-color: rgb(247, 250, 252) !important;
   transition: 0.4s;
   text-align: left;
   z-index: 0;
+  font-weight: 400 !important;
 }
 .el-menu-item:hover {
   backdrop-filter: blur(3px) !important;

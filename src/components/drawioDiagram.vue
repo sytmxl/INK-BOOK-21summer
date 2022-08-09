@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-        title="修改圖表信息"
+        title="修改图表信息"
         :visible.sync="dialogVisible"
         width="40%"
         :before-close="closeDialog">
@@ -33,7 +33,7 @@
       </el-row>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="updateData">確定</el-button>
+        <el-button type="primary" @click="updateData">确定</el-button>
       </span>
     </el-dialog>
     <el-card class="diagram effect-3" :body-style="{ padding: '0px' }" style="text-align: center;width: 360px;"
