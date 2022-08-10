@@ -72,16 +72,13 @@
         </el-menu>
       </div>
       <div class="right">
-<!--        <div v-if="loading == true" v-loading="loading == true"-->
-<!--             element-loading-background="rgba(255,255,255,1)"-->
-<!--        style="height: calc(100vh)"/>-->
         <div>
-          <div v-if="inediting == false">
-            <h1 v-if="viewingDel == false" class="label">所有原型设计</h1>
+          <div v-if="!inediting ||inediting == false">
+            <h1 v-if="!inediting ||viewingDel == false" class="label">所有原型设计</h1>
             <h1 v-else class="label">回收站</h1>
           </div>
-          
-          <el-row id="graphContainer" v-if="PrototypeList.length != 0" style="height: calc(100vh)">
+          <div>{{PrototypeList}}</div>
+          <el-row id="graphContainer" v-if="PrototypeList != []" style="height: calc(100vh)">
             <el-col :span="5" v-for="(id, index) in PrototypeList"
                     :key="id" :offset="index > 0 ? 2 : 0">
               <drawio-digram :graph_id="id" :isdel="viewingDel"
@@ -110,11 +107,13 @@ import ProjectAside from "../../components/ProjectAside";
 import EditAside from "@/components/EditAside";
 export default {
   components: {drawioDigram,ProjectAside,EditAside},
-  async mounted() {
-    this.$data.project_id=await JSON.parse(sessionStorage.getItem('project')).project_id
-    await this.get_list("0");
 
-    await console.log(this.$data.PrototypeList)
+  mounted() {
+    this.$data.PrototypeList = [];
+    this.$data.project_id=JSON.parse(sessionStorage.getItem('project')).project_id
+    this.get_list("0");
+
+    console.log(this.$data.PrototypeList)
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
@@ -160,14 +159,14 @@ export default {
     closeDialog() {
       this.$data.dialogVisible = false
     },
-    get_list(del) {
-      this.$axios({
+    async get_list(del) {
+      await this.$axios({
         method: "post",
         url: "app/get_graph_list",
         data: qs.stringify({
           project_id: this.$data.project_id,
           type: 1,
-          isdeleted: del
+          isdeleted: del == null ? "0":del
         }),
       }).then(res => {
         let graph_list = res.data.data.graph_list

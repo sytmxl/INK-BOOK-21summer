@@ -88,7 +88,7 @@ export default {
         url: "api/1/getText",
         params: {
           apikey: apikey,
-          padID: this.$data.id,
+          padID: this.$props.token,
         }
       }).then(res => {
         this.$data.preview = res.data.data.text;
