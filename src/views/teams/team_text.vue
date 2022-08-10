@@ -30,7 +30,7 @@
     </div>
   </div>
 
-<el-dialog
+<el-dialog :modal="false" v-if="newfolderVisible"
   title="新建文件夹"
   :visible.sync="newfolderVisible"
   width="30%"
@@ -48,7 +48,7 @@
   </span>
 </el-dialog>
 
-<el-dialog
+<el-dialog :modal="false" v-if="newfileVisible"
   title="新建文件"
   :visible.sync="newfileVisible"
   width="30%"
@@ -66,9 +66,8 @@
   </span>
 </el-dialog>
 
-<el-dialog
+<el-dialog :modal="false" v-if="renameVisible"
   title="重命名文件"
-  
   :visible.sync="renameVisible"
   width="30%"
   :before-close="handleClose">
