@@ -549,7 +549,7 @@ export default {
       node_data_list:[{
         file_type:1,
         id: null,
-        label:JSON.parse('folderid').path_name,
+        label:JSON.parse(sessionStorage.getItem('folderid')).path_name,
         detail:[],
         folder_name:'',
         node_icon:'el-icon-notebook-2',
