@@ -51,7 +51,7 @@
                     <span>{{ node.label }}</span>
                   </div>
                   <span v-else style="width: 100%;text-align: left">
-                    <el-input v-model="new_node_name" placeholder="请输入名称"></el-input>
+                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
                     <el-button slot="append" style="width: 20%" @click="create_new_node(data)"
                                type="primary">新建</el-button>
                     <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
@@ -143,6 +143,8 @@ export default {
       }),
     }).then(res => {
       this.$data.root_folder = res.data.data.file_id;
+      console.log("--")
+      console.log(this.$data.root_folder)
     })
     this.$data.node_data_list.id = this.$data.root_folder
     await this.$axios({
@@ -170,7 +172,6 @@ export default {
           node_name = retData.folder_name;
           node_icon = 'el-icon-folder'
         }
-        console.log(retData)
         this.$data.node_data_list[0].push({
           id: retData.file_id,
           label: node_name,
@@ -192,6 +193,7 @@ export default {
       this.$data.in_editing = true;
     },
     async onNodeClicked(node_data) {
+      this.$data.focused_node = node_data;
       if(node_data.file_type == 2){
         this.enter_edit(node_data.detail.doc_token);
       } else {
@@ -221,6 +223,7 @@ export default {
               node_name = retData.folder_name;
               node_icon = 'el-icon-folder'
             }
+            console.log(retData.file_id)
             node_data.children.push({
               id: retData.file_id,
               label: node_name,
@@ -234,7 +237,6 @@ export default {
 
     },
     async append_new_node(node_data) {
-      this.$data.new_node_parent = node_data;
       const newChild = {id: 233333, label: '', children: [], new_node: true};
       if (!node_data.children) {
         this.$set(data, 'children', []);
@@ -242,15 +244,16 @@ export default {
       node_data.children.push(newChild);
     },
     async cancel_new_node() {
-      this.$data.new_node_parent.children.pop();
-      this.$data.new_node_parent = null;
+      this.$data.focused_node.children.pop();
+      this.$data.focused_node = null;
     },
     async create_new_node(node) {
+      console.log(this.$data.focused_node)
       await this.$axios({
         method: "post",
         url: "/app/create_folder",
         data: qs.stringify({
-          folder_id: this.$data.new_node_parent.id,
+          folder_id: this.$data.focused_node.id,
           new_folder_name: this.$data.new_node_name
         }),
       }).then(res => {
@@ -266,8 +269,8 @@ export default {
           });
         }
       });
-      await this.onNodeClicked(this.$data.new_node_parent);
-      this.$data.new_node_parent = null;
+      await this.onNodeClicked(this.$data.focused_node);
+      this.$data.focused_node = null;
     },
     remove(node, data) {
       const parent = node.parent;
@@ -280,6 +283,10 @@ export default {
       return data.label.indexOf(value) !== -1;
     },
     show(event, data, node) {
+      console.log("!!")
+
+      this.$data.focused_node = data;
+      console.log(this.$data.focused_node)
       this.$contextmenu({
         items: [
           {
@@ -379,7 +386,7 @@ export default {
       input: '',
       docUrl: '',
       cur_node_data: null,
-      new_node_parent: null,
+      focused_node: null,
       new_node_name: '',
       filterText: '',
       node_data_list:[{
