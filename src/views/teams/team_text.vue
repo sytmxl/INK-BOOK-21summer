@@ -189,7 +189,7 @@ export default {
     methods:{
       async init(){
       if(JSON.parse(sessionStorage.getItem('folderid'))==null){
-        this.getRootNode();
+         this.getRootNode();
       }
       else{
         this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
