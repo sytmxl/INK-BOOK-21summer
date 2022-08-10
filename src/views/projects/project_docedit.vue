@@ -1,14 +1,31 @@
 <template>
   <div id="init">
+    <el-dialog :modal = "false"
+        :visible.sync="dialogVisible"
+        width="30%"
+        >
+      <span>{{'您是否要删除\''+ right_focused_node_label +'\'?您稍后可以去文档中心的回收站找回它们'}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="del_node">是的</el-button>
+      </span>
+    </el-dialog>
+    <el-dialog :modal= "false"
+        :visible.sync="inputVisible"
+        width="30%"
+    >
+      <span slot="footer" class="dialog-footer">
+        <el-input v-model="input" placeholder="请输入名称"/>
+        <el-button @click="closeInputDialog">取消</el-button>
+        <el-button type="primary" @click="handle_input">确认</el-button>
+      </span>
+    </el-dialog>
     <el-container >
       <div  class="top">
         <aside>
           <div class="resize"></div>
-          <!-- <div class="line"></div> -->
           <section class="aside-section">
 
-            <!-- <div class="filefolder"> -->
-              <!-- <div @click="exit_edit">返回</div> -->
               <div class="title" @click="exit_edit">
                 <div class="back">
                   &lt;&nbsp;
@@ -26,35 +43,14 @@
                      @contextmenu.prevent="show($event,data,node)"
                      @click="onNodeClicked(data)"
                 >
-                  <div v-if="data.new_node == 0"
-                       style="width: 100%;text-align: left"
+                  <div style="width: 100%;text-align: left"
                        @contextmenu.prevent="show($event,data,node)"
                   >
                     <i :class="data.node_icon"/>
                     <span>{{ node.label }}</span>
                   </div>
-                  <span v-else-if="data.new_node == 1" style="width: 100%;text-align: left">
-                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
-                    <el-button slot="append" style="width: 20%" @click="create_new_node(data)"
-                               type="primary">新建</el-button>
-                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
-                  </span>
-                  <span v-else-if="data.new_node == 2" style="width: 100%;text-align: left">
-                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
-                    <el-button slot="append" style="width: 20%" @click="create_new_doc(data)"
-                               type="primary">新建</el-button>
-                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
-                  </span>
-                  <span v-else-if="data.new_node == 3" style="width: 100%;text-align: left">
-                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
-                    <el-button slot="append" style="width: 20%" @click="rename_folder(data)"
-                               type="primary">重命名</el-button>
-                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
-                  </span>
                 </div>
-
               </el-tree>
-            <!-- </div> -->
           </section>
         </aside>
         <main v-if="in_editing == true">
@@ -236,22 +232,20 @@ export default {
       }
       this.forceUpdatePreview += 1;
     },
-    async new_empty_node(node_data, type) {
-      if(node_data.file_type == 2 && type == 3){
-        this.$message({
-          message: '如果您想重命名文档，请使用文档卡片上的重命名按钮',
-          type: 'error'
-        });
+    async handle_input() {
+      switch (this.$data.input_case){
+        case 1:
+          await this.create_new_node();
+          break;
+        case 2:
+          await this.create_new_doc();
+          break;
+        case 3:
+          await this.rename_node();
+          break;
       }
-      const newChild = {id: 233333, label: '', children: [], new_node: type};
-      if (!node_data.children) {
-        this.$set(data, 'children', []);
-      }
-      node_data.children.push(newChild);
-    },
-    async cancel_new_node() {
-      this.$data.right_focused_node.children.pop();
-      this.$data.right_focused_node = null;
+      this.closeInputDialog();
+      this.$data.input = '';
     },
     async create_new_node() {
       await this.$axios({
@@ -259,12 +253,12 @@ export default {
         url: "/app/create_folder",
         data: qs.stringify({
           folder_id: this.$data.right_focused_node.id,
-          new_folder_name: this.$data.new_node_name
+          new_folder_name: this.$data.input
         }),
       }).then(res => {
         if (res.data.errno == 0) {
           this.$message({
-            message: '新建\'' + this.$data.new_node_name + '\'成功',
+            message: '新建\'' + this.$data.input + '\'成功',
             type: 'success'
           });
         } else {
@@ -283,12 +277,12 @@ export default {
         data: qs.stringify({
           create_method : 'folder_id',
           folder_id: this.$data.right_focused_node.id,
-          doc_name: this.$data.new_node_name
+          doc_name: this.$data.input
         }),
       }).then(res => {
         if (res.data.errno == 0) {
           this.$message({
-            message: '新建\'' + this.$data.new_node_name + '\'成功',
+            message: '新建\'' + this.$data.input + '\'成功',
             type: 'success'
           });
         } else {
@@ -300,30 +294,52 @@ export default {
       });
       await this.update_node_data(this.$data.right_focused_node);
     },
-    async rename_folder() {
-      console.log(this.$data.right_focused_node)
-      await this.$axios({
-        method: "post",
-        url: "/app/rename_folder",
-        data: qs.stringify({
-          file_id: this.$data.right_focused_node.id,
-          folder_name: this.$data.new_node_name,
-        }),
-      }).then(res=>{
-        if (res.data.errno == 0) {
-          this.$data.right_focused_node.label = this.$data.right_focused_node.folder_name = this.$data.new_node_name;
-          this.$message({
-            message: '已重命名\'' + this.$data.new_node_name + '\'',
-            type: 'success'
-          });
-        } else {
-          this.$message({
-            message: res.data.msg,
-            type: 'error'
-          });
-        }
-        this.cancel_new_node();
-      })
+    async rename_node() {
+      if(this.$data.right_focused_node.file_type == 2){
+        await this.$axios({
+          method: "post",
+          url: "/app/rename_doc",
+          data: qs.stringify({
+            file_id: this.$data.right_focused_node.id,
+            doc_name: this.$data.input,
+          }),
+        }).then(res=>{
+          if (res.data.errno == 0) {
+            this.$data.right_focused_node.label = this.$data.right_focused_node.folder_name = this.$data.input;
+            this.$message({
+              message: '已重命名\'' + this.$data.input + '\'',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
+        });
+      } else {
+        await this.$axios({
+          method: "post",
+          url: "/app/rename_folder",
+          data: qs.stringify({
+            file_id: this.$data.right_focused_node.id,
+            folder_name: this.$data.input,
+          }),
+        }).then(res=>{
+          if (res.data.errno == 0) {
+            this.$data.right_focused_node.label = this.$data.right_focused_node.folder_name = this.$data.input;
+            this.$message({
+              message: '已重命名\'' + this.$data.input + '\'',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
+        });
+      }
     },
     async copy_node(){
       this.$data.clipboard = this.$data.right_focused_node
@@ -369,7 +385,7 @@ export default {
         })
       } else {
         this.$axios({
-          method: "post",
+            method: "post",
           url: "/app/copy_folderfile",
           data: qs.stringify({
             target_dirid: this.$data.right_focused_node.id,
@@ -394,18 +410,68 @@ export default {
       }
       await this.update_node_data(this.$data.right_focused_node);
     },
-    remove(node, data) {
-      const parent = node.parent;
-      const children = parent.data.children || parent.data;
-      const index = children.findIndex(d => d.id === data.id);
-      children.splice(index, 1);
+    async del_node() {
+      if(this.$data.right_focused_node.file_type == 2){
+        this.$axios({
+          method: "post",
+          url: "/app/del_doc",
+          data: qs.stringify({
+            file_id: this.$data.right_focused_node.id
+          }),
+        }).then(res=>{
+          if (res.data.errno == 0) {
+            this.$message({
+              message: '已将\'' + this.$data.right_focused_node.label + '\'放入回收站',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
+          this.$data.dialogVisible = false;
+        })
+      } else {
+        this.$axios({
+          method: "post",
+          url: "/app/del_folder",
+          data: qs.stringify({
+            folder_id: this.$data.right_focused_node.id
+          }),
+        }).then(res=>{
+          if (res.data.errno == 0) {
+            this.$message({
+              message: '已将\'' + this.$data.right_focused_node.label + '\'放入回收站',
+              type: 'success'
+            });
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'error'
+            });
+          }
+          this.$data.dialogVisible = false;
+          let node = this.$refs.dir.getNode(this.$data.right_focused_node);
+          let data = this.$data.right_focused_node;
+          const parent = node.parent;
+          const children = parent.data.children || parent.data;
+          const index = children.findIndex(d => d.id === data.id);
+          children.splice(index, 1);
+        })
+      }
     },
     filterNode(value, data) {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
+    set_input_type(type){
+      this.$data.input_case = type;
+      this.openInputDialog();
+    },
     show(event, data, node) {
       this.$data.right_focused_node = data;
+      this.$data.right_focused_node_label = data.label;
       this.$contextmenu({
         items: [
           {
@@ -413,26 +479,26 @@ export default {
             divided: true,
             minWidth: 0,
             children: [
-                {label: "新建文件夹", onClick: () => this.new_empty_node(data,1)},
-                {label: "新建文档", onClick: () => this.new_empty_node(data,2)}
+                {label: "新建文件夹", onClick: ()=>{this.set_input_type(1)}},
+                {label: "新建文档", onClick: ()=>{this.set_input_type(2)}}
             ]
           },
           {
             label: "复制",
-            onClick: () =>this.copy_node(data,3)
+            onClick: () =>this.copy_node()
           },
           {
             label: "粘贴" + "("+this.$data.clipboard_name+")",
-            onClick: () =>this.paste_node(data,3)
+            onClick: () =>this.paste_node()
           },
           {
             label: "重命名",
-            onClick: () =>this.new_empty_node(data,3)
+            onClick: ()=>{this.set_input_type(3)}
           },
           {
             label: "删除",
             minWidth: 0,
-            onClick: () => this.remove(node, data)
+            onClick: () => this.openDialog()
           },
         ],
         event, // 鼠标事件信息
@@ -463,10 +529,16 @@ export default {
       });
     },
     openDialog() {
-      this.$data.dialogVisible = false
+      this.$data.dialogVisible = true
     },
     closeDialog() {
       this.$data.dialogVisible = false
+    },
+    openInputDialog() {
+      this.$data.inputVisible = true
+    },
+    closeInputDialog() {
+      this.$data.inputVisible = false
     },
   },
   watch: {
@@ -476,10 +548,12 @@ export default {
   },
   data() {
     return {
+      input_case:0,
+      right_focused_node_label:'',
       clipboard:null,
       clipboard_name:'',
+      inputVisible: false,
       dialogVisible: false,
-      deldialogVisible:false,
       inRecycle: false,
       isCollapse: false,
       doc_list: [],
@@ -492,7 +566,6 @@ export default {
       docUrl: '',
       cur_node_data: null,
       right_focused_node:null,
-      new_node_name: '',
       filterText: '',
       node_data_list:[{
         file_type:1,

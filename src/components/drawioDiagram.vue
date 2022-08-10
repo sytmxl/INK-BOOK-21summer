@@ -1,8 +1,8 @@
 <template>
   <div>
-    <el-dialog :modal="false"
+    <el-dialog :modal="false" :visible.sync="dialogVisible"
         title="修改图表信息"
-        :visible.sync="dialogVisible"
+        
         width="40%"
         :before-close="closeDialog">
       <el-row>
@@ -77,6 +77,7 @@ import qs from "qs";
 export default {
   name: "drawioDigram",
   props: {
+    file_id:{default:0},
     graph_id: {default: 0},
     isdel: {default: false}
   },
