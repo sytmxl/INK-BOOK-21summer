@@ -41,10 +41,10 @@ export default new Vuex.Store({
         },
 
         folderid:JSON.parse(sessionStorage.getItem("folderid")) || {
-            // root_id:'',
-            // last_id:'',
-            // this_id:'',
-            id:[]
+            root_id:'',
+            last_id:'',
+            this_id:'',
+            path_name:'',
         },
     },
     mutations: {
