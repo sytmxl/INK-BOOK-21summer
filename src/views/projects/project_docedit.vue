@@ -410,8 +410,8 @@ export default {
       }
       await this.update_node_data(this.$data.right_focused_node);
     },
-    async del_node(node, data) {
-      if(this.$data.clipboard.file_type == 2){
+    async del_node() {
+      if(this.$data.right_focused_node.file_type == 2){
         this.$axios({
           method: "post",
           url: "/app/del_doc",
@@ -452,12 +452,14 @@ export default {
             });
           }
           this.$data.dialogVisible = false;
+          let node = this.$refs.dir.getNode(this.$data.right_focused_node);
+          let data = this.$data.right_focused_node;
+          const parent = node.parent;
+          const children = parent.data.children || parent.data;
+          const index = children.findIndex(d => d.id === data.id);
+          children.splice(index, 1);
         })
       }
-      const parent = node.parent;
-      const children = parent.data.children || parent.data;
-      const index = children.findIndex(d => d.id === data.id);
-      children.splice(index, 1);
     },
     filterNode(value, data) {
       if (!value) return true;
@@ -527,7 +529,7 @@ export default {
       });
     },
     openDialog() {
-      this.$data.dialogVisible = false
+      this.$data.dialogVisible = true
     },
     closeDialog() {
       this.$data.dialogVisible = false
