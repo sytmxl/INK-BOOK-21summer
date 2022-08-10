@@ -148,6 +148,7 @@ export default {
   },
   methods: {
     exit_edit(){
+      sessionStorage.removeItem('doc_tok');
       location.href = '/team_text'
     },
     enter_edit(token) {

@@ -97,8 +97,12 @@ export default {
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('token');
         sessionStorage.removeItem('usericon');
+        sessionStorage.removeItem('folderid');
+        sessionStorage.removeItem('delfolderid');
+        sessionStorage.removeItem('doc_tok');
         localStorage.removeItem('saveuser');
         localStorage.removeItem('savetoken');
+
       },
       doSearch()
       {
