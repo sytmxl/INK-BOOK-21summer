@@ -71,18 +71,20 @@
           <iframe :src="docUrl" width=100% height=100%></iframe>
         </main>
         <main v-else>
-          <div class="right">
+          <div class="right" :id="forceUpdatePreview">
             <h1 class="label" v-if="inRecycle == false">{{this.$data.cur_node_data.label}}</h1>
             <h1 class="label" v-else>回收站</h1>
             <el-row v-if="inRecycle == false && doc_list.length != 0">
-              <el-col :span="7" v-for="item in doc_list">
+              <el-col :id="forceUpdatePreview" :span="7" v-for="item in doc_list">
                 <EtherpadFile :in-recycle="false"
                               v-on:start_edit="enter_edit"
                               :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
-                              :token="item.doc_token"/>
+                              :token="item.doc_token">
+                  <p>{{ item.doc_name }}</p>
+                </EtherpadFile>
               </el-col>
             </el-row>
-            <el-row v-else-if="inRecycle == true && recycle_list != 0">
+            <el-row :id="forceUpdatePreview" v-else-if="inRecycle == true && recycle_list != 0">
               <el-col :span="7" v-for="item in recycle_list">
                 <EtherpadFile :in-recycle="true"
                               :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
@@ -173,6 +175,7 @@ export default {
         }
         this.$data.node_data_list[0].children.push({
           id: retData.file_id,
+          file_type:retData.file_type,
           label: node_name,
           node_icon: node_icon,
           new_node: 0,
@@ -202,12 +205,13 @@ export default {
         }),
       }).then(res => {
         let i;
+        this.$data.doc_list = [];
         for (i in res.data.data) {
           let retData = res.data.data[i];
           let node_name;
           let node_icon;
-          this.$data.doc_list = [];
           if (retData.file_type == 2) {
+            console.log(retData.detail)
             this.$data.doc_list.push(retData.detail);
             node_name = retData.detail.doc_name;
             node_icon = 'el-icon-document'
@@ -217,6 +221,7 @@ export default {
           }
           node_data.children.push({
             id: retData.file_id,
+            file_type:retData.file_type,
             label: node_name,
             node_icon: node_icon,
             new_node: 0,
@@ -225,6 +230,7 @@ export default {
             detail:retData.detail
           });
         }
+        console.log(this.$data.doc_list)
       })
     },
     async onNodeClicked(node_data) {
@@ -234,7 +240,7 @@ export default {
       } else {
         await this.update_node_data(node_data);
       }
-
+      this.forceUpdatePreview += 1;
     },
     async append_new_folder_node(node_data) {
       const newChild = {id: 233333, label: '', children: [], new_node: 1};
@@ -416,6 +422,7 @@ export default {
       new_node_name: '',
       filterText: '',
       node_data_list:[{
+        file_type:1,
         id: null,
         label:JSON.parse(sessionStorage.getItem("project")).project_name,
         detail:[],
@@ -425,6 +432,7 @@ export default {
         children:[]
       }],
       root_folder: null,
+      forceUpdatePreview:0,
     }
   },
 }
