@@ -42,17 +42,22 @@
                      @contextmenu.prevent="show($event,data,node)"
                      @click="onNodeClicked(data)"
                 >
-                  <div v-if="data.new_node == false"
+                  <div v-if="data.new_node == 0"
                        style="width: 100%;text-align: left"
                        @contextmenu.prevent="show($event,data,node)"
-                       @click="onNodeClicked(data)"
                   >
                     <i :class="data.node_icon"/>
                     <span>{{ node.label }}</span>
                   </div>
-                  <span v-else style="width: 100%;text-align: left">
-                    <el-input v-model="new_node_name" placeholder="请输入名称"></el-input>
+                  <span v-else-if="data.new_node == 1" style="width: 100%;text-align: left">
+                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
                     <el-button slot="append" style="width: 20%" @click="create_new_node(data)"
+                               type="primary">新建</el-button>
+                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
+                  </span>
+                  <span v-else-if="data.new_node == 2" style="width: 100%;text-align: left">
+                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
+                    <el-button slot="append" style="width: 20%" @click="create_new_doc(data)"
                                type="primary">新建</el-button>
                     <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
                   </span>
@@ -63,23 +68,23 @@
           </section>
         </aside>
         <main v-if="in_editing == true">
-          <h1>cur_node_data{{this.$data.cur_node_data}}</h1>
           <iframe :src="docUrl" width=100% height=100%></iframe>
         </main>
         <main v-else>
-          <h1>cur_node_data{{this.$data.cur_node_data}}</h1>
-          <div class="right">
-            <h1 class="label" v-if="inRecycle == false">{{this.$data.cur_node_data}}</h1>
+          <div class="right" :id="forceUpdatePreview">
+            <h1 class="label" v-if="inRecycle == false">{{this.$data.cur_node_data.label}}</h1>
             <h1 class="label" v-else>回收站</h1>
             <el-row v-if="inRecycle == false && doc_list.length != 0">
-              <el-col :span="7" v-for="item in doc_list">
+              <el-col :id="forceUpdatePreview" :span="7" v-for="item in doc_list">
                 <EtherpadFile :in-recycle="false"
                               v-on:start_edit="enter_edit"
                               :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
-                              :token="item.doc_token"/>
+                              :token="item.doc_token">
+                  <p>{{ item.doc_name }}</p>
+                </EtherpadFile>
               </el-col>
             </el-row>
-            <el-row v-else-if="inRecycle == true && recycle_list != 0">
+            <el-row :id="forceUpdatePreview" v-else-if="inRecycle == true && recycle_list != 0">
               <el-col :span="7" v-for="item in recycle_list">
                 <EtherpadFile :in-recycle="true"
                               :id="item.doc_id" :title="item.doc_name" :last_edit_time="item.update_time"
@@ -133,8 +138,6 @@ export default {
    * }
    */
   async mounted() {
-    console.log("c!")
-    console.log(this.$data.in_editing)
     await this.$axios({
       method: "post",
       url: "/app/get_project_fileid",
@@ -143,8 +146,8 @@ export default {
       }),
     }).then(res => {
       this.$data.root_folder = res.data.data.file_id;
+      this.$data.node_data_list[0].id = this.$data.root_folder
     })
-    this.$data.node_data_list.id = this.$data.root_folder
     await this.$axios({
       method: "post",
       url: "/app/get_file_content",
@@ -170,18 +173,19 @@ export default {
           node_name = retData.folder_name;
           node_icon = 'el-icon-folder'
         }
-        console.log(retData)
-        this.$data.node_data_list[0].push({
+        this.$data.node_data_list[0].children.push({
           id: retData.file_id,
+          file_type:retData.file_type,
           label: node_name,
           node_icon: node_icon,
-          new_node: false,
+          new_node: 0,
           children: [],
+          folder_name:retData.folder_name,
+          detail:retData.detail
         });
       }
-      this.$data.cur_node_data = this.$data.node_data_list[0];
-      console.log(this.$data.cur_node_data)
     })
+    this.$data.cur_node_data = this.$data.node_data_list[0];
   },
   methods: {
     exit_edit(){
@@ -191,66 +195,77 @@ export default {
       this.$data.docUrl = 'http://43.138.67.29:9001/p/' + token;
       this.$data.in_editing = true;
     },
+    async update_node_data(node_data){
+      node_data.children = [];
+      await this.$axios({
+        method: "post",
+        url: "/app/get_file_content",
+        data: qs.stringify({
+          file_id: node_data.id,
+        }),
+      }).then(res => {
+        let i;
+        this.$data.doc_list = [];
+        for (i in res.data.data) {
+          let retData = res.data.data[i];
+          let node_name;
+          let node_icon;
+          if (retData.file_type == 2) {
+            console.log(retData.detail)
+            this.$data.doc_list.push(retData.detail);
+            node_name = retData.detail.doc_name;
+            node_icon = 'el-icon-document'
+          } else {
+            node_name = retData.folder_name;
+            node_icon = 'el-icon-folder'
+          }
+          node_data.children.push({
+            id: retData.file_id,
+            file_type:retData.file_type,
+            label: node_name,
+            node_icon: node_icon,
+            new_node: 0,
+            children: [],
+            folder_name:retData.folder_name,
+            detail:retData.detail
+          });
+        }
+        console.log(this.$data.doc_list)
+      })
+    },
     async onNodeClicked(node_data) {
+      this.$data.cur_node_data = node_data;
       if(node_data.file_type == 2){
         this.enter_edit(node_data.detail.doc_token);
       } else {
-        node_data.children = [];
-        await this.$axios({
-          method: "post",
-          url: "/app/get_file_content",
-          data: qs.stringify({
-            file_id: node_data.file_id,
-          }),
-        }).then(res => {
-          let i;
-          for (i in res.data.data) {
-            let retData = res.data.data[i];
-            let node_name;
-            let node_icon;
-            this.$data.doc_list = [];
-            // 是项目根文件夹
-            if (retData.file_type == 3) {
-              node_name = retData.detail.project_name;
-              node_icon = 'el-icon-data-analysis'
-            } else if (retData.file_type == 2) {
-              this.$data.doc_list.push(retData.detail);
-              node_name = retData.detail.doc_name;
-              node_icon = 'el-icon-document'
-            } else {
-              node_name = retData.folder_name;
-              node_icon = 'el-icon-folder'
-            }
-            node_data.children.push({
-              id: retData.file_id,
-              label: node_name,
-              node_icon: node_icon,
-              new_node: false,
-              children: [],
-            });
-          }
-        })
+        await this.update_node_data(node_data);
       }
-
+      this.forceUpdatePreview += 1;
     },
-    async append_new_node(node_data) {
-      this.$data.new_node_parent = node_data;
-      const newChild = {id: 233333, label: '', children: [], new_node: true};
+    async append_new_folder_node(node_data) {
+      const newChild = {id: 233333, label: '', children: [], new_node: 1};
+      if (!node_data.children) {
+        this.$set(data, 'children', []);
+      }
+      node_data.children.push(newChild);
+    },
+    async append_new_document_node(node_data) {
+      const newChild = {id: 233333, label: '', children: [], new_node: 2};
       if (!node_data.children) {
         this.$set(data, 'children', []);
       }
       node_data.children.push(newChild);
     },
     async cancel_new_node() {
-      this.$data.new_node_parent.children.pop();
-      this.$data.new_node_parent = null;
+      this.$data.right_focused_node.children.pop();
+      this.$data.right_focused_node = null;
     },
-    async create_new_node(node) {
+    async create_new_node() {
       await this.$axios({
         method: "post",
         url: "/app/create_folder",
         data: qs.stringify({
-          folder_id: this.$data.new_node_parent.id,
+          folder_id: this.$data.right_focused_node.id,
           new_folder_name: this.$data.new_node_name
         }),
       }).then(res => {
@@ -266,8 +281,31 @@ export default {
           });
         }
       });
-      await this.onNodeClicked(this.$data.new_node_parent);
-      this.$data.new_node_parent = null;
+      await this.update_node_data(this.$data.right_focused_node);
+    },
+    async create_new_doc(){
+      await this.$axios({
+        method: "post",
+        url: "/app/create_doc",
+        data: qs.stringify({
+          create_method : 'folder_id',
+          folder_id: this.$data.right_focused_node.id,
+          doc_name: this.$data.new_node_name
+        }),
+      }).then(res => {
+        if (res.data.errno == 0) {
+          this.$message({
+            message: '新建\'' + this.$data.new_node_name + '\'成功',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      });
+      await this.update_node_data(this.$data.right_focused_node);
     },
     remove(node, data) {
       const parent = node.parent;
@@ -280,15 +318,16 @@ export default {
       return data.label.indexOf(value) !== -1;
     },
     show(event, data, node) {
+      this.$data.right_focused_node = data;
       this.$contextmenu({
         items: [
           {
             label: "新建",
             divided: true,
             minWidth: 0,
-            children: [{label: "新建子文件夹", onClick: () => this.append_new_node(data)}, {
-              label: "新建子文件",
-              onClick: () => this.append_new_node(data)
+            children: [{label: "新建文件夹", onClick: () => this.append_new_folder_node(data)}, {
+              label: "新建文档",
+              onClick: () => this.append_new_document_node(data)
             }]
           },
           {label: "打开", disabled: true},
@@ -374,22 +413,26 @@ export default {
       recycle_list: [],
       project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
       newDocName: '',
-      in_editing: true,
+      in_editing: false,
       content: 'n/a',
       input: '',
       docUrl: '',
       cur_node_data: null,
-      new_node_parent: null,
+      right_focused_node:null,
       new_node_name: '',
       filterText: '',
       node_data_list:[{
+        file_type:1,
         id: null,
         label:JSON.parse(sessionStorage.getItem("project")).project_name,
+        detail:[],
+        folder_name:'',
         node_icon:'el-icon-data-analysis',
         new_node:false,
         children:[]
       }],
       root_folder: null,
+      forceUpdatePreview:0,
     }
   },
 }

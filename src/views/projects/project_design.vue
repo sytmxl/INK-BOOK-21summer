@@ -107,10 +107,10 @@ import EditAside from "@/components/EditAside";
 export default {
   components: {drawioDigram,ProjectAside,EditAside},
   async mounted() {
-    console.log(this.$data.project_id)
     this.$data.project_id=await JSON.parse(sessionStorage.getItem('project')).project_id
-    console.log(this.$data.project_id)
     await this.get_list("0");
+
+    await console.log(this.$data.PrototypeList)
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
@@ -120,7 +120,6 @@ export default {
 
       if(this.inediting != null){
         this.startLoading();
-        console.log(this.nowediting)
         await this.$refs.diagrams[this.nowediting].exitEdit();
       }
       this.$refs.diagrams[index].edit();
@@ -168,14 +167,12 @@ export default {
         }),
       }).then(res => {
         let graph_list = res.data.data.graph_list
-
         this.$data.PrototypeList = [];
         this.$data.sideList = [];
         let i;
         for (i in graph_list) {
           this.$data.PrototypeList.push(graph_list[i].graph_id);
           this.$data.sideList.push({id:graph_list[i].graph_id,title:graph_list[i].graph_name})
-          console.log(graph_list[i])
         }
         this.$data.loading = false;
       })

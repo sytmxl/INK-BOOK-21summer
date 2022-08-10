@@ -40,13 +40,13 @@
         </div>
         <div id="incard" @click="edit">
 
-          <p>{{preview}}</p>
-
+          <p v-if="preview != ''">{{preview}}</p>
+          <p v-else>该文档为空<br/>您可以点击这里来编辑文档</p>
         </div>
       </el-card>
 
       <div style="padding: 14px;">
-        <span>{{this.$data.title}}</span>
+        <slot></slot>
         <div class="bottom clearfix">
           <time class="time">{{ this.$props.last_edit_time }}</time>
         </div>
@@ -74,7 +74,6 @@ export default {
   },
   methods:{
     getProps(){
-      //TODO 加载预览
       this.axios({
         method:"post",
         url:"api/1/getText",
@@ -85,7 +84,6 @@ export default {
       }).then(res=>{
         this.$data.preview = res.data.data.text;
         if(this.$data.preview.length > 50){this.$data.preview = this.$data.preview.substring(0, 50) +"..."}
-
       })
     },
     closeDialog(){
@@ -95,7 +93,7 @@ export default {
       this.$data.dialogVisible = true;
     },
     edit(){
-      this.$emit('start_edit',this.$data.id);
+      this.$emit('start_edit',this.$props.token);
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
