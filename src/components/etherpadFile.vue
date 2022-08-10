@@ -50,7 +50,6 @@
           <i class="el-icon-magic-stick" @click="recover" />
         </div>
         <div id="incard" @click="edit">
-
           <p v-if="preview != ''">{{ preview }}</p>
           <p v-else>该文档为空<br />您可以点击这里来编辑文档</p>
         </div>
@@ -237,10 +236,14 @@ export default {
 }
 
 #incard {
-  padding-top: 15%;
+  /* padding-top: 15%; */
   background-color: rgb(238, 238, 238);
   height: 200px;
-  width: 500px;
+  width: 266px;
+  padding: 20px;
+  text-align: left;
+  font-size: 20px;
+  color: rgb(114, 132, 145); 
 }
 
 .pattern {

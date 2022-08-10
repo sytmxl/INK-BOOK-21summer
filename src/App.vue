@@ -206,6 +206,9 @@ el-icon:hover, el-icon-close:hover {
 .el-tooltip:focus, .el-tooltip:active, .el-tooltip, .el-tooltip:hover {
   color: #b0c3d1 !important;
 }
+iframe {
+  border: none;
+}
 
 /* 动画库 */
 @keyframes enter_label {

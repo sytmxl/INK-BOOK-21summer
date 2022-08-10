@@ -16,7 +16,7 @@
             </div>
           </div>
 
-          <div class="file item"  @contextmenu.prevent="show1($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==0">
+          <div class="file item"  @contextmenu.prevent="show1($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==0" @click="intofolder(item)">
             <img class="file-pic" src="../../assets/file.svg">
             <h1>{{item.detail.doc_name}}</h1>
           </div>
@@ -179,8 +179,8 @@ export default {
     data(){
       return{
         files:[],
-        this_id:'',
-        root_id:'',
+        this_id:JSON.parse(sessionStorage.getItem('folderid')).this_id,
+        root_id:JSON.parse(sessionStorage.getItem('folderid')).root_id,
         newfolderVisible: false,
         newfileVisible: false,
         renameVisible:false,
@@ -247,6 +247,7 @@ export default {
       })
         .then((res) => {
          this.files = res.data.data;
+         this.root_id = JSON.parse(sessionStorage.getItem('folderid')).root_id;
         })
         .catch((err) => {
           
@@ -257,6 +258,10 @@ export default {
           var last = item.parent_id;
          var now = item.file_id;
          console.log(now);
+        }
+        if(item.file_type==2){
+          this.$store.dispatch('savedoc_tok',item.detail.doc_token);
+          location.href="team_docedit";
         }
       if(item.file_type==3){
         this.$store.dispatch('savefolderid',{root_id:this.root_id,last_id:last,this_id:now,path_name:this.pathname+'/'+item.detail.project_name});
