@@ -16,14 +16,14 @@
     >
       <span slot="footer" class="dialog-footer">
         <div>
-          <el-input v-model="input" placeholder="请输入名称"/>
+          <el-input style="width:100% !important" v-model="input" placeholder="请输入名称"/>
           <el-select v-if="input_case==2" v-model="doc_template" placeholder="请选择">
-              <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
           </el-select>
           <img :src="doc_preview[doc_template]"/>
         </div>
