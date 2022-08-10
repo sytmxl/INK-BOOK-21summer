@@ -156,6 +156,10 @@ export default {
       this.$data.in_editing = true;
     },
     async update_node_data(node_data){
+      if(this.$data.already_loading == true){
+        return;
+      }
+      this.$data.already_loading = true;
       node_data.children = [];
       await this.$axios({
         method: "post",
@@ -190,6 +194,7 @@ export default {
           });
         }
       })
+      this.$data.already_loading = false;
     },
     async onNodeClicked(node_data) {
       this.$data.cur_node_data = node_data;
@@ -522,6 +527,7 @@ export default {
   },
   data() {
     return {
+      already_loading:false,
       input_case:0,
       right_focused_node_label:'',
       clipboard:null,
@@ -543,7 +549,7 @@ export default {
       node_data_list:[{
         file_type:1,
         id: null,
-        label:'文档中心',
+        label:JSON.parse('folderid').path_name,
         detail:[],
         folder_name:'',
         node_icon:'el-icon-notebook-2',
