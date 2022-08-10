@@ -40,7 +40,7 @@
               </el-select>
             </el-col>
             <el-col span="16">
-              <img :src="template_options[template].preview">
+              <img style="max-width: calc(25vw)" :src="template_options[template].preview">
             </el-col>
           </el-row>
         </span>
@@ -245,20 +245,32 @@ export default {
         preview: drawio.DiagramEditor.prototypeDefaultProject0
       }, {
         value: 1,
-        label: '模板1',
+        label: '手机相册',
         preview: drawio.DiagramEditor.prototypeDefaultProject1
       }, {
         value: 2,
-        label: '模板2',
+        label: '手机输入',
         preview: drawio.DiagramEditor.prototypeDefaultProject2
       }, {
         value: 3,
-        label: '模板3',
+        label: '手机拨号',
         preview: drawio.DiagramEditor.prototypeDefaultProject3
       }, {
         value: 4,
-        label: '模板4',
+        label: '手机即时通讯APP',
         preview: drawio.DiagramEditor.prototypeDefaultProject4
+      }, {
+        value: 5,
+        label: '杂志风格pad应用',
+        preview: drawio.DiagramEditor.prototypeDefaultProject5
+      }, {
+        value: 6,
+        label: '数据分析网页',
+        preview: drawio.DiagramEditor.prototypeDefaultProject6
+      }, {
+        value: 7,
+        label: '视频播放网页',
+        preview: drawio.DiagramEditor.prototypeDefaultProject7
       }],
     }
   }
