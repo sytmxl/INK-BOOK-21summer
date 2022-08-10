@@ -32,7 +32,7 @@
 
             <!-- <div class="filefolder"> -->
               <!-- <div @click="exit_edit">返回</div> -->
-              <div class="title" @click="goBack">
+              <div class="title" @click="exit_edit">
                 <div class="back">
                   &lt;&nbsp;
                 </div>
@@ -487,7 +487,7 @@ export default {
   /* background-color: rgb(240, 242, 245); */
   overflow: hidden;
   margin: 20px 20px 20px 0px;
-  font-size: 18px !important;
+  font-size: 16px !important;
   color: black;
 
   border-radius:  0px 10px 10px 0px;
@@ -495,7 +495,7 @@ export default {
 }
 /deep/ .el-tree-node {
   /* margin: 3px; */
-  padding: 5px 0px 5px px;
+  padding: 5px 0px 5px 0px;
 }
 
 .el-container {
@@ -525,14 +525,24 @@ main {
 
 .aside-section {
   left: 200px;
-  height: calc(100vh);
+  min-height: calc(100vh);
   position: absolute;
+  /* position: fixed; */
+  /* left: 0; */
+  /* width: 200px; */
+  /* width: 100%; */
+  /* transform: translateX(200px); */
+  
   inset: 0px 5px 0 0;
   /* backdrop-filter: blur(25px) brightness(110%); */
   background-color: rgba(242, 243, 245, 0.493);
 
   border-radius: 0px 25px 25px 0px;
   /* border: black solid 1px; */
+
+  animation-name: enter_aside;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 
 .resize {
@@ -546,17 +556,13 @@ main {
   min-width: 200px;
   transition: 0.05s;
   /* min-height: calc(100vh); */
-  border-radius: 0px 25px 25px 0px;
+  animation: none;
 }
 
 .resize-left {
   transform: scale(-1, 100);
 }
-.resize:hover {
-  /* background: #000; */
-  /* border-right: 2px black solid; */
-  /* opacity: 100%; */
-}
+
 
 .line {
   position: absolute;
@@ -608,7 +614,7 @@ main {
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
   position: fixed;
-  height: 10000px;
+  min-height: calc(100vh);
 }
 
 .second:not(.el-menu--collapse) {
@@ -662,30 +668,27 @@ main {
   animation-duration: 0.4s;
 }
 
-.el-empty {
-  margin-bottom: 600px;
-}
-
 .title {
   font-size: 20px;
   font-weight: bolder;
   float: left;
   margin: 20px 0px 0px 20px;
-  color: rgb(45, 52, 57);
+  color: rgb(114, 132, 145);
   /* colorgb(5, 5, 6)55); */
   transition: 0.4s;
 }
 .title:hover {
   font-size: 30px;
   background-color: rgba(150, 169, 183, 0.14);
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 0px 10px 0px 10px;
   margin: 10px 0px 10px 10px;
+  cursor: pointer;
 }
 .title:active {
-  font-size: 50px;
+  /* font-size: 30px; */
   background-color: rgba(134, 143, 150, 0.42) !important;
-  border-radius: 20px;
+  /* border-radius: 20px; */
   padding: 0px 10px 0px 10px;
   margin: 10px 0px 10px 10px;
 }

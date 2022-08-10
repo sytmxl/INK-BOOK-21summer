@@ -232,11 +232,11 @@ export default {
   float: top;
   background-color: rgb(255, 255, 255) !important;
   position: fixed;
-  height: 10000px;
+  min-height: calc(100vh);
 }
 .second:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
+  min-height: calc(100vh);
 
 }
 
@@ -267,7 +267,5 @@ export default {
   animation-iteration-count: 1;
   animation-duration: 0.4s;
 }
-.el-empty {
-  margin-bottom: 600px;
-}
+
 </style>

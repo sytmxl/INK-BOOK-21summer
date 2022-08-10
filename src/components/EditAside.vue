@@ -73,7 +73,7 @@ export default {
   height: 100%;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 
-  animation-name: enter_aside;
+  animation-name: enter_blur;
   animation-iteration-count: 1;
   animation-duration: 0.4s;
 }

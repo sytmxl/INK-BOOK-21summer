@@ -325,9 +325,7 @@ export default {
   animation-iteration-count: 1;
   animation-duration: 0.4s;
 }
-.el-empty {
-  margin-bottom: 600px;
-}
+
 iframe {
   height: 100%;
 }
