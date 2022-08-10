@@ -4,7 +4,7 @@
         :visible.sync="dialogVisible"
         width="30%"
         >
-      <span>{{'您是否要删除\''+ right_focused_node_label +'\'?您稍后可以去文档中心的回收站找回它们'}}</span>
+      <span style="font-size:18px">{{'您是否要删除\''+ right_focused_node_label +'\'?您稍后可以去文档中心的回收站找回它们'}}</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="del_node">是的</el-button>

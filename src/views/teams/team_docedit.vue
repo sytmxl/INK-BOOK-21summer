@@ -15,7 +15,7 @@
         width="30%"
     >
       <span slot="footer" class="dialog-footer">
-        <el-input v-model="input" placeholder="请输入名称"/>
+        <el-input style="width:90%" v-model="input" placeholder="请输入名称"/>
         <el-button @click="closeInputDialog">取消</el-button>
         <el-button type="primary" @click="handle_input">确认</el-button>
       </span>
