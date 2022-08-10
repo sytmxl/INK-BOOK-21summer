@@ -68,7 +68,6 @@ export default {
     refresh(){
       this.get_uml_list();
       this.get_prototype_list();
-      this.get_doc_list();
       },
     get_prototype_list(){
       this.$data.PrototypeList = []
