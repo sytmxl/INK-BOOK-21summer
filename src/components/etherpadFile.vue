@@ -46,7 +46,7 @@
       </el-card>
 
       <div style="padding: 14px;">
-        <span>{{this.$data.title}}</span>
+        <slot></slot>
         <div class="bottom clearfix">
           <time class="time">{{ this.$props.last_edit_time }}</time>
         </div>
@@ -74,7 +74,6 @@ export default {
   },
   methods:{
     getProps(){
-      //TODO 加载预览
       this.axios({
         method:"post",
         url:"api/1/getText",
@@ -85,7 +84,6 @@ export default {
       }).then(res=>{
         this.$data.preview = res.data.data.text;
         if(this.$data.preview.length > 50){this.$data.preview = this.$data.preview.substring(0, 50) +"..."}
-
       })
     },
     closeDialog(){
