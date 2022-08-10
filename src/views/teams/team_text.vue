@@ -411,7 +411,7 @@ export default {
         method: "post",
         url: "/app/rename_doc",
         data: qs.stringify({
-          doc_id: item.file_id,
+          file_id: item.file_id,
           doc_name: newname
         }),
       })

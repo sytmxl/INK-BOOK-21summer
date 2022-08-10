@@ -17,7 +17,7 @@
       <span slot="footer" class="dialog-footer">
         <div>
           <el-input v-model="input" placeholder="请输入名称"/>
-          <el-select v-model="doc_template" placeholder="请选择">
+          <el-select v-if="input_case==2" v-model="doc_template" placeholder="请选择">
               <el-option
                   v-for="item in options"
                   :key="item.value"
@@ -189,6 +189,7 @@ export default {
       }
     })
     this.$data.cur_node_data = this.$data.node_data_list[0];
+    await this.update_node_data(this.$data.cur_node_data);
   },
   methods: {
     exit_edit(){
@@ -199,6 +200,10 @@ export default {
       this.$data.in_editing = true;
     },
     async update_node_data(node_data){
+      if(this.$data.already_loading == true){
+        return;
+      }
+      this.$data.already_loading = true;
       node_data.children = [];
       await this.$axios({
         method: "post",
@@ -233,6 +238,7 @@ export default {
           });
         }
       })
+      this.$data.already_loading = false;
     },
     async onNodeClicked(node_data) {
       this.$data.cur_node_data = node_data;
@@ -244,7 +250,7 @@ export default {
       this.forceUpdatePreview += 1;
     },
     async handle_input() {
-      switch (this.$data.input_case){
+      switch (this.$data.input_case) {
         case 1:
           await this.create_new_node();
           break;
@@ -292,12 +298,12 @@ export default {
         }),
       }).then(async res => {
         if (res.data.errno == 0) {
-          this.$message({
+          await this.$message({
             message: '新建\'' + this.$data.input + '\'成功',
             type: 'success'
           });
           if (this.$data.doc_template_tok[this.doc_template] != -1) {
-            await this.axios({
+            this.axios({
               method: "post",
               url: "api/1.2.15/copyPadWithoutHistory",
               params: {
@@ -578,6 +584,7 @@ export default {
   },
   data() {
     return {
+      already_loading:false,
       input_case:0,
       right_focused_node_label:'',
       clipboard:null,
