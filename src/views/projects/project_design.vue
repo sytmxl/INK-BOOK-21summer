@@ -76,8 +76,12 @@
 <!--             element-loading-background="rgba(255,255,255,1)"-->
 <!--        style="height: calc(100vh)"/>-->
         <div>
-          <h1 v-if="inediting == false" class="label">所有原型设计</h1>
-          <el-row id="graphContainer" v-if="PrototypeList != []" style="height: calc(100vh)">
+          <div v-if="inediting == false">
+            <h1 v-if="viewingDel == false" class="label">所有原型设计</h1>
+            <h1 v-else class="label">回收站</h1>
+          </div>
+          
+          <el-row id="graphContainer" v-if="PrototypeList.length != 0" style="height: calc(100vh)">
             <el-col :span="5" v-for="(id, index) in PrototypeList"
                     :key="id" :offset="index > 0 ? 2 : 0">
               <drawio-digram :graph_id="id" :isdel="viewingDel"
