@@ -56,10 +56,24 @@ const routes = [{
             import ('../views/teams/team_text.vue'),
     }]
 }, {
-    path: '/project_firstpage',
-    name: 'project_firstpage',
+    path: '/project_doc',
+    name: 'project_doc',
     component: () =>
-        import ('../views/projects/project_firstpage.vue'),
+        import ('../views/projects/project_doc.vue'),
+    children: [
+        {
+            path: '/project_word',
+            name: 'project_word',
+            component: () =>
+                import ('../views/projects/project_word.vue'),
+        },
+        {
+            path: '/project_docedit',
+            name: 'project_docedit',
+            component: () =>
+                import ('../views/projects/project_docedit.vue'),
+        },
+    ]
 }, {
     path: '/project_outline',
     name: 'project_outline',

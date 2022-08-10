@@ -63,7 +63,7 @@ export default {
   name: "etherpadFile",
   props:{
     id:{default: 0},
-    tok:{default: "p.cykablyatabaaba",type:String},
+    token:{default: "",type:String},
     inRecycle:{default:false},
     title:{default: "示例项目",type: String},
     description:{default: "无简介", type:String},
@@ -73,9 +73,6 @@ export default {
     this.getProps();
   },
   methods:{
-    test(){
-      //仅用于测试
-    },
     getProps(){
       //TODO 加载预览
       this.axios({
@@ -98,17 +95,7 @@ export default {
       this.$data.dialogVisible = true;
     },
     edit(){
-      //TODO 使用iframe加载,应该在此处用可传参的自定义事件（参数为了告知父组件被点击的id）并在team_editdoc中使用一个iframe加载编辑器
-      /*
-      this.$axios({
-        method: "post" ,
-        url: "app/update_doc_edit_time" ,
-        data: qs.stringify({
-          doc_id:this.$props.id,
-          doc_name:this.$props.title
-        }),
-      })*/
-      //TODO 上次编辑的时间已经可以交由team_editdoc 处理
+      this.$emit('start_edit',this.$data.id);
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {

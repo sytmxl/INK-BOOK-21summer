@@ -1,5 +1,5 @@
 <template>
-<el-header style="height:80px;">
+<el-header style="height:60px;">
   <div class="top">
     <div class="left">
         <div id="nav-header">
@@ -191,7 +191,7 @@ export default {
   width: 100%;
 }
 .top {
-  margin-top: 10px;
+  /* margin-top: 10px; */
   display: flex;
 }
 @font-face {
@@ -226,7 +226,7 @@ export default {
   /* float: right; */
   position: absolute;
   right:0;
-  top: 7px;
+  /* top: 7px; */
 }
 .splitline{
   height: 1px;
@@ -240,11 +240,11 @@ export default {
   float: right;
 }
 .user img{
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   margin: 10px;
   border-radius: 50%;
-  right: 40px;
+  right: 20px;
   position: absolute;
   transition: 0.5s;
 }
@@ -252,7 +252,7 @@ export default {
   font-size: 20px;
   transition: 0.5s;
   float: right;
-  margin: 10px 10px 10px 10px;
+  margin: 4px 10px 10px 10px;
   padding: 10px 0px 10px 0px;
   filter: blur(20px);
   opacity: 0%;
@@ -271,7 +271,7 @@ export default {
 }
 .user:hover .username {
   font-size: 20px;
-  margin: 10px 10px 10px 10px;
+  margin: 4px 10px 10px 10px;
   padding: 10px 0px 10px 0px;
   float: right;
   opacity: 100%;

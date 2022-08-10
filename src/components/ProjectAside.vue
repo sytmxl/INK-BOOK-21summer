@@ -59,8 +59,8 @@ export default {
           icon: "postcard",
         },
         {
-          path: "../views/projects/project_word.vue",
-          name: "project_word",
+          path: "../views/projects/project_docedit.vue",
+          name: "project_docedit",
           label: "共享文档",
           icon: "document",
         },
@@ -105,8 +105,9 @@ export default {
   animation-name: enter_aside;
   animation-iteration-count: 1;
   animation-duration: 0.4s;
-  
+
   position: fixed;
+  z-index: 1;
 }
 .el-menu-item {
   float: left;

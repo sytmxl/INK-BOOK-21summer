@@ -1,16 +1,14 @@
 <template>
   <div id="init">
-    <el-dialog :modal="false"
-        title="新建一个原型设计图"
+    <el-dialog :modal="false" v-if="dialogVisible"
+        title="新建原型设计图"
         :visible.sync="dialogVisible"
-        width="50%"
+        width="30%"
         :before-close="closeDialog">
       <span>
         <span>
           <el-row>
-            <el-col :span="4">
-              原型设计标题：
-            </el-col>
+            
             <el-col :span="20">
               <el-input
                   placeholder="请输入标题"
@@ -19,9 +17,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="4">
-              原型设计图注：
-            </el-col>
+            
             <el-col :span="20">
               <el-input
                   placeholder="请输入图注"
@@ -32,9 +28,7 @@
         </span>
         <span>
           <el-row>
-            <el-col :span="4">
-              原型设计模板：
-            </el-col>
+            
             <el-col :span="4">
               <el-select v-model="template" placeholder="请选择">
                 <el-option
@@ -51,8 +45,6 @@
           </el-row>
         </span>
       </span>
-
-
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
         <el-button type="primary" @click="add_graph">新建</el-button>
@@ -60,14 +52,14 @@
     </el-dialog>
     <el-container style="min-height: calc(100vh)">
       <el-aside width="200px">
-        <project-aside v-if="inediting == false"/>
+        <project-aside v-if="!inediting || inediting == false"/>
         <edit-aside v-else header="原型设计" :target_list="sideList" v-on:sideclick="sideEdit($event)"/>
       </el-aside>
       <div>
         <el-menu default-active="1-4-1" class="el-menu-vertical-demo second" collapse=true>
-          <el-menu-item class="outside" index="1" @click="dialogVisible = true">
+          <el-menu-item class="outside" index="1" @click="openDialog">
             <i class="el-icon-plus"></i>
-            <span slot="title">新建表</span>
+            <span slot="title">新建</span>
           </el-menu-item>
           <el-menu-item class="outside" index="2">
             <i class="el-icon-edit-outline"></i>
@@ -85,7 +77,7 @@
 <!--        style="height: calc(100vh)"/>-->
         <div>
           <h1 v-if="inediting == false" class="label">所有原型设计</h1>
-          <el-row id="graphContainer" v-if="PrototypeList.length != 0">
+          <el-row id="graphContainer" v-if="PrototypeList != []" style="height: calc(100vh)">
             <el-col :span="5" v-for="(id, index) in PrototypeList"
                     :key="id" :offset="index > 0 ? 2 : 0">
               <drawio-digram :graph_id="id" :isdel="viewingDel"
@@ -113,16 +105,17 @@ import drawio from "@/scripts/drawio";
 import ProjectAside from "../../components/ProjectAside";
 import EditAside from "@/components/EditAside";
 export default {
-  inject: ["reload"],
   components: {drawioDigram,ProjectAside,EditAside},
-  mounted() {
-    this.get_list("0");
+  async mounted() {
+    console.log(this.$data.project_id)
+    this.$data.project_id=await JSON.parse(sessionStorage.getItem('project')).project_id
+    console.log(this.$data.project_id)
+    await this.get_list("0");
     window.exitEdit = this.exitEdit;
     window.stopLoading = this.stopLoading;
     window.startLoading = this.startLoading;
   },
   methods: {
-
     async sideEdit(index) {
 
       if(this.inediting != null){
@@ -157,6 +150,9 @@ export default {
         this.viewingDel = "1";
       };
       this.get_list(this.viewingDel);
+    },
+    openDialog(){
+      this.$data.dialogVisible = true
     },
     closeDialog() {
       this.$data.dialogVisible = false
@@ -235,7 +231,7 @@ export default {
   data() {
     return {
       nowediting:null,
-      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
+      project_id: null,
       newHeader: null,
       newBrief: null,
       dialogVisible: false,

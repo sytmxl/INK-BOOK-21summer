@@ -30,14 +30,14 @@ export default {
   right: 0;
   top: 0px;
   bottom: 0;
-  padding-top: 80px;
+  padding-top: 60px;
   overflow-y: scroll;
   }
   .el-aside{
    display: block;
   position: absolute;
   left: 0;
-  top: 80px;
+  top: 60px;
   bottom: 0;
 }
 .el-header {
