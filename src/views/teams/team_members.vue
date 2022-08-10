@@ -4,7 +4,7 @@
       <h1 class="label">团队成员</h1>
       <div class="add" @click="add()">
         <i class="el-icon-plus" style="font-size:20px" @click="add()" title="添加新成员"></i>
-        <el-dialog :modal="false" title="邀请新的团队成员" :visible.sync="addmemberDialogVisible" width="30%"
+        <el-dialog v-if="addmemberDialogVisible" :modal="false" title="邀请新的团队成员" :visible.sync="addmemberDialogVisible" width="30%"
           :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true" center>
           <el-form ref="addmember" :model="addmember" class="addmember" :hide-required-asterisk="true">
             <el-form-item prop="name" :rules="[

@@ -4,8 +4,8 @@
 
       <div class="add" @click="addprojectSet()">
         <i class="el-icon-plus" style="font-size:20px" @click="addprojectSet()" title="创建新项目"></i>
-        <el-dialog :modal="false" title="创建新项目" :visible.sync="addprojectDialogVisible" width="30%"
-          :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true" center>
+        <el-dialog v-if="addprojectDialogVisible" :modal="false" title="创建新项目" :visible.sync="addprojectDialogVisible" width="30%"
+          :close-on-press-escape="false" :append-to-body="true" center>
           <el-form ref="addproject" :model="addproject" class="addproject" :hide-required-asterisk="true">
             <el-form-item prop="projectname" :rules="[
               { required: true, message: '请输入新的项目名', trigger: 'blur' },
@@ -125,10 +125,10 @@
               <i class="el-icon-edit-outline" @click="information(item)" title="编辑项目"></i>
               <i class="el-icon-document-copy" title="复制项目"></i>
             </div>
-            <el-dialog :modal="false" title="修改项目名称" :visible.sync="changenameDialogVisible" width="30%"
-              :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true" center>
+            <el-dialog v-if="changenameDialogVisible" :modal="false" title="修改项目名称" :visible.sync="changenameDialogVisible" width="30%"
+              :close-on-press-escape="false" :append-to-body="true" center>
               <el-form @submit.native.prevent ref="changename" :model="changename" class="changename"
-                :hide-required-asterisk="true">
+                :hide-required-asterisk="true"> 
                 <el-form-item prop="name" :rules="[
                   { required: true, message: '请输入新的项目名', trigger: 'blur' },
                 ]" label="请输入新的项目名" label-position="top">
