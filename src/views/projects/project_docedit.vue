@@ -460,6 +460,7 @@ export default {
       clipboard:null,
       clipboard_name:'',
       dialogVisible: false,
+      deldialogVisible:false,
       inRecycle: false,
       isCollapse: false,
       doc_list: [],

@@ -2,27 +2,36 @@
   <el-container>
 
 <el-main>
-  <div class="addfolder" @click="newfolderVisible=true">
-      <i class="el-icon-folder-add" style="font-size:20px"  title="新建文件夹"></i>
-    </div>
-    <div class="addfile" @click="newfileVisible=true">
-      <i class="el-icon-document-add" style="font-size:20px"  title="新建文件"></i>
-    </div>
-  <h1 class="label"> <i class="el-icon-top" @click="backfolder()">{{pathname}}</i></h1>
+  <div class="main">
+
+    <div class="filecenter">
+        <h1 class="label"> <i class="el-icon-top" @click="backfolder()">{{pathname}}</i></h1>
 
   <div v-for="item in this.files" :key="item">
-    <div class="folder"  @contextmenu.prevent="show1($event,item)" v-if="item.file_type==1||item.file_type==3" @dblclick="intofolder(item)">
-      <i class="el-icon-folder"></i>
-      <h1 v-if="item.file_type==3">{{item.detail.project_name}}</h1>
-      <h1 v-else-if="item.file_type==1">{{item.folder_name}}</h1>
+    <div class="folder" @contextmenu.prevent="show1($event,item)" v-if="(item.file_type==1&&item.folder_status==0)||(item.file_type==3&&item.detail.project_status==0)" @click="intofolder(item)">
+      <div v-if="item.file_type==3">
+        <i class="el-icon-notebook-2"></i>
+      <h1>{{item.detail.project_name}}</h1>
+      </div>
+      <div v-else-if="item.file_type==1">
+         <i class="el-icon-folder"></i>
+      <h1>{{item.folder_name}}</h1>
+      </div>
     </div>
 
-    <div class="file"  @contextmenu.prevent="show1($event,item)" v-else-if="item.file_type==2">
+    <div class="file"  @contextmenu.prevent="show1($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==0">
       <i class="el-icon-document"></i>
       <h1>{{item.detail.doc_name}}</h1>
     </div>
   </div>
+    </div>
+    <div class="blank" @contextmenu.prevent="show($event)">
+    </div>
+
+  
+  </div>
  
+  
 
  <el-dialog
   title="新建文件夹"
@@ -89,6 +98,9 @@
 </template>
 
 <style scoped>
+.blank{
+  height: 500px;
+}
 .label{
   font-size: 50px;
   text-align: left;
@@ -98,6 +110,9 @@
   font-size: 20px;
 }
 .el-icon-folder {
+  font-size: 100px;
+}
+.el-icon-notebook-2{
   font-size: 100px;
 }
 .el-icon-document{
@@ -116,46 +131,6 @@
 .label:hover,.folder:hover,.file:hover{
   cursor: pointer;
 }
-.addfolder{
-    width: 62px;
-    border-radius: 20px;
-    background-color: rgb(206, 218, 226);
-    font-size: 36px;
-    color: black;
-    text-align: center;
-    
-    overflow: hidden;
-    transition: 0.2s;
-    padding-bottom: 10px;
-    float: right;
-    left: 93%;
-    position: fixed;
-    z-index: 1;
-    top: 100px;
-  }
-  .addfile{
-    width: 62px;
-    border-radius: 20px;
-    background-color: rgb(206, 218, 226);
-    font-size: 36px;
-    color: black;
-    text-align: center;
-    
-    overflow: hidden;
-    transition: 0.2s;
-    padding-bottom: 10px;
-    float: right;
-    left: 93%;
-    position: fixed;
-    z-index: 1;
-    top: 180px;
-  }
-  .addfolder:hover,.addfile:hover{
-    width: 62px;
-    border-radius: 50%;
-
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.04);
-  }
 </style>
 
 <script>
@@ -230,6 +205,7 @@ export default {
         url: "/app/get_file_content",
         data: qs.stringify({
           file_id: file_id,
+          allow_recycle: true
         }),
       })
         .then((res) => {
@@ -276,11 +252,21 @@ export default {
             label: "新建",
             divided: true,
             minWidth: 0,
-            children: [{label: "新建子文件夹"}, {
+            children: [{label: "新建子文件夹"
+            ,onClick:()=>{
+              this.newfolderVisible=true;
+            }}, {
               label: "新建子文件",
-              
+              onClick:()=>{
+              this.newfileVisible=true
+            }
             }]
-          },
+          },{
+            label: "粘贴",
+            onClick:() =>{
+              this.paste();
+            }
+          }
         ],
         event, // 鼠标事件信息
         customClass: "custom-class", // 自定义菜单 class
@@ -302,10 +288,10 @@ export default {
           onClick:() =>{
             this.copy(item);
           }},
-          {label: "粘贴",
-          onClick:() =>{
-            this.paste(item);
-          }},
+          // {label: "粘贴",
+          // onClick:() =>{
+          //   this.paste(item);
+          // }},
           {label: "重命名",
           onClick:() => {
             setTimeout(() => {
@@ -315,6 +301,27 @@ export default {
             // this.renameVisible = true;
             console.log(this.needrenameitem)
           }},
+          {
+            label: "删除",
+            minWidth: 0,
+          },
+        ],
+        event, // 鼠标事件信息
+        customClass: "custom-class", // 自定义菜单 class
+        zIndex: 3, // 菜单样式 z-index
+        minWidth: 230 // 主菜单最小宽度
+      });
+      return false;
+    },
+         show2(event,item) {
+      this.$contextmenu({
+        items: [
+          {label: "打开",
+          onClick:() => this.intofolder(item)},
+           {
+            label: "恢复",
+            minWidth: 0,
+          },
           {
             label: "删除",
             minWidth: 0,
@@ -432,16 +439,26 @@ export default {
       }
     },
     copy(item){
-      this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copy'});
-      this.$message.success("复制成功");
+      if(item.file_type==2){
+        this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copy'});
+        this.$message.success("复制成功");
+      }
+      else if(item.file_type==1){
+        this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copydir'}); //待定
+        this.$message.success("复制成功");
+      }
+      else if(item.file_type==3){
+        this.$store.dispatch('savecopy',{file_id:item.detail.project_id,op:'copypro'});
+        this.$message.success("复制成功");
+      }
     },
     cut(item){
       this.$store.dispatch('savecopy',{file_id:item.file_id,op:'cut'});
       this.$message.success("剪切成功");
     },
-    paste(item){
+    paste(){
       var op = JSON.parse(sessionStorage.getItem('copy')).op;
-      var dest = item.file_id;
+      var dest = JSON.parse(sessionStorage.getItem('folderid')).this_id;
       if(op=='copy'){
         this.$axios({
         method: "post",
@@ -472,7 +489,7 @@ export default {
         url: "/app/move_file",
         data: qs.stringify({
           file_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
-          target_dirid: item.file_id
+          target_dirid: dest
         }),
       })
         .then((res) => {

@@ -46,6 +46,12 @@ export default new Vuex.Store({
             this_id:'',
             path_name:'',
         },
+        delfolderid:JSON.parse(sessionStorage.getItem("delfolderid")) || {
+            root_id:'',
+            last_id:'',
+            this_id:'',
+            path_name:'',
+        },
 
         copy:JSON.parse(sessionStorage.getItem("copy")) || {
            file_id:'',
@@ -153,6 +159,15 @@ export default new Vuex.Store({
             state.folderid = null
         },
 
+        $_setdelfolderid(state, value) {
+            sessionStorage.setItem('delfolderid', JSON.stringify(value))
+            state.delfolderid = value
+        },
+        $_removedelfolderid(state) {
+            sessionStorage.removeItem('delfolderid')
+            state.delfolderid = null
+        },
+
         $_setcopy(state, value) {
             sessionStorage.setItem('copy', JSON.stringify(value))
             state.copy = value
@@ -161,6 +176,8 @@ export default new Vuex.Store({
             sessionStorage.removeItem('copy')
             state.copy = null
         },
+
+ 
     },
     actions: {
 
@@ -234,7 +251,13 @@ export default new Vuex.Store({
             commit('$_removefolderid')
 
         },
+        savedelfolderid({ commit }, data) {
+            commit('$_setdelfolderid', data)
+        },
+        cleardelfolderid({ commit }) {
+            commit('$_removedelfolderid')
 
+        },
         savecopy({ commit }, data) {
             commit('$_setcopy', data)
         },

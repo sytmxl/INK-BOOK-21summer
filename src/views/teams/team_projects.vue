@@ -4,9 +4,9 @@
 
       <div class="add" @click="addprojectSet()">
         <i class="el-icon-plus" style="font-size:20px" @click="addprojectSet()" title="创建新项目"></i>
-        <el-dialog v-if="addprojectDialogVisible" :modal="false" title="创建新项目" :visible.sync="addprojectDialogVisible" width="30%"
-          :close-on-press-escape="false" :append-to-body="true" center>
-          <el-form ref="addproject" :model="addproject" class="addproject" :hide-required-asterisk="true">
+        <el-dialog v-if="addprojectDialogVisible" :modal="false" title="创建新项目" :visible.sync="addprojectDialogVisible"
+          width="30%" :close-on-press-escape="false" :append-to-body="true" center>
+          <el-form ref="addproject" :model="addproject" class="addproject" :hide-required-asterisk="true" @submit.native.prevent>
             <el-form-item prop="projectname" :rules="[
               { required: true, message: '请输入新的项目名', trigger: 'blur' },
             ]" label="请输入新的项目名" label-position="top">
@@ -121,14 +121,22 @@
         <div v-for="item in project_list" :key="item">
           <el-card class="box-card" shadow="hover">
             <div id="tools">
-              <i class="el-icon-delete" @click="deleteproject(item.project_id)" title="删除项目"></i>
+              <i class="el-icon-delete" @click="deleteproject(item.project_id),deletedialogVisible=true" title="删除项目"></i>
               <i class="el-icon-edit-outline" @click="information(item)" title="编辑项目"></i>
               <i class="el-icon-document-copy" title="复制项目"></i>
             </div>
-            <el-dialog v-if="changenameDialogVisible" :modal="false" title="修改项目名称" :visible.sync="changenameDialogVisible" width="30%"
-              :close-on-press-escape="false" :append-to-body="true" center>
+            <el-dialog  :modal="false" title="提示" :visible.sync="deletedialogVisible" width="30%"  :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
+              <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>此操作将将项目移至回收站, 是否继续?</span>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="deletedialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="deletedialogVisible = false,confirm()">确 定</el-button>
+              </span>
+            </el-dialog>
+            <el-dialog v-if="changenameDialogVisible" :modal="false" title="修改项目名称"
+              :visible.sync="changenameDialogVisible" width="30%"  :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true"
+              center>
               <el-form @submit.native.prevent ref="changename" :model="changename" class="changename"
-                :hide-required-asterisk="true"> 
+                :hide-required-asterisk="true">
                 <el-form-item prop="name" :rules="[
                   { required: true, message: '请输入新的项目名', trigger: 'blur' },
                 ]" label="请输入新的项目名" label-position="top">
@@ -194,6 +202,7 @@ export default {
   inject: ["reload"],
   data() {
     return {
+      deletedialogVisible:false,
       changenameDialogVisible: false,
       addprojectDialogVisible: false,
       teamname: JSON.parse(sessionStorage.getItem('team')).team_name,
@@ -210,6 +219,7 @@ export default {
       addproject: {
         projectname: ""
       },
+      deleteId:"",
       data: [{
         id: 1,
         label: '文档中心',
@@ -298,7 +308,7 @@ export default {
             type: 'success',
             message: '修改成功'
           });
-          this.changenameDialogVisible=false;
+          this.changenameDialogVisible = false;
           // this.resetForm("changename");
           setTimeout(() => {
             this.reload();
@@ -328,7 +338,7 @@ export default {
         }),
       })
         .then((res) => {
-          this.addprojectDialogVisible=false;
+          this.addprojectDialogVisible = false;
           var project = { project_id: res.data.data.project_id, project_name: val };
           this.$store.dispatch("saveproject", project);
           this.$message({
@@ -346,18 +356,15 @@ export default {
         });
     },
     deleteproject(id) {
-
-      this.$confirm('此操作将将项目移至回收站, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-
+      this.deleteId = id;
+    },
+    confirm()
+    {
         this.$axios({
           method: "post",
           url: "app/del_project",
           data: qs.stringify({
-            project_id: id,
+            project_id: this.deleteId,
           }),
         })
           .then((res) => {
@@ -373,15 +380,6 @@ export default {
           .catch((err) => {
 
           });
-
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
-
-
     },
     information(item) {
       var project = { project_id: item.project_id, project_name: item.project_name };

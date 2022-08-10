@@ -85,6 +85,12 @@ export default {
           label: "回收站",
           icon: "delete",
         },
+         {
+        path: '/team_text2',
+        name: 'team_text2',
+        label: "回收中心2",
+        icon: "delete"
+        },
          
       ],
     };
