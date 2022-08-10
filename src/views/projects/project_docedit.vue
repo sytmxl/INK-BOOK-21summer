@@ -32,7 +32,12 @@
 
             <!-- <div class="filefolder"> -->
               <!-- <div @click="exit_edit">返回</div> -->
-              
+              <div class="title" @click="goBack">
+                <div class="back">
+                  &lt;&nbsp;
+                </div>
+                退出编辑
+              </div>
               <el-tree
                   :data="node_data_list"
                   node-key="id"
@@ -478,6 +483,7 @@ export default {
   position: absolute;
   right:0px;
   left: 0px;
+  top: 40px;
   /* background-color: rgb(240, 242, 245); */
   overflow: hidden;
   margin: 20px 20px 20px 0px;
@@ -548,7 +554,7 @@ main {
 }
 .resize:hover {
   /* background: #000; */
-  border-right: 2px black solid;
+  /* border-right: 2px black solid; */
   /* opacity: 100%; */
 }
 
@@ -660,4 +666,36 @@ main {
   margin-bottom: 600px;
 }
 
+.title {
+  font-size: 20px;
+  font-weight: bolder;
+  float: left;
+  margin: 20px 0px 0px 20px;
+  color: rgb(45, 52, 57);
+  /* colorgb(5, 5, 6)55); */
+  transition: 0.4s;
+}
+.title:hover {
+  font-size: 30px;
+  background-color: rgba(150, 169, 183, 0.14);
+  border-radius: 20px;
+  padding: 0px 10px 0px 10px;
+  margin: 10px 0px 10px 10px;
+}
+.title:active {
+  font-size: 50px;
+  background-color: rgba(134, 143, 150, 0.42) !important;
+  border-radius: 20px;
+  padding: 0px 10px 0px 10px;
+  margin: 10px 0px 10px 10px;
+}
+.back {
+  font-size: 0px;
+  transition: 0.4s;
+  float: left;
+}
+.title:hover .back{
+  font-size: 30px;
+  float: left;
+  }
 </style>
