@@ -17,7 +17,7 @@
       <span slot="footer" class="dialog-footer">
         <div>
           <el-input v-model="input" placeholder="请输入名称"/>
-          <el-select v-model="doc_template" placeholder="请选择">
+          <el-select v-if="input_case==2" v-model="doc_template" placeholder="请选择">
               <el-option
                   v-for="item in options"
                   :key="item.value"
