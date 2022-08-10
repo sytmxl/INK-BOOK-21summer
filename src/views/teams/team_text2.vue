@@ -258,7 +258,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   this.reload();
+                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -277,7 +277,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   this.reload();
+                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -296,7 +296,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   this.reload();
+                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -321,7 +321,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   this.reload();
+                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -341,7 +341,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   this.reload();
+                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -361,7 +361,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   this.reload();
+                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
