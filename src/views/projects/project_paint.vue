@@ -73,7 +73,12 @@
         </el-menu>
       </div>
       <div class="right">
-        <h1 class="label">所有UML图</h1>
+        <!-- <div v-if="inediting == false"> -->
+        <!-- 加了编辑请把下面这行换成上面这行 -->
+        <div>
+          <h1 v-if="viewingDel == false" class="label">所有UML图</h1>
+          <h1 v-else class="label">回收站</h1>
+        </div>
         <el-row v-if="UMLList.length != 0">
           <el-col :span="5" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
             <drawio-digram :graph_id = "id" :isdel = "viewingDel" v-on:deled = "updateOnDel"/>
@@ -232,11 +237,11 @@ export default {
   float: top;
   background-color: rgb(255, 255, 255) !important;
   position: fixed;
-  height: 10000px;
+  min-height: calc(100vh);
 }
 .second:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
+  min-height: calc(100vh);
 
 }
 
@@ -267,7 +272,5 @@ export default {
   animation-iteration-count: 1;
   animation-duration: 0.4s;
 }
-.el-empty {
-  margin-bottom: 600px;
-}
+
 </style>

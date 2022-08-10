@@ -162,7 +162,7 @@ export default {
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
   position: fixed;
-  height: 10000px;
+  min-height: calc(100vh);
 }
 .second:not(.el-menu--collapse) {
   width: 200px;

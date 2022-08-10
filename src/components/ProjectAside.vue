@@ -98,9 +98,8 @@ export default {
 <style scoped>
 .el-menu-vertical-demo{
   width: 200px;
-  min-height: 400px;
+  min-height: calc(100vh);
   padding: 0;
-  height: 10000px;
 
   animation-name: enter_aside;
   animation-iteration-count: 1;
@@ -119,6 +118,7 @@ export default {
   /* background-color: rgb(247, 250, 252) !important; */
   transition: 0.4s;
   text-align: left;
+  /* align-items: center; */
   z-index: 0;
 }
 .el-menu-item:hover {
@@ -139,9 +139,7 @@ export default {
 .selected, .selected:hover {
   background-color: rgb(150, 169, 183) !important;
 }
-.el-menu i{
-  font-size: 15px;
-}
+
 .el-menu span{
   font-size: 15px;
 }
@@ -157,7 +155,7 @@ export default {
   font-weight: bolder;
   float: left;
   margin: 20px 0px 0px 30px;
-  color: rgb(45, 52, 57);
+  color: rgb(114, 132, 145);
   /* colorgb(5, 5, 6)55); */
   transition: 0.4s;
 }
@@ -167,6 +165,7 @@ export default {
   border-radius: 20px;
   padding: 0px 10px 0px 10px;
   margin: 10px 0px 10px 10px;
+  cursor: pointer;
 }
 .title:active {
   font-size: 50px;

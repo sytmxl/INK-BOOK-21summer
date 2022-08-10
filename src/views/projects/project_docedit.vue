@@ -27,11 +27,17 @@
       <div  class="top">
         <aside>
           <div class="resize"></div>
-          <div class="line"></div>
-          <section>
+          <!-- <div class="line"></div> -->
+          <section class="aside-section">
 
-            <div class="filefolder">
-              <div @click="exit_edit">返回</div>
+            <!-- <div class="filefolder"> -->
+              <!-- <div @click="exit_edit">返回</div> -->
+              <div class="title" @click="exit_edit">
+                <div class="back">
+                  &lt;&nbsp;
+                </div>
+                退出编辑
+              </div>
               <el-tree
                   :data="node_data_list"
                   node-key="id"
@@ -64,7 +70,7 @@
                 </div>
 
               </el-tree>
-            </div>
+            <!-- </div> -->
           </section>
         </aside>
         <main v-if="in_editing == true">
@@ -95,7 +101,7 @@
               <el-empty :image-size="200"></el-empty>
             </el-row>
           </div>
-      </main>
+        </main>
       </div>
 
     </el-container>
@@ -439,19 +445,26 @@ export default {
 </script>
 
 <style scoped>
+#init {
+  min-height: calc(100vh);
+}
 .foldertitle {
   width: 100%;
   text-align: left;
 }
 
 .filefolder {
-  height: 96%;
-  position: absolute;
-  overflow: hidden;
+  height: 100%;
+  position: fixed;
+  overflow-x :hidden;
   overflow-y: scroll;
-  width: 100%;
-  border-top: 3px solid grey;
-  border-bottom: 3px solid grey;
+  text-overflow:ellipsis;
+  /* width: 100%; */
+  width: 200px;
+  border-radius: 10px;
+  border: black solid 1px;
+  /* border-top: 3px solid grey; */
+  /* border-bottom: 3px solid grey; */
 }
 
 .el-input {
@@ -468,10 +481,21 @@ export default {
 
 .el-tree {
   position: absolute;
-  width: 100%;
-  background-color: rgb(242, 244, 245);
+  right:0px;
+  left: 0px;
+  top: 40px;
+  /* background-color: rgb(240, 242, 245); */
   overflow: hidden;
-  top: 50px;
+  margin: 20px 20px 20px 0px;
+  font-size: 16px !important;
+  color: black;
+
+  border-radius:  0px 10px 10px 0px;
+  /* border: black solid 1px; */
+}
+/deep/ .el-tree-node {
+  /* margin: 3px; */
+  padding: 5px 0px 5px 0px;
 }
 
 .el-container {
@@ -483,6 +507,8 @@ export default {
 .top {
   display: flex;
   flex: 1;
+  min-height: calc(100vh);
+  /* 这里加上解决导航栏高度无法完全显示问题 */
 }
 
 aside {
@@ -497,12 +523,26 @@ main {
   background-color: #ffffff;
 }
 
-section {
+.aside-section {
   left: 200px;
+  min-height: calc(100vh);
   position: absolute;
+  /* position: fixed; */
+  /* left: 0; */
+  /* width: 200px; */
+  /* width: 100%; */
+  /* transform: translateX(200px); */
+  
   inset: 0px 5px 0 0;
-  backdrop-filter: blur(25px) brightness(110%);
-  background-color: rgb(242, 244, 245);
+  /* backdrop-filter: blur(25px) brightness(110%); */
+  background-color: rgba(242, 243, 245, 0.493);
+
+  border-radius: 0px 25px 25px 0px;
+  /* border: black solid 1px; */
+
+  animation-name: enter_aside;
+  animation-iteration-count: 1;
+  animation-duration: 0.4s;
 }
 
 .resize {
@@ -514,11 +554,15 @@ section {
   opacity: 0;
   max-width: 800px;
   min-width: 200px;
+  transition: 0.05s;
+  /* min-height: calc(100vh); */
+  animation: none;
 }
 
 .resize-left {
   transform: scale(-1, 100);
 }
+
 
 .line {
   position: absolute;
@@ -556,7 +600,7 @@ section {
 }
 
 .right {
-  margin-left: 80px;
+  /* margin-left: 80px; */
   width: 100%;
 }
 
@@ -570,7 +614,7 @@ section {
   background-color: rgb(255, 255, 255) !important;
   width: 65px !important;
   position: fixed;
-  height: 10000px;
+  min-height: calc(100vh);
 }
 
 .second:not(.el-menu--collapse) {
@@ -624,7 +668,37 @@ section {
   animation-duration: 0.4s;
 }
 
-.el-empty {
-  margin-bottom: 600px;
+.title {
+  font-size: 20px;
+  font-weight: bolder;
+  float: left;
+  margin: 20px 0px 0px 20px;
+  color: rgb(114, 132, 145);
+  /* colorgb(5, 5, 6)55); */
+  transition: 0.4s;
 }
+.title:hover {
+  font-size: 30px;
+  background-color: rgba(150, 169, 183, 0.14);
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+  margin: 10px 0px 10px 10px;
+  cursor: pointer;
+}
+.title:active {
+  /* font-size: 30px; */
+  background-color: rgba(134, 143, 150, 0.42) !important;
+  /* border-radius: 20px; */
+  padding: 0px 10px 0px 10px;
+  margin: 10px 0px 10px 10px;
+}
+.back {
+  font-size: 0px;
+  transition: 0.4s;
+  float: left;
+}
+.title:hover .back{
+  font-size: 30px;
+  float: left;
+  }
 </style>
