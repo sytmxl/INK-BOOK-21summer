@@ -98,16 +98,20 @@ export default {
    * }
    */
   async mounted() {
-    let editing_doc_tok =  sessionStorage.getItem('doc_tok');
+    let editing_doc_tok =  await sessionStorage.getItem('doc_tok');
     this.enter_edit(editing_doc_tok);
+  console.log(editing_doc_tok);
+  console.log(this.enter_edit)
 
-    this.$data.root_folder = JSON.parse(sessionStorage.getItem('folderid')).root_id;
-    this.$data.node_data_list[0].id = this.$data.root_folder
+    this.$data.root_folder = await JSON.parse(sessionStorage.getItem('folderid')).this_id;
+
+    this.$data.node_data_list[0].id = await JSON.parse(sessionStorage.getItem('folderid')).this_id;
+    
     await this.$axios({
       method: "post",
       url: "/app/get_file_content",
       data: qs.stringify({
-        file_id: this.$data.root_folder,
+        file_id: JSON.parse(sessionStorage.getItem('folderid')).this_id,
       }),
     }).then(res => {
       let i;
@@ -527,7 +531,6 @@ export default {
       isCollapse: false,
       doc_list: [],
       recycle_list: [],
-      project_id: JSON.parse(sessionStorage.getItem("project")).project_id,
       newDocName: '',
       in_editing: false,
       content: 'n/a',
@@ -539,7 +542,7 @@ export default {
       node_data_list:[{
         file_type:1,
         id: null,
-        label:JSON.parse(sessionStorage.getItem("proj ect")).project_name,
+        label:'文档中心',
         detail:[],
         folder_name:'',
         node_icon:'el-icon-notebook-2',

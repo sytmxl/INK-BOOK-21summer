@@ -57,6 +57,9 @@ export default new Vuex.Store({
            file_id:'',
            op:'',
         },
+        doc_tok:JSON.parse(sessionStorage.getItem("copy")) || {
+           doc_tok:''
+         },
     },
     mutations: {
         enterEditing() {
@@ -176,7 +179,14 @@ export default new Vuex.Store({
             sessionStorage.removeItem('copy')
             state.copy = null
         },
-
+        $_setdoc_tok(state, value) {
+            sessionStorage.setItem('doc_tok', JSON.stringify(value))
+            state.doc_tok = value
+        },
+        $_removedoc_tok(state) {
+            sessionStorage.removeItem('doc_tok')
+            state.doc_tok = null
+        },
  
     },
     actions: {
@@ -263,6 +273,12 @@ export default new Vuex.Store({
         },
         clearcopy({ commit }) {
             commit('$_removecopy')
+        },
+        savedoc_tok({ commit }, data) {
+            commit('$_setdoc_tok', data)
+        },
+        cleardoc_tok({ commit }) {
+            commit('$_removedoc_tok')
         },
     },
 })
