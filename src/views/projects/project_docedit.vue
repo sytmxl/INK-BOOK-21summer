@@ -12,7 +12,7 @@
     </el-dialog>
     <el-dialog v-if="inputVisible" :modal= "false"
         :visible.sync="inputVisible"
-        width="30%"
+        width="80%"
     >
       <span slot="footer" class="dialog-footer">
         <div>
@@ -25,7 +25,7 @@
                 :value="item.value">
             </el-option>
           </el-select>
-          <img :src="doc_preview[doc_template]"/>
+          <img style="max-width: calc(70vw)" :src="doc_preview[doc_template]"/>
         </div>
         <el-button @click="closeInputDialog">取消</el-button>
         <el-button type="primary" @click="handle_input">确认</el-button>
