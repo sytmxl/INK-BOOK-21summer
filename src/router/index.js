@@ -56,12 +56,19 @@ const routes = [{
         name: 'team_text',
         component: () =>
             import ('../views/teams/team_text.vue'),
+
     }, {
         path: '/team_text2',
         name: 'team_text2',
         component: () =>
             import ('../views/teams/team_text2.vue'),
     }]
+},{
+    path: '/team_docedit',
+    name: 'team_docedit',
+    component: () =>
+        import ('../views/teams/team_docedit.vue'),
+
 }, {
     path: '/project_doc',
     name: 'project_doc',
