@@ -127,6 +127,11 @@
   height: 150px;
   background-color: rgba(255, 255, 255, 0.708);
   border-radius: 20px;
+  transition: 0.4s;
+  border: rgba(114, 132, 145, 0) 2px solid;
+}
+.item:hover {
+  border: rgba(114, 132, 145, 0.64) 2px solid;
 }
 </style>
 
