@@ -2,6 +2,8 @@
 /dist
 .history
 package-lock.json
+# 为了避免在本地测试修改baseurl影响部署
+main.js
 
 # local env files
 .env.local

@@ -188,7 +188,9 @@ el-icon:hover, el-icon-close:hover {
   background-color: rgba(144,147,153,.3);
 }
 
-
+.el-tooltip:focus, .el-tooltip:active, .el-tooltip, .el-tooltip:hover {
+  color: #b0c3d1 !important;
+}
 
 /* 动画库 */
 @keyframes enter_label {
