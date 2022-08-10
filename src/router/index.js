@@ -44,12 +44,14 @@ const routes = [{
         name: 'team_filecenter',
         component: () =>
             import ('../views/teams/team_filecenter.vue'),
-    }, {
+    },
+     {
         path: '/team_dustbin',
         name: 'team_dustbin',
         component: () =>
             import ('../views/teams/team_dustbin.vue'),
-    }, {
+    }, 
+    {
         path: '/team_text',
         name: 'team_text',
         component: () =>

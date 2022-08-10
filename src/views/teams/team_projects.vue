@@ -123,7 +123,7 @@
             <div id="tools">
               <i class="el-icon-delete" @click="deleteproject(item.project_id),deletedialogVisible=true" title="删除项目"></i>
               <i class="el-icon-edit-outline" @click="information(item)" title="编辑项目"></i>
-              <i class="el-icon-document-copy" title="复制项目"></i>
+              <i class="el-icon-document-copy" @click="copy(item)" title="复制项目"></i>
             </div>
             <el-dialog  :modal="false" title="提示" :visible.sync="deletedialogVisible" width="30%"  :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
               <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>此操作将将项目移至回收站, 是否继续?</span>
@@ -357,6 +357,29 @@ export default {
     },
     deleteproject(id) {
       this.deleteId = id;
+    },
+    copy(item){
+       this.$axios({
+        method: "post",
+        url: "/app/copy_project",
+        data: qs.stringify({
+          project_id:item.project_id,
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.reload();
+          }
+          else{
+            console.log(res.data.errno);
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+          
+        });
     },
     confirm()
     {

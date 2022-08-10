@@ -419,15 +419,15 @@ export default {
     async copy(item){
       if(item.file_type==2){
         this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copy'});
-        this.$message.success("复制成功");
+        // this.$message.success("复制成功");
       }
       else if(item.file_type==1){
         this.$store.dispatch('savecopy',{file_id:item.file_id,op:'copydir'}); //待定
-        this.$message.success("复制成功");
+        // this.$message.success("复制成功");
       }
       else if(item.file_type==3){
         await this.$store.dispatch('savecopy',{file_id:item.detail.project_id,op:'copypro'});
-        await this.$message.success("复制成功");
+        // await this.$message.success("复制成功");
         await this.paste();
       }
     },

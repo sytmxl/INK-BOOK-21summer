@@ -34,7 +34,29 @@
 
 </el-main>
     
+ <el-dialog
+  title="恢复文件"
+  :visible.sync="restoreVisible"
+  width="30%"
+  :before-close="handleClose">
+    <span>确定要恢复此文件</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="restoreVisible = false">取 消</el-button>
+    <el-button type="primary" @click="restore()">确 定</el-button>
+  </span>
+</el-dialog>
 
+ <el-dialog
+  title="彻底删除文件"
+  :visible.sync="deleteVisible"
+  width="30%"
+  :before-close="handleClose">
+    <span>确定要彻底删除此文件</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="deleteVisible = false">取 消</el-button>
+    <el-button type="primary" @click="Delete()">确 定</el-button>
+  </span>
+</el-dialog>
 
   </el-container>
        
@@ -87,6 +109,10 @@ export default {
         files:[],
         this_id:'',
         root_id:'',
+        needrestore:'',
+        needdelete:'',
+        restoreVisible: false,
+        deleteVisible:false,
         pathname:JSON.parse(sessionStorage.getItem('delfolderid')).path_name,
       }
     },
@@ -180,183 +206,130 @@ export default {
         }
       
       },
-        restore(item){
-            if(item.file_type==1){
-                this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
+        restore(){
+            this.restoreVisible = false;
+            if(this.needrestore.file_type==1){
+                
 
                 this.$axios({
                   method: "post",
                   url: "/app/recycle_folder",
                   data: qs.stringify({
-                    fold_id: item.file_id,
+                    folder_id: this.needrestore.file_id,
                   }),
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   location.reload();
+                   this.reload();
                   })
                   .catch((err) => {
 
                   });
 
-                  }).catch(() => {
-                    this.$message({
-                      type: 'info',
-                      message: '已取消恢复'
-                    });          
-                  });
+                 
             }
-            else if(item.file_type==2){ //document
-             this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
-
+            else if(this.needrestore.file_type==2){ //document
+            
                     this.$axios({
                   method: "post",
                   url: "/app/recycle_doc",
                   data: qs.stringify({
-                    doc_id: item.detail.doc_id,
+                    file_id: this.needrestore.file_id,
                   }),
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   location.reload();
+                   this.reload();
                   })
                   .catch((err) => {
 
                   });
 
-                  }).catch(() => {
-                    this.$message({
-                      type: 'info',
-                      message: '已取消恢复'
-                    });          
-                  });
+                
             }
-            else if(item.file_type==3){
-             this.$confirm('此操作将恢复该项目, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
-
+            else if(this.needrestore.file_type==3){
+            
                     this.$axios({
                   method: "post",
                   url: "app/recycle_project",
                   data: qs.stringify({
-                    project_id: item.detail.project_id,
+                    project_id: this.needrestore.detail.project_id,
                   }),
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   location.reload();
+                   this.reload();
                   })
                   .catch((err) => {
 
                   });
 
-                  }).catch(() => {
-                    this.$message({
-                      type: 'info',
-                      message: '已取消恢复'
-                    });          
-                  });
+                
             }
 
         },
-        delete(item){
-             if(item.file_type==1){
-                this.$confirm('此操作将彻底删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
+        Delete(){
+            this.deleteVisible = false;
+            console.log(this.needdelete)
+             if(this.needdelete.file_type==1){
+               
 
                     this.$axios({
                   method: "post",
                   url: "/app/permanent_del_folder",
                   data: qs.stringify({
-                   foid_id: item.file_id,
+                   folder_id: this.needdelete.file_id,
                   }),
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   location.reload();
+                   this.reload();
                   })
                   .catch((err) => {
 
                   });
 
-                  }).catch(() => {
-                    this.$message({
-                      type: 'info',
-                      message: '已取消恢复'
-                    });          
-                  });
+                 
             }
-            else if(item.file_type==2){ //document
-             this.$confirm('此操作将彻底删除该文件, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
+            else if(this.needdelete.file_type==2){ //document
+            
 
                     this.$axios({
                   method: "post",
                   url: "/app/permanent_del_doc",
                   data: qs.stringify({
-                    doc_id: item.detail.doc_id,
+                    file_id: this.needdelete.file_id,
                   }),
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   location.reload();
+                   this.reload();
                   })
                   .catch((err) => {
 
                   });
 
-                  }).catch(() => {
-                    this.$message({
-                      type: 'info',
-                      message: '已取消恢复'
-                    });          
-                  });
+               
             }
-            else if(item.file_type==3){
-             this.$confirm('此操作将彻底删除该项目, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                  }).then(() => {
+            else if(this.needdelete.file_type==3){
+            
 
                     this.$axios({
                   method: "post",
                   url: "app/permanent_del_project",
                   data: qs.stringify({
-                    project_id: item.detail.project_id,
+                    project_id: this.needdelete.detail.project_id,
                   }),
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   location.reload();
+                   this.reload();
                   })
                   .catch((err) => {
 
                   });
 
-                  }).catch(() => {
-                    this.$message({
-                      type: 'info',
-                      message: '已取消恢复'
-                    });          
-                  });
+                
             }
         },
          show2(event,item) {
@@ -367,13 +340,21 @@ export default {
            {
             label: "恢复",
             onClick:() => {
-                this.restore(item);
+            setTimeout(() => {
+                this.restoreVisible = true;
+            },500)
+            this.needrestore = item;
+                // this.restore(item);
             }
           },
           {
             label: "删除",
             onClick:() => {
-                this.delete(item);
+            setTimeout(() => {
+                this.deleteVisible = true;
+            },500)
+            this.needdelete = item;
+                // this.delete(item);
             }
           },
         ],
