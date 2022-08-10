@@ -73,6 +73,12 @@ export default {
         label: "文档中心",
         icon: "folder"
         },
+         {
+        path: '/team_text',
+        name: 'team_text',
+        label: "文档中心2",
+        icon: "folder"
+        },
         {
           path: "../views/teams/team_dustbin.vue",
           name: "team_dustbin",

@@ -39,6 +39,13 @@ export default new Vuex.Store({
             userId: '',
             picurl: '',
         },
+
+        folderid:JSON.parse(sessionStorage.getItem("folderid")) || {
+            // root_id:'',
+            // last_id:'',
+            // this_id:'',
+            id:[]
+        },
     },
     mutations: {
         enterEditing() {
@@ -131,6 +138,15 @@ export default new Vuex.Store({
             sessionStorage.removeItem('usericon')
             state.usericon = null
         },
+
+        $_setfolderid(state, value) {
+            sessionStorage.setItem('folderid', JSON.stringify(value))
+            state.folderid = value
+        },
+        $_removefolderid(state) {
+            sessionStorage.removeItem('folderid')
+            state.folderid = null
+        },
     },
     actions: {
 
@@ -194,6 +210,14 @@ export default new Vuex.Store({
         },
         clearusericon({ commit }) {
             commit('$_removeusericon')
+
+        },
+
+        savefolderid({ commit }, data) {
+            commit('$_setfolderid', data)
+        },
+        clearfolderid({ commit }) {
+            commit('$_removefolderid')
 
         },
     },
