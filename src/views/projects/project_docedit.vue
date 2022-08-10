@@ -67,6 +67,12 @@
                                type="primary">新建</el-button>
                     <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
                   </span>
+                  <span v-else-if="data.new_node == 3" style="width: 100%;text-align: left">
+                    <el-input style="width: 50px" v-model="new_node_name" placeholder="请输入名称"></el-input>
+                    <el-button slot="append" style="width: 20%" @click="rename_folder(data)"
+                               type="primary">重命名</el-button>
+                    <el-button slot="append" style="width: 20%" @click="cancel_new_node(data)">取消</el-button>
+                  </span>
                 </div>
 
               </el-tree>
@@ -148,9 +154,15 @@ export default {
       method: "post",
       url: "/app/get_project_fileid",
       data: qs.stringify({
-        project_id: JSON.parse(sessionStorage.getItem('team')).team_id,
+        project_id: JSON.parse(sessionStorage.getItem('project')).project_id,
       }),
     }).then(res => {
+      if(res.data.errno != 0){
+        this.$message({
+          message: res.data.msg,
+          type: 'warning'
+        });
+      }
       this.$data.root_folder = res.data.data.file_id;
       this.$data.node_data_list[0].id = this.$data.root_folder
     })
@@ -248,15 +260,14 @@ export default {
       }
       this.forceUpdatePreview += 1;
     },
-    async append_new_folder_node(node_data) {
-      const newChild = {id: 233333, label: '', children: [], new_node: 1};
-      if (!node_data.children) {
-        this.$set(data, 'children', []);
+    async new_empty_node(node_data, type) {
+      if(node_data.file_type == 1 && type == 3){
+        this.$message({
+          message: '如果您想重命名文档，请使用文档卡片上的重命名按钮',
+          type: 'error'
+        });
       }
-      node_data.children.push(newChild);
-    },
-    async append_new_document_node(node_data) {
-      const newChild = {id: 233333, label: '', children: [], new_node: 2};
+      const newChild = {id: 233333, label: '', children: [], new_node: type};
       if (!node_data.children) {
         this.$set(data, 'children', []);
       }
@@ -313,6 +324,74 @@ export default {
       });
       await this.update_node_data(this.$data.right_focused_node);
     },
+    async rename_folder() {
+      this.$axios({
+        method: "post",
+        url: "/app/rename_folder",
+        data: qs.stringify({
+          file_id: this.$data.right_focused_node.id,
+          folder_name: this.$data.new_node_name,
+        }),
+      }).then(res=>{
+        if (res.data.errno == 0) {
+          this.$message({
+            message: '已重命名\'' + this.$data.new_node_name + '\'',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      })
+    },
+    async copy_node(){
+      this.$data.clipboard = this.$data.right_focused_node
+      if(this.$data.right_focused_node.file_type == 2){
+        this.$data.clipboard_name = this.$data.right_focused_node.detail.doc_name;
+      } else {
+        this.$data.clipboard_name = this.$data.right_focused_node.folder_name;
+      }
+    },
+    async paste_node(){
+      if(this.$data.right_focused_node.file_type != 1){
+        this.$message({
+          message: "您必须在文件夹下粘贴内容",
+          type: 'error'
+        });
+        return;
+      }
+      if(this.$data.clipboard.file_type == 2){
+        this.$axios({
+          method: "post",
+          url: "/app/copy_doc",
+          data: qs.stringify({
+            doc_id: this.$data.right_focused_node.id,
+            folder_id: this.$data.clipboard.id,
+          }),
+        }).then(res=>{
+          let resData = res.data.data;
+          this.axios({
+            method: "post",
+            url: "api/1.2.8/copyPad",
+            params: {
+              apikey: apikey,
+              sourceID: resData.doc_token ,
+              destinationID :resData.doc_token.new_doc_token,
+              text: 'test'
+            }
+          }).then(res=>{
+            if(res.code == 0){this.$message({
+              message: "复制\'"+this.clipboard_name+'\'到\''+this.$data.right_focused_node.folder_name+'\'成功',
+              type: 'error'
+            });}
+          });
+        })
+      } else {
+
+      }
+    },
     remove(node, data) {
       const parent = node.parent;
       const children = parent.data.children || parent.data;
@@ -331,17 +410,23 @@ export default {
             label: "新建",
             divided: true,
             minWidth: 0,
-            children: [{label: "新建文件夹", onClick: () => this.append_new_folder_node(data)}, {
-              label: "新建文档",
-              onClick: () => this.append_new_document_node(data)
-            }]
+            children: [
+                {label: "新建文件夹", onClick: () => this.new_empty_node(data,1)},
+                {label: "新建文档", onClick: () => this.new_empty_node(data,2)}
+            ]
           },
-          {label: "打开", disabled: true},
-          {label: "另存为(A)..."},
-
-
-          {label: "复制"},
-          {label: "重命名"},
+          {
+            label: "复制",
+            onClick: () =>this.copy_node(data,3)
+          },
+          {
+            label: "粘贴" + "("+this.$data.clipboard_name+")",
+            onClick: () =>this.paste_node(data,3)
+          },
+          {
+            label: "重命名",
+            onClick: () =>this.new_empty_node(data,3)
+          },
           {
             label: "删除",
             minWidth: 0,
@@ -381,29 +466,6 @@ export default {
     closeDialog() {
       this.$data.dialogVisible = false
     },
-    async add_doc() {
-      if (this.$data.newDocName == null || this.$data.newDocName == '') {
-        this.$message({
-          message: '文档标题不能为空',
-          type: 'warning'
-        });
-        return;
-      }
-      await this.$axios({
-        method: "post",
-        url: "app/create_doc",
-        data: qs.stringify({
-          doc_name: this.$data.newDocName,
-          project_id: this.$data.project_id,
-        }),
-      })
-      this.$data.dialogVisible = false;
-      this.$message({
-        message: '文档\"' + this.$data.newDocName + '\"新建成功',
-        type: 'success'
-      });
-      await this.get_doc_list();
-    },
   },
   watch: {
     filterText(val) {
@@ -412,6 +474,8 @@ export default {
   },
   data() {
     return {
+      clipboard:null,
+      clipboard_name:'',
       dialogVisible: false,
       inRecycle: false,
       isCollapse: false,
