@@ -166,6 +166,9 @@
 .item:hover {
   border: rgba(114, 132, 145, 0.64) 2px solid;
 }
+.el-empty {
+  width: 100%;
+}
 </style>
 
 <script>

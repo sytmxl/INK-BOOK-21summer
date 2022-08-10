@@ -184,7 +184,7 @@
           </h1>
         </div>
         <div class="empty">
-          <el-empty description="这里没有找到你的项目" :image-size="200"></el-empty>
+          <el-empty description="" :image-size="200"></el-empty>
         </div>
 
       </div>
@@ -747,5 +747,9 @@ export default {
 
 .folder {
   margin-top: 80px;
+}
+
+.el-empty {
+  width: 100%;
 }
 </style>
