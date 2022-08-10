@@ -67,28 +67,28 @@ export default {
           label: "项目管理",
           icon: "goods",
         },
-        {
-        path: '/team_filecenter',
-        name: 'team_filecenter',
-        label: "文档中心",
-        icon: "folder"
-        },
+        // {
+        // path: '/team_filecenter',
+        // name: 'team_filecenter',
+        // label: "文档中心",
+        // icon: "folder"
+        // },
          {
         path: '/team_text',
         name: 'team_text',
-        label: "文档中心2",
+        label: "文档中心",
         icon: "folder"
         },
-        {
-          path: "../views/teams/team_dustbin.vue",
-          name: "team_dustbin",
-          label: "回收站",
-          icon: "delete",
-        },
+        // {
+        //   path: "../views/teams/team_dustbin.vue",
+        //   name: "team_dustbin",
+        //   label: "回收站",
+        //   icon: "delete",
+        // },
          {
         path: '/team_text2',
         name: 'team_text2',
-        label: "回收中心2",
+        label: "回收站",
         icon: "delete"
         },
          
