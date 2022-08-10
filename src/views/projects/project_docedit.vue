@@ -184,9 +184,6 @@ export default {
     this.$data.cur_node_data = this.$data.node_data_list[0];
   },
   methods: {
-    force(){
-      this.$forceUpdate();
-    },
     exit_edit(){
       this.$data.in_editing = false;
     },
@@ -360,7 +357,7 @@ export default {
             params: {
               apikey: apikey,
               sourceID: resData.doc_token ,
-              destinationID :resData.doc_token.new_doc_token,
+              destinationID :resData.new_doc_token,
               text: 'test'
             }
           }).then(res=>{
@@ -371,7 +368,29 @@ export default {
           });
         })
       } else {
-
+        this.$axios({
+          method: "post",
+          url: "/app/copy_folderfile",
+          data: qs.stringify({
+            target_dirid: this.$data.right_focused_node.id,
+            folder_id: this.$data.clipboard.id,
+          }),
+        }).then(res=>{
+          let resData = res.data.data;
+          let i;
+          for(i in resData){
+            this.axios({
+              method: "post",
+              url: "api/1.2.8/copyPad",
+              params: {
+                apikey: apikey,
+                sourceID: resData[i].doc_token ,
+                destinationID :resData[i].new_doc_token,
+                text: 'test'
+              }
+            })
+          }
+        });
       }
       await this.update_node_data(this.$data.right_focused_node);
     },
