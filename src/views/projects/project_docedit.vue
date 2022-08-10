@@ -189,6 +189,7 @@ export default {
       }
     })
     this.$data.cur_node_data = this.$data.node_data_list[0];
+    await this.update_node_data(this.$data.cur_node_data);
   },
   methods: {
     exit_edit(){
@@ -199,6 +200,10 @@ export default {
       this.$data.in_editing = true;
     },
     async update_node_data(node_data){
+      if(this.$data.already_loading == true){
+        return;
+      }
+      this.$data.already_loading = true;
       node_data.children = [];
       await this.$axios({
         method: "post",
@@ -233,6 +238,7 @@ export default {
           });
         }
       })
+      this.$data.already_loading = false;
     },
     async onNodeClicked(node_data) {
       this.$data.cur_node_data = node_data;
@@ -243,16 +249,16 @@ export default {
       }
       this.forceUpdatePreview += 1;
     },
-    async handle_input() {
+    handle_input() {
       switch (this.$data.input_case){
         case 1:
-          await this.create_new_node();
+          this.create_new_node();
           break;
         case 2:
-          await this.create_new_doc();
+          this.create_new_doc();
           break;
         case 3:
-          await this.rename_node();
+          this.rename_node();
           break;
       }
       this.closeInputDialog();
@@ -297,7 +303,7 @@ export default {
             type: 'success'
           });
           if (this.$data.doc_template_tok[this.doc_template] != -1) {
-            await this.axios({
+            this.axios({
               method: "post",
               url: "api/1.2.15/copyPadWithoutHistory",
               params: {
@@ -578,6 +584,7 @@ export default {
   },
   data() {
     return {
+      already_loading:false,
       input_case:0,
       right_focused_node_label:'',
       clipboard:null,
