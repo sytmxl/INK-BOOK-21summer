@@ -2,7 +2,7 @@
   <el-container>
     <el-aside><TeamAside/></el-aside>
     <!-- <el-container> -->
-      <topFrame/>
+    <topFrame/>
     <el-main> 
       <router-view></router-view>
     </el-main>
@@ -32,9 +32,9 @@ export default {
   bottom: 0;
   padding-top: 60px;
   overflow-y: scroll;
-  }
-  .el-aside{
-   display: block;
+}
+.el-aside{
+  display: block;
   position: absolute;
   left: 0;
   top: 60px;
@@ -45,6 +45,6 @@ export default {
   text-align: left;
   color:black;
   /* box-shadow: 1px 1px 10px rgb(240, 242, 245); */
-   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
 }
 </style>

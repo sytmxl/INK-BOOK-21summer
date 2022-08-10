@@ -43,7 +43,7 @@
 
 <style scoped>
 .label{
-  font-size: 50px;
+  font-size: 50px !important;
   text-align: left;
   margin-top: 20px;
 }

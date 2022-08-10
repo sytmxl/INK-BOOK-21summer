@@ -1,39 +1,36 @@
 <template>
-  <el-container>
-
-<el-main>
-  <div class="main">
-
+<el-container>
+  <div class="main1">
     <div class="filecenter">
-        <h1 class="label"> <i class="el-icon-top" @click="backfolder()">{{pathname}}</i></h1>
+      <h1 class="label" > <span class="span2" @click="backfolder()"><i class="el-icon-arrow-left"></i>文档中心&nbsp;</span><span class="span1">&nbsp;&nbsp;/{{pathname}}</span></h1>
+      <div v-if="this.files.length != 0" class="files">
+        <div v-for="item in this.files" :key="item">
+          <div class="folder item" @contextmenu.prevent="show1($event,item)" v-if="(item.file_type==1&&item.folder_status==0)||(item.file_type==3&&item.detail.project_status==0)" @click="intofolder(item)">
+            <div v-if="item.file_type==3">
+              <img class="folder-pic" src="../../assets/project_folder.svg">
+              <h1>{{item.detail.project_name}}</h1>
+            </div>
+            <div v-else-if="item.file_type==1">
+              <img class="folder-pic" src="../../assets/folder.svg">
+              <h1>{{item.folder_name}}</h1>
+            </div>
+          </div>
 
-  <div v-for="item in this.files" :key="item">
-    <div class="folder" @contextmenu.prevent="show1($event,item)" v-if="(item.file_type==1&&item.folder_status==0)||(item.file_type==3&&item.detail.project_status==0)" @click="intofolder(item)">
-      <div v-if="item.file_type==3">
-        <i class="el-icon-notebook-2"></i>
-      <h1>{{item.detail.project_name}}</h1>
+          <div class="file item"  @contextmenu.prevent="show1($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==0">
+            <img class="file-pic" src="../../assets/file.svg">
+            <h1>{{item.detail.doc_name}}</h1>
+          </div>
+        </div>
       </div>
-      <div v-else-if="item.file_type==1">
-         <i class="el-icon-folder"></i>
-      <h1>{{item.folder_name}}</h1>
+      <div v-else>
+        <el-empty :image-size="200"></el-empty>
       </div>
-    </div>
-
-    <div class="file"  @contextmenu.prevent="show1($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==0">
-      <i class="el-icon-document"></i>
-      <h1>{{item.detail.doc_name}}</h1>
-    </div>
-  </div>
     </div>
     <div class="blank" @contextmenu.prevent="show($event)">
     </div>
-
-  
   </div>
- 
-  
 
- <el-dialog
+<el-dialog
   title="新建文件夹"
   :visible.sync="newfolderVisible"
   width="30%"
@@ -87,24 +84,44 @@
     <el-button type="primary" @click="rename(needrenameitem,renewname)">确 定</el-button>
   </span>
 </el-dialog>
-
-</el-main>
-    
-
-
-  </el-container>
+</el-container>
        
 
 </template>
 
 <style scoped>
 .blank{
-  height: 500px;
+  width: calc(100vw - 200px);
+  min-height: calc(100vh);
 }
-.label{
+.main1 {
+  width: calc(100vw - 200px);
+  min-height: calc(100vh);
+  margin-left: 0px !important;
+}
+.label i {
   font-size: 50px;
-  text-align: left;
-  margin-top: 20px;
+}
+.label {
+  margin: 30px 0px 0px 0px !important;
+  font-size: 50px;
+  float: left;
+  width: 100%;
+  color: rgb(114, 132, 145);
+  align-items:baseline;
+  display: flex;
+}
+.span2 {
+  border-radius: 20px;
+  transition: 0.3s;
+}
+.span2:hover{
+  background: rgba(114, 132, 145, 0.165);
+}
+.label .span1 {
+  font-size: 20px;
+  color: rgba(114, 132, 145, 0.64);
+  /* bottom: 0; */
 }
 .el-icon-top{
   font-size: 20px;
@@ -128,8 +145,22 @@
   margin-top: 30px;
   margin-left: 50px;
 }
-.label:hover,.folder:hover,.file:hover{
+.span2:hover,.folder:hover,.file:hover{
   cursor: pointer;
+}
+
+.folder-pic {
+  width: 100px;
+}
+.file-pic {
+  width: 100px;
+}
+.item {
+  /* float: left; */
+  width: 150px;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.708);
+  border-radius: 20px;
 }
 </style>
 
