@@ -8,7 +8,7 @@
     <div class="addfile" >
       <i class="el-icon-document-add" style="font-size:20px"  title="新建文件"></i>
     </div>
-  <h1 class="label">文档中心 <i class="el-icon-top" @dblclick="backfolder()">返回上层目录</i></h1>
+  <h1 class="label">文档中心 <i class="el-icon-top" @click="backfolder()">返回上层目录</i></h1>
 
   <div v-for="item in this.files" :key="item">
     <div class="folder"  @contextmenu.prevent="show($event,item)" v-if="item.file_type!=2" @dblclick="intofolder(item)">
