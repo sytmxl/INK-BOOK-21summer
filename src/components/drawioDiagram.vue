@@ -55,6 +55,15 @@
         <div class="social-touch" v-else>
           <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
           <el-button type="danger" icon="el-icon-close" circle title="彻底删除" @click="foreverDel"/>
+          <el-dialog :modal="false" title="您正试图进行不可逆操作" :visible.sync="foreverDeldialogVisible" width="30%"
+            :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
+            <span><i class="el-icon-warning" style="font-size:20px;color:#909399"></i>永久删除"{{this.$data.title}}"?</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="foreverDeldialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="foreverDeldialogVisible = false, foreverDelconfirm()">确 定
+              </el-button>
+            </span>
+          </el-dialog>
         </div>
       </div>
     </el-card>
@@ -192,11 +201,10 @@ export default {
       });
     },
     foreverDel() {
-      this.$confirm('永久删除\"' + this.$data.title + '\"?', '您正试图进行不可逆操作', {
-        confirmButtonText: '是的',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+      this.$data.foreverDeldialogVisible=true;
+    },
+    foreverDelconfirm()
+    {
         this.$axios({
           method: "post",
           url: "app/full_del_graph",
@@ -211,8 +219,7 @@ export default {
           type: 'info',
           message: '已删除\"' + this.$data.title + '\"'
         });
-      });
-
+        setTimeout(() => { location.reload(); }, 500);
     },
     getData() {
       this.$axios({
@@ -251,6 +258,7 @@ export default {
   data() {
     return {
       diagramEditor:null,
+      foreverDeldialogVisible:false,
       welcomeNotify: null,
       dialogVisible: false,
       newHeader: null,

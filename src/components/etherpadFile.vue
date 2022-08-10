@@ -1,47 +1,58 @@
 <template>
   <div>
-    <el-dialog :modal="false"
-        title="重命名文档"
-        :visible.sync="dialogVisible"
-        width="50%"
-        :before-close="closeDialog"
-    >
+    <el-dialog :modal="false" title="重命名文档" :visible.sync="dialogVisible" width="50%" :before-close="closeDialog">
       <span>
-          <el-row>
-            <el-col :span="4">
-              文档标题：
-            </el-col>
-            <el-col :span="20">
-              <el-input
-                  placeholder="请输入标题"
-                  maxlength="20"
-                    show-word-limit
-                  v-model="newTitle">
-              </el-input>
-            </el-col>
-          </el-row>
+        <el-row>
+          <el-col :span="4">
+            文档标题：
+          </el-col>
+          <el-col :span="20">
+            <el-input placeholder="请输入标题" maxlength="20" show-word-limit v-model="newTitle">
+            </el-input>
+          </el-col>
+        </el-row>
       </span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialog">取消</el-button>
         <el-button type="primary" @click="modify">重命名</el-button>
       </span>
     </el-dialog>
-    <el-card class="toolbar" :body-style="{ padding: '0px'}" style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
-      <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;" shadow="hover" >
+    <el-card class="toolbar" :body-style="{ padding: '0px' }"
+      style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
+      <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;"
+        shadow="hover">
         <div id="tools" v-if="inRecycle == false">
-          <i class="el-icon-delete" @click="del"/>
+          <i class="el-icon-delete" @click="del" />
+          <el-dialog :modal="false" title="您可以去回收站找回它们" :visible.sync="deldialogVisible" width="30%"
+            :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
+            <span><i class="el-icon-warning" style="font-size:20px;color:#909399"></i>您正试图删除"{{this.$data.title}}"</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="deldialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="deldialogVisible = false, delconfirm()">确 定
+              </el-button>
+            </span>
+          </el-dialog>
           <i><img style="width: 25%" /></i>
-          <i class="el-icon-edit-outline" @click="openDialog"/>
+          <i class="el-icon-edit-outline" @click="openDialog" />
         </div>
         <div id="tools" v-if="inRecycle == true">
-          <i class="el-icon-document-delete" @click="foreverDel"/>
+          <i class="el-icon-document-delete" @click="foreverDel" />
+          <el-dialog :modal="false" title="您正试图进行不可逆操作" :visible.sync="foreverDeldialogVisible" width="30%"
+            :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
+            <span><i class="el-icon-warning" style="font-size:20px;color:#909399"></i>永久删除"{{this.$data.title}}"?</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="foreverDeldialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="foreverDeldialogVisible = false, foreverDel()">确 定
+              </el-button>
+            </span>
+          </el-dialog>
           <i><img style="width: 25%" /></i>
-          <i class="el-icon-magic-stick" @click="recover"/>
+          <i class="el-icon-magic-stick" @click="recover" />
         </div>
         <div id="incard" @click="edit">
 
-          <p v-if="preview != ''">{{preview}}</p>
-          <p v-else>该文档为空<br/>您可以点击这里来编辑文档</p>
+          <p v-if="preview != ''">{{ preview }}</p>
+          <p v-else>该文档为空<br />您可以点击这里来编辑文档</p>
         </div>
       </el-card>
 
@@ -57,129 +68,148 @@
 
 <script>
 import qs from "qs";
-import {apikey} from "@/scripts/apikey";
+import { apikey } from "@/scripts/apikey";
 
 export default {
   name: "etherpadFile",
-  props:{
-    id:{default: 0},
-    token:{default: "",type:String},
-    inRecycle:{default:false},
-    title:{default: "示例项目",type: String},
-    description:{default: "无简介", type:String},
-    last_edit_time:{default: "2022-08-01",type:String},
+  props: {
+    id: { default: 0 },
+    token: { default: "", type: String },
+    inRecycle: { default: false },
+    title: { default: "示例项目", type: String },
+    description: { default: "无简介", type: String },
+    last_edit_time: { default: "2022-08-01", type: String },
   },
   mounted() {
     this.getProps();
   },
-  methods:{
-    getProps(){
+  methods: {
+    getProps() {
       this.axios({
-        method:"post",
-        url:"api/1/getText",
-        params:{
-          apikey:apikey,
-          padID:this.$data.id,
+        method: "post",
+        url: "api/1/getText",
+        params: {
+          apikey: apikey,
+          padID: this.$data.id,
         }
-      }).then(res=>{
+      }).then(res => {
         this.$data.preview = res.data.data.text;
-        if(this.$data.preview.length > 50){this.$data.preview = this.$data.preview.substring(0, 50) +"..."}
+        if (this.$data.preview.length > 50) { this.$data.preview = this.$data.preview.substring(0, 50) + "..." }
       })
     },
-    closeDialog(){
+    closeDialog() {
       this.$data.dialogVisible = false;
     },
-    openDialog(){
+    openDialog() {
       this.$data.dialogVisible = true;
     },
-    edit(){
-      this.$emit('start_edit',this.$props.token);
+    edit() {
+      this.$emit('start_edit', this.$props.token);
     },
-    del(){
-      this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
-        confirmButtonText: '是的',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
+    // del() {
+    //   this.$confirm('您可以去回收站找回它们', '您正试图删除\"' + this.$data.title + '\"', {
+    //     confirmButtonText: '是的',
+    //     cancelButtonText: '取消',
+    //     type: 'info'
+    //   }).then(() => {
+    //     this.$axios({
+    //       method: "post",
+    //       url: "app/del_doc",
+    //       data: qs.stringify({
+    //         doc_id: this.$props.id
+    //       }),
+    //     }).then(res => { this.$emit('deled'); }); //?
+    //     this.$message({
+    //       type: 'info',
+    //       message: '已将\"' + this.$data.title + '\"扔到回收站'
+    //     });
+    //   })
+    // },
+    del() {
+      this.$data.deldialogVisible=true;
+    },
+    delconfirm()
+    {
         this.$axios({
-          method: "post" ,
-          url: "app/del_doc" ,
+          method: "post",
+          url: "app/del_doc",
           data: qs.stringify({
-            doc_id:this.$props.id
+            doc_id: this.$props.id
           }),
-        }).then(res=>{this.$emit('deled');}); //?
+        }).then(res => { this.$emit('deled'); }); //?
         this.$message({
           type: 'info',
-          message: '已将\"'+this.$data.title+'\"扔到回收站'
+          message: '已将\"' + this.$data.title + '\"扔到回收站'
         });
-      })
+        setTimeout(() => { location.reload(); }, 500);
     },
-    modify(){
+    modify() {
       this.$axios({
-        method: "post" ,
-        url: "app/rename_doc" ,
+        method: "post",
+        url: "app/rename_doc",
         data: qs.stringify({
-          doc_id:this.$props.id,
-          doc_name:this.$data.newTitle
+          doc_id: this.$props.id,
+          doc_name: this.$data.newTitle
         }),
-      }).then(res=>{this.$emit('deled');});
+      }).then(res => { this.$emit('deled'); });
       this.$message({
-        message: '已经重命名文档为\"'+this.$data.newTitle+'\"',
+        message: '已经重命名文档为\"' + this.$data.newTitle + '\"',
         type: 'success'
       });
       this.$data.title = this.$data.newTitle;
       this.$data.newTitle = null;
       this.$data.dialogVisible = false;
+      setTimeout(() => { location.reload(); }, 500);
     },
-    foreverDel(){
-      this.$confirm('永久删除\"'+this.$data.title+'\"?', '您正试图进行不可逆操作', {
-        confirmButtonText: '是的',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$axios({
-          method: "post" ,
-          url: "app/permanent_del_doc" ,
+    foreverDel() {
+      this.$data.foreverDeldialogVisible=true;
+    },
+    foreverDelconfirm()
+    {
+      this.$axios({
+          method: "post",
+          url: "app/permanent_del_doc",
           data: qs.stringify({
-            doc_id:this.$props.id
+            doc_id: this.$props.id
           }),
         });
         this.$emit('deled');
         this.$message({
           type: 'info',
-          message: '已删除\"'+this.$data.title+'\"'
+          message: '已删除\"' + this.$data.title + '\"'
         });
-      })
-      //TODO 在这里调EtherPad的API彻底删除其服务中存储的文件
+        setTimeout(() => { location.reload(); }, 500);
     },
     recover() {
       this.$axios({
-        method: "post" ,
-        url: "app/recycle_doc" ,
+        method: "post",
+        url: "app/recycle_doc",
         data: qs.stringify({
-          doc_id:this.$props.id
+          doc_id: this.$props.id
         }),
       });
       this.$emit('deled');
       this.$message({
         type: 'info',
-        message: '已恢复\"'+this.$data.title+'\"'
+        message: '已恢复\"' + this.$data.title + '\"'
       });
     },
-    getShareLink(){
+    getShareLink() {
       //TODO 获取只读的分享链接
     },
-    catUrl(token){
+    catUrl(token) {
       //TODO 在这里根据EtherPad服务的baseUrl拼出应该访问的文档
     },
   },
-	data() {
+  data() {
     return {
-      id:this.$props.id,
-      title:this.$props.title,
-      dialogVisible:false,
-      newTitle:'',
-      preview:'',
+      id: this.$props.id,
+      title: this.$props.title,
+      dialogVisible: false,
+      deldialogVisible:false,
+      foreverDeldialogVisible:false,
+      newTitle: '',
+      preview: '',
     }
   }
 }
@@ -207,19 +237,19 @@ export default {
 }
 
 #incard {
-		padding-top: 15%;
-    background-color: rgb(238, 238, 238);
-    height: 200px;
-    width: 500px;
+  padding-top: 15%;
+  background-color: rgb(238, 238, 238);
+  height: 200px;
+  width: 500px;
 }
 
 .pattern {
-	border: 2px;
-	border-radius: 4px;
-	background-color: rgb(255, 255, 255);
-	margin: 5% 0% 5% 20%;	
-	width: auto;
-	height: 20px;
+  border: 2px;
+  border-radius: 4px;
+  background-color: rgb(255, 255, 255);
+  margin: 5% 0% 5% 20%;
+  width: auto;
+  height: 20px;
 }
 
 #toolsRecycle {
@@ -240,37 +270,52 @@ export default {
   font-size: 0px;
 }
 
-.toolbar:hover #tools{
+.toolbar:hover #tools {
   height: 40px;
   color: rgb(0, 0, 0);
   font-size: 30px;
 }
 
-.el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+.el-icon-delete,
+.el-icon-edit-outline,
+.el-icon-document-delete,
+.el-icon-magic-stick {
   color: rgb(247, 239, 239);
   border-radius: 5px;
   padding: 0px;
   transition: 0.2s;
   width: 10%;
 }
-.el-icon-delete:hover, .el-icon-edit-outline:hover, .el-icon-document-delete:hover, .el-icon-magic-stick:hover{
+
+.el-icon-delete:hover,
+.el-icon-edit-outline:hover,
+.el-icon-document-delete:hover,
+.el-icon-magic-stick:hover {
   color: rgb(247, 239, 239);
   border-radius: 10px;
   width: 40%;
 }
+
 .el-icon-delete:hover {
   background-color: rgb(199, 113, 113);
 }
+
 .el-icon-edit-outline:hover {
   background-color: rgb(113, 142, 199);
 }
+
 .el-icon-document-delete:hover {
   background-color: rgb(199, 113, 113);
 }
+
 .el-icon-magic-stick:hover {
   background-color: rgb(113, 199, 130);
 }
-.toolbar:hover .el-icon-delete, .el-icon-edit-outline, .el-icon-document-delete, .el-icon-magic-stick {
+
+.toolbar:hover .el-icon-delete,
+.el-icon-edit-outline,
+.el-icon-document-delete,
+.el-icon-magic-stick {
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
 }
