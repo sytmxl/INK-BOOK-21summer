@@ -261,7 +261,7 @@ export default {
       this.forceUpdatePreview += 1;
     },
     async new_empty_node(node_data, type) {
-      if(node_data.file_type == 1 && type == 3){
+      if(node_data.file_type == 2 && type == 3){
         this.$message({
           message: '如果您想重命名文档，请使用文档卡片上的重命名按钮',
           type: 'error'
@@ -334,6 +334,8 @@ export default {
         }),
       }).then(res=>{
         if (res.data.errno == 0) {
+          this.$data.right_focused_node.folder_name = this.$data.new_node_name
+          console.log()
           this.$message({
             message: '已重命名\'' + this.$data.new_node_name + '\'',
             type: 'success'
@@ -344,6 +346,7 @@ export default {
             type: 'error'
           });
         }
+        this.cancel_new_node();
       })
     },
     async copy_node(){
@@ -367,8 +370,8 @@ export default {
           method: "post",
           url: "/app/copy_doc",
           data: qs.stringify({
-            doc_id: this.$data.right_focused_node.id,
-            folder_id: this.$data.clipboard.id,
+            folder_id: this.$data.right_focused_node.id,
+            doc_id: this.$data.clipboard.id,
           }),
         }).then(res=>{
           let resData = res.data.data;
