@@ -98,10 +98,9 @@ export default {
    * }
    */
   async mounted() {
-    let editing_doc_tok =  await sessionStorage.getItem('doc_tok');
+    let editing_doc_tok =  await JSON.parse(sessionStorage.getItem('doc_tok'));
     this.enter_edit(editing_doc_tok);
   console.log(editing_doc_tok);
-  console.log(this.enter_edit)
 
     this.$data.root_folder = await JSON.parse(sessionStorage.getItem('folderid')).this_id;
 
