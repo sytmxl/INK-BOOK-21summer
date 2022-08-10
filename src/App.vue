@@ -191,6 +191,21 @@ el-icon:hover, el-icon-close:hover {
 .el-tooltip:focus, .el-tooltip:active, .el-tooltip, .el-tooltip:hover {
   color: #b0c3d1 !important;
 }
+.contextmenu_menu {
+  border-radius: 15px !important;
+  font-family: 微软雅黑 !important;
+}
+.contextmenu_menu_item:hover, .contextmenu_menu_item:focus, .contextmenu_menu_item:active{
+  color: #35424e !important;
+  background: rgba(191, 202, 217, 0.495) !important;
+}
+ /deep/ .contextmenu_menu_item:visited {
+  color: #35424e !important;
+  background: rgba(191, 202, 217, 0.495) !important;
+}
+.el-tooltip:focus, .el-tooltip:active, .el-tooltip, .el-tooltip:hover {
+  color: #b0c3d1 !important;
+}
 
 /* 动画库 */
 @keyframes enter_label {
