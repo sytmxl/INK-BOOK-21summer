@@ -491,7 +491,7 @@ export default {
                     let i;
                   this.axios({
                     method: "post",
-                    url: "api/1.2.8/copyPad",
+                    url: "api/1.2.15/copyPadWithoutHistory",
                     params: {
                       apikey: apikey,
                       sourceID: resData.doc_token ,
@@ -526,7 +526,7 @@ export default {
                     for(i in resData){
                       this.axios({
                         method: "post",
-                        url: "api/1.2.8/copyPad",
+                        url: "api/1.2.15/copyPadWithoutHistory",
                         params: {
                           apikey: apikey,
                           sourceID: resData[i].doc_token ,
@@ -562,7 +562,7 @@ export default {
                     for(i in resData){
                       this.axios({
                         method: "post",
-                        url: "api/1.2.8/copyPad",
+                        url: "api/1.2.15/copyPadWithoutHistory",
                         params: {
                           apikey: apikey,
                           sourceID: resData[i].doc_token ,
