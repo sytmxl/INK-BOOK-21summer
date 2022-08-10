@@ -9,17 +9,17 @@
             <div class="folder item"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1&&item.folder_status==1)||(item.file_type==3&&item.detail.project_status==1)" @click="intofolder2(item)">
               <div v-if="item.file_type==3">
                 <img class="folder-pic" src="../../assets/project_folder.svg">
-                <h1>{{item.detail.project_name}}</h1>
+                <h1 class="text">{{item.detail.project_name}}</h1>
               </div>
               <div v-else-if="item.file_type==1">
                 <img class="folder-pic" src="../../assets/folder.svg">
-                <h1>{{item.folder_name}}</h1>
+                <h1 class="text">{{item.folder_name}}</h1>
               </div>
             </div>
 
             <div class="file item"  @contextmenu.prevent="show2($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==1">
               <img class="file-pic" src="../../assets/file.svg">
-              <h1>{{item.detail.doc_name}}</h1>
+              <h1 class="text">{{item.detail.doc_name}}</h1>
             </div>
           </div>
         </div>
@@ -129,12 +129,44 @@
   border-radius: 20px;
   transition: 0.4s;
   border: rgba(114, 132, 145, 0) 2px solid;
+  overflow: hidden;
 }
 .item:hover {
   border: rgba(114, 132, 145, 0.64) 2px solid;
 }
 .el-empty {
   width: 100%;
+}
+.text {
+  display: inline-block;
+  white-space: nowrap; 
+  width: 100%; 
+  overflow: hidden;
+  text-overflow:ellipsis;
+  transition: 0.5s;
+  border-radius: 20px;
+}
+.item:hover .text {
+  transform: translateY(-80px);
+  white-space: unset;
+  text-overflow: unset;
+  font-size: 23px;
+  /* text-overflow:ellipsis; */
+  /* color: rgb(230, 234, 239); */
+  /* background: rgba(60, 65, 73, 0.719); */
+  /* border-radius: 20px; */
+}
+img {
+  transition: 0.4s;
+  filter: blur(0px);
+  opacity: 100%;
+}
+.item:hover img {
+  filter: blur(25px);
+  opacity: 60%;
+  transition: 0.4s;
+  /* width: 120px; */
+  /* height: 120px; */
 }
 </style>
 

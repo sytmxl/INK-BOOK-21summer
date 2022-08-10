@@ -4,7 +4,7 @@
         :visible.sync="dialogVisible"
         width="30%"
         >
-      <span>{{'您是否要删除\''+ right_focused_node_label +'\'?您稍后可以去文档中心的回收站找回它们'}}</span>
+      <span style="font-size:18px">{{'您是否要删除\''+ right_focused_node_label +'\'?您稍后可以去文档中心的回收站找回它们'}}</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="del_node">是的</el-button>
@@ -16,14 +16,14 @@
     >
       <span slot="footer" class="dialog-footer">
         <div>
-          <el-input v-model="input" placeholder="请输入名称"/>
+          <el-input style="width:100% !important" v-model="input" placeholder="请输入名称"/>
           <el-select v-if="input_case==2" v-model="doc_template" placeholder="请选择">
-              <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
+            <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
           </el-select>
           <img :src="doc_preview[doc_template]"/>
         </div>

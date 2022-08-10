@@ -119,6 +119,7 @@ el-icon:hover, el-icon-close:hover {
   /* background-color: #c8d3dd !important; */
 }
 .el-dialog, .el-message-box {
+  width: 80%;
   padding: 10px 10px 25px 10px !important;
   border-radius: 20px !important;
   border-color: #9aadbd !important;
@@ -209,6 +210,45 @@ el-icon:hover, el-icon-close:hover {
 iframe {
   border: none;
 }
+
+/* 右键 */
+/* custom */
+.custom-class .menu_item__available:hover,
+.custom-class .menu_item_expand {
+  background: #ebebef !important;
+  color: #404042 !important;
+}
+/* antd */
+.antd-theme.menu {
+  border-radius: 2px !important;
+}
+.antd-theme .menu_item {
+  color: #000000d9 !important;
+}
+.antd-theme .menu_item__available:hover {
+  background: #f5f5f5 !important;
+}
+.antd-theme .menu_item_expand {
+  font-weight: 600 !important;
+  background-color: #9badb6 !important;
+}
+/* material */
+.material-theme.menu {
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+}
+.material-theme .menu_item {
+  color: #000000de !important;
+}
+.material-theme .menu_item__available:hover,
+.material-theme .menu_item_expand {
+  background: rgba(0, 0, 0, 0.04) !important;
+}
+
+.el-input {
+  width: 90%;
+}
+
 
 /* 动画库 */
 @keyframes enter_label {
