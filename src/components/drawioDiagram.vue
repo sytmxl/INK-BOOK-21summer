@@ -346,7 +346,7 @@ export default {
 }
 
 .diagram {
-  border-radius: 4px;
+  border-radius: 20px;
   width: 100%;
   height: auto;
   float: left;
