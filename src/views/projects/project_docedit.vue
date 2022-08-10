@@ -424,6 +424,12 @@ export default {
               message: '已将\'' + this.$data.right_focused_node.label + '\'放入回收站',
               type: 'success'
             });
+            let node = this.$refs.dir.getNode(this.$data.right_focused_node);
+            let data = this.$data.right_focused_node;
+            const parent = node.parent;
+            const children = parent.data.children || parent.data;
+            const index = children.findIndex(d => d.id === data.id);
+            children.splice(index, 1);
           } else {
             this.$message({
               message: res.data.msg,
