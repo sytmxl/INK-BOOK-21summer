@@ -4,7 +4,7 @@
       <div class="cyclecenter">
         <!-- <h1 class="label"> <i class="el-icon-top" @click="backfolder2()">{{pathname}}</i></h1> -->
         <h1 class="label" > <span class="span2" @click="backfolder2()"><i class="el-icon-arrow-left"></i>回收中心&nbsp;</span><span class="span1">&nbsp;&nbsp;/{{pathname}}</span></h1>
-        <div v-if="this.files.length != 0" class="files">
+        <div v-if="this.files[0].detail != null " class="files">
           <div v-for="item in this.files" :key="item">
             <div class="folder item"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1&&item.folder_status==1)||(item.file_type==3&&item.detail.project_status==1)" @click="intofolder2(item)">
               <div v-if="item.file_type==3">
@@ -132,6 +132,9 @@
 }
 .item:hover {
   border: rgba(114, 132, 145, 0.64) 2px solid;
+}
+.el-empty {
+  width: 100%;
 }
 </style>
 
@@ -409,6 +412,7 @@ export default {
     },
    async mounted(){
     this.init();
+    
    },
    destroyed(){
     // sessionStorage.removeItem('delfolderid');
