@@ -250,6 +250,13 @@ export default {
       this.forceUpdatePreview += 1;
     },
     async handle_input() {
+      if(this.$data.input == ''){
+        this.$message({
+          message: '您需要键入名称！',
+          type: 'warning'
+        });
+        return;
+      }
       switch (this.$data.input_case) {
         case 1:
           await this.create_new_node();
