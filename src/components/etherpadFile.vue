@@ -40,8 +40,8 @@
         </div>
         <div id="incard" @click="edit">
 
-          <p>{{preview}}</p>
-
+          <p v-if="preview != ''">{{preview}}</p>
+          <p v-else>该文档为空<br/>您可以点击这里来编辑文档</p>
         </div>
       </el-card>
 
@@ -95,7 +95,7 @@ export default {
       this.$data.dialogVisible = true;
     },
     edit(){
-      this.$emit('start_edit',this.$data.id);
+      this.$emit('start_edit',this.$props.token);
     },
     del(){
       this.$confirm('您可以去回收站找回它们', '您正试图删除\"'+this.$data.title+'\"', {
