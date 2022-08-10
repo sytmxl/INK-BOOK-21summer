@@ -17,11 +17,10 @@
         <el-button type="primary" @click="modify">重命名</el-button>
       </span>
     </el-dialog>
-    <el-card class="toolbar" :body-style="{ padding: '0px' }"
-      style="text-align: center;margin-bottom: 10px;width: 360px;" shadow>
-      <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;"
-        shadow="hover">
-        <div id="tools" v-if="inRecycle == false">
+    <div class="toolbar" >
+      <!-- <el-card :body-style="{ padding: '0px' }" style="width: 85%;margin: 5% auto;height: 200px;cursor: pointer;"
+        shadow="hover"> -->
+        <!-- <div id="tools" v-if="inRecycle == false">
           <i class="el-icon-delete" @click="del" />
           <el-dialog v-if="deldialogVisible" :modal="false" title="您可以去回收站找回它们" :visible.sync="deldialogVisible" width="30%"
             :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
@@ -48,20 +47,20 @@
           </el-dialog>
           <i><img style="width: 25%" /></i>
           <i class="el-icon-magic-stick" @click="recover" />
-        </div>
-        <div id="incard" @click="edit">
-          <p v-if="preview != ''">{{ preview }}</p>
-          <p v-else>该文档为空<br />您可以点击这里来编辑文档</p>
-        </div>
-      </el-card>
-
+        </div> -->
+        
+      <!-- </el-card> -->
+      <div id="incard" @click="edit">
+        <p v-if="preview != ''">{{ preview }}</p>
+        <p v-else>该文档为空<br />您可以点击这里来编辑文档</p>
+      </div>
       <div style="padding: 14px;">
         <slot></slot>
         <div class="bottom clearfix">
           <time class="time">{{ this.$props.last_edit_time }}</time>
         </div>
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -234,27 +233,6 @@ export default {
 .clearfix:after {
   clear: both
 }
-
-#incard {
-  /* padding-top: 15%; */
-  background-color: rgb(238, 238, 238);
-  height: 200px;
-  width: 266px;
-  padding: 20px;
-  text-align: left;
-  font-size: 20px;
-  color: rgb(114, 132, 145); 
-}
-
-.pattern {
-  border: 2px;
-  border-radius: 4px;
-  background-color: rgb(255, 255, 255);
-  margin: 5% 0% 5% 20%;
-  width: auto;
-  height: 20px;
-}
-
 #toolsRecycle {
   background-color: rgb(157, 162, 176);
   color: rgba(0, 0, 0, 0);
@@ -272,12 +250,12 @@ export default {
   padding: 0px;
   font-size: 0px;
 }
-
-.toolbar:hover #tools {
+/* 过期动画 */
+/* .toolbar:hover #tools {
   height: 40px;
   color: rgb(0, 0, 0);
   font-size: 30px;
-}
+} */
 
 .el-icon-delete,
 .el-icon-edit-outline,
@@ -321,5 +299,34 @@ export default {
 .el-icon-magic-stick {
   /* background-color: rgb(199, 113, 113); */
   padding: 5px;
+}
+#incard {
+  /* padding-top: 15%; */
+  background-color: rgb(238, 238, 238);
+  height: 200px;
+  /* width: 360px !important; */
+  padding: 20px;
+  text-align: left;
+  font-size: 20px;
+  color: rgb(114, 132, 145); 
+  transition: 0.3s;
+}
+#incard:hover{
+  /* height: 500px; */
+  background-color: rgba(220, 221, 225, 0.82);
+  cursor: pointer;
+}
+#incard:hover .toolbar{
+  border: rgb(114, 132, 145) 1px solid;
+}
+.toolbar {
+  overflow: hidden;
+  border-radius: 20px;
+  text-align: center;
+  padding: 0px !important;
+  margin-bottom: 10px;
+  width: 350px;
+  transition: 0.3s;
+  border: rgb(238, 238, 238) 1px solid;
 }
 </style>
