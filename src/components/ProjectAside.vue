@@ -41,25 +41,25 @@ export default {
       isCollapse: false,
       menu: [
         {
-          path: "../views/projects/project_outline.vue",
+          path: "project_outline",
           name: "project_outline",
           label: "快速开始",
           icon: "notebook-1",
         },
         {
-          path: "../views/projects/project_design.vue",
+          path: "project_design",
           name: "project_design",
           label: "原型设计",
           icon: "bank-card",
         },
         {
-          path: "../views/projects/project_paint.vue",
+          path: "/project_paint",
           name: "project_paint",
           label: "UML绘制",
           icon: "postcard",
         },
         {
-          path: "../views/projects/project_docedit.vue",
+          path: "/project_docedit",
           name: "project_docedit",
           label: "共享文档",
           icon: "document",
@@ -78,9 +78,10 @@ export default {
     clickMenu(item) {
       
      
-      this.$router.push({
-        name: item.name,
-      }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
+      // this.$router.push({
+      //   name: item.name,
+      // }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
+      window.location.href=item.path
 
     },
   },

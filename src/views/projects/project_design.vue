@@ -106,8 +106,7 @@ import ProjectAside from "../../components/ProjectAside";
 import EditAside from "@/components/EditAside";
 export default {
   components: {drawioDigram,ProjectAside,EditAside},
-
-  mounted() {
+  async mounted() {
     this.$data.PrototypeList = [];
     this.$data.project_id=JSON.parse(sessionStorage.getItem('project')).project_id
     this.get_list("0");
