@@ -6,7 +6,7 @@
         <i class="el-icon-plus" style="font-size:20px" @click="add()" title="添加新成员"></i>
         <el-dialog v-if="addmemberDialogVisible" :modal="false" title="邀请新的团队成员" :visible.sync="addmemberDialogVisible" width="30%"
           :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true" center>
-          <el-form ref="addmember" :model="addmember" class="addmember" :hide-required-asterisk="true">
+          <el-form ref="addmember" :model="addmember" class="addmember" :hide-required-asterisk="true" @submit.native.prevent>
             <el-form-item prop="name" :rules="[
               { required: true, message: '请输入您要邀请的用户名', trigger: 'blur' },
             ]">
