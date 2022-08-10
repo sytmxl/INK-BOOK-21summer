@@ -1,6 +1,6 @@
 <template>
   <div id="init">
-    <el-dialog :modal = "false"
+    <el-dialog v-if="dialogVisible" :modal = "false"
         :visible.sync="dialogVisible"
         width="30%"
         >
@@ -10,7 +10,7 @@
         <el-button type="primary" @click="del_node">是的</el-button>
       </span>
     </el-dialog>
-    <el-dialog :modal= "false"
+    <el-dialog v-if="inputVisible" :modal= "false"
         :visible.sync="inputVisible"
         width="30%"
     >

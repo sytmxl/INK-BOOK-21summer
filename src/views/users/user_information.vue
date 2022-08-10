@@ -90,7 +90,8 @@
             </el-descriptions-item>
           </el-descriptions>
         </el-col>
-        <el-dialog :modal="false" title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
+        <el-dialog v-if="PasswordChangeDialogVi"
+        :modal="false" title="更改您的密码" :visible.sync="PasswordChangeDialogVi" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" center>
           <el-form ref="password" :model="password" class="password" :hide-required-asterisk="true" :rules="rules">
             <el-form-item prop="originPassWord" label="请输入旧密码：">

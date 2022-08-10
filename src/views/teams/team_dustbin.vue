@@ -8,7 +8,8 @@
         <div v-for="item in project_list" :key="item">
           <el-card class="box-card" shadow="hover">
             <div id="tools">
-              <el-dialog :modal="false" title="提示" :visible.sync="deleteforeverdialogVisible" width="30%"
+              <el-dialog v-if="deleteforeverdialogVisible"
+              :modal="false" title="提示" :visible.sync="deleteforeverdialogVisible" width="30%"
                 :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
                 <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>此操作将永久删除该项目, 是否继续?</span>
                 <span slot="footer" class="dialog-footer">
@@ -17,7 +18,7 @@
                   </el-button>
                 </span>
               </el-dialog>
-              <el-dialog :modal="false" title="提示" :visible.sync="restoredialogVisible" width="30%"
+              <el-dialog v-if="restoredialogVisible" :modal="false" title="提示" :visible.sync="restoredialogVisible" width="30%"
                 :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
                 <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>此操作将恢复该项目, 是否继续?</span>
                 <span slot="footer" class="dialog-footer">
