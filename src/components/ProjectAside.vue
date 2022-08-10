@@ -82,7 +82,7 @@ export default {
       //   name: item.name,
       // }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
       window.location.href=item.path
-
+      window.location.href=item.path;
     },
   },
   computed: {

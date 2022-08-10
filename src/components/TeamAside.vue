@@ -50,19 +50,19 @@ export default {
       isCollapse: false,
       menu: [
         {
-          path: "../views/teams/team_outline.vue",
+          path: "/team_outline",
           name: "team_outline",
           label: "团队情况",
           icon: "setting",
         },
         {
-          path: "../views/teams/team_members.vue",
+          path: "/team_members",
           name: "team_members",
           label: "成员管理",
           icon: "user",
         },
         {
-          path: "../views/teams/team_projects.vue",
+          path: "/team_projects",
           name: "team_projects",
           label: "项目管理",
           icon: "goods",
@@ -103,9 +103,8 @@ export default {
       
     },
     clickMenu(item) {
-      this.$router.push({
-        name: item.name,
-      }); //多传入一个params可以用来传参，用$route.params.元素名 可以来拿到元素信息
+      window.location.href = item.path;
+      window.location.href = item.path;
       var items = document.getElementsByClassName("el-menu-item");
       
       for (var i = 0; i < items.length; i++) {
