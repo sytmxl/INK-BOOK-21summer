@@ -1,55 +1,57 @@
 <template>
-  <el-container>
-    <el-aside width="200px">
-      <project-aside/>
-    </el-aside>
-    <el-main>
-      <el-row>
-        <el-col :span="24">
-          <h1 class="label">
-            {{project_name}}
-            <span>{{team_name}}</span>
-          </h1>
-          <p style="text-align: left; margin-left: 2.5%;">
-            {{team_intro}}
-          </p>
-        </el-col>
-      </el-row>
+  <div id="graphContainer">
+    <el-container v-if="!inediting || inediting == false">
+      <el-aside width="200px">
+        <project-aside/>
+      </el-aside>
+      <el-main>
+        <div>
+          <el-row>
+            <el-col :span="24">
+              <h1 class="label">
+                {{project_name}}
+                <span>{{team_name}}</span>
+              </h1>
+              <p style="text-align: left; margin-left: 2.5%;">
+                {{team_intro}}
+              </p>
+            </el-col>
+          </el-row>
+          <el-card shadow="never">
+            <el-row>
+              <el-col :span="24">
+                <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期原型图</h1>
+              </el-col>
+            </el-row>
+            <el-row v-if="PrototypeList.length != 0">
+              <el-col :span="6" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
+                <drawio-digram v-on:startEdit="enterEdit(index)" v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
+              </el-col>
+            </el-row>
+            <el-row v-else>
+              <el-empty :image-size="100"></el-empty>
+            </el-row>
+          </el-card>
+          <el-card shadow="never">
+            <el-row>
+              <el-col :span="24">
+                <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
+              </el-col>
+            </el-row>
+            <el-row v-if="UMLList.length != 0">
+              <el-col :span="6" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
+                <drawio-digram v-on:startEdit="enterEdit(index)" v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
+              </el-col>
+            </el-row>
+            <el-row v-else>
+              <el-empty :image-size="100"></el-empty>
+            </el-row>
+          </el-card>
+        </div>
+      </el-main>
+    </el-container>
+  </div>
 
-      <el-card shadow="never">
-        <el-row>
-          <el-col :span="24">
-            <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期原型图</h1>
-          </el-col>
-        </el-row>
-        <el-row v-if="PrototypeList.length != 0">
-          <el-col :span="6" v-for="(id, index) in PrototypeList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram v-on:deled = "get_prototype_list" :graph_id = "id" :isdel = "viewingDel" @deled = "updateOnDel"/>
-          </el-col>
-        </el-row>
-        <el-row v-else>
-          <el-empty :image-size="100"></el-empty>
-        </el-row>
-      </el-card>
-
-      <el-card shadow="never">
-        <el-row>
-          <el-col :span="24">
-            <h1 style="text-align: left; margin-left: 2.5% ;margin-bottom: 1.5%">近期UML</h1>
-          </el-col>
-        </el-row>
-        <el-row v-if="UMLList.length != 0">
-          <el-col :span="6" v-for="(id, index) in UMLList" :key="id" :offset="index > 0 ? 2 : 0">
-            <drawio-digram v-on:deled = "get_uml_list" :graph_id = "id" :isdel = "viewingDel"/>
-          </el-col>
-        </el-row>
-        <el-row v-else>
-          <el-empty :image-size="100"></el-empty>
-        </el-row>
-      </el-card>
-
-    </el-main>
-  </el-container>
 </template>
 
 <script>
@@ -60,11 +62,21 @@ import ProjectAside from "../../components/ProjectAside";
 export default {
   components: {drawioDigram,EtherpadFile,ProjectAside},
   name: "project_outline",
-  beforeMount() {
+  mounted() {
+    window.exitEdit = this.exitEdit;
+    window.stopLoading = function (){};
+    window.startLoading = function (){};
     sessionStorage.setItem("project_id","1");
     this.refresh();
   },
   methods:{
+    enterEdit(index) {
+      this.inediting = true;
+      this.nowediting = index;
+    },exitEdit() {
+      this.nowediting = null;
+      this.inediting = false;
+    },
     refresh(){
       this.get_uml_list();
       this.get_prototype_list();
@@ -130,6 +142,7 @@ export default {
   },
   data() {
     return {
+      inediting:false,
       project_id : JSON.parse(sessionStorage.getItem("project")).project_id,
       team_name: JSON.parse(sessionStorage.getItem("team")).team_name,
       team_intro: sessionStorage.getItem(""),

@@ -77,7 +77,6 @@
             <h1 v-if="!inediting ||viewingDel == false" class="label">所有原型设计</h1>
             <h1 v-else class="label">回收站</h1>
           </div>
-          <div>{{PrototypeList}}</div>
           <el-row id="graphContainer" v-if="PrototypeList != []" style="height: calc(100vh)">
             <el-col :span="5" v-for="(id, index) in PrototypeList"
                     :key="id" :offset="index > 0 ? 2 : 0">
