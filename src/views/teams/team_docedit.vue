@@ -539,7 +539,7 @@ export default {
       node_data_list:[{
         file_type:1,
         id: null,
-        label:JSON.parse(sessionStorage.getItem("proj ect")).project_name,
+        label:'文档中心',
         detail:[],
         folder_name:'',
         node_icon:'el-icon-notebook-2',
