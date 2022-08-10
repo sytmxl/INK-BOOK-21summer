@@ -36,7 +36,7 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-dialog :modal="false" title="请输入您的邮箱" :visible.sync="forgetDialogVisible" width="30%" :close-on-click-modal="false"
+        <el-dialog v-if="forgetDialogVisible" :modal="false" title="请输入您的邮箱" :visible.sync="forgetDialogVisible" width="30%" :close-on-click-modal="false"
           :close-on-press-escape="false" :append-to-body="true" center>
           <el-form ref="forget" :model="forget" class="forget" :hide-required-asterisk="true">
             <el-form-item prop="forget_email" :rules="[

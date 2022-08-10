@@ -2,7 +2,7 @@
   <div>
     <el-dialog :modal="false" :visible.sync="dialogVisible"
         title="修改图表信息"
-        
+        v-if="dialogVisible"
         width="40%"
         :before-close="closeDialog">
       <el-row>
@@ -55,7 +55,7 @@
         <div class="social-touch" v-else>
           <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
           <el-button type="danger" icon="el-icon-close" circle title="彻底删除" @click="foreverDel"/>
-          <el-dialog :modal="false" title="您正试图进行不可逆操作" :visible.sync="foreverDeldialogVisible" width="30%"
+          <el-dialog v-if="foreverDeldialogVisible" :modal="false" title="您正试图进行不可逆操作" :visible.sync="foreverDeldialogVisible" width="30%"
             :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
             <span><i class="el-icon-warning" style="font-size:20px;color:#909399"></i>永久删除"{{this.$data.title}}"?</span>
             <span slot="footer" class="dialog-footer">

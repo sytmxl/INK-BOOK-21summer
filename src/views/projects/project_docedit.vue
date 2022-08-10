@@ -1,6 +1,6 @@
 <template>
   <div id="init">
-    <el-dialog :modal = "false"
+    <el-dialog v-if="dialogVisible" :modal = "false"
         :visible.sync="dialogVisible"
         width="30%"
         >
@@ -10,7 +10,7 @@
         <el-button type="primary" @click="del_node">是的</el-button>
       </span>
     </el-dialog>
-    <el-dialog :modal= "false"
+    <el-dialog v-if="inputVisible" :modal= "false"
         :visible.sync="inputVisible"
         width="30%"
     >
@@ -819,13 +819,14 @@ main {
   font-weight: bolder;
   float: left;
   margin: 20px 0px 0px 20px;
+  background-color: rgb(246, 247, 249);
   color: rgb(114, 132, 145);
   /* colorgb(5, 5, 6)55); */
   transition: 0.4s;
 }
 .title:hover {
   font-size: 30px;
-  background-color: rgba(150, 169, 183, 0.14);
+  background-color: rgb(237, 240, 243);
   border-radius: 10px;
   padding: 0px 10px 0px 10px;
   margin: 10px 0px 10px 10px;

@@ -52,7 +52,7 @@
       <p class="email">邮箱：{{ email }}</p>
     </div>
   </div>
-  <el-dialog :modal="false" title="提示" :visible.sync="cancelmanagerdialogVisible" width="30%"
+  <el-dialog v-if="cancelmanagerdialogVisible" :modal="false" title="提示" :visible.sync="cancelmanagerdialogVisible" width="30%"
       :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
       <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>要取消该用户管理员身份, 是否继续?</span>
       <span slot="footer" class="dialog-footer">
@@ -61,7 +61,7 @@
         </el-button>
       </span>
     </el-dialog>
-    <el-dialog :modal="false" title="提示" :visible.sync="deletememberdialogVisible" width="30%"
+    <el-dialog v-if="deletememberdialogVisible" :modal="false" title="提示" :visible.sync="deletememberdialogVisible" width="30%"
       :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
       <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>从团队删除此用户, 是否继续?</span>
       <span slot="footer" class="dialog-footer">
@@ -70,7 +70,7 @@
         </el-button>
       </span>
     </el-dialog>
-    <el-dialog :modal="false" title="提示" :visible.sync="tobemanagerdialogVisible" width="30%"
+    <el-dialog v-if="tobemanagerdialogVisible" :modal="false" title="提示" :visible.sync="tobemanagerdialogVisible" width="30%"
       :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
       <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>将其设为管理员, 是否继续?</span>
       <span slot="footer" class="dialog-footer">

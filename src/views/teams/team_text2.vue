@@ -3,7 +3,7 @@
     <div class="main1">
       <div class="cyclecenter">
         <!-- <h1 class="label"> <i class="el-icon-top" @click="backfolder2()">{{pathname}}</i></h1> -->
-        <h1 class="label" > <span class="span2" @click="backfolder2()"><i class="el-icon-arrow-left"></i>文档中心&nbsp;</span><span class="span1">&nbsp;&nbsp;/{{pathname}}</span></h1>
+        <h1 class="label" > <span class="span2" @click="backfolder2()"><i class="el-icon-arrow-left"></i>回收中心&nbsp;</span><span class="span1">&nbsp;&nbsp;/{{pathname}}</span></h1>
         <div v-if="this.files.length != 0" class="files">
           <div v-for="item in this.files" :key="item">
             <div class="folder item"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1&&item.folder_status==1)||(item.file_type==3&&item.detail.project_status==1)" @click="intofolder2(item)">
@@ -44,7 +44,7 @@
  <el-dialog :modal="false" v-if="deleteVisible"
   title="彻底删除文件"
   :visible.sync="deleteVisible"
-  width="30%"
+  width="20%"
   :before-close="handleClose">
     <span>确定要彻底删除此文件</span>
   <span slot="footer" class="dialog-footer">
@@ -378,11 +378,11 @@ export default {
            {
             label: "恢复",
             onClick:() => {
-            setTimeout(() => {
-                this.restoreVisible = true;
-            },500)
+            // setTimeout(() => {
+            //     this.restoreVisible = true;
+            // },500)
             this.needrestore = item;
-                // this.restore(item);
+                this.restore(item);
             }
           },
           {

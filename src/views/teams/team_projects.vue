@@ -125,7 +125,7 @@
               <i class="el-icon-edit-outline" @click="information(item)" title="编辑项目"></i>
               <i class="el-icon-document-copy" @click="copy(item)" title="复制项目"></i>
             </div>
-            <el-dialog  :modal="false" title="提示" :visible.sync="deletedialogVisible" width="30%"  :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
+            <el-dialog v-if="deletedialogVisible" :modal="false" title="提示" :visible.sync="deletedialogVisible" width="30%"  :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
               <span><i class="el-icon-warning" style="font-size:20px;color:#E6A23C"></i>此操作将将项目移至回收站, 是否继续?</span>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="deletedialogVisible = false">取 消</el-button>

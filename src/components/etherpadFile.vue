@@ -23,7 +23,7 @@
         shadow="hover">
         <div id="tools" v-if="inRecycle == false">
           <i class="el-icon-delete" @click="del" />
-          <el-dialog :modal="false" title="您可以去回收站找回它们" :visible.sync="deldialogVisible" width="30%"
+          <el-dialog v-if="deldialogVisible" :modal="false" title="您可以去回收站找回它们" :visible.sync="deldialogVisible" width="30%"
             :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
             <span><i class="el-icon-warning" style="font-size:20px;color:#909399"></i>您正试图删除"{{this.$data.title}}"</span>
             <span slot="footer" class="dialog-footer">
@@ -37,7 +37,7 @@
         </div>
         <div id="tools" v-if="inRecycle == true">
           <i class="el-icon-document-delete" @click="foreverDel" />
-          <el-dialog :modal="false" title="您正试图进行不可逆操作" :visible.sync="foreverDeldialogVisible" width="30%"
+          <el-dialog v-if="foreverDeldialogVisible" :modal="false" title="您正试图进行不可逆操作" :visible.sync="foreverDeldialogVisible" width="30%"
             :close-on-click-modal="false" :close-on-press-escape="false" :append-to-body="true">
             <span><i class="el-icon-warning" style="font-size:20px;color:#909399"></i>永久删除"{{this.$data.title}}"?</span>
             <span slot="footer" class="dialog-footer">
