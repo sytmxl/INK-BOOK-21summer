@@ -77,6 +77,7 @@ import qs from "qs";
 export default {
   name: "drawioDigram",
   props: {
+    file_id:{default:0},
     graph_id: {default: 0},
     isdel: {default: false}
   },
