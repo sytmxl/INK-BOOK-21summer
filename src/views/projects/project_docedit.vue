@@ -249,16 +249,16 @@ export default {
       }
       this.forceUpdatePreview += 1;
     },
-    handle_input() {
-      switch (this.$data.input_case){
+    async handle_input() {
+      switch (this.$data.input_case) {
         case 1:
-          this.create_new_node();
+          await this.create_new_node();
           break;
         case 2:
-          this.create_new_doc();
+          await this.create_new_doc();
           break;
         case 3:
-          this.rename_node();
+          await this.rename_node();
           break;
       }
       this.closeInputDialog();
@@ -298,7 +298,7 @@ export default {
         }),
       }).then(async res => {
         if (res.data.errno == 0) {
-          this.$message({
+          await this.$message({
             message: '新建\'' + this.$data.input + '\'成功',
             type: 'success'
           });
