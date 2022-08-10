@@ -1,28 +1,5 @@
 <template>
   <div id="init">
-    <el-dialog :modal="false"
-               title="新建一个共享文档"
-               :visible.sync="dialogVisible"
-               width="50%"
-               :before-close="closeDialog">
-      <span>
-          <el-row>
-            <el-col :span="4">
-              文档标题：
-            </el-col>
-            <el-col :span="20">
-              <el-input
-                  placeholder="请输入标题"
-                  v-model="newDocName">
-              </el-input>
-            </el-col>
-          </el-row>
-      </span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialog">取消</el-button>
-        <el-button type="primary" @click="add_doc">新建</el-button>
-      </span>
-    </el-dialog>
     <el-container >
       <div  class="top">
         <aside>
@@ -39,6 +16,7 @@
                 退出编辑
               </div>
               <el-tree
+                  ref="dir"
                   :data="node_data_list"
                   node-key="id"
                   default-expand-all
@@ -229,7 +207,6 @@ export default {
           let node_name;
           let node_icon;
           if (retData.file_type == 2) {
-            console.log(retData.detail)
             this.$data.doc_list.push(retData.detail);
             node_name = retData.detail.doc_name;
             node_icon = 'el-icon-document'
@@ -248,7 +225,6 @@ export default {
             detail:retData.detail
           });
         }
-        console.log(this.$data.doc_list)
       })
     },
     async onNodeClicked(node_data) {
@@ -325,7 +301,8 @@ export default {
       await this.update_node_data(this.$data.right_focused_node);
     },
     async rename_folder() {
-      this.$axios({
+      console.log(this.$data.right_focused_node)
+      await this.$axios({
         method: "post",
         url: "/app/rename_folder",
         data: qs.stringify({
@@ -334,8 +311,7 @@ export default {
         }),
       }).then(res=>{
         if (res.data.errno == 0) {
-          this.$data.right_focused_node.folder_name = this.$data.new_node_name
-          console.log()
+          this.$data.right_focused_node.label = this.$data.right_focused_node.folder_name = this.$data.new_node_name;
           this.$message({
             message: '已重命名\'' + this.$data.new_node_name + '\'',
             type: 'success'
@@ -371,7 +347,7 @@ export default {
           url: "/app/copy_doc",
           data: qs.stringify({
             folder_id: this.$data.right_focused_node.id,
-            doc_id: this.$data.clipboard.id,
+            doc_id: this.$data.clipboard.detail.doc_id,
           }),
         }).then(res=>{
           let resData = res.data.data;
@@ -381,7 +357,7 @@ export default {
             params: {
               apikey: apikey,
               sourceID: resData.doc_token ,
-              destinationID :resData.doc_token.new_doc_token,
+              destinationID :resData.new_doc_token,
               text: 'test'
             }
           }).then(res=>{
@@ -392,8 +368,31 @@ export default {
           });
         })
       } else {
-
+        this.$axios({
+          method: "post",
+          url: "/app/copy_folderfile",
+          data: qs.stringify({
+            target_dirid: this.$data.right_focused_node.id,
+            folder_id: this.$data.clipboard.id,
+          }),
+        }).then(res=>{
+          let resData = res.data.data;
+          let i;
+          for(i in resData){
+            this.axios({
+              method: "post",
+              url: "api/1.2.8/copyPad",
+              params: {
+                apikey: apikey,
+                sourceID: resData[i].doc_token ,
+                destinationID :resData[i].new_doc_token,
+                text: 'test'
+              }
+            })
+          }
+        });
       }
+      await this.update_node_data(this.$data.right_focused_node);
     },
     remove(node, data) {
       const parent = node.parent;
@@ -473,7 +472,7 @@ export default {
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
-    }
+    },
   },
   data() {
     return {
