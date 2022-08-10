@@ -46,6 +46,11 @@ export default new Vuex.Store({
             this_id:'',
             path_name:'',
         },
+
+        copy:JSON.parse(sessionStorage.getItem("copy")) || {
+           file_id:'',
+           op:'',
+        },
     },
     mutations: {
         enterEditing() {
@@ -147,6 +152,15 @@ export default new Vuex.Store({
             sessionStorage.removeItem('folderid')
             state.folderid = null
         },
+
+        $_setcopy(state, value) {
+            sessionStorage.setItem('copy', JSON.stringify(value))
+            state.copy = value
+        },
+        $_removecopy(state) {
+            sessionStorage.removeItem('copy')
+            state.copy = null
+        },
     },
     actions: {
 
@@ -219,6 +233,13 @@ export default new Vuex.Store({
         clearfolderid({ commit }) {
             commit('$_removefolderid')
 
+        },
+
+        savecopy({ commit }, data) {
+            commit('$_setcopy', data)
+        },
+        clearcopy({ commit }) {
+            commit('$_removecopy')
         },
     },
 })

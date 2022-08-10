@@ -60,6 +60,25 @@
   </span>
 </el-dialog>
 
+<el-dialog
+  title="重命名文件"
+  
+  :visible.sync="renameVisible"
+  width="30%"
+  :before-close="handleClose">
+    <el-input
+        placeholder="请输入新文件名称"
+        v-model="renewname"
+        maxlength="20"
+        show-word-limit
+        clearable>
+    </el-input>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="renameVisible = false">取 消</el-button>
+    <el-button type="primary" @click="rename(needrenameitem,renewname)">确 定</el-button>
+  </span>
+</el-dialog>
+
 </el-main>
     
 
@@ -153,13 +172,16 @@ export default {
         root_id:'',
         newfolderVisible: false,
         newfileVisible: false,
+        renameVisible:false,
         newfoldername:'',
         newfilename:'',
+        renewname:'',
+        needrenameitem:'',
         pathname:JSON.parse(sessionStorage.getItem('folderid')).path_name,
       }
     },
     methods:{
-      init(){
+      async init(){
       if(JSON.parse(sessionStorage.getItem('folderid'))==null){
         this.getRootNode();
       }
@@ -193,13 +215,13 @@ export default {
       })
         .then((res) => {
           this.$store.dispatch('savefolderid',{root_id:res.data.data.file_id,last_id:res.data.data.file_id,this_id:res.data.data.file_id,path_name:'文档中心'});
-           this.this_id = res.data.data.file_id;
-           this.root_id = res.data.data.file_id;
-           this.getAllFile(this.this_id);
+          //  this.getAllFile(res.data.data.file_id);
+          location.reload();
         })
         .catch((err) => {
           
         });
+
       },
       async getAllFile(file_id){
          this.pathname = JSON.parse(sessionStorage.getItem('folderid')).path_name; 
@@ -272,8 +294,27 @@ export default {
         items: [
           {label: "打开",
           onClick:() => this.intofolder(item)},
-          {label: "复制"},
-          {label: "重命名"},
+          {label: "剪切",
+          onClick:() =>{
+            this.cut(item);
+          }},
+          {label: "复制",
+          onClick:() =>{
+            this.copy(item);
+          }},
+          {label: "粘贴",
+          onClick:() =>{
+            this.paste(item);
+          }},
+          {label: "重命名",
+          onClick:() => {
+            setTimeout(() => {
+                this.renameVisible = true;
+            },500)
+            this.needrenameitem = item;
+            // this.renameVisible = true;
+            console.log(this.needrenameitem)
+          }},
           {
             label: "删除",
             minWidth: 0,
@@ -298,7 +339,13 @@ export default {
         }),
       })
         .then((res) => {
-           this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
         })
         .catch((err) => {
           
@@ -315,18 +362,138 @@ export default {
         }),
       })
         .then((res) => {
-           this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+           if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
         })
         .catch((err) => {
           
         });
-    }
+    },
+    rename(item,newname){
+      this.renameVisible = false;
+      if(item.file_type==2){
+        this.$axios({
+        method: "post",
+        url: "/app/rename_doc",
+        data: qs.stringify({
+          doc_id: item.file_id,
+          doc_name: newname
+        }),
+      })
+        .then((res) => {
+        if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          
+        });
+      }
+      else if(item.file_type==1){
+        this.$axios({
+        method: "post",
+        url: "/app/rename_folder",
+        data: qs.stringify({
+          file_id: item.file_id,
+          folder_name:newname,
+        }),
+      })
+        .then((res) => {
+         this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+        })
+        .catch((err) => {
+          
+        });
+      }
+      else if(item.file_type==3){
+         this.$axios({
+        method: "post",
+        url: "/app/rename_project",
+        data: qs.stringify({
+          project_id: item.detail.project_id,
+          project_name:newname,
+        }),
+      })
+        .then((res) => {
+         this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+        })
+        .catch((err) => {
+          
+        });
+      }
+    },
+    copy(item){
+      this.$store.dispatch('savecopy',{file_id:item.file_id,op:'copy'});
+    },
+    cut(item){
+      this.$store.dispatch('savecopy',{file_id:item.file_id,op:'cut'});
+    },
+    paste(item){
+      var op = JSON.parse(sessionStorage.getItem('copy')).op;
+      var dest = item.file_id;
+      if(op=='copy'){
+        this.$axios({
+        method: "post",
+        url: "/app/copy_doc",
+        data: qs.stringify({
+          folder_id:dest,
+          doc_id: JSON.parse(sessionStorage.getItem('copy')).file_id
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+          
+        });
+      }
+      else if(op=='cut'){
+        this.$axios({
+        method: "post",
+        url: "/app/move_file",
+        data: qs.stringify({
+          file_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
+          target_dirid: item.file_id
+        }),
+      })
+        .then((res) => {
+           if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            this.$message.warning(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          
+        });
+      }
+    },
+ 
     },
    async mounted(){
     this.init();
    },
    destroyed(){
     sessionStorage.removeItem('folderid');
+    sessionStorage.removeItem('copy');
    }
    
 }
