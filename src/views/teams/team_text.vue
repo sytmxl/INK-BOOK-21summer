@@ -557,6 +557,20 @@ export default {
                 if (res.data.errno == 0) {
                   this.$message.success(res.data.msg);
                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                    let resData = res.data.data;
+                    let i;
+                    for(i in resData){
+                      this.axios({
+                        method: "post",
+                        url: "api/1.2.8/copyPad",
+                        params: {
+                          apikey: apikey,
+                          sourceID: resData[i].doc_token ,
+                          destinationID :resData[i].new_doc_token,
+                          text: 'test'
+                        }
+                      })
+                    }
                 } else {
                   console.log(res.data.errno);
                   this.$message.warning(res.data.msg);
