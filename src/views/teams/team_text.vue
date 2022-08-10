@@ -288,10 +288,6 @@ export default {
           onClick:() =>{
             this.copy(item);
           }},
-          // {label: "粘贴",
-          // onClick:() =>{
-          //   this.paste(item);
-          // }},
           {label: "重命名",
           onClick:() => {
             setTimeout(() => {
@@ -303,7 +299,9 @@ export default {
           }},
           {
             label: "删除",
-            minWidth: 0,
+            onClick:() =>{
+            this.delete(item);
+          }
           },
         ],
         event, // 鼠标事件信息
@@ -313,27 +311,7 @@ export default {
       });
       return false;
     },
-         show2(event,item) {
-      this.$contextmenu({
-        items: [
-          {label: "打开",
-          onClick:() => this.intofolder(item)},
-           {
-            label: "恢复",
-            minWidth: 0,
-          },
-          {
-            label: "删除",
-            minWidth: 0,
-          },
-        ],
-        event, // 鼠标事件信息
-        customClass: "custom-class", // 自定义菜单 class
-        zIndex: 3, // 菜单样式 z-index
-        minWidth: 230 // 主菜单最小宽度
-      });
-      return false;
-    },
+
     newfile(){
       this.newfileVisible = false;
        this.$axios({
@@ -438,18 +416,19 @@ export default {
         });
       }
     },
-    copy(item){
+    async copy(item){
       if(item.file_type==2){
         this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copy'});
         this.$message.success("复制成功");
       }
       else if(item.file_type==1){
-        this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copydir'}); //待定
+        this.$store.dispatch('savecopy',{file_id:item.file_id,op:'copydir'}); //待定
         this.$message.success("复制成功");
       }
       else if(item.file_type==3){
-        this.$store.dispatch('savecopy',{file_id:item.detail.project_id,op:'copypro'});
-        this.$message.success("复制成功");
+        await this.$store.dispatch('savecopy',{file_id:item.detail.project_id,op:'copypro'});
+        await this.$message.success("复制成功");
+        await this.paste();
       }
     },
     cut(item){
@@ -466,6 +445,53 @@ export default {
         data: qs.stringify({
           folder_id:dest,
           doc_id: JSON.parse(sessionStorage.getItem('copy')).file_id
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            console.log(res.data.errno);
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+          
+        });
+      }
+      else if(op=='copydir'){
+        this.$axios({
+        method: "post",
+        url: "/app/copy_folderfile",
+        data: qs.stringify({
+          folder_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
+          target_dirid: dest 
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            console.log(res.data.errno);
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+          
+        });
+      }
+      else if(op=='copypro'){
+        this.$axios({
+        method: "post",
+        url: "/app/copy_project",
+        data: qs.stringify({
+          project_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
         }),
       })
         .then((res) => {
@@ -506,7 +532,75 @@ export default {
         });
       }
     },
- 
+    delete(item){
+      if(item.file_type==1){
+        this.$axios({
+        method: "post",
+        url: "/app/del_folder",
+        data: qs.stringify({
+          folder_id:item.file_id,
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            console.log(res.data.errno);
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+          
+        });
+      }
+      else if(item.file_type==2){
+        this.$axios({
+        method: "post",
+        url: "/app/del_doc",
+        data: qs.stringify({
+          file_id:item.file_id,
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            console.log(res.data.errno);
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+        });
+      }
+      else if(item.file_type==3){
+        this.$axios({
+        method: "post",
+        url: "/app/del_project",
+        data: qs.stringify({
+          project_id:item.detail.project_id,
+        }),
+      })
+        .then((res) => {
+          if(res.data.errno==0){
+            this.$message.success(res.data.msg);
+            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+          }
+          else{
+            console.log(res.data.errno);
+            this.$message.warning(res.data.msg);
+          }
+           
+        })
+        .catch((err) => {
+        });
+      }
+    }
     },
    async mounted(){
     this.init();

@@ -182,7 +182,33 @@ export default {
       },
         restore(item){
             if(item.file_type==1){
-                this.$message.warning("文件夹暂时无法恢复");
+                this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
+
+                this.$axios({
+                  method: "post",
+                  url: "/app/recycle_folder",
+                  data: qs.stringify({
+                    fold_id: item.file_id,
+                  }),
+                })
+                  .then((res) => {
+                   this.$message.success("恢复成功");
+                   location.reload();
+                  })
+                  .catch((err) => {
+
+                  });
+
+                  }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消恢复'
+                    });          
+                  });
             }
             else if(item.file_type==2){ //document
              this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
@@ -246,7 +272,33 @@ export default {
         },
         delete(item){
              if(item.file_type==1){
-                this.$message.warning("文件夹暂时无法恢复");
+                this.$confirm('此操作将彻底删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
+
+                    this.$axios({
+                  method: "post",
+                  url: "/app/permanent_del_folder",
+                  data: qs.stringify({
+                   foid_id: item.file_id,
+                  }),
+                })
+                  .then((res) => {
+                   this.$message.success("删除成功");
+                   location.reload();
+                  })
+                  .catch((err) => {
+
+                  });
+
+                  }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消恢复'
+                    });          
+                  });
             }
             else if(item.file_type==2){ //document
              this.$confirm('此操作将彻底删除该文件, 是否继续?', '提示', {
