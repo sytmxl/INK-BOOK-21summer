@@ -43,7 +43,7 @@ export default {
         {
           path: "../views/projects/project_outline.vue",
           name: "project_outline",
-          label: "项目介绍",
+          label: "快速开始",
           icon: "notebook-1",
         },
         {

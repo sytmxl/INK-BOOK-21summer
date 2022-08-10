@@ -172,6 +172,7 @@
 import Vue from 'vue';
 import Contextmenu from "vue-contextmenujs";
 import qs from "qs";
+import {apikey} from "@/scripts/apikey";
 Vue.use(Contextmenu);
 export default {
   inject:['reload'],
@@ -193,7 +194,7 @@ export default {
     methods:{
       async init(){
       if(JSON.parse(sessionStorage.getItem('folderid'))==null){
-        this.getRootNode();
+         this.getRootNode();
       }
       else{
         this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
@@ -225,8 +226,9 @@ export default {
       })
         .then((res) => {
           this.$store.dispatch('savefolderid',{root_id:res.data.data.file_id,last_id:res.data.data.file_id,this_id:res.data.data.file_id,path_name:'文档中心'});
-          //  this.getAllFile(res.data.data.file_id);
-          location.reload();
+          this.getAllFile(res.data.data.file_id);
+          // location.href="team_text2";
+          
         })
         .catch((err) => {
           
@@ -470,103 +472,137 @@ export default {
       this.$store.dispatch('savecopy',{file_id:item.file_id,op:'cut'});
       this.$message.success("剪切成功");
     },
-    paste(){
-      var op = JSON.parse(sessionStorage.getItem('copy')).op;
-      var dest = JSON.parse(sessionStorage.getItem('folderid')).this_id;
-      if(op=='copy'){
-        this.$axios({
-        method: "post",
-        url: "/app/copy_doc",
-        data: qs.stringify({
-          folder_id:dest,
-          doc_id: JSON.parse(sessionStorage.getItem('copy')).file_id
-        }),
-      })
-        .then((res) => {
-          if(res.data.errno==0){
-            this.$message.success(res.data.msg);
-            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
-          }
-          else{
-            console.log(res.data.errno);
-            this.$message.warning(res.data.msg);
-          }
-           
-        })
-        .catch((err) => {
-          
-        });
-      }
-      else if(op=='copydir'){
-        this.$axios({
-        method: "post",
-        url: "/app/copy_folderfile",
-        data: qs.stringify({
-          folder_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
-          target_dirid: dest 
-        }),
-      })
-        .then((res) => {
-          if(res.data.errno==0){
-            this.$message.success(res.data.msg);
-            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
-          }
-          else{
-            console.log(res.data.errno);
-            this.$message.warning(res.data.msg);
-          }
-           
-        })
-        .catch((err) => {
-          
-        });
-      }
-      else if(op=='copypro'){
-        this.$axios({
-        method: "post",
-        url: "/app/copy_project",
-        data: qs.stringify({
-          project_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
-        }),
-      })
-        .then((res) => {
-          if(res.data.errno==0){
-            this.$message.success(res.data.msg);
-            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
-          }
-          else{
-            console.log(res.data.errno);
-            this.$message.warning(res.data.msg);
-          }
-           
-        })
-        .catch((err) => {
-          
-        });
-      }
-      else if(op=='cut'){
-        this.$axios({
-        method: "post",
-        url: "/app/move_file",
-        data: qs.stringify({
-          file_id:JSON.parse(sessionStorage.getItem('copy')).file_id,
-          target_dirid: dest
-        }),
-      })
-        .then((res) => {
-           if(res.data.errno==0){
-            this.$message.success(res.data.msg);
-            this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
-          }
-          else{
-            this.$message.warning(res.data.msg);
-          }
-        })
-        .catch((err) => {
-          
-        });
-      }
-    },
+      paste() {
+        var op = JSON.parse(sessionStorage.getItem('copy')).op;
+        var dest = JSON.parse(sessionStorage.getItem('folderid')).this_id;
+        if (op == 'copy') {
+          this.$axios({
+            method: "post",
+            url: "/app/copy_doc",
+            data: qs.stringify({
+              folder_id: dest,
+              doc_id: JSON.parse(sessionStorage.getItem('copy')).file_id
+            }),
+          })
+              .then((res) => {
+                if (res.data.errno == 0) {
+                  this.$message.success(res.data.msg);
+                  this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                    let resData = res.data.data;
+                    let i;
+                  this.axios({
+                    method: "post",
+                    url: "api/1.2.15/copyPadWithoutHistory",
+                    params: {
+                      apikey: apikey,
+                      sourceID: resData.doc_token ,
+                      destinationID :resData.new_doc_token,
+                      text: 'test'
+                    }
+                  })
+                } else {
+                  console.log(res.data.errno);
+                  this.$message.warning(res.data.msg);
+                }
+
+              })
+              .catch((err) => {
+
+              });
+        } else if (op == 'copydir') {
+          this.$axios({
+            method: "post",
+            url: "/app/copy_folderfile",
+            data: qs.stringify({
+              folder_id: JSON.parse(sessionStorage.getItem('copy')).file_id,
+              target_dirid: dest
+            }),
+          })
+              .then((res) => {
+                if (res.data.errno == 0) {
+                  this.$message.success(res.data.msg);
+                  this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                    let resData = res.data.data;
+                    let i;
+                    for(i in resData){
+                      this.axios({
+                        method: "post",
+                        url: "api/1.2.15/copyPadWithoutHistory",
+                        params: {
+                          apikey: apikey,
+                          sourceID: resData[i].doc_token ,
+                          destinationID :resData[i].new_doc_token,
+                          text: 'test'
+                        }
+                      })
+                    }
+
+                } else {
+                  console.log(res.data.errno);
+                  this.$message.warning(res.data.msg);
+                }
+
+              })
+              .catch((err) => {
+
+              });
+        } else if (op == 'copypro') {
+          this.$axios({
+            method: "post",
+            url: "/app/copy_project",
+            data: qs.stringify({
+              project_id: JSON.parse(sessionStorage.getItem('copy')).file_id,
+            }),
+          })
+              .then((res) => {
+                if (res.data.errno == 0) {
+                  this.$message.success(res.data.msg);
+                  this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                    let resData = res.data.data;
+                    let i;
+                    for(i in resData){
+                      this.axios({
+                        method: "post",
+                        url: "api/1.2.15/copyPadWithoutHistory",
+                        params: {
+                          apikey: apikey,
+                          sourceID: resData[i].doc_token ,
+                          destinationID :resData[i].new_doc_token,
+                          text: 'test'
+                        }
+                      })
+                    }
+                } else {
+                  console.log(res.data.errno);
+                  this.$message.warning(res.data.msg);
+                }
+
+              })
+              .catch((err) => {
+
+              });
+        } else if (op == 'cut') {
+          this.$axios({
+            method: "post",
+            url: "/app/move_file",
+            data: qs.stringify({
+              file_id: JSON.parse(sessionStorage.getItem('copy')).file_id,
+              target_dirid: dest
+            }),
+          })
+              .then((res) => {
+                if (res.data.errno == 0) {
+                  this.$message.success(res.data.msg);
+                  this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                } else {
+                  this.$message.warning(res.data.msg);
+                }
+              })
+              .catch((err) => {
+
+              });
+        }
+      },
     delete(item){
       if(item.file_type==1){
         this.$axios({
@@ -641,7 +677,7 @@ export default {
     this.init();
    },
    destroyed(){
-    sessionStorage.removeItem('folderid');
+    // sessionStorage.removeItem('folderid');
     sessionStorage.removeItem('copy');
    }
    
