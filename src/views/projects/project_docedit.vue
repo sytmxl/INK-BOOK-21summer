@@ -27,11 +27,12 @@
       <div  class="top">
         <aside>
           <div class="resize"></div>
-          <div class="line"></div>
-          <section>
+          <!-- <div class="line"></div> -->
+          <section class="aside-section">
 
-            <div class="filefolder">
-              <div @click="exit_edit">返回</div>
+            <!-- <div class="filefolder"> -->
+              <!-- <div @click="exit_edit">返回</div> -->
+              
               <el-tree
                   :data="node_data_list"
                   node-key="id"
@@ -64,7 +65,7 @@
                 </div>
 
               </el-tree>
-            </div>
+            <!-- </div> -->
           </section>
         </aside>
         <main v-if="in_editing == true">
@@ -93,7 +94,7 @@
               <el-empty :image-size="200"></el-empty>
             </el-row>
           </div>
-      </main>
+        </main>
       </div>
 
     </el-container>
@@ -431,19 +432,26 @@ export default {
 </script>
 
 <style scoped>
+#init {
+  min-height: calc(100vh);
+}
 .foldertitle {
   width: 100%;
   text-align: left;
 }
 
 .filefolder {
-  height: 96%;
-  position: absolute;
-  overflow: hidden;
+  height: 100%;
+  position: fixed;
+  overflow-x :hidden;
   overflow-y: scroll;
-  width: 100%;
-  border-top: 3px solid grey;
-  border-bottom: 3px solid grey;
+  text-overflow:ellipsis;
+  /* width: 100%; */
+  width: 200px;
+  border-radius: 10px;
+  border: black solid 1px;
+  /* border-top: 3px solid grey; */
+  /* border-bottom: 3px solid grey; */
 }
 
 .el-input {
@@ -460,10 +468,20 @@ export default {
 
 .el-tree {
   position: absolute;
-  width: 100%;
-  background-color: rgb(242, 244, 245);
+  right:0px;
+  left: 0px;
+  /* background-color: rgb(240, 242, 245); */
   overflow: hidden;
-  top: 50px;
+  margin: 20px 20px 20px 0px;
+  font-size: 18px !important;
+  color: black;
+
+  border-radius:  0px 10px 10px 0px;
+  /* border: black solid 1px; */
+}
+/deep/ .el-tree-node {
+  /* margin: 3px; */
+  padding: 5px 0px 5px px;
 }
 
 .el-container {
@@ -475,6 +493,8 @@ export default {
 .top {
   display: flex;
   flex: 1;
+  min-height: calc(100vh);
+  /* 这里加上解决导航栏高度无法完全显示问题 */
 }
 
 aside {
@@ -489,12 +509,16 @@ main {
   background-color: #ffffff;
 }
 
-section {
+.aside-section {
   left: 200px;
+  height: calc(100vh);
   position: absolute;
   inset: 0px 5px 0 0;
-  backdrop-filter: blur(25px) brightness(110%);
-  background-color: rgb(242, 244, 245);
+  /* backdrop-filter: blur(25px) brightness(110%); */
+  background-color: rgba(242, 243, 245, 0.493);
+
+  border-radius: 0px 25px 25px 0px;
+  /* border: black solid 1px; */
 }
 
 .resize {
@@ -506,10 +530,18 @@ section {
   opacity: 0;
   max-width: 800px;
   min-width: 200px;
+  transition: 0.05s;
+  /* min-height: calc(100vh); */
+  border-radius: 0px 25px 25px 0px;
 }
 
 .resize-left {
   transform: scale(-1, 100);
+}
+.resize:hover {
+  /* background: #000; */
+  border-right: 2px black solid;
+  /* opacity: 100%; */
 }
 
 .line {
@@ -548,7 +580,7 @@ section {
 }
 
 .right {
-  margin-left: 80px;
+  /* margin-left: 80px; */
   width: 100%;
 }
 
@@ -619,4 +651,5 @@ section {
 .el-empty {
   margin-bottom: 600px;
 }
+
 </style>
