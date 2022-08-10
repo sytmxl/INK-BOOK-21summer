@@ -432,10 +432,12 @@ export default {
       }
     },
     copy(item){
-      this.$store.dispatch('savecopy',{file_id:item.file_id,op:'copy'});
+      this.$store.dispatch('savecopy',{file_id:item.detail.doc_id,op:'copy'});
+      this.$message.success("复制成功");
     },
     cut(item){
       this.$store.dispatch('savecopy',{file_id:item.file_id,op:'cut'});
+      this.$message.success("剪切成功");
     },
     paste(item){
       var op = JSON.parse(sessionStorage.getItem('copy')).op;
@@ -455,6 +457,7 @@ export default {
             this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
           }
           else{
+            console.log(res.data.errno);
             this.$message.warning(res.data.msg);
           }
            
