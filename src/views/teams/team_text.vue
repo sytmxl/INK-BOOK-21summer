@@ -8,7 +8,7 @@
         <h1 class="label"> <i class="el-icon-top" @click="backfolder()">{{pathname}}</i></h1>
 
   <div v-for="item in this.files" :key="item">
-    <div class="folder" @contextmenu.prevent="show1($event,item)" v-if="(item.file_type==1&&item.folder_status==0)||(item.file_type==3&&item.detail.project_status==0)" @dblclick="intofolder(item)">
+    <div class="folder" @contextmenu.prevent="show1($event,item)" v-if="(item.file_type==1&&item.folder_status==0)||(item.file_type==3&&item.detail.project_status==0)" @click="intofolder(item)">
       <div v-if="item.file_type==3">
         <i class="el-icon-notebook-2"></i>
       <h1>{{item.detail.project_name}}</h1>

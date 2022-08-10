@@ -8,7 +8,7 @@
     <h1 class="label"> <i class="el-icon-top" @click="backfolder2()">{{pathname}}</i></h1>
 
   <div v-for="item in this.files" :key="item">
-    <div class="folder"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1&&item.folder_status==1)||(item.file_type==3&&item.detail.project_status==1)" @dblclick="intofolder2(item)">
+    <div class="folder"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1&&item.folder_status==1)||(item.file_type==3&&item.detail.project_status==1)" @click="intofolder2(item)">
       <div v-if="item.file_type==3">
         <i class="el-icon-notebook-2"></i>
       <h1>{{item.detail.project_name}}</h1>
@@ -185,10 +185,36 @@ export default {
                 this.$message.warning("文件夹暂时无法恢复");
             }
             else if(item.file_type==2){ //document
+             this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
 
+                    this.$axios({
+                  method: "post",
+                  url: "/app/recycle_doc",
+                  data: qs.stringify({
+                    doc_id: item.detail.doc_id,
+                  }),
+                })
+                  .then((res) => {
+                   this.$message.success("恢复成功");
+                   location.reload();
+                  })
+                  .catch((err) => {
+
+                  });
+
+                  }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消恢复'
+                    });          
+                  });
             }
             else if(item.file_type==3){
-             this.$confirm('此操作将恢复该文件, 是否继续?', '提示', {
+             this.$confirm('此操作将恢复该项目, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -219,7 +245,67 @@ export default {
 
         },
         delete(item){
+             if(item.file_type==1){
+                this.$message.warning("文件夹暂时无法恢复");
+            }
+            else if(item.file_type==2){ //document
+             this.$confirm('此操作将彻底删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
 
+                    this.$axios({
+                  method: "post",
+                  url: "/app/permanent_del_doc",
+                  data: qs.stringify({
+                    doc_id: item.detail.doc_id,
+                  }),
+                })
+                  .then((res) => {
+                   this.$message.success("删除成功");
+                   location.reload();
+                  })
+                  .catch((err) => {
+
+                  });
+
+                  }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消恢复'
+                    });          
+                  });
+            }
+            else if(item.file_type==3){
+             this.$confirm('此操作将彻底删除该项目, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
+
+                    this.$axios({
+                  method: "post",
+                  url: "app/permanent_del_project",
+                  data: qs.stringify({
+                    project_id: item.detail.project_id,
+                  }),
+                })
+                  .then((res) => {
+                   this.$message.success("删除成功");
+                   location.reload();
+                  })
+                  .catch((err) => {
+
+                  });
+
+                  }).catch(() => {
+                    this.$message({
+                      type: 'info',
+                      message: '已取消恢复'
+                    });          
+                  });
+            }
         },
          show2(event,item) {
       this.$contextmenu({
