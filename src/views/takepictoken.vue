@@ -17,9 +17,11 @@
   font-size: 50px !important;
   margin-top: 50px !important;
   font-weight: bolder;
-  float: left;
+  /* float: left; */
   border-radius: 10px;
   background: rgb(255, 255, 255);
+  padding: 5px;
+  width: 100%;
 }
 img {
   max-width: calc(90vw);
