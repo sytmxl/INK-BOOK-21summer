@@ -138,7 +138,14 @@ const routes = [{
     name: 'taketoken',
     component: () =>
         import ('../views/taketoken.vue')
-}]
+}
+    , {
+        path: '/takepictoken/:pictok',
+        name: 'takepictoken',
+        component: () =>
+            import ('../views/takepictoken.vue')
+    }
+    ]
 
 const router = new VueRouter({
     mode: 'history',

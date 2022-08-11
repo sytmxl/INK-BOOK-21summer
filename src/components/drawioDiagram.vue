@@ -51,6 +51,7 @@
           <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
           <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" @click="del"/>
           <el-button icon="el-icon-magic-stick" circle title="修改信息" @click="openDialog"/>
+          <el-button icon="el-icon-share" circle title="分享" @click="openShare"/>
         </div>
         <div class="social-touch" v-else>
           <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
@@ -254,10 +255,24 @@ export default {
       });
       this.$data.newHeader = this.$data.newBrief = null;
       this.$data.dialogVisible = false;
-    }
+    },
+    async openShare() {
+      await this.$axios({
+        method: "post",
+        url: "app/generate_graph_token",
+        data: qs.stringify({
+          graph_id: this.$props.graph_id
+        }),
+      }).then(res => {
+        this.$message.success("已将分享链接复制到剪切板")
+        navigator.clipboard.writeText(res.data.data.graph_link);
+        console.log(res.data.data.graph_link)
+      })
+    },
   },
   data() {
     return {
+      SharePicToken:'',
       diagramEditor:null,
       foreverDeldialogVisible:false,
       welcomeNotify: null,
