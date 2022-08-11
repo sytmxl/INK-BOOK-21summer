@@ -3,7 +3,7 @@
     <div class="main1">
       <div class="cyclecenter">
         <!-- <h1 class="label"> <i class="el-icon-top" @click="backfolder2()">{{pathname}}</i></h1> -->
-        <h1 class="label" > <span class="span2" @click="backfolder2()"><i class="el-icon-arrow-left"></i>回收中心&nbsp;</span><span class="span1">&nbsp;&nbsp;/{{pathname}}</span></h1>
+        <h1 class="label" > 回收中心</h1>
         <div v-if="this.files!= '' " class="files">
           <div v-for="item in this.files" :key="item">
             <div class="folder item"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1)||(item.file_type==3)">
@@ -68,12 +68,12 @@
   font-size: 50px;
 }
 .label {
-  margin: 30px 0px 0px 0px !important;
+  margin: 30px 0px 0px 30px !important;
   font-size: 50px;
   float: left;
   width: 100%;
   color: rgb(114, 132, 145);
-  align-items:baseline;
+  align-items:center;
   display: flex;
 }
 .span2 {
