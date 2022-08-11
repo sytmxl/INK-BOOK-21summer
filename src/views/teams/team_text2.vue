@@ -224,8 +224,8 @@ export default {
       })
         .then((res) => {
           this.$store.dispatch('savedelfolderid',{root_id:res.data.data.file_id,last_id:res.data.data.file_id,this_id:res.data.data.file_id,path_name:'回收中心'});
-           this.getAllFile(res.data.data.file_id);
-          // location.reload();
+          //  this.getAllFile(res.data.data.file_id);
+          location.reload();
         })
         .catch((err) => {
           

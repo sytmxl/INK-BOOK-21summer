@@ -261,9 +261,8 @@ export default {
       })
         .then((res) => {
           this.$store.dispatch('savefolderid',{root_id:res.data.data.file_id,last_id:res.data.data.file_id,this_id:res.data.data.file_id,path_name:'文档中心'});
-          this.getAllFile(res.data.data.file_id);
-          // location.href="team_text2";
-          
+          // getAllFile(res.data.data.file_id);
+          location.reload();
         })
         .catch((err) => {
           
