@@ -15,7 +15,7 @@
 <style scoped>
 .h1 {
   /* font-size: 18px; */
-  font-size: 20px;
+  font-size: 50px;
   color: rgba(119, 147, 168, 0.64);
   margin-top: 50px;
 }
@@ -31,6 +31,8 @@ img {
   border-radius: 40px;
   width: calc(94vw);
   height: calc(94vh);
+  color: rgba(119, 147, 168, 0.64) !important;
+  padding: 30px;
 }
 </style>
 
