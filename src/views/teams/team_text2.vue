@@ -4,9 +4,9 @@
       <div class="cyclecenter">
         <!-- <h1 class="label"> <i class="el-icon-top" @click="backfolder2()">{{pathname}}</i></h1> -->
         <h1 class="label" > <span class="span2" @click="backfolder2()"><i class="el-icon-arrow-left"></i>回收中心&nbsp;</span><span class="span1">&nbsp;&nbsp;/{{pathname}}</span></h1>
-        <div v-if="this.files[0].detail != null " class="files">
+        <div v-if="this.files!= '' " class="files">
           <div v-for="item in this.files" :key="item">
-            <div class="folder item"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1&&item.folder_status==1)||(item.file_type==3&&item.detail.project_status==1)" @click="intofolder2(item)">
+            <div class="folder item"  @contextmenu.prevent="show2($event,item)" v-if="(item.file_type==1)||(item.file_type==3)">
               <div v-if="item.file_type==3">
                 <img class="folder-pic" src="../../assets/project_folder.svg">
                 <h1 class="text">{{item.detail.project_name}}</h1>
@@ -17,7 +17,7 @@
               </div>
             </div>
 
-            <div class="file item"  @contextmenu.prevent="show2($event,item)" v-else-if="item.file_type==2&&item.detail.doc_status==1">
+            <div class="file item"  @contextmenu.prevent="show2($event,item)" v-else-if="item.file_type==2">
               <img class="file-pic" src="../../assets/file.svg">
               <h1 class="text">{{item.detail.doc_name}}</h1>
             </div>
@@ -195,7 +195,7 @@ export default {
         this.getRootNode();
       }
       else{
-        this.getAllFile(JSON.parse(sessionStorage.getItem('delfolderid')).this_id);
+        this.getAllFile2(JSON.parse(sessionStorage.getItem('delfolderid')).this_id);
       }
       },
       getfatherid(file_id,name){
@@ -249,6 +249,23 @@ export default {
           
         });
       },
+
+      async getAllFile2(file_id){
+         this.pathname = JSON.parse(sessionStorage.getItem('delfolderid')).path_name; 
+      await this.$axios({
+        method: "post",
+        url: "/app/get_all_recycle_files",
+        data: qs.stringify({
+          file_id: file_id,
+        }),
+      })
+        .then((res) => {
+         this.files = res.data.data;
+        })
+        .catch((err) => {
+          
+        });
+      },
       async intofolder2(item){
         if(item!=null){
           var last = item.parent_id;
@@ -262,7 +279,7 @@ export default {
         this.$store.dispatch('savedelfolderid',{root_id:this.root_id,last_id:last,this_id:now,path_name:this.pathname+'/'+item.folder_name});
       }
 
-        await this.getAllFile(JSON.parse(sessionStorage.getItem('delfolderid')).this_id);
+        await this.getAllFile2(JSON.parse(sessionStorage.getItem('delfolderid')).this_id);
       },
 
       async backfolder2(){
@@ -275,7 +292,7 @@ export default {
         }
         else{
             await this.getfatherid(now,name);
-            await this.getAllFile(now);
+            await this.getAllFile2(now);
         }
       
       },
@@ -293,7 +310,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                   this.getAllFile2(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -312,7 +329,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                   this.getAllFile2(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -331,7 +348,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("恢复成功");
-                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                   this.getAllFile2(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -356,7 +373,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                   this.getAllFile2(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -376,7 +393,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                   this.getAllFile2(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -396,7 +413,7 @@ export default {
                 })
                   .then((res) => {
                    this.$message.success("删除成功");
-                   this.getAllFile(JSON.parse(sessionStorage.getItem('folderid')).this_id);
+                   this.getAllFile2(JSON.parse(sessionStorage.getItem('folderid')).this_id);
                   })
                   .catch((err) => {
 
@@ -408,8 +425,7 @@ export default {
          show2(event,item) {
       this.$contextmenu({
         items: [
-          {label: "打开",
-          onClick:() => this.intofolder(item)},
+        
            {
             label: "恢复",
             onClick:() => {
