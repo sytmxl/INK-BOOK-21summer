@@ -48,7 +48,7 @@
                     <p class="name" style="margin-left: 60px">用户名</p>
                   </div>
                   <div class="right">
-                    <p class="email" style="width: 300px">邮箱</p>
+                    <!-- <p class="email" style="width: 300px">邮箱</p> -->
                     <p class="long" style="width: 350px">个性签名</p>
                   </div>
                 </div>
@@ -62,7 +62,7 @@
                     <div id="tools">
                       <i class="el-icon-s-promotion" @click="invite(item.user_name)">邀请</i>
                     </div>
-                    <p class="email">{{item.email}}</p>
+                    <!-- <p class="email">{{item.email}}</p> -->
                     <p class="long">{{item.user_info}}</p>
                   </div>
                 </div>
