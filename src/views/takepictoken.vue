@@ -18,14 +18,15 @@
   
   font-weight: bolder;
   /* float: left; */
-  border-radius: 10px;
+  border-radius: 20px;
   background: rgb(255, 255, 255);
   padding: 5px;
-  width: 100%;
+  width: 80%;
 }
 img {
   max-width: calc(90vw);
   max-height: calc(90vh);
+  margin-top: 50px;
 }
 .el-container {
   margin-top: calc(3vh);
@@ -36,7 +37,7 @@ img {
   width: calc(94vw);
   height: calc(94vh);
   color: rgb(114, 132, 145) !important;
-  padding-top: 40px;
+  padding-top: 20px;
   /* text-align: left; */
   /* padding: 30px; */
 }
