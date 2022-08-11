@@ -15,9 +15,14 @@
 <style scoped>
 .h1 {
   /* font-size: 18px; */
-  font-size: 50px;
-  color: rgba(119, 147, 168, 0.64);
-  margin-top: 50px;
+  font-size: 50px !important;
+  /* color: rgba(119, 147, 168, 0.64); */
+  margin-top: 50px !important;
+  /* font-size: 40px; */
+  font-weight: bolder;
+  float: left;
+  margin: 20px 0px 0px 30px;
+  /* color: rgb(114, 132, 145); */
 }
 img {
   max-width: calc(90vw);
@@ -27,12 +32,13 @@ img {
   margin-top: calc(3vh);
   margin-left: calc(3vw);
   border: rgba(123, 133, 142, 0.745) 1px solid;
-  background: rgba(238, 238, 238, 0.521);
+  background: rgb(240, 242, 245);
   border-radius: 40px;
   width: calc(94vw);
   height: calc(94vh);
-  color: rgba(119, 147, 168, 0.64) !important;
-  padding: 30px;
+  color: rgb(114, 132, 145) !important;
+  text-align: left;
+  /* padding: 30px; */
 }
 </style>
 
