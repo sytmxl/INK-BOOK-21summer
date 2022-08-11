@@ -7,7 +7,7 @@
       </span>
     </el-header>
     <el-main>
-      <img :src="picData" style="width: calc(75vw)">
+      <img :src="picData" style="max-height:calc(75vw);width: calc(75vw)">
     </el-main>
   </el-container>
 </template>
