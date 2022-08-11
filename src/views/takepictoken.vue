@@ -15,7 +15,7 @@
 <style scoped>
 #name {
   font-size: 50px !important;
-  margin-top: 50px !important;
+  
   font-weight: bolder;
   /* float: left; */
   border-radius: 10px;
@@ -36,6 +36,7 @@ img {
   width: calc(94vw);
   height: calc(94vh);
   color: rgb(114, 132, 145) !important;
+  padding-top: 40px;
   /* text-align: left; */
   /* padding: 30px; */
 }
