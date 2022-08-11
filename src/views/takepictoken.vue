@@ -2,19 +2,32 @@
   <el-container>
     <el-header>
       <span>
-        <h1>{{picHeader}}</h1>
+        <h1>分享文件：{{picHeader}}</h1>
         <p>{{picInfo}}</p>
       </span>
     </el-header>
     <el-main>
-      <img :src="picData" style="width: calc(75vw)">
+      <img :src="picData">
     </el-main>
   </el-container>
 </template>
 
 <style scoped>
 .h1 {
-  font-size: 18px;
+  /* font-size: 18px; */
+  font-size: 20px;
+  color: rgba(114, 132, 145, 0.64);
+}
+img {
+  max-width: calc(90vw);
+  max-height: calc(90vh);
+}
+.el-container {
+  border: rgb(238, 238, 238) 1px solid;
+  background: rgb(238, 238, 238);
+  border-radius: 40px;
+  width: calc(95vw);
+  height: calc(95vh);
 }
 </style>
 
