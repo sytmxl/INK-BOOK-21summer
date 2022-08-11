@@ -1,8 +1,10 @@
 <template>
   <el-container>
     <el-header>
-      <h1>{{picHeader}}</h1>
-      <p>{{picInfo}}</p>
+      <span>
+        <h1>{{picHeader}}</h1>
+        <p>{{picInfo}}</p>
+      </span>
     </el-header>
     <el-main>
       <img :src="picData" style="width: calc(75vw)">
