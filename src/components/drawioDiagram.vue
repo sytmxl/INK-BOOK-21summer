@@ -264,7 +264,7 @@ export default {
           graph_id: this.$props.graph_id
         }),
       }).then(res => {
-        this.$message.success("已将分享链接复制到剪切板")
+        this.$message.success("已将分享链接复制到剪切板,八小时有效")
         navigator.clipboard.writeText(res.data.data.graph_link);
         console.log(res.data.data.graph_link)
       })
