@@ -115,6 +115,9 @@ export default {
         this.checkedteam = content.team_name;
         this.checkedteamid = content.team_id;
         this.$store.dispatch("saveteam", content);
+         sessionStorage.removeItem('folderid');
+        sessionStorage.removeItem('copy');
+        sessionStorage.removeItem('delfolderid');
         location.reload();
       },
       newteam(){

@@ -48,6 +48,8 @@ export default {
   data() {
     return {
       isCollapse: false,
+      flag1:false,
+      flag2:false,
       menu: [
         {
           path: "/team_outline",
@@ -102,9 +104,23 @@ export default {
     handleClose(key, keyPath) {
       
     },
-    clickMenu(item) {
-      window.location.href = item.path;
-      window.location.href = item.path;
+    async clickMenu(item) {
+      await this.$router.push({
+        name: item.name,
+      }); 
+      // await ths.reload();
+      // if(item.name=="回收中心"||item.name=="文档中心"){
+      //   if(item.name=="回收中心"&&this.flag1==false){
+      //     this.flag1 = await true;
+      //     window.location.href = await item.path;
+      //   }
+      //   else if(item.name=="文档中心"&&this.flag2==false){
+      //     this.flag2 = await true;
+      //     window.location.href = await item.path;
+      //   }
+           
+      // }
+   
       var items = document.getElementsByClassName("el-menu-item");
       
       for (var i = 0; i < items.length; i++) {
