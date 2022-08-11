@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <span>
-        <h1>分享文件：{{picHeader}}</h1>
+        <p id="name">分享文件：{{picHeader}}</p>
         <p>图注：{{picInfo}}</p>
       </span>
     </el-header>
@@ -13,16 +13,13 @@
 </template>
 
 <style scoped>
-.h1 {
-  /* font-size: 18px; */
+#name {
   font-size: 50px !important;
-  /* color: rgba(119, 147, 168, 0.64); */
   margin-top: 50px !important;
-  /* font-size: 40px; */
   font-weight: bolder;
   float: left;
-  margin: 20px 0px 0px 30px;
-  /* color: rgb(114, 132, 145); */
+  border-radius: 10px;
+  background: rgb(255, 255, 255);
 }
 img {
   max-width: calc(90vw);
@@ -37,7 +34,7 @@ img {
   width: calc(94vw);
   height: calc(94vh);
   color: rgb(114, 132, 145) !important;
-  text-align: left;
+  /* text-align: left; */
   /* padding: 30px; */
 }
 </style>
