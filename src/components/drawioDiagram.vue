@@ -51,7 +51,7 @@
           <el-button type="info" icon="el-icon-edit" circle title="编辑" @click="edit"/>
           <el-button type="danger" icon="el-icon-delete" circle title="移动到回收站" @click="del"/>
           <el-button icon="el-icon-magic-stick" circle title="修改信息" @click="openDialog"/>
-          <el-button icon="el-icon-share" circle title="分享" @click="openShare"/>
+          <el-button icon="el-icon-share" circle title="分享" @click="openShare($event)"/>
         </div>
         <div class="social-touch" v-else>
           <el-button type="info" icon="el-icon-magic-stick" circle title="还原" @click="recover"/>
@@ -256,7 +256,7 @@ export default {
       this.$data.newHeader = this.$data.newBrief = null;
       this.$data.dialogVisible = false;
     },
-    async openShare() {
+    async openShare(event) {
       await this.$axios({
         method: "post",
         url: "app/generate_graph_token",
@@ -265,10 +265,35 @@ export default {
         }),
       }).then(res => {
         this.$message.success("已将分享链接复制到剪切板,八小时有效")
-        navigator.clipboard.writeText(res.data.data.graph_link);
-        console.log(res.data.data.graph_link)
+        // navigator.clipboard.writeText(res.data.data.graph_link);
+        
+        this.copyToClipboard(res.data.data.graph_link);
       })
     },
+    copyToClipboard(textToCopy) {
+            // navigator clipboard 需要https等安全上下文
+            if (navigator.clipboard && window.isSecureContext) {
+                // navigator clipboard 向剪贴板写文本
+                return navigator.clipboard.writeText(textToCopy);
+            } else {
+                // 创建text area
+                let textArea = document.createElement("textarea");
+                textArea.value = textToCopy;
+                // 使text area不在viewport，同时设置不可见
+                textArea.style.position = "absolute";
+                textArea.style.opacity = 0;
+                textArea.style.left = "-999999px";
+                textArea.style.top = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                return new Promise((res, rej) => {
+                    // 执行复制命令并移除文本框
+                    document.execCommand('copy') ? res() : rej();
+                    textArea.remove();
+                });
+            }
+        }
   },
   data() {
     return {
