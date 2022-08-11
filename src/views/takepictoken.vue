@@ -21,7 +21,7 @@
   border-radius: 20px;
   background: rgb(255, 255, 255);
   padding: 5px;
-  width: 80%;
+  width: 100%;
 }
 img {
   max-width: calc(90vw);
