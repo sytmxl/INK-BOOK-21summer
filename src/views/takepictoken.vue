@@ -3,7 +3,7 @@
     <el-header>
       <span>
         <h1>分享文件：{{picHeader}}</h1>
-        <p>{{picInfo}}</p>
+        <p>图注：{{picInfo}}</p>
       </span>
     </el-header>
     <el-main>
@@ -16,18 +16,21 @@
 .h1 {
   /* font-size: 18px; */
   font-size: 20px;
-  color: rgba(114, 132, 145, 0.64);
+  color: rgba(119, 147, 168, 0.64);
+  margin-top: 50px;
 }
 img {
   max-width: calc(90vw);
   max-height: calc(90vh);
 }
 .el-container {
-  border: rgb(238, 238, 238) 1px solid;
-  background: rgb(238, 238, 238);
+  margin-top: calc(3vh);
+  margin-left: calc(3vw);
+  border: rgba(123, 133, 142, 0.745) 1px solid;
+  background: rgba(238, 238, 238, 0.521);
   border-radius: 40px;
-  width: calc(95vw);
-  height: calc(95vh);
+  width: calc(94vw);
+  height: calc(94vh);
 }
 </style>
 
