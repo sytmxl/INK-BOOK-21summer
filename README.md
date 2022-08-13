@@ -1,19 +1,3 @@
-# small_frontend
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# INK BOOK 
+22 summer 小学期6人组作业前端部分（4前端）
+团队和项目管理平台，drawio实现原型设计和UML图绘制，etherpad实现多人同步文档
