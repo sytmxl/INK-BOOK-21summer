@@ -430,7 +430,7 @@ export default {
       })
     },
     setPadUrl(){
-      this.$data.docUrl = 'http://43.138.67.29:9001/p/' + this.$data.input;
+      this.$data.docUrl = 'http://summer.mosymosy.cn:9001/p/' + this.$data.input;
     }
   },
   watch: {

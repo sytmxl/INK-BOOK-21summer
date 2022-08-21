@@ -162,7 +162,7 @@ export default {
       location.href = '/team_text'
     },
     enter_edit(token) {
-      this.$data.docUrl = 'http://43.138.67.29:9001/p/' + token;
+      this.$data.docUrl = 'http://summer.mosymosy.cn:9001/p/' + token;
       this.$data.in_editing = true;
     },
     async update_node_data(node_data){
